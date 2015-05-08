@@ -1,0 +1,364 @@
+/*
+ * dataSet - Test Support For Datastores.
+ *
+ * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ */
+
+package org.failearly.dataset.config;
+
+import org.apache.commons.lang.StringUtils;
+import org.failearly.dataset.internal.annotation.TraverseStrategy;
+import org.failearly.dataset.util.ExtendedProperties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.Map;
+import java.util.Properties;
+
+/**
+ * DataSetProperties loads properties from property files.
+ * <br>
+ * <ul>
+ * <li>{@link #DATASET_DEFAULT_PROPERTY_FILE}</li>
+ * <li>{@link #DATASET_DATASTORE_PROPERTY_FILE}</li>
+ * <li>{@link #DATASET_DEFAULT_CUSTOM_PROPERTY_FILE}</li>
+ * <li>{@link #DATASET_CONFIG_OPTION}</li>
+ * <li>{@link System#getProperties()}</li>
+ * <li>{@link #setProperty(String, String)}</li>
+ * </ul>
+ */
+public final class DataSetProperties implements Constants {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DataSetProperties.class);
+
+    private static final DataSetPropertiesImpl properties = new DataSetPropertiesImpl();
+
+
+    private static final boolean OPTIONAL = true;
+    private static final boolean MANDATORY = false;
+
+
+    static {
+        reload();
+    }
+
+
+    private DataSetProperties() {
+    }
+
+    /**
+     * Reloads the properties (used for test purposes).
+     */
+    public static void reload() {
+        properties.clear();
+        properties.loadPropertyFileFromClassPath(DATASET_DEFAULT_PROPERTY_FILE);
+        properties.loadPropertyFileFromClassPath(DATASET_DATASTORE_PROPERTY_FILE);
+        properties.loadCustomPropertyFile(DATASET_DEFAULT_CUSTOM_PROPERTY_FILE);
+        properties.loadCustomPropertyFileFromFileSystemFirst(System.getProperty(DATASET_CONFIG_OPTION));
+        properties.loadFromSystemProperties();
+        properties.resolveReferences();
+    }
+
+
+    /**
+     * @return value of {@link Constants#DATASET_PROPERTY_DEFAULT_SETUP_SUFFIX}.
+     */
+    public static String getDefaultSetupSuffix() {
+        return properties.getDefaultSetupSuffix();
+    }
+
+    /**
+     * @return value of {@link Constants#DATASET_PROPERTY_DEFAULT_CLEANUP_SUFFIX}.
+     */
+    public static String getDefaultCleanupSuffix() {
+        return properties.getDefaultCleanupSuffix();
+    }
+
+    /**
+     * @return value of {@link Constants#DATASET_PROPERTY_TEMPLATE_SUFFIX}.
+     */
+    public static String getTemplateSuffix() {
+        return properties.getTemplateSuffix();
+    }
+
+    /**
+     * @return value of {@link Constants#DATASET_PROPERTY_DATASTORE_TYPE_CLASS_NAME}
+     */
+    public static String getDefaultDataStoreTypeClassName() {
+        return properties.getDefaultDataStoreTypeClassName();
+    }
+
+    /**
+     * @return value of {@link Constants#DATASET_PROPERTY_DROP_TEMP_FILE}.
+     */
+    public static boolean isDropTempFile() {
+        return properties.isDropTempFile();
+    }
+
+    /**
+     * @return value of {@link Constants#DATASET_PROPERTY_TEMP_DIR}.
+     */
+    @SuppressWarnings("UnusedDeclaration")
+    public static String getTempDir() {
+        return properties.getTempDir();
+    }
+
+    /**
+     * @return the full qualified class name of the template engine factory.
+     */
+    public static String getTemplateEngineFactoryClass() {
+        return properties.getTemplateEngineFactoryClass();
+    }
+
+    /**
+     * @return the {@link org.failearly.dataset.internal.annotation.TraverseStrategy} for generator annotation resolving using property
+     * {@value #DATASET_GENERATOR_TRAVERSING_STRATEGY}.
+     * @see #DATASET_GENERATOR_TRAVERSING_STRATEGY
+     * @see org.failearly.dataset.internal.generator.resolver.GeneratorResolver
+     * @see org.failearly.dataset.internal.annotation.AnnotationTraversers
+     * @see org.failearly.dataset.internal.annotation.TraverseStrategy
+     */
+    public static TraverseStrategy getGeneratorTraversingStrategy() {
+        return properties.getGeneratorTraversingStrategy();
+    }
+
+    /**
+     * Create temp directory including {@link #getTempDir()}.
+     *
+     * @param subDir the subdirectory name
+     * @return the file object of created temporary directory.
+     */
+    public static File createTempDir(String subDir) {
+        if (subDir.startsWith("/"))
+            return new File(createDirectory(properties.getTempDir() + subDir));
+        return new File(createDirectory(properties.getTempDir() + "/" + subDir));
+    }
+
+    private static String createDirectory(String tempDir) {
+        if (tempDir.endsWith("/")) {
+            tempDir = tempDir.substring(0, tempDir.length() - 1);
+        }
+        if (new File(tempDir).mkdirs()) {
+            LOGGER.info("Directory '{}' created!", tempDir);
+        }
+
+        return tempDir;
+    }
+
+
+    /**
+     * Set dataset property to specific values. A dataset property starts with {@code dataset.}.
+     *
+     * @param key   the dataset property key.
+     * @param value the dataset value.
+     */
+    public static void setProperty(String key, String value) {
+        properties.setProperty(key, value);
+        properties.resolveReferences(key);
+    }
+
+    /**
+     * Get property value for {@code key} (contains also {@link System#getProperties()}).
+     *
+     * @param key the property key
+     * @return the property value or {@code null}.
+     */
+    public static String getProperty(String key) {
+        return properties.getProperty(key);
+    }
+
+    /**
+     * Just for test purpose.
+     */
+    public static void resolveReferences() {
+        properties.resolveReferences();
+    }
+
+    /**
+     * Access to all properties loaded from classpath/file system/system properties.
+     *
+     * @return all properties.
+     */
+    public static Properties getProperties() {
+        return properties.getProperties();
+    }
+
+
+    static class DataSetPropertiesImpl {
+        private final ExtendedProperties properties = new ExtendedProperties();
+
+        DataSetPropertiesImpl() {
+        }
+
+        void loadPropertyFileFromClassPath(String file) {
+            loadFromClassPath(file, MANDATORY);
+        }
+
+        void loadCustomPropertyFile(String file) {
+            if (file != null) {
+                loadFromClassPath(file, OPTIONAL);
+            }
+        }
+
+        void loadCustomPropertyFileFromFileSystemFirst(String file) {
+            if (file != null) {
+                if (!loadFromSystemPath(file, MANDATORY)) {
+                    loadFromClassPath(file, OPTIONAL);
+                }
+            }
+        }
+
+        void loadFromSystemProperties() {
+            LOGGER.info("Load system properties.");
+            final Properties props = System.getProperties();
+            for (Map.Entry<Object, Object> sysProp : props.entrySet()) {
+                setProperty0(sysProp.getKey(), sysProp.getValue());
+            }
+        }
+
+        private void setProperty0(Object key, Object value) {
+            if( value==null )
+                properties.setProperty(key.toString(), null);
+            else
+                properties.setProperty(key.toString(), value.toString());
+        }
+
+        void setProperty(String key, String value) {
+            properties.setProperty(key, value);
+            if (key.startsWith("dataset.")) {
+                LOGGER.debug("DataSet Property '{}' set to value '{}'", key, value);
+            }
+        }
+
+        void resolveReferences() {
+            properties.resolveReferences();
+        }
+
+        void resolveReferences(String key) {
+            properties.resolveReferences(key);
+        }
+
+        private boolean loadProperties(InputStream resource, boolean optional, String type) {
+            if( resource==null ) {
+                if (!optional) {
+                    LOGGER.warn("(Mandatory) No data set property file found in {}.", type);
+                }
+                else {
+                    LOGGER.debug("(Optional) No data set property file found in {}.", type);
+                }
+                return false;
+            }
+
+            try {
+                properties.load(resource);
+            } catch (Exception e) {
+                if (!optional) {
+                    LOGGER.warn("(Mandatory) No data set property file found in " + type + ". Reason: ", e);
+                }
+                else {
+                    LOGGER.debug("(Optional) No data set property file found in "+ type +". Reason:", e);
+                }
+                return false;
+            }
+
+            return true;
+
+        }
+
+        private boolean loadFromClassPath(String file, boolean optional) {
+            LOGGER.info("Load properties from file {} from classpath", file);
+            final InputStream resource=DataSetProperties.class.getResourceAsStream(file);
+            return loadProperties(resource, optional, "classpath");
+        }
+
+        private boolean loadFromSystemPath(String file, boolean optional) {
+            FileInputStream fileInputStream=null;
+            try {
+                LOGGER.info("Load properties from file {} from file system", file);
+                fileInputStream = new FileInputStream(file);
+            } catch (Exception ignored) {
+                // ignored!
+            }
+
+            return loadProperties(fileInputStream, optional, "file system");
+        }
+
+        String getDefaultSetupSuffix() {
+            return properties.getProperty(DATASET_PROPERTY_DEFAULT_SETUP_SUFFIX);
+        }
+
+        String getDefaultCleanupSuffix() {
+            return properties.getProperty(DATASET_PROPERTY_DEFAULT_CLEANUP_SUFFIX);
+        }
+
+        String getTemplateSuffix() {
+            return "." + properties.getProperty(DATASET_PROPERTY_TEMPLATE_SUFFIX);
+        }
+
+        String getDefaultDataStoreTypeClassName() {
+            return properties.getProperty(DATASET_PROPERTY_DATASTORE_TYPE_CLASS_NAME);
+
+        }
+
+        boolean isDropTempFile() {
+            return Boolean.parseBoolean(properties.getProperty(Constants.DATASET_PROPERTY_DROP_TEMP_FILE, "true"));
+        }
+
+        TraverseStrategy getGeneratorTraversingStrategy() {
+            final String propertyValue = getProperty(DATASET_GENERATOR_TRAVERSING_STRATEGY, TraverseStrategy.TOP_DOWN.name());
+            return TraverseStrategy.valueOf(propertyValue);
+        }
+
+        String getProperty(String key) {
+            return properties.getProperty(key);
+        }
+
+        String getProperty(String key, String defaultValue) {
+            final String value = properties.getProperty(key, defaultValue);
+            LOGGER.info("Property {}='{}'",key, value);
+            return value;
+        }
+
+        void clear() {
+            properties.clear();
+        }
+
+        String getTempDir() {
+            return checkTempDir(getProperty(DATASET_PROPERTY_TEMP_DIR));
+        }
+
+        private String checkTempDir(String dataSetTempDir) {
+            StringUtils.trimToEmpty(dataSetTempDir);
+            if (StringUtils.isEmpty(dataSetTempDir)) {
+                return System.getProperty("java.io.tmpdir");
+            }
+
+            return createDirectory(dataSetTempDir);
+        }
+
+
+        String getTemplateEngineFactoryClass() {
+            return properties.getProperty(DATASET_PROPERTY_TEMPLATE_ENGINE_FACTORY);
+        }
+
+        Properties getProperties() {
+            return properties.toStandardProperties();
+        }
+    }
+}

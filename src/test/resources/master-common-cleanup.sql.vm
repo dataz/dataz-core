@@ -1,0 +1,4 @@
+-- Template master-common-cleanup.sql.vm
+#foreach( $u in $users )
+    DELETE FROM USERS WHERE NAME = '$u';
+#end

@@ -1,0 +1,12 @@
+#*  @vtlvariable name="dbtype" type="org.failearly.dataset.generator.support.Generator" *#
+#*  @vtlvariable name="firstnames" type="org.failearly.dataset.generator.support.Generator" *#
+#*  @vtlvariable name="lastnames" type="org.failearly.dataset.generator.support.Generator" *#
+#*  @vtlvariable name="ids" type="org.failearly.dataset.generator.support.Generator" *#
+## Should newInstance an SQL OUTPUT
+INSERT INTO DBTYPES (DBTYPE) VALUES ('$dbtype.next()');
+## Users
+#foreach( $firstname in $firstnames)
+    #foreach( $lastname in $lastnames )
+        INSERT INTO USERS (ID,NAME) VALUES ($ids.next(),'$firstname $lastname');
+    #end
+#end

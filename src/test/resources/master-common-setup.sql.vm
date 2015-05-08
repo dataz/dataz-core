@@ -1,0 +1,4 @@
+-- Template master-common-setup.sql.vm
+#foreach( $u in $users )
+    INSERT INTO USERS (ID,NAME) VALUES ($ids.next(),'$u');
+#end
