@@ -29,19 +29,19 @@ import java.util.List;
 
 /**
  * DataSetupResourceFactory creates {@link DataResource}s from dataSet annotations annotated with
- * {@link DataSetupResourceFactoryDefinition}
- * and/or {@link DataCleanupResourceFactoryDefinition}.
+ * {@link DataSetupResourceFactoryDefinition} and/or {@link DataCleanupResourceFactoryDefinition}.
+ * <br><br>
+ * Remark: Any implementation won't be called directly.
  *
  * @see DataSetupResourceFactoryDefinition
  * @see DataCleanupResourceFactoryDefinition
- * @see org.failearly.dataset.DataSet
  */
 public interface DataResourcesFactory {
     /**
      * Create {@link org.failearly.dataset.resource.DataResource}s from the annotation and the generatorCreators.
      *
-     * @param annotatedClass the annotated element (in this case the test class). Used for default resource name (if no resource has been set).
-     * @param annotation the actually annotation
+     * @param annotatedClass    the annotated element (in this case the test class). Used for default resource name (if no resource has been set).
+     * @param annotation        the actually annotation
      * @param generatorCreators the generators
      * @return the resources
      */
@@ -50,8 +50,8 @@ public interface DataResourcesFactory {
     /**
      * Create {@link org.failearly.dataset.resource.DataResource}s from the annotation and the generatorCreators.
      *
-     * @param annotatedMethod the annotated element (in this case the test method). Used for default resource name (if no resource has been set).
-     * @param annotation the actually annotation
+     * @param annotatedMethod   the annotated element (in this case the test method). Used for default resource name (if no resource has been set).
+     * @param annotation        the actually annotation
      * @param generatorCreators the generators
      * @return the resources
      */

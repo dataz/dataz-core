@@ -40,7 +40,7 @@ public class TestMethodImplCleanupHandlerTest extends TestMethodImplTestBase {
     @Test
     public void only_current_test_method_should_be_applied() throws Exception {
         final String testMethodName = "withDataSet";
-        final TestMethod testMethod = createTestMethod(testMethodName, TestClass.class);
+        final TestMethod testMethod = createTestMethod(testMethodName, TestClassHierarchy.class);
 
         // act / when
         testMethod.handleCleanupResource(Constants.DATASET_DEFAULT_DATASTORE_ID, defaultResourceHandler);
@@ -50,33 +50,33 @@ public class TestMethodImplCleanupHandlerTest extends TestMethodImplTestBase {
     }
 
     @Test
-    public void method_with_dataset_other_datastore() throws Exception {
+    public void method_with_annotation_DataSet__on_different_datastore() throws Exception {
         // arrange / given
-        final TestMethod testMethod = createTestMethod("withDataSet", TestClass.class);
+        final TestMethod testMethod = createTestMethod("withDataSet", TestClassHierarchy.class);
 
         // act / when
         testMethod.handleCleanupResource(OTHER_DATASTORE, defaultResourceHandler);
 
         // assert / then
-        assertResolvedDataResources(
-                dataResourceMatcher("OTHER-DATASTORE", "DS6", "/org/failearly/dataset/internal/model/TestClass.cleanup")
+        assertDataResources(
+                dataResourceMatcher("OTHER-DATASTORE", "DS6", "/org/failearly/dataset/internal/model/TestClassHierarchy.cleanup")
         );
     }
 
     @Test
-    public void method_with_dataset_default_datastore() throws Exception {
+    public void method_with_annotation_DataSet() throws Exception {
         // arrange / given
-        final TestMethod testMethod = createTestMethod("withDataSet", TestClass.class);
+        final TestMethod testMethod = createTestMethod("withDataSet", TestClassHierarchy.class);
 
         // act / when
         testMethod.handleCleanupResource(Constants.DATASET_DEFAULT_DATASTORE_ID, defaultResourceHandler);
 
         // assert / then
-        assertResolvedDataResources(  //
-                dataResourceMatcher("DS2", "/org/failearly/dataset/internal/model/TestClass-withDataSet.cleanup"), //
+        assertDataResources(  //
+                dataResourceMatcher("DS2", "/org/failearly/dataset/internal/model/TestClassHierarchy-withDataSet.cleanup"), //
                 dataResourceMatcher("DS1", "/DS12.cleanup"), //
                 dataResourceMatcher("DS1", "/org/failearly/dataset/internal/model/DS11.cleanup"), //
-                dataResourceMatcher("DS4", "/org/failearly/dataset/internal/model/TestClass.cleanup"), //
+                dataResourceMatcher("DS4", "/org/failearly/dataset/internal/model/TestClassHierarchy.cleanup"), //
                 dataResourceMatcher("DS3", "/DS32.cleanup"), //
                 dataResourceMatcher("DS3", "/org/failearly/dataset/internal/model/DS31.cleanup"), //
                 dataResourceMatcher("DS5", "/org/failearly/dataset/internal/model/BaseTestClass.cleanup") //
@@ -84,16 +84,16 @@ public class TestMethodImplCleanupHandlerTest extends TestMethodImplTestBase {
     }
 
     @Test
-    public void method_without_dataset_default_datastore() throws Exception {
+    public void method_without_annotation_DataSet() throws Exception {
         // arrange / given
-        final TestMethod testMethod = createTestMethod("withoutDataSet", TestClass.class);
+        final TestMethod testMethod = createTestMethod("withoutDataSet", TestClassHierarchy.class);
 
         // act / when
         testMethod.handleCleanupResource(Constants.DATASET_DEFAULT_DATASTORE_ID, defaultResourceHandler);
 
         // assert / then
-        assertResolvedDataResources(  //
-                dataResourceMatcher("DS4", "/org/failearly/dataset/internal/model/TestClass.cleanup") //
+        assertDataResources(  //
+                dataResourceMatcher("DS4", "/org/failearly/dataset/internal/model/TestClassHierarchy.cleanup") //
                 , dataResourceMatcher("DS3", "/DS32.cleanup") //
                 , dataResourceMatcher("DS3", "/org/failearly/dataset/internal/model/DS31.cleanup") //
                 , dataResourceMatcher("DS5", "/org/failearly/dataset/internal/model/BaseTestClass.cleanup") //
@@ -118,13 +118,15 @@ public class TestMethodImplCleanupHandlerTest extends TestMethodImplTestBase {
     @Test
     public void suppressed_cleanup_annotation__should_never_call_handleCleanupResource() throws Exception {
         // arrange / given
-        final TestMethod suppressCleanup = createTestMethod("suppressed", TestClass.class);
+        final TestMethod suppressCleanup = createTestMethod("suppressed", TestClassHierarchy.class);
 
         // assert / then
         assertThat("Suppressed?", suppressCleanup.isSuppressCleanup(), is(true));
+
+        // check that handleCleanupResource must not be called, if @SuppressCleanup is active.
         TestUtils.assertException(AssertionError.class,                                             //
                 "handleCleanupResource() must not be called if @SuppressCleanup is active.",        //
                 ()->suppressCleanup.handleCleanupResource(Constants.DATASET_DEFAULT_DATASTORE_ID, defaultResourceHandler)
-        );
+            );
     }
 }

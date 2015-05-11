@@ -1,7 +1,7 @@
 /*
  * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2015 marko (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,16 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+package org.failearly.dataset.internal.resource.factory.dataset;
+
+import org.failearly.dataset.DataSet;
+import org.failearly.dataset.internal.resource.ResourceType;
 
 /**
- * Provides usefully base classes and utilities for {@link org.failearly.dataset.resource.DataResourcesFactory} implementations.
- * <p>
- * <br><br>
- * <p>
- * {@code DataResourcesFactory} will be used by the meta annotations {@link org.failearly.dataset.annotations.DataSetupResourceFactoryDefinition} and
- * {@link org.failearly.dataset.annotations.DataCleanupResourceFactoryDefinition}.
- *
- * @see org.failearly.dataset.internal.resource.factory.dataset.SetupResourcesFactory
- * @see org.failearly.dataset.internal.resource.factory.dataset.CleanupResourcesFactory
+ * DataSetSetupResourceFactory creates Setup DataResource from annotation {@link DataSet}.
  */
-package org.failearly.dataset.resource;
+public final class SetupResourcesFactory extends ResourcesFactoryBase {
+    public SetupResourcesFactory() {
+        super(ResourceType.SETUP);
+    }
+
+
+    @Override
+    protected String[] getResourceNamesFromAnnotation(DataSet annotation) {
+        return annotation.setup();
+    }
+
+}

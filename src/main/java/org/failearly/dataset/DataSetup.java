@@ -18,17 +18,15 @@
  */
 package org.failearly.dataset;
 
-import org.failearly.dataset.annotations.DataCleanupResourceFactoryDefinition;
 import org.failearly.dataset.annotations.DataSetupResourceFactoryDefinition;
 import org.failearly.dataset.config.Constants;
-import org.failearly.dataset.internal.resource.factory.dataset.CleanupResourcesFactory;
-import org.failearly.dataset.internal.resource.factory.dataset.SetupResourcesFactory;
+import org.failearly.dataset.internal.resource.factory.DataSetupResourcesFactory;
 import org.failearly.dataset.resource.DataResource;
 
 import java.lang.annotation.*;
 
 /**
- * DataSet defines the data resource for setup and (optional) cleanup.This annotation is applicable to test classes and methods.
+ * DataSetup defines data resource(s) (only) for setup. This annotation is applicable to test classes and methods.
  * <br><br>
  * Usage example:<br><br>
  * <pre>
@@ -36,14 +34,13 @@ import java.lang.annotation.*;
  *
  *     public class MyTestClass {
  *         {@literal @Test}
- *         {@literal @DataSet}
+ *         {@literal @DataSetup}
  *          public void testMethod() {
  *              // Uses
  *              // * {@link #datastore()} with id {@link Constants#DATASET_DEFAULT_DATASTORE_ID}. This means that any setup/cleanup resource will be applied
  *              //     on this data store.
  *              // * as the {@link #name} (not ID!!) {@link Constants#DATASET_DEFAULT_NAME}
  *              // * ... for {@link #setup()} resource in classpath /com/company/module/MyTestClass-testMethod.setup  (<b>mandatory</b>)
- *              // * ... for {@link #cleanup()} resource in classpath /com/company/module/MyTestClass-testMethod.cleanup  (<i>optional</i>)
  *              // * {@link #transactional()} and {@link #failOnError()} defaults to true
  *          }
  *      }
@@ -52,10 +49,9 @@ import java.lang.annotation.*;
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Repeatable(DataSet.DataSets.class)
-@DataSetupResourceFactoryDefinition(factory = SetupResourcesFactory.class)
-@DataCleanupResourceFactoryDefinition(factory = CleanupResourcesFactory.class)
-public @interface DataSet {
+@Repeatable(DataSetup.DataSetups.class)
+@DataSetupResourceFactoryDefinition(factory = DataSetupResourcesFactory.class)
+public @interface DataSetup {
 
     /**
      * The DataSet's name. Multiple DataSets with the same name will be executed.
@@ -111,38 +107,6 @@ public @interface DataSet {
     String[] setup() default {};
 
     /**
-     * The name(s) of the cleanup resource(s).<br>
-     * <b>Remark</b>: The cleanup resource is optional. So there will be not error at all, if the resource does not exists.
-     * <br><br>
-     * dataSet uses an evaluation procedure:
-     * <dl>
-     * <dt>Absolute path: at least one resource name is set and starts with {@code /}</dt>
-     * <dd>dataSet loads each resource by using ({@link Class#getResourceAsStream(String)}).</dd>
-     * <dt>Relative path: at least one resource name is set and starts <b>not</b> with {@code /}</dt>
-     * <dd>dataSet loads each resource by using ({@link Class#getResourceAsStream(String)}) and uses the path of declaring test class.</dd>
-     * <dt>No cleanup resource</dt>
-     * <dd>
-     * Then dataSet will search for a resource with following convention:
-     * <ul>
-     * <li>{@literal @DataSet} applied on <em>test class</em>, then dataSet will look for a (single) cleanup resource file relative to declaring
-     * class, with pattern {@code <class-name>.<datastore-cleanup-suffix>} (i.e. {@code MyTestClass.cleanup}).
-     * </li>
-     * <li>@literal @DataSet} is applied on <em>test method</em>, then dataSet will look for a (single) cleanup resource file relative to declaring
-     * class, with pattern {@code <class-name>-<test-method-name>.<datastore-cleanup-suffix>}.
-     * </li>
-     * </ul>
-     * </dd>
-     * </dl>
-     * <br><br>
-     *
-     * @return The name(s) of the cleanup resource(s) or empty.
-     * @see org.failearly.dataset.datastore.DataStore#getCleanupSuffix()
-     * @see DataStoreDefinition#cleanupSuffix()
-     * @see Constants#DATASET_PROPERTY_DEFAULT_CLEANUP_SUFFIX
-     */
-    String[] cleanup() default {};
-
-    /**
      * Controls the transactional behaviour of {@link org.failearly.dataset.datastore.DataStore}.
      * <br><br>
      * <ul>
@@ -153,7 +117,6 @@ public @interface DataSet {
      * @return {@code true} or {@code false}.
      * @see DataResource#isTransactional()
      * @see #setup()
-     * @see #cleanup()
      */
     boolean transactional() default true;
 
@@ -170,13 +133,13 @@ public @interface DataSet {
      * <p>
      * Remark: This will be used by Java8 compiler.
      *
-     * @see java.lang.annotation.Repeatable
+     * @see Repeatable
      */
     @Target({ElementType.METHOD, ElementType.TYPE})
     @Retention(RetentionPolicy.RUNTIME)
     @Documented
-    @interface DataSets {
-        DataSet[] value();
+    @interface DataSetups {
+        DataSetup[] value();
     }
 }
 

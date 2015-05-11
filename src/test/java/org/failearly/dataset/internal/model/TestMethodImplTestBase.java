@@ -19,8 +19,9 @@
 package org.failearly.dataset.internal.model;
 
 import org.failearly.dataset.DataSet;
-import org.failearly.dataset.SuppressDataSet;
+import org.failearly.dataset.DataSetup;
 import org.failearly.dataset.SuppressCleanup;
+import org.failearly.dataset.SuppressDataSet;
 import org.failearly.dataset.config.Constants;
 import org.failearly.dataset.internal.resource.DataResourceHandler;
 import org.failearly.dataset.resource.DataResource;
@@ -36,7 +37,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.contains;
 import static org.junit.Assert.assertThat;
 
@@ -48,12 +48,12 @@ public abstract class TestMethodImplTestBase {
     protected final Set<String> appliedTestMethods = new HashSet<>();
     protected final DataResourceHandler defaultResourceHandler = createDefaultResourceHandler();
 
-    private final List<DataResource> dataResources=new LinkedList<>();
+    private final List<DataResource> dataResources = new LinkedList<>();
 
     @ClassRule
     public static final TestRule fakeDataStoreRule = FakeDataStoreRule.createFakeDataStoreRule(TestMethodImplSetupHandlerTest.class)
-                                                                     .addDataStore(Constants.DATASET_DEFAULT_DATASTORE_ID)
-                                                                     .addDataStore(OTHER_DATASTORE);
+            .addDataStore(Constants.DATASET_DEFAULT_DATASTORE_ID)
+            .addDataStore(OTHER_DATASTORE);
 
     protected static TestMethod createTestMethod(String methodName, Class<?> testClass) throws NoSuchMethodException {
         return TestMethodImpl.createTestMethod(TestUtils.resolveMethodFromClass(methodName, testClass), testClass);
@@ -68,17 +68,17 @@ public abstract class TestMethodImplTestBase {
 
 
     @SafeVarargs
-    protected final void assertResolvedDataResources(Matcher<DataResource>... resourceMatchers) {
+    protected final void assertDataResources(Matcher<DataResource>... resourceMatchers) {
         assertThat(dataResources, contains(resourceMatchers));
     }
 
 
-//
+    //
 // Test classes
 //
     @SuppressWarnings("UnusedDeclaration")
-    @DataSet(name="DS1", setup = {"DS11.setup","DS12.setup"}, cleanup = {"DS11.cleanup","D12.cleanup"})
-    @DataSet(name="DS3")
+    @DataSet(name = "DS1", setup = {"DS11.setup", "DS12.setup"}, cleanup = {"DS11.cleanup", "D12.cleanup"})
+    @DataSet(name = "DS3")
     protected static class SimpleDataSetTestClass {
         @Test
         public void withoutDataSet() {
@@ -89,6 +89,12 @@ public abstract class TestMethodImplTestBase {
         @DataSet(name = "DS4")
         public void withDataSet() {
         }
+
+        @DataSetup(name = "DSP2")
+        @DataSet(name = "DS5")
+        @Test
+        public void withDataSetupAndDataSet() {
+        }
     }
 
     @DataSet(name = "DS5")
@@ -98,8 +104,8 @@ public abstract class TestMethodImplTestBase {
     @SuppressWarnings("UnusedDeclaration")
     @DataSet(name = "DS3", setup = {"DS31.setup", "/DS32.setup"}, cleanup = {"DS31.cleanup", "/DS32.cleanup"})
     @DataSet(name = "DS4")
-    @DataSet(datastore = OTHER_DATASTORE, name="DS6")
-    protected static class TestClass extends BaseTestClass {
+    @DataSet(datastore = OTHER_DATASTORE, name = "DS6")
+    protected static class TestClassHierarchy extends BaseTestClass {
         @DataSet(name = "DS1",
                 setup = {"DS11.setup", "/DS12.setup"},
                 cleanup = {"DS11.cleanup", "/DS12.cleanup"}
@@ -115,16 +121,19 @@ public abstract class TestMethodImplTestBase {
 
         @Test
         @SuppressDataSet
-        public void noDataSet() {}
+        public void noDataSet() {
+        }
 
         @Test
         @SuppressCleanup
-        public void suppressed() {}
+        public void suppressed() {
+        }
     }
 
     @SuppressWarnings("UnusedDeclaration")
     protected static class NormalJunitTestClass {
         @Test
-        public void anyTestMethod() {}
+        public void anyTestMethod() {
+        }
     }
 }

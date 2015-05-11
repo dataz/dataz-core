@@ -18,37 +18,38 @@
  */
 package org.failearly.dataset.config;
 
+import org.failearly.dataset.DataSet;
+
 /**
  * DataSetConstants contains the name and position of property files and the property keys used by DataSet.
  * <br><br>
  * The properties/property files will be loaded and overridden in following order: <br><br>
  * <ol>
- *     <li>{@link #DATASET_DEFAULT_PROPERTY_FILE} ({@value #DATASET_DEFAULT_PROPERTY_FILE}): The default settings for DataSet (loaded from classpath only).
- *     <b>Internal use! Don't use!</b></li>
- *     <li>{@link #DATASET_DATASTORE_PROPERTY_FILE} ({@value #DATASET_DATASTORE_PROPERTY_FILE}): The default settings for a DataSet DataStore properties
- *          (loaded from classpath only). <b>Internal use! Don't use!</b></li>
- *     <li>{@link #DATASET_DEFAULT_CUSTOM_PROPERTY_FILE} ({@value #DATASET_DEFAULT_CUSTOM_PROPERTY_FILE}): Customized settings (override existing properties)
- *          for DataSet (lookup strategy 1. classpath, 2. file system).</li>
- *     <li>{@link #DATASET_CONFIG_OPTION} ({@value #DATASET_CONFIG_OPTION}): Customized settings (override existing properties)
- *          for DataSet (lookup strategy 1. file system, 2. classpath).</li>
- *     <li>It's also possible to use {@link System#getProperties()} for setting a single DataSet property, by using for example
- *     {@code -D}{@value #DATASET_PROPERTY_DEFAULT_SETUP_SUFFIX}{@code ="setup.xml"}</li>
- *     <li>Final possibility: Use {@link org.failearly.dataset.config.DataSetProperties#setProperty(String, String)}.</li>
+ * <li>{@link #DATASET_DEFAULT_PROPERTY_FILE} ({@value #DATASET_DEFAULT_PROPERTY_FILE}): The default settings for DataSet (loaded from classpath only).
+ * <b>Internal use! Don't use!</b></li>
+ * <li>{@link #DATASET_DATASTORE_PROPERTY_FILE} ({@value #DATASET_DATASTORE_PROPERTY_FILE}): The default settings for a DataSet DataStore properties
+ * (loaded from classpath only). <b>Internal use! Don't use!</b></li>
+ * <li>{@link #DATASET_DEFAULT_CUSTOM_PROPERTY_FILE} ({@value #DATASET_DEFAULT_CUSTOM_PROPERTY_FILE}): Customized settings (override existing properties)
+ * for DataSet (lookup strategy 1. classpath, 2. file system).</li>
+ * <li>{@link #DATASET_CONFIG_OPTION} ({@value #DATASET_CONFIG_OPTION}): Customized settings (override existing properties)
+ * for DataSet (lookup strategy 1. file system, 2. classpath).</li>
+ * <li>It's also possible to use {@link System#getProperties()} for setting a single DataSet property, by using for example
+ * {@code -D}{@value #DATASET_PROPERTY_DEFAULT_SETUP_SUFFIX}{@code ="setup.xml"}</li>
+ * <li>Final possibility: Use {@link org.failearly.dataset.config.DataSetProperties#setProperty(String, String)}.</li>
  * </ol>
- *
  */
 public interface Constants {
 
     /**
      * Default property file. The {@code DATASET_DEFAULT_PROPERTY_FILE} contains base property settings.
-     *
+     * <p>
      * <b>Internal use! Don't use!</b>
      */
     String DATASET_DEFAULT_PROPERTY_FILE = "/dataset-default.properties";
 
     /**
      * Default DataStore property file. The {@code DATASET_DATASTORE_PROPERTY_FILE} contains some property settings for the current used DataStore.
-     *
+     * <p>
      * <b>Internal use! Don't use!</b>
      */
     String DATASET_DATASTORE_PROPERTY_FILE = "/dataset-datastore.properties";
@@ -57,11 +58,11 @@ public interface Constants {
      * (Optional) Custom property file. The optional {@code DATASET_DEFAULT_CUSTOM_PROPERTY_FILE} property file could overwrite some of predefined properties.
      * <br><br>
      * <ul>
-     *     <li>{@link #DATASET_PROPERTY_DEFAULT_SETUP_SUFFIX}, if you like more appropriate suffixes for DataSet setup files.</li>
-     *     <li>{@link #DATASET_PROPERTY_DEFAULT_CLEANUP_SUFFIX}, the same for DataSet cleanup files.</li>
-     *     <li>{@link #DATASET_PROPERTY_TEMPLATE_SUFFIX}, the same for DataSet template (recognition) suffix.</li>
-     *     <li>{@link #DATASET_PROPERTY_DROP_TEMP_FILE}, for suppressing the automatic deletion of temporary files.</li>
-     *     <li>{@link #DATASET_PROPERTY_TEMP_DIR}, for defining a different directory for temporary file creation.</li>
+     * <li>{@link #DATASET_PROPERTY_DEFAULT_SETUP_SUFFIX}, if you like more appropriate suffixes for DataSet setup files.</li>
+     * <li>{@link #DATASET_PROPERTY_DEFAULT_CLEANUP_SUFFIX}, the same for DataSet cleanup files.</li>
+     * <li>{@link #DATASET_PROPERTY_TEMPLATE_SUFFIX}, the same for DataSet template (recognition) suffix.</li>
+     * <li>{@link #DATASET_PROPERTY_DROP_TEMP_FILE}, for suppressing the automatic deletion of temporary files.</li>
+     * <li>{@link #DATASET_PROPERTY_TEMP_DIR}, for defining a different directory for temporary file creation.</li>
      * </ul>
      *
      * @see #DATASET_CONFIG_OPTION
@@ -75,6 +76,7 @@ public interface Constants {
      * You can use the system property <code>-Ddataset.config="&lt;path to custom property file&gt;"</code> which forces
      * DataSet to use these settings instead. It's an alternative to {@link #DATASET_DEFAULT_CUSTOM_PROPERTY_FILE}.
      * <br><br>
+     *
      * @see #DATASET_DEFAULT_CUSTOM_PROPERTY_FILE
      */
     String DATASET_CONFIG_OPTION = "dataset.config";
@@ -110,22 +112,21 @@ public interface Constants {
      * <br><br>
      * The default value is {@code true}.
      *
-     *
      * @see java.io.File#deleteOnExit()
      */
     String DATASET_PROPERTY_DROP_TEMP_FILE = "dataset.template.drop.tempfile";
 
     /**
      * DataSet uses {@code java.io.tmpdir} for the creation of temporary files (for Velocity).
-     *
+     * <p>
      * Sometimes it's necessary to define another temporary directory, so with this property you can redirect the
      * generation of Velocity's template file to an appropriate directory. It's possible to use System properties by using {@code ${my.var}} notation.
      * <br><br>
      * Examples:
      * <ul>
-     *     <li>dataset.template.tempdir="/abs/path/to/anydir": This path will be used. If directory does not exist, DataSet will try to newInstance.</li>
-     *     <li>dataset.template.tempdir="rel/path/to/anydir": The execution directory will be used.</li>
-     *     <li>dataset.template.tempdir="${user.home}/rel/path/to/anydir": The home directory will be used.</li>
+     * <li>dataset.template.tempdir="/abs/path/to/anydir": This path will be used. If directory does not exist, DataSet will try to newInstance.</li>
+     * <li>dataset.template.tempdir="rel/path/to/anydir": The execution directory will be used.</li>
+     * <li>dataset.template.tempdir="${user.home}/rel/path/to/anydir": The home directory will be used.</li>
      * </ul>
      *
      * @see org.apache.velocity.app.VelocityEngine#evaluate(org.apache.velocity.context.Context, java.io.Writer, String, java.io.Reader)
@@ -158,17 +159,23 @@ public interface Constants {
     /**
      * Defines the used strategy for resolving {@link org.failearly.dataset.generator.support.Generator} annotations. Currently possible values are:<br><br>
      * <ul>
-     *    <li>BOTTOM_UP</li>
-     *    <li>TOP_DOWN (default)</li>
+     * <li>BOTTOM_UP</li>
+     * <li>TOP_DOWN (default)</li>
      * </ul>
-     *
      *
      * @see org.failearly.dataset.internal.annotation.TraverseStrategy
      */
-    String DATASET_GENERATOR_TRAVERSING_STRATEGY="dataset.generator.traversing.strategy";
+    String DATASET_GENERATOR_TRAVERSING_STRATEGY = "dataset.generator.traversing.strategy";
 
     /**
      * Used by {@link org.failearly.dataset.DataStoreDefinition#setupSuffix()} and
      */
-    String DATASET_USE_DEFAULT_SUFFIX="<use_default>";
+    String DATASET_USE_DEFAULT_SUFFIX = "<use_default>";
+
+    /**
+     * The default name of a data set if the name has been omitted.
+     *
+     * @see DataSet#name()
+     */
+    String DATASET_DEFAULT_NAME = "dataset";
 }

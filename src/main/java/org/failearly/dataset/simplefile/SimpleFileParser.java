@@ -23,7 +23,10 @@ import org.failearly.dataset.resource.DataResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.LineNumberReader;
+import java.io.Reader;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -31,7 +34,7 @@ import java.util.List;
 
 /**
  * SimpleFileParser parses the dataSet simple file format.
- *
+ * <p>
  * This could be used by the {@link org.failearly.dataset.datastore.DataStore} implementation.
  */
 public final class SimpleFileParser {
@@ -43,18 +46,29 @@ public final class SimpleFileParser {
     public SimpleFileParser() {
     }
 
+    private static String chompAndDropCommentLines(String line) {
+        line = chomp(line);
+        if (line.startsWith(COMMENT)) {
+            line = "";
+        }
+        return line;
+    }
+
+    private static String chomp(String line) {
+        return line.replaceAll("^\\s*", "").replaceAll("\\s*$", "");
+    }
+
     /**
      * Parse the input stream and handle each recognized statement.
      *
-     * @param <T> any context type
-     *
-     * @param dataSetResource the data set resource to parse
-     * @param context the context
+     * @param <T>              any context type
+     * @param dataResource     the data resource to parse
+     * @param context          the context
      * @param statementHandler the statement handler.    @throws org.failearly.dataset.simplefile.DataSetParseException if {@link #parse(java.io.InputStream)} fails.
      * @throws java.lang.Exception if {@link org.failearly.dataset.simplefile.StatementHandler} causes exception.
      */
     public <T> void parseAndHandleInputStream(DataResource dataResource, T context, StatementHandler<T> statementHandler)
-                    throws Exception, DataSetParseException {
+            throws Exception, DataSetParseException {
         final SimpleFileStatements statements = parse(dataResource.open());
         for (SimpleFileStatement statement : statements) {
             handleCurrentStatement(statement, context, statementHandler, dataResource.isFailOnError());
@@ -65,12 +79,11 @@ public final class SimpleFileParser {
         try {
             statementHandler.handleStatement(context, statement);
         } catch (Exception ex) {
-            if( failOnError ) {
+            if (failOnError) {
                 LOGGER.error("Caught exception while handling", ex);
                 LOGGER.error("Exception caught. Last statement was {}", statement);
                 throw ex;
-            }
-            else {
+            } else {
                 LOGGER.warn("(Ignored) Exception caught ({}). Last statement was {}.", ex.getMessage(), statement);
             }
         }
@@ -78,6 +91,7 @@ public final class SimpleFileParser {
 
     /**
      * Parse and extract all {@link SimpleFileStatements}.
+     *
      * @param inputStream the input stream.
      * @return all statements.
      */
@@ -86,8 +100,8 @@ public final class SimpleFileParser {
     }
 
     private SimpleFileStatements doParse(Reader input) throws DataSetParseException {
-        try(final LineNumberReader reader=new LineNumberReader(input)) {
-            final StatementsImpl result=new StatementsImpl();
+        try (final LineNumberReader reader = new LineNumberReader(input)) {
+            final StatementsImpl result = new StatementsImpl();
             doParse(result, reader);
             return result;
         } catch (IOException e) {
@@ -97,11 +111,11 @@ public final class SimpleFileParser {
 
     private void doParse(StatementsImpl statements, LineNumberReader reader) throws IOException {
         String line;
-        final StatementBuilder statementBuilder=new StatementBuilder();
+        final StatementBuilder statementBuilder = new StatementBuilder();
 
-        while(null != (line=reader.readLine()) ) {
+        while (null != (line = reader.readLine())) {
             line = chompAndDropCommentLines(line);
-            if( statementBuilder.addPart(line, reader.getLineNumber()) ) {
+            if (statementBuilder.addPart(line, reader.getLineNumber())) {
                 statements.addStatement(statementBuilder.build());
             }
         }
@@ -109,26 +123,17 @@ public final class SimpleFileParser {
         statements.addStatement(statementBuilder.build());
     }
 
-    private static String chompAndDropCommentLines(String line) {
-        line = chomp(line);
-        if( line.startsWith(COMMENT) ) {
-            line = "";
-        }
-        return line;
-    }
-
-    private static String chomp(String line) {
-        return line.replaceAll("^\\s*","").replaceAll("\\s*$", "");
-    }
-
-
     private static class StatementBuilder {
-        private int statementNo=1;
-        private final List<String> parts=new LinkedList<>();
+        private final List<String> parts = new LinkedList<>();
         private final List<Integer> lines = new LinkedList<>();
+        private int statementNo = 1;
+
+        private static String clean(String statement) {
+            return chomp(statement.replaceAll(STMT_SEP + "$", ""));
+        }
 
         boolean addPart(String part, int lineNumber) {
-            if( part.isEmpty() ) {
+            if (part.isEmpty()) {
                 return true;
             }
             lines.add(lineNumber);
@@ -140,23 +145,18 @@ public final class SimpleFileParser {
             SimpleFileStatement result = SimpleFileStatement.NULL;
             try {
                 final String statement = String.join(" ", parts);
-                result=new StatementImpl(
+                result = new StatementImpl(
                         statementNo,
                         clean(statement),
                         lines
                 );
                 return result;
-            }
-            finally {
+            } finally {
                 parts.clear();
                 lines.clear();
-                if( result.isValid() )
-                    statementNo+=1;
+                if (result.isValid())
+                    statementNo += 1;
             }
-        }
-
-        private static String clean(String statement) {
-            return chomp(statement.replaceAll(STMT_SEP + "$", ""));
         }
     }
 
@@ -169,11 +169,10 @@ public final class SimpleFileParser {
         StatementImpl(int statementNo, String statement, List<Integer> lines) {
             this.no = statementNo;
             this.content = statement;
-            if( ! lines.isEmpty() ) {
+            if (!lines.isEmpty()) {
                 this.firstLine = Collections.min(lines);
                 this.lastLine = Collections.max(lines);
-            }
-            else {
+            } else {
                 this.firstLine = 0;
                 this.lastLine = 0;
             }
@@ -202,7 +201,7 @@ public final class SimpleFileParser {
 
         @Override
         public boolean isValid() {
-            return ! this.content.isEmpty();
+            return !this.content.isEmpty();
         }
 
 
@@ -217,14 +216,14 @@ public final class SimpleFileParser {
 
 
         private String lines() {
-            return firstLine!=lastLine?
-                        firstLine +"-" + lastLine :
-                        String.valueOf(firstLine);
+            return firstLine != lastLine ?
+                    firstLine + "-" + lastLine :
+                    String.valueOf(firstLine);
         }
     }
 
     private static class StatementsImpl implements SimpleFileStatements {
-        private final List<SimpleFileStatement> statements=new LinkedList<>();
+        private final List<SimpleFileStatement> statements = new LinkedList<>();
 
         @Override
         public List<SimpleFileStatement> statements() {
@@ -237,7 +236,7 @@ public final class SimpleFileParser {
         }
 
         void addStatement(SimpleFileStatement statement) {
-            if( statement.isValid() ) {
+            if (statement.isValid()) {
                 this.statements.add(statement);
             }
         }

@@ -16,38 +16,41 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
-package org.failearly.dataset.internal.resource.factory;
+package org.failearly.dataset.internal.resource.factory.dataset;
 
 import org.failearly.dataset.DataSet;
 import org.failearly.dataset.internal.generator.resolver.GeneratorCreator;
 import org.failearly.dataset.internal.resource.ResourceType;
 import org.failearly.dataset.resource.DataResource;
 import org.failearly.dataset.resource.DataResourceBuilder;
+import org.failearly.dataset.resource.GenericDataResourcesFactory;
 
 import java.util.List;
 
 /**
- * DataSetSetupResourceFactory creates Setup DataResource from annotation {@link DataSet}.
+ * DataSetResourcesFactoryBase is the base class for {@link DataSet} based {@link DataResource}s factory classes.
  */
-public final class DataSetCleanupResourcesFactory extends DataSetResourcesFactoryBase {
-    public DataSetCleanupResourcesFactory() {
-        super(ResourceType.CLEANUP);
+abstract class ResourcesFactoryBase extends GenericDataResourcesFactory<DataSet> {
+
+    protected ResourcesFactoryBase(ResourceType resourceType) {
+        super(DataSet.class, resourceType);
     }
 
     @Override
-    protected String[] resolveResourceNamesFromAnnotation(DataSet annotation) {
-        return annotation.cleanup();
+    protected final String getDataStoreIdFromAnnotation(DataSet annotation) {
+        return annotation.datastore();
     }
 
-    protected DataResource createDataResourceFromAnnotation(DataSet annotation, Class<?> testClass, String resourceName, List<GeneratorCreator> generatorCreators) {
+    protected final DataResource createDataResourceFromAnnotation(DataSet annotation, Class<?> testClass, String resourceName, List<GeneratorCreator> generatorCreators) {
         return DataResourceBuilder.createBuilder(testClass)        //
-                    .optional()                                    //
-                    .withDataSetName(annotation.name())            //
-                    .withDataStoreId(annotation.datastore())       //
-                    .withResourceName(resourceName)                //
-                    .withFailOnError(annotation.failOnError())     //
-                    .withTransactional(annotation.transactional()) //
-                    .withGeneratorCreators(generatorCreators)      //
+                .withResourceType(this.resourceType)           //
+                .withDataSetName(annotation.name())            //
+                .withDataStoreId(annotation.datastore())       //
+                .withResourceName(resourceName)                //
+                .withFailOnError(annotation.failOnError())     //
+                .withTransactional(annotation.transactional()) //
+                .withGeneratorCreators(generatorCreators)      //
                 .build();
     }
+
 }

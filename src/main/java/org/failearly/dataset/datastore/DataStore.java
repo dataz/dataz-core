@@ -20,6 +20,7 @@ package org.failearly.dataset.datastore;
 
 import org.failearly.dataset.internal.generator.resolver.GeneratorCreator;
 import org.failearly.dataset.internal.model.TestMethod;
+import org.failearly.dataset.resource.DataResource;
 
 import java.util.List;
 
@@ -43,7 +44,6 @@ public interface DataStore {
      * The default suffix used for searching <b>setup</b> resource files.
      *
      * @return suffix to be used for {@link org.failearly.dataset.DataSet#setup()} (if no setup resource is specified).
-     *
      * @see org.failearly.dataset.DataStoreDefinition#setupSuffix()
      * @see org.failearly.dataset.config.DataSetProperties#getDefaultSetupSuffix()
      */
@@ -53,7 +53,6 @@ public interface DataStore {
      * The default suffix used for searching <b>cleanup</b> resource files.
      *
      * @return suffix to be used for {@link org.failearly.dataset.DataSet#cleanup()} (if no setup resource is specified).
-     *
      * @see org.failearly.dataset.DataStoreDefinition#cleanupSuffix()
      * @see org.failearly.dataset.config.DataSetProperties#getDefaultCleanupSuffix()
      */
@@ -73,7 +72,6 @@ public interface DataStore {
      * @param generatorCreators a list of {@link org.failearly.dataset.internal.generator.resolver.GeneratorCreator}, which represents
      *                          all declared generator annotations.
      * @throws org.failearly.dataset.datastore.DataStoreException in case of any exception while setup the Datastore.
-     *
      * @see org.failearly.dataset.DataStoreSetup
      */
     void setupDataStore(List<DataStoreSetupInstance> dataStoreSetups, List<GeneratorCreator> generatorCreators) throws DataStoreException;
@@ -84,7 +82,7 @@ public interface DataStore {
      *
      * @return {@code true} if the DataStore has transactional resource.
      * @see org.failearly.dataset.DataSet#transactional()
-     * @see org.failearly.dataset.datastore.DataSetResource#transactional()
+     * @see DataResource#isTransactional()
      */
     boolean hasTransactionalSupport();
 
@@ -125,7 +123,6 @@ public interface DataStore {
      * Return the property with given key.
      *
      * @param key the property key.
-     *
      * @return the property value or {@code null}.
      */
     String getProperty(String key);

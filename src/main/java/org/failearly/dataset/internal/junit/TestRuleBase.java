@@ -36,8 +36,8 @@ public abstract class TestRuleBase<T> implements TestRule {
     protected final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     private boolean isInitialized = false;
-    private int numberOfTests = 0 ;
-    private int numberOfExecutedTests=0;
+    private int numberOfTests = 0;
+    private int numberOfExecutedTests = 0;
     private Class<?> testClass;
     private Object context;
     private boolean availableTests;
@@ -48,18 +48,18 @@ public abstract class TestRuleBase<T> implements TestRule {
     /**
      * Will be called by {@link TestRuleSupport}.
      *
-     * @param testClass the test class
-     * @param context (optional) context object. Might be {@code null}.
+     * @param testClass     the test class
+     * @param context       (optional) context object. Might be {@code null}.
      * @param numberOfTests the number of (resolved) tests.
      */
     final void init(Class<?> testClass, Object context, int numberOfTests) {
-        if( testClass == null ) {
+        if (testClass == null) {
             throw new IllegalArgumentException("Argument testClass must no be null");
         }
         assert this.testClass == null : "Init is not called once.";
 
         this.numberOfTests = numberOfTests;
-        this.availableTests = numberOfTests>0;
+        this.availableTests = numberOfTests > 0;
         this.testClass = testClass;
         this.context = context;
 
@@ -73,15 +73,15 @@ public abstract class TestRuleBase<T> implements TestRule {
 
     @Override
     public Statement apply(Statement originStatement, Description description) {
-        if( ! availableTests ) {
+        if (!availableTests) {
             return originStatement;
         }
 
         doInitialize();
 
-        final T context=createContext(description);
+        final T context = createContext(description);
 
-        if( shouldApplyOriginStatement(context) ) {
+        if (shouldApplyOriginStatement(context)) {
             numberOfExecutedTests++;
             return originStatement;
         }
@@ -98,7 +98,7 @@ public abstract class TestRuleBase<T> implements TestRule {
                         numberOfExecutedTests++;
                         afterTest(context);
                     } finally {
-                        if( numberOfExecutedTests>=numberOfTests ) {
+                        if (numberOfExecutedTests >= numberOfTests) {
                             LOGGER.debug("After last test. Execute dropTestClass() on test class {}!", description.getClassName());
                             dropTestClass(testClass);
                         }
@@ -109,7 +109,7 @@ public abstract class TestRuleBase<T> implements TestRule {
     }
 
     private void doInitialize() {
-        if( ! isInitialized && availableTests ) {
+        if (!isInitialized && availableTests) {
             try {
                 LOGGER.info("Initialize Rule for test class {}", testClass.getName());
                 initialize(testClass, context);
@@ -123,7 +123,7 @@ public abstract class TestRuleBase<T> implements TestRule {
      * Do initialize the test rule instance. The default implementation is <em>empty</em>.
      *
      * @param testClass the test class
-     * @param context a context object (see 2nd parameter of {@link org.failearly.dataset.internal.junit.TestRuleSupport#createTestRule(Class, Object)})
+     * @param context   a context object (see 2nd parameter of {@link org.failearly.dataset.internal.junit.TestRuleSupport#createTestRule(Class, Object)})
      */
     protected void initialize(Class<?> testClass, Object context) {
         /* no-op */
@@ -133,7 +133,6 @@ public abstract class TestRuleBase<T> implements TestRule {
      * Creates a context object of type T.
      *
      * @param description the test description object.
-     *
      * @return a context object
      */
     protected T createContext(Description description) {
@@ -145,7 +144,6 @@ public abstract class TestRuleBase<T> implements TestRule {
      * Sometimes the origin statement should be executed. The default implementation returns {@code false}.
      *
      * @param context the context object from {@link #createContext(org.junit.runner.Description)}.
-     *
      * @return {@code true} if the origin {@link org.junit.runners.model.Statement} should be executed.
      */
     protected boolean shouldApplyOriginStatement(T context) {
@@ -173,7 +171,8 @@ public abstract class TestRuleBase<T> implements TestRule {
 
     /**
      * At least drop the test class by calling {@link TestRuleSupport#dropInstance(Class)}.
-     * @param testClass
+     *
+     * @param testClass the test class (class object)
      */
     protected abstract void dropTestClass(Class<?> testClass);
 }

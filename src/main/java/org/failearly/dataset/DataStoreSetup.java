@@ -20,6 +20,7 @@
 package org.failearly.dataset;
 
 import org.failearly.dataset.config.Constants;
+import org.failearly.dataset.resource.DataResource;
 
 import java.lang.annotation.*;
 
@@ -42,7 +43,7 @@ import java.lang.annotation.*;
 public @interface DataStoreSetup {
     /**
      * The initializer's name. If omitted, use {@link #datastore()}.
-     *
+     * <p>
      * The name becomes necessary if you are using {@link org.failearly.dataset.generator.support.Generator}.
      *
      * @return The initializer's name or {@link #datastore()}
@@ -53,7 +54,6 @@ public @interface DataStoreSetup {
      * The associated DataStore. If the DataStore does not exists, the Initial DataSet resources will be ignored.
      *
      * @return the ID of an associated DataStore.
-     *
      * @see org.failearly.dataset.DataStoreDefinition#id()
      * @see org.failearly.dataset.datastore.DataStore#getId()
      */
@@ -77,16 +77,14 @@ public @interface DataStoreSetup {
      * Controls the transactional behaviour of {@link org.failearly.dataset.datastore.DataStore}.
      * <br><br>
      * <ul>
-     *     <li><b>default {@code true}</b>: run a single setup/cleanup resource file within a transaction.</li>
-     *     <li>{@code false}: No transaction, each statement will be executed within a new transaction.</li>
+     * <li><b>default {@code true}</b>: run a single setup/cleanup resource file within a transaction.</li>
+     * <li>{@code false}: No transaction, each statement will be executed within a new transaction.</li>
      * </ul>
      *
      * @return {@code true} or {@code false}.
-     *
-     * @see org.failearly.dataset.resource.DataResource#transactional()
+     * @see DataResource#isTransactional()
      * @see #setup()
      * @see #cleanup()
-     *
      */
     boolean transactional() default true;
 
@@ -94,14 +92,13 @@ public @interface DataStoreSetup {
      * (Optional) Set to {@code false} if you want to ignore any error while applying the data set resource.
      *
      * @return {@code true} (default value) if the dataSet should fail otherwise {@code false}.
-     *
-     * @see org.failearly.dataset.resource.DataResource#failOnError()
+     * @see DataResource#isFailOnError()
      */
     boolean failOnError() default true;
 
     /**
      * Containing Annotation Type.
-     *
+     * <p>
      * Remark: This will be used by Java8 compiler.
      *
      * @see java.lang.annotation.Repeatable

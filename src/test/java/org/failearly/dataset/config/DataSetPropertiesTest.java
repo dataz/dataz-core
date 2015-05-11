@@ -46,15 +46,15 @@ public class DataSetPropertiesTest {
         propertyFile.deleteOnExit();
 
         try (FileWriter fileWriter = new FileWriter(propertyFile, false)) {
-            fileWriter.append(Constants.DATASET_PROPERTY_DEFAULT_SETUP_SUFFIX+ "=" + CUSTOM_SETUP_SUFFIX +System.lineSeparator());
-            fileWriter.append(Constants.DATASET_PROPERTY_DEFAULT_CLEANUP_SUFFIX+ "=" + CUSTOM_CLEANUP_SUFFIX +System.lineSeparator());
+            fileWriter.append(Constants.DATASET_PROPERTY_DEFAULT_SETUP_SUFFIX + "=" + CUSTOM_SETUP_SUFFIX + System.lineSeparator());
+            fileWriter.append(Constants.DATASET_PROPERTY_DEFAULT_CLEANUP_SUFFIX + "=" + CUSTOM_CLEANUP_SUFFIX + System.lineSeparator());
         }
     }
 
     private static File dataSetPropertyFileObject() {
         final String userDir = System.getProperty("user.dir");
         final String pathname;
-        if( userDir.endsWith("/dataset"))
+        if (userDir.endsWith("/dataset"))
             pathname = userDir + "/build/resources/test" + Constants.DATASET_DEFAULT_CUSTOM_PROPERTY_FILE;
         else
             pathname = userDir + "/dataset/build/resources/test" + Constants.DATASET_DEFAULT_CUSTOM_PROPERTY_FILE;
@@ -91,22 +91,22 @@ public class DataSetPropertiesTest {
         assertThat("Template Suffix?", dataSetProperties.getTemplateSuffix(), is(".vm"));
     }
 
-    /**
+    /*
      * Loading from "/dataset.properties"
      */
     @Test
-    public void loadDatasetProperties() {
+    public void load_default_property_file() {
         // assert / then
         assertThat("Setup Suffix?", DataSetProperties.getDefaultSetupSuffix(), is(CUSTOM_SETUP_SUFFIX));
         assertThat("Cleanup Suffix?", DataSetProperties.getDefaultCleanupSuffix(), is(CUSTOM_CLEANUP_SUFFIX));
     }
 
 
-    /**
+    /*
      * Loading -Ddataset.config=...
      */
     @Test
-    public void loadBySystemProperties() throws Exception {
+    public void load_with_minus_D_option() throws Exception {
         // arrange / given
         final String propFile = createTempPropertyFile(Constants.DATASET_PROPERTY_DEFAULT_SETUP_SUFFIX + "=mysetup.suffix");
         System.setProperty(Constants.DATASET_CONFIG_OPTION, propFile);

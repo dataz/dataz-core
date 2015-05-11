@@ -39,7 +39,8 @@ import static org.junit.Assert.fail;
 public final class TestUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(TestUtils.class);
 
-    private TestUtils() {}
+    private TestUtils() {
+    }
 
     /**
      * Resolve {@link java.lang.reflect.Method} instance from class with given methodName.
@@ -47,7 +48,7 @@ public final class TestUtils {
      * @param methodName the method's name
      * @param clazz      the class
      * @return the method instance
-     * @throws NoSuchMethodException
+     * @throws NoSuchMethodException method has not been found
      */
     public static Method resolveMethodFromClass(String methodName, Class<?> clazz) throws NoSuchMethodException {
         return clazz.getMethod(methodName);
@@ -59,7 +60,7 @@ public final class TestUtils {
      * @param methodName the method name
      * @param clazz      the class to resolve from
      * @return list of generator creators.
-     * @throws NoSuchMethodException
+     * @throws NoSuchMethodException method has not been found
      */
     public static List<GeneratorCreator> resolveGeneratorCreators(String methodName, Class<?> clazz) throws NoSuchMethodException {
         return GeneratorResolver.resolveFromTestMethod(resolveMethodFromClass(methodName, clazz));
@@ -70,7 +71,6 @@ public final class TestUtils {
      *
      * @param inputStream the input stream
      * @return the content as string.
-     * @throws IOException
      */
     public static String inputStreamToString(InputStream inputStream) {
         final StringBuilder output = new StringBuilder();
@@ -79,8 +79,7 @@ public final class TestUtils {
             while (null != (line = reader.readLine())) {
                 output.append(line).append('\n');
             }
-        }
-        catch (IOException ex) {
+        } catch (IOException ex) {
             throw new RuntimeException("Caught IO Exception", ex);
         }
 
