@@ -23,6 +23,7 @@ import org.failearly.dataset.DataStoreSetup;
 import org.failearly.dataset.generator.ListGenerator;
 import org.failearly.dataset.generator.RandomRangeGenerator;
 import org.failearly.dataset.resource.DataResource;
+import org.failearly.dataset.test.DataResourceMatchers;
 import org.failearly.dataset.test.TestUtils;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
@@ -34,7 +35,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.failearly.dataset.test.DataResourceMatchers.dataResourceMatcher;
+import static org.failearly.dataset.test.DataResourceMatchers.isDataResource;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -59,12 +60,12 @@ public class DataStoreSetupTest {
 
         // assert / then
         assertDataStoreSetupResources("master",
-                dataResourceMatcher("master","master", "/master-schema.sql") //
-                , dataResourceMatcher("master","master", "/org/failearly/dataset/datastore/master-common.sql") //
+                DataResourceMatchers.isDataResource("master", "master", "/master-schema.sql") //
+                , DataResourceMatchers.isDataResource("master", "master", "/org/failearly/dataset/datastore/master-common.sql") //
 
         );
         assertDataStoreSetupResources("slave",
-                dataResourceMatcher("slave", "slave","/slave-schema.sql") //
+                DataResourceMatchers.isDataResource("slave", "slave", "/slave-schema.sql") //
         );
     }
 
@@ -82,8 +83,8 @@ public class DataStoreSetupTest {
 
         // assert / then
         assertDataStoreSetupResources(master, //
-                dataResourceMatcher("master","master", "/org/failearly/dataset/datastore/cleanup-master-common.sql") //
-                , dataResourceMatcher("master","master", "/drop-master-schema.sql") //
+                DataResourceMatchers.isDataResource("master", "master", "/org/failearly/dataset/datastore/cleanup-master-common.sql") //
+                , DataResourceMatchers.isDataResource("master", "master", "/drop-master-schema.sql") //
         );
         assertDataStoreSetupResources(slave /* slave has no cleanup resources */);
     }
@@ -95,10 +96,10 @@ public class DataStoreSetupTest {
 
         // assert / then
         assertDataStoreSetupResources("master",
-                dataResourceMatcher("master", "master", "/other-master-schema.sql")
+                DataResourceMatchers.isDataResource("master", "master", "/other-master-schema.sql")
         );
         assertDataStoreSetupResources("slave",
-                dataResourceMatcher("slave", "slave", "/other-slave-schema.sql")
+                DataResourceMatchers.isDataResource("slave", "slave", "/other-slave-schema.sql")
 
         );
     }
@@ -110,9 +111,9 @@ public class DataStoreSetupTest {
 
         // assert / then
         assertDataStoreSetupResources("master",
-                dataResourceMatcher("master","master","/master-schema.sql") //
-                , dataResourceMatcher("master","master","/org/failearly/dataset/datastore/master-common.sql") //
-                , dataResourceMatcher("master","master","/master-additional.sql") //
+                DataResourceMatchers.isDataResource("master", "master", "/master-schema.sql") //
+                , DataResourceMatchers.isDataResource("master", "master", "/org/failearly/dataset/datastore/master-common.sql") //
+                , DataResourceMatchers.isDataResource("master", "master", "/master-additional.sql") //
 
         );
     }
@@ -128,9 +129,9 @@ public class DataStoreSetupTest {
 
         // assert / then
         assertDataStoreSetupResources(master,
-                dataResourceMatcher("master","master","/master-cleanup-additional.sql") //
-                , dataResourceMatcher("master","master","/org/failearly/dataset/datastore/cleanup-master-common.sql") //
-                , dataResourceMatcher("master","master","/drop-master-schema.sql") //
+                DataResourceMatchers.isDataResource("master", "master", "/master-cleanup-additional.sql") //
+                , DataResourceMatchers.isDataResource("master", "master", "/org/failearly/dataset/datastore/cleanup-master-common.sql") //
+                , DataResourceMatchers.isDataResource("master", "master", "/drop-master-schema.sql") //
         );
     }
 

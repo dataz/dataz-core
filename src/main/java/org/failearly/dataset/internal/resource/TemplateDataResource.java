@@ -45,7 +45,7 @@ final class TemplateDataResource extends DataResourceBase {
         super(dataResourceValues);
         this.testClass = dataResourceValues.getTestClass();
         this.templateEngine = TemplateEngines.createTemplateEngine(
-                dataResourceValues.getName(),
+                dataResourceValues.getDataSetName(),
                 dataResourceValues.getResource(),
                 generatorCreators
         );

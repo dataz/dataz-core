@@ -21,10 +21,11 @@ package org.failearly.dataset.internal.model;
 
 import org.failearly.dataset.config.Constants;
 import org.failearly.dataset.internal.resource.DataResourceHandler;
+import org.failearly.dataset.test.DataResourceMatchers;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import static org.failearly.dataset.test.DataResourceMatchers.dataResourceMatcher;
+import static org.failearly.dataset.test.DataResourceMatchers.isDataResource;
 import static org.hamcrest.Matchers.contains;
 import static org.junit.Assert.assertThat;
 
@@ -57,13 +58,13 @@ public class TestMethodImplSetupHandlerTest extends TestMethodImplTestBase {
 
         // assert / then
         assertDataResources(                                                                                     //
-                dataResourceMatcher("DS5", "/org/failearly/dataset/internal/model/BaseTestClass.setup")            //
-                , dataResourceMatcher("DS3", "/org/failearly/dataset/internal/model/DS31.setup")                   //
-                , dataResourceMatcher("DS3", "/DS32.setup")                                                        //
-                , dataResourceMatcher("DS4", "/org/failearly/dataset/internal/model/TestClassHierarchy.setup")              //
-                , dataResourceMatcher("DS1", "/org/failearly/dataset/internal/model/DS11.setup")                   //
-                , dataResourceMatcher("DS1", "/DS12.setup")                                                        //
-                , dataResourceMatcher("DS2", "/org/failearly/dataset/internal/model/TestClassHierarchy-withDataSet.setup")  //
+                isDataResource("DS5", "/org/failearly/dataset/internal/model/BaseTestClass.setup")            //
+                , isDataResource("DS3", "/org/failearly/dataset/internal/model/DS31.setup")                   //
+                , isDataResource("DS3", "/DS32.setup")                                                        //
+                , isDataResource("DS4", "/org/failearly/dataset/internal/model/TestClassHierarchy.setup")              //
+                , isDataResource("DS1", "/org/failearly/dataset/internal/model/DS11.setup")                   //
+                , isDataResource("DS1", "/DS12.setup")                                                        //
+                , isDataResource("DS2", "/org/failearly/dataset/internal/model/TestClassHierarchy-withDataSet.setup")  //
         );
     }
 
@@ -77,10 +78,10 @@ public class TestMethodImplSetupHandlerTest extends TestMethodImplTestBase {
 
         // assert / then
         assertDataResources( //
-                dataResourceMatcher("DS5", "/org/failearly/dataset/internal/model/BaseTestClass.setup")  //
-                , dataResourceMatcher("DS3", "/org/failearly/dataset/internal/model/DS31.setup") //
-                , dataResourceMatcher("DS3", "/DS32.setup") //
-                , dataResourceMatcher("DS4", "/org/failearly/dataset/internal/model/TestClassHierarchy.setup") //
+                isDataResource("DS5", "/org/failearly/dataset/internal/model/BaseTestClass.setup")  //
+                , isDataResource("DS3", "/org/failearly/dataset/internal/model/DS31.setup") //
+                , isDataResource("DS3", "/DS32.setup") //
+                , isDataResource("DS4", "/org/failearly/dataset/internal/model/TestClassHierarchy.setup") //
         );
     }
 
@@ -90,11 +91,11 @@ public class TestMethodImplSetupHandlerTest extends TestMethodImplTestBase {
         final TestMethod testMethod = createTestMethod("withDataSet", TestClassHierarchy.class);
 
         // act / when
-        testMethod.handleSetupResource(OTHER_DATASTORE, defaultResourceHandler);
+        testMethod.handleSetupResource(OTHER_DATASTORE_ID, defaultResourceHandler);
 
         // assert / then
         assertDataResources( //
-                dataResourceMatcher("OTHER-DATASTORE", "DS6", "/org/failearly/dataset/internal/model/TestClassHierarchy.setup") //
+                DataResourceMatchers.isDataResource("OTHER-DATASTORE", "DS6", "/org/failearly/dataset/internal/model/TestClassHierarchy.setup") //
         );
     }
 
@@ -121,9 +122,9 @@ public class TestMethodImplSetupHandlerTest extends TestMethodImplTestBase {
 
         // assert / then
         assertDataResources( //
-                dataResourceMatcher("DS1", "/org/failearly/dataset/internal/model/DS11.setup") //
-                , dataResourceMatcher("DS1", "/org/failearly/dataset/internal/model/DS12.setup") //
-                , dataResourceMatcher("DS3", "/org/failearly/dataset/internal/model/SimpleDataSetTestClass.setup") //
+                isDataResource("DS1", "/org/failearly/dataset/internal/model/DS11.setup") //
+                , isDataResource("DS1", "/org/failearly/dataset/internal/model/DS12.setup") //
+                , isDataResource("DS3", "/org/failearly/dataset/internal/model/SimpleDataSetTestClass.setup") //
         );
     }
 
@@ -137,11 +138,11 @@ public class TestMethodImplSetupHandlerTest extends TestMethodImplTestBase {
 
         // assert / then
         assertDataResources( //
-                dataResourceMatcher("DS1", "/org/failearly/dataset/internal/model/DS11.setup") //
-                , dataResourceMatcher("DS1", "/org/failearly/dataset/internal/model/DS12.setup") //
-                , dataResourceMatcher("DS3", "/org/failearly/dataset/internal/model/SimpleDataSetTestClass.setup") //
-                , dataResourceMatcher("DS2", "/org/failearly/dataset/internal/model/DS2.setup") //
-                , dataResourceMatcher("DS4", "/org/failearly/dataset/internal/model/SimpleDataSetTestClass-withDataSet.setup") //
+                isDataResource("DS1", "/org/failearly/dataset/internal/model/DS11.setup") //
+                , isDataResource("DS1", "/org/failearly/dataset/internal/model/DS12.setup") //
+                , isDataResource("DS3", "/org/failearly/dataset/internal/model/SimpleDataSetTestClass.setup") //
+                , isDataResource("DS2", "/org/failearly/dataset/internal/model/DS2.setup") //
+                , isDataResource("DS4", "/org/failearly/dataset/internal/model/SimpleDataSetTestClass-withDataSet.setup") //
         );
     }
 
@@ -155,11 +156,11 @@ public class TestMethodImplSetupHandlerTest extends TestMethodImplTestBase {
 
         // assert / then
         assertDataResources( //
-                dataResourceMatcher("DS1", "/org/failearly/dataset/internal/model/DS11.setup") //
-                , dataResourceMatcher("DS1", "/org/failearly/dataset/internal/model/DS12.setup") //
-                , dataResourceMatcher("DS3", "/org/failearly/dataset/internal/model/SimpleDataSetTestClass.setup") //
-                , dataResourceMatcher("DSP2", "/org/failearly/dataset/internal/model/SimpleDataSetTestClass-withDataSetupAndDataSet.setup")// DataSetup(name=DSP2)
-                , dataResourceMatcher("DS5", "/org/failearly/dataset/internal/model/SimpleDataSetTestClass-withDataSetupAndDataSet.setup") // DataSet(name=DS5)
+                isDataResource("DS1", "/org/failearly/dataset/internal/model/DS11.setup") //
+                , isDataResource("DS1", "/org/failearly/dataset/internal/model/DS12.setup") //
+                , isDataResource("DS3", "/org/failearly/dataset/internal/model/SimpleDataSetTestClass.setup") //
+                , isDataResource("DSP2", "/org/failearly/dataset/internal/model/SimpleDataSetTestClass-withDataSetupAndDataSet.setup")// DataSetup(name=DSP2)
+                , isDataResource("DS5", "/org/failearly/dataset/internal/model/SimpleDataSetTestClass-withDataSetupAndDataSet.setup") // DataSet(name=DS5)
         );
     }
 

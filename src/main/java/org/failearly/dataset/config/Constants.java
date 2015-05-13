@@ -177,5 +177,5 @@ public interface Constants {
      *
      * @see DataSet#name()
      */
-    String DATASET_DEFAULT_NAME = "dataset";
+    String DATASET_DEFAULT_NAME = "<dataset>";
 }

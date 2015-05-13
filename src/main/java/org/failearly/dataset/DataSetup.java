@@ -40,7 +40,7 @@ import java.lang.annotation.*;
  *              // * {@link #datastore()} with id {@link Constants#DATASET_DEFAULT_DATASTORE_ID}. This means that any setup/cleanup resource will be applied
  *              //     on this data store.
  *              // * as the {@link #name} (not ID!!) {@link Constants#DATASET_DEFAULT_NAME}
- *              // * ... for {@link #setup()} resource in classpath /com/company/module/MyTestClass-testMethod.setup  (<b>mandatory</b>)
+ *              // * ... for {@link #value()} resource in classpath /com/company/module/MyTestClass-testMethod.setup  (<b>mandatory</b>)
  *              // * {@link #transactional()} and {@link #failOnError()} defaults to true
  *          }
  *      }
@@ -104,7 +104,7 @@ public @interface DataSetup {
      * @see DataStoreDefinition#setupSuffix()
      * @see Constants#DATASET_PROPERTY_DEFAULT_SETUP_SUFFIX
      */
-    String[] setup() default {};
+    String[] value() default {};
 
     /**
      * Controls the transactional behaviour of {@link org.failearly.dataset.datastore.DataStore}.
@@ -116,7 +116,7 @@ public @interface DataSetup {
      *
      * @return {@code true} or {@code false}.
      * @see DataResource#isTransactional()
-     * @see #setup()
+     * @see #value()
      */
     boolean transactional() default true;
 

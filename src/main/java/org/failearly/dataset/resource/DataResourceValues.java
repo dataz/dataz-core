@@ -29,7 +29,7 @@ import java.util.*;
  */
 public final class DataResourceValues {
 
-    private final String name;
+    private final String dataSetName;
     private final String dataStoreId;
     private final String resource;
     private final boolean transactional;
@@ -48,9 +48,9 @@ public final class DataResourceValues {
         return new Builder(testClass);
     }
 
-    private DataResourceValues(Class<?> testClass, String name, String dataStoreId, String resource, boolean failOnError, boolean transactional, Map<String, ?> additionalValues) {
+    private DataResourceValues(Class<?> testClass, String dataSetName, String dataStoreId, String resource, boolean failOnError, boolean transactional, Map<String, ?> additionalValues) {
         this.testClass = testClass;
-        this.name = name;
+        this.dataSetName = dataSetName;
         this.dataStoreId = dataStoreId;
         this.resource = resource;
         this.failOnError = failOnError;
@@ -70,8 +70,8 @@ public final class DataResourceValues {
      *
      * @return the logical name
      */
-    public String getName() {
-        return name;
+    public String getDataSetName() {
+        return dataSetName;
     }
 
     /**
@@ -142,7 +142,7 @@ public final class DataResourceValues {
     @Override
     public String toString() {
         return "DataResource{" +
-                "name='" + name + '\'' +
+                "name='" + dataSetName + '\'' +
                 ", dataStoreId='" + dataStoreId + '\'' +
                 ", resource='" + resource + '\'' +
                 ", transactional=" + transactional +
@@ -157,7 +157,7 @@ public final class DataResourceValues {
 
         DataResourceValues that = (DataResourceValues) o;
 
-        if (!name.equals(that.name)) return false;
+        if (!dataSetName.equals(that.dataSetName)) return false;
         if (!dataStoreId.equals(that.dataStoreId)) return false;
         return resource.equals(that.resource);
 
@@ -165,7 +165,7 @@ public final class DataResourceValues {
 
     @Override
     public int hashCode() {
-        int result = name.hashCode();
+        int result = dataSetName.hashCode();
         result = 31 * result + dataStoreId.hashCode();
         result = 31 * result + resource.hashCode();
         return result;

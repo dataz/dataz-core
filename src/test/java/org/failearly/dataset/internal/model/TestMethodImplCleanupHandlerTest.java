@@ -21,11 +21,12 @@ package org.failearly.dataset.internal.model;
 
 import org.failearly.dataset.config.Constants;
 import org.failearly.dataset.internal.resource.DataResourceHandler;
+import org.failearly.dataset.test.DataResourceMatchers;
 import org.failearly.dataset.test.TestUtils;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import static org.failearly.dataset.test.DataResourceMatchers.dataResourceMatcher;
+import static org.failearly.dataset.test.DataResourceMatchers.isDataResource;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -55,11 +56,11 @@ public class TestMethodImplCleanupHandlerTest extends TestMethodImplTestBase {
         final TestMethod testMethod = createTestMethod("withDataSet", TestClassHierarchy.class);
 
         // act / when
-        testMethod.handleCleanupResource(OTHER_DATASTORE, defaultResourceHandler);
+        testMethod.handleCleanupResource(OTHER_DATASTORE_ID, defaultResourceHandler);
 
         // assert / then
         assertDataResources(
-                dataResourceMatcher("OTHER-DATASTORE", "DS6", "/org/failearly/dataset/internal/model/TestClassHierarchy.cleanup")
+                DataResourceMatchers.isDataResource("OTHER-DATASTORE", "DS6", "/org/failearly/dataset/internal/model/TestClassHierarchy.cleanup")
         );
     }
 
@@ -73,13 +74,13 @@ public class TestMethodImplCleanupHandlerTest extends TestMethodImplTestBase {
 
         // assert / then
         assertDataResources(  //
-                dataResourceMatcher("DS2", "/org/failearly/dataset/internal/model/TestClassHierarchy-withDataSet.cleanup"), //
-                dataResourceMatcher("DS1", "/DS12.cleanup"), //
-                dataResourceMatcher("DS1", "/org/failearly/dataset/internal/model/DS11.cleanup"), //
-                dataResourceMatcher("DS4", "/org/failearly/dataset/internal/model/TestClassHierarchy.cleanup"), //
-                dataResourceMatcher("DS3", "/DS32.cleanup"), //
-                dataResourceMatcher("DS3", "/org/failearly/dataset/internal/model/DS31.cleanup"), //
-                dataResourceMatcher("DS5", "/org/failearly/dataset/internal/model/BaseTestClass.cleanup") //
+                isDataResource("DS2", "/org/failearly/dataset/internal/model/TestClassHierarchy-withDataSet.cleanup"), //
+                isDataResource("DS1", "/DS12.cleanup"), //
+                isDataResource("DS1", "/org/failearly/dataset/internal/model/DS11.cleanup"), //
+                isDataResource("DS4", "/org/failearly/dataset/internal/model/TestClassHierarchy.cleanup"), //
+                isDataResource("DS3", "/DS32.cleanup"), //
+                isDataResource("DS3", "/org/failearly/dataset/internal/model/DS31.cleanup"), //
+                isDataResource("DS5", "/org/failearly/dataset/internal/model/BaseTestClass.cleanup") //
         );
     }
 
@@ -93,10 +94,10 @@ public class TestMethodImplCleanupHandlerTest extends TestMethodImplTestBase {
 
         // assert / then
         assertDataResources(  //
-                dataResourceMatcher("DS4", "/org/failearly/dataset/internal/model/TestClassHierarchy.cleanup") //
-                , dataResourceMatcher("DS3", "/DS32.cleanup") //
-                , dataResourceMatcher("DS3", "/org/failearly/dataset/internal/model/DS31.cleanup") //
-                , dataResourceMatcher("DS5", "/org/failearly/dataset/internal/model/BaseTestClass.cleanup") //
+                isDataResource("DS4", "/org/failearly/dataset/internal/model/TestClassHierarchy.cleanup") //
+                , isDataResource("DS3", "/DS32.cleanup") //
+                , isDataResource("DS3", "/org/failearly/dataset/internal/model/DS31.cleanup") //
+                , isDataResource("DS5", "/org/failearly/dataset/internal/model/BaseTestClass.cleanup") //
 
         );
     }

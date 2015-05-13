@@ -44,7 +44,7 @@ import static org.junit.Assert.assertThat;
  * TestMethodImplBaseTest provides helper methods for testing {@link TestMethodImpl}.
  */
 public abstract class TestMethodImplTestBase {
-    protected static final String OTHER_DATASTORE = "OTHER-DATASTORE";
+    protected static final String OTHER_DATASTORE_ID = "OTHER-DATASTORE";
     protected final Set<String> appliedTestMethods = new HashSet<>();
     protected final DataResourceHandler defaultResourceHandler = createDefaultResourceHandler();
 
@@ -53,7 +53,7 @@ public abstract class TestMethodImplTestBase {
     @ClassRule
     public static final TestRule fakeDataStoreRule = FakeDataStoreRule.createFakeDataStoreRule(TestMethodImplSetupHandlerTest.class)
             .addDataStore(Constants.DATASET_DEFAULT_DATASTORE_ID)
-            .addDataStore(OTHER_DATASTORE);
+            .addDataStore(OTHER_DATASTORE_ID);
 
     protected static TestMethod createTestMethod(String methodName, Class<?> testClass) throws NoSuchMethodException {
         return TestMethodImpl.createTestMethod(TestUtils.resolveMethodFromClass(methodName, testClass), testClass);
@@ -104,7 +104,7 @@ public abstract class TestMethodImplTestBase {
     @SuppressWarnings("UnusedDeclaration")
     @DataSet(name = "DS3", setup = {"DS31.setup", "/DS32.setup"}, cleanup = {"DS31.cleanup", "/DS32.cleanup"})
     @DataSet(name = "DS4")
-    @DataSet(datastore = OTHER_DATASTORE, name = "DS6")
+    @DataSet(datastore = OTHER_DATASTORE_ID, name = "DS6")
     protected static class TestClassHierarchy extends BaseTestClass {
         @DataSet(name = "DS1",
                 setup = {"DS11.setup", "/DS12.setup"},

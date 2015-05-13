@@ -13,26 +13,26 @@ import java.lang.annotation.Annotation;
 /**
  * AnnotationResolver is responsible for ...
  */
-public final class AnnotationResolver<T extends Annotation> extends BuilderBase<T> {
+public final class AnnotationInstanceResolver<T extends Annotation> extends BuilderBase<T> {
 
     private final Class<T> annotationClass;
     private Class<?> testClass;
     private String methodName;
 
-    private AnnotationResolver(Class<T> annotationClass) {
+    private AnnotationInstanceResolver(Class<T> annotationClass) {
         this.annotationClass = annotationClass;
     }
 
-    public static <T extends Annotation> AnnotationResolver<T> annotationResolver(Class<T> annotationClass) {
-        return new AnnotationResolver<T>(annotationClass);
+    public static <T extends Annotation> AnnotationInstanceResolver<T> annotationResolver(Class<T> annotationClass) {
+        return new AnnotationInstanceResolver<T>(annotationClass);
     }
 
-    public AnnotationResolver<T> fromClass(Class<?> testClass) {
+    public AnnotationInstanceResolver<T> fromClass(Class<?> testClass) {
         this.testClass = testClass;
         return this;
     }
 
-    public AnnotationResolver<T> fromMethodName(String methodName) {
+    public AnnotationInstanceResolver<T> fromMethodName(String methodName) {
         this.methodName = methodName;
         return this;
     }

@@ -38,7 +38,7 @@ abstract class DataResourceBase implements DataResource {
 
     @Override
     public final String getDataSetName() {
-        return this.dataResourceValues.getName();
+        return this.dataResourceValues.getDataSetName();
     }
 
     @Override

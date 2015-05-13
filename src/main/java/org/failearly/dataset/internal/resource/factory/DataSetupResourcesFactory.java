@@ -60,7 +60,7 @@ public final class DataSetupResourcesFactory extends GenericDataResourcesFactory
 
     @Override
     protected String[] getResourceNamesFromAnnotation(DataSetup annotation) {
-        return annotation.setup();
+        return annotation.value();
     }
 
 

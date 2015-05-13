@@ -25,6 +25,7 @@ import org.hamcrest.Matcher;
 
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 
 /**
  * DataResourceMatchers contains several factory method for {@link DataResource} matchers.
@@ -36,38 +37,73 @@ public final class DataResourceMatchers {
      * @param dataStoreId the ID of the data store (i.e. {@link DataSet#datastore()}).
      * @param dataSetName the data set name (i.e. {@link DataSet#name()}).
      * @param resource the resource name.
+     * @param transactional the DataResource should be transactional or not (all or nothing)
+     * @param failOnError should fail on errors or not
      *
-     * @return matcher matches all of {@code dataStoreId}, {@code dataSetName} and {@code resource}.
+     * @return matcher matches all of {@code dataStoreId}, {@code dataSetName}, {@code resource}, {@code transactional} and {@code failOnError}.
      */
-    public static Matcher<DataResource> dataResourceMatcher(String dataStoreId, String dataSetName, String resource) {
+    public static Matcher<DataResource> isDataResource(String dataStoreId, String dataSetName, String resource, boolean transactional, boolean failOnError) {
         return allOf(
-                dataStoreIdMatcher(dataStoreId),
-                dataSetNameMatcher(dataSetName),
-                resourceMatcher(resource)
+                hasDataStoreId(dataStoreId),
+                hasDataSetName(dataSetName),
+                hasResourceValue(resource),
+                hasTransactionalValue(transactional),
+                hasFailOnErrorValue(failOnError)
         );
     }
 
     /**
-     * Like {@link #dataResourceMatcher(String, String, String)} but with {@code dataStoreId} value {@link Constants#DATASET_DEFAULT_DATASTORE_ID}.
+     * Create {@link Matcher} for {@link DataResource} based on ... .
+     *
+     * @param dataStoreId the ID of the data store (i.e. {@link DataSet#datastore()}).
+     * @param dataSetName the data set name (i.e. {@link DataSet#name()}).
+     * @param resource the resource name.
+     *
+     * @return matcher matches all of {@code dataStoreId}, {@code dataSetName} and {@code resource}.
+     */
+    public static Matcher<DataResource> isDataResource(String dataStoreId, String dataSetName, String resource) {
+        return isDataResource(dataStoreId, dataSetName, resource, true, true);
+    }
+
+    /**
+     * Create {@link Matcher} for default settings {@link DataResource} based on ... .
+     *
+     * @param resource the resource name.
+     * @return matcher matches on the default settings for {@code dataStoreId}, {@code dataSetName}, {@code failOnError} and {@code transactional}.
+     */
+    public static Matcher<DataResource> isDefaultDataResource(String resource) {
+        return isDataResource(Constants.DATASET_DEFAULT_NAME, resource);
+    }
+
+    /**
+     * Like {@link #isDataResource(String, String, String)} but with {@code dataStoreId} value {@link Constants#DATASET_DEFAULT_DATASTORE_ID}.
      *
      * @param dataSetName the data set name (i.e. {@link DataSet#name()}).
      * @param resource the resource name.
 
      * @return matcher matches all of {@code dataStoreId}, {@code dataSetName} and {@code resource}.
      */
-    public static Matcher<DataResource> dataResourceMatcher(String dataSetName, String resource) {
-        return dataResourceMatcher(Constants.DATASET_DEFAULT_DATASTORE_ID, dataSetName, resource);
+    public static Matcher<DataResource> isDataResource(String dataSetName, String resource) {
+        return isDataResource(Constants.DATASET_DEFAULT_DATASTORE_ID, dataSetName, resource);
     }
 
-    private static Matcher<DataResource> dataStoreIdMatcher(String dataStoreId) {
+    public static Matcher<DataResource> hasDataStoreId(String dataStoreId) {
         return ClosureMatcher.closureMatcher(DataResource::getDataStoreId, equalTo(dataStoreId), "DataStoreId");
     }
 
-    private static Matcher<DataResource> dataSetNameMatcher(final String dataSetName) {
+    public static Matcher<DataResource> hasDataSetName(final String dataSetName) {
         return ClosureMatcher.closureMatcher(DataResource::getDataSetName, equalTo(dataSetName), "DataSetName");
     }
 
-    private static Matcher<DataResource> resourceMatcher(final String resource) {
+    public static Matcher<DataResource> hasResourceValue(final String resource) {
         return ClosureMatcher.closureMatcher(DataResource::getResource, equalTo(resource), "Resource");
+    }
+
+    public static Matcher<DataResource> hasTransactionalValue(final boolean transactional) {
+        return ClosureMatcher.closureMatcher(DataResource::isTransactional, is(transactional), "Transactional");
+    }
+
+    public static Matcher<DataResource> hasFailOnErrorValue(final boolean failOnError) {
+        return ClosureMatcher.closureMatcher(DataResource::isFailOnError, is(failOnError), "FailOnError");
     }
 }
