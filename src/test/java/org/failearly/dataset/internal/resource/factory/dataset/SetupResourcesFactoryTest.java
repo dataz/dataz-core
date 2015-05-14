@@ -2,7 +2,6 @@ package org.failearly.dataset.internal.resource.factory.dataset;
 
 import org.failearly.dataset.DataSet;
 import org.failearly.dataset.internal.resource.factory.DataResourcesFactoryTestBase;
-import org.failearly.dataset.internal.resource.factory.DataSetupResourcesFactory;
 import org.failearly.dataset.resource.DataResource;
 import org.junit.Test;
 

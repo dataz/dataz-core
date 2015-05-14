@@ -56,8 +56,8 @@ public class CleanupResourcesFactoryTest extends DataResourcesFactoryTestBase<Da
         // assert / then
         assertThat(dataResources,                                             //
                 contains(                                                     //
-                        isDefaultDataResource("/first-resource.cleanup"),       //
-                        isDefaultDataResource("/second-resource.cleanup")       //
+                        isDefaultDataResource("/first-resource.cleanup"),     //
+                        isDefaultDataResource("/second-resource.cleanup")     //
                 )                                                             //
         );
     }
