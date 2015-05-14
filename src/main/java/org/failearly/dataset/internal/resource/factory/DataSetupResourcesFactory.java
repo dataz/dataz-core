@@ -29,7 +29,7 @@ import org.failearly.dataset.resource.GenericDataResourcesFactory;
 import java.util.List;
 
 /**
- * DataSetupResourcesFactory creates for a single annotation {@link DataSetup} {@link DataResource}s.
+ * DataSetupResourcesFactory creates {@link DataResource}s from a {@link DataSetup} annotation.
  *
  * @see DataSetup
  * @see DataSetupResourceFactoryDefinition
