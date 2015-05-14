@@ -25,6 +25,7 @@ import java.util.*;
 
 /**
  * DataResourceValues is a parameter object containing the values of any dataSet annotation (like {@link org.failearly.dataset.DataSet}).
+ *
  * It will be used for creating the actually {@link org.failearly.dataset.resource.DataResource} object.
  */
 public final class DataResourceValues {

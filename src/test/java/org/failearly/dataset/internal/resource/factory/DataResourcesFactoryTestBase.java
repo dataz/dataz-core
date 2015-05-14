@@ -12,6 +12,7 @@ import org.failearly.dataset.internal.generator.resolver.GeneratorCreator;
 import org.failearly.dataset.internal.model.TestMethodImplSetupHandlerTest;
 import org.failearly.dataset.resource.DataResource;
 import org.failearly.dataset.resource.DataResourcesFactory;
+import org.failearly.dataset.resource.GenericDataResourcesFactory;
 import org.failearly.dataset.test.FakeDataStoreRule;
 import org.failearly.dataset.test.TestUtils;
 import org.junit.ClassRule;
@@ -25,9 +26,10 @@ import java.util.List;
 import static org.failearly.dataset.test.AnnotationInstanceResolver.annotationResolver;
 
 /**
- * DataResourcesFactoryTestBase is responsible for ...
+ * DataResourcesFactoryTestBase provides support functionality for {@link org.failearly.dataset.resource.GenericDataResourcesFactory} based
+ * implementations of {@link DataResourcesFactory}.
  */
-public class DataResourcesFactoryTestBase<T extends Annotation, R extends DataResourcesFactory> {
+public class DataResourcesFactoryTestBase<T extends Annotation, R extends GenericDataResourcesFactory<T>> {
     public static final String OTHER_DATASTORE_ID = "OTHER-DATASTORE";
 
     @ClassRule
