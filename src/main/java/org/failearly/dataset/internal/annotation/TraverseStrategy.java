@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,8 +21,8 @@ package org.failearly.dataset.internal.annotation;
 /**
 * TraverseDirection defines strategies, how the {@link org.failearly.dataset.internal.annotation.AnnotationTraverser} will work.
  *
- * @see org.failearly.dataset.internal.annotation.AnnotationTraversers#createAnnotationTraverser(Class, TraverseStrategy, Order)
- * @see org.failearly.dataset.internal.annotation.AnnotationTraversers#createMetaAnnotationTraverser(Class, TraverseStrategy, Order)
+ * @see AnnotationTraversers#createAnnotationTraverser(Class, TraverseStrategy, TraverseDepth)
+ * @see AnnotationTraversers#createMetaAnnotationTraverser(Class, TraverseStrategy, TraverseDepth)
 */
 public enum TraverseStrategy {
     /**

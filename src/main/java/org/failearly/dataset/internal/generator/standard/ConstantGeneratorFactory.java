@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,9 +19,9 @@
 package org.failearly.dataset.internal.generator.standard;
 
 import org.failearly.dataset.generator.ConstantGenerator;
-import org.failearly.dataset.generator.support.Generator;
 import org.failearly.dataset.generator.support.GeneratorFactoryBase;
 import org.failearly.dataset.generator.support.UnlimitedGeneratorBase;
+import org.failearly.dataset.template.TemplateObject;
 
 import java.util.Iterator;
 
@@ -29,8 +29,13 @@ import java.util.Iterator;
  * ConstantGeneratorFactory is responsible for creating of implementation instances for {@link org.failearly.dataset.generator.ConstantGenerator}.
  */
 public final class ConstantGeneratorFactory extends GeneratorFactoryBase<String, ConstantGenerator> {
+
+    public ConstantGeneratorFactory() {
+        super(ConstantGenerator.class);
+    }
+
     @Override
-    public Generator<String> create(ConstantGenerator annotation) {
+    protected TemplateObject doCreate(ConstantGenerator annotation) {
         return doCreateGenerator(annotation, annotation.limit(), ConstantGenerator::count);
     }
 
@@ -49,7 +54,7 @@ public final class ConstantGeneratorFactory extends GeneratorFactoryBase<String,
         private final String constant;
 
         ConstantGeneratorImpl(String name, String dataset, String constant) {
-            super(name, dataset);
+            super(dataset, name);
             this.constant = constant;
         }
 

@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,8 +27,8 @@ import java.util.Random;
  * UnlimitedGeneratorBase - the base implementation for unlimited generators.
  */
 public abstract class UnlimitedGeneratorBase<T> extends GeneratorBase<T> implements UnlimitedGenerator<T> {
-    protected UnlimitedGeneratorBase(String name, String dataset) {
-        super(name, dataset);
+    protected UnlimitedGeneratorBase(String dataset, String name) {
+        super(dataset, name);
     }
 
     /**

@@ -16,13 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
 package org.failearly.dataset.internal.resource;
 
-import org.failearly.dataset.internal.generator.resolver.GeneratorCreator;
 import org.failearly.dataset.resource.DataResource;
 import org.failearly.dataset.resource.DataResourceValues;
-
-import java.util.List;
 
 /**
  * DataResourceFactory provides utility methods for creating {@link org.failearly.dataset.resource.DataResource}.
@@ -35,8 +33,8 @@ public final class DataResourceFactory {
         return new StandardDataResource(dataResourceValues);
     }
 
-    public static DataResource createTemplateInstance(DataResourceValues dataResourceValues, List<GeneratorCreator> generatorCreators) {
-        return new TemplateDataResource(dataResourceValues, generatorCreators);
+    public static DataResource createTemplateInstance(DataResourceValues dataResourceValues) {
+        return new TemplateDataResource(dataResourceValues);
     }
 
     public static DataResource createMissingResourceInstance(DataResourceValues dataResourceValues) {

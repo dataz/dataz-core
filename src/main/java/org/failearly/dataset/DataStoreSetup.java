@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@ import java.lang.annotation.*;
  * Similar to a {@link org.failearly.dataset.DataSet}, but should be used for DataStore setup or cleanup, like creating schemes or
  * master data, which won't be manipulated at all.
  *
- * @see org.failearly.dataset.datastore.DataStore#setupDataStore(java.util.List, java.util.List)
+ * @see org.failearly.dataset.datastore.DataStore#setupDataStore(java.util.List, org.failearly.dataset.internal.template.TemplateObjects)
  * @see org.failearly.dataset.datastore.DataStore#cleanupDataStore()
  */
 @Target(ElementType.TYPE)
@@ -44,7 +44,7 @@ public @interface DataStoreSetup {
     /**
      * The initializer's name. If omitted, use {@link #datastore()}.
      * <p>
-     * The name becomes necessary if you are using {@link org.failearly.dataset.generator.support.Generator}.
+     * The name becomes necessary if you are using {@link org.failearly.dataset.template.TemplateObject}.
      *
      * @return The initializer's name or {@link #datastore()}
      */

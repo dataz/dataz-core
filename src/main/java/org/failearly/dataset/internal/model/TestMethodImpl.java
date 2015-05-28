@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,26 +19,28 @@
 package org.failearly.dataset.internal.model;
 
 import org.failearly.dataset.SuppressCleanup;
-import org.failearly.dataset.internal.annotation.*;
-import org.failearly.dataset.internal.generator.resolver.GeneratorCreator;
-import org.failearly.dataset.internal.generator.resolver.GeneratorResolver;
-import org.failearly.dataset.internal.resource.DataResourceHandler;
 import org.failearly.dataset.annotations.DataCleanupResourceFactoryDefinition;
-import org.failearly.dataset.resource.DataResource;
 import org.failearly.dataset.annotations.DataSetupResourceFactoryDefinition;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.failearly.dataset.internal.annotation.AnnotationTraverser;
+import org.failearly.dataset.internal.annotation.AnnotationTraversers;
+import org.failearly.dataset.internal.annotation.TraverseDepth;
+import org.failearly.dataset.internal.annotation.TraverseStrategy;
+import org.failearly.dataset.internal.resource.DataResourceHandler;
+import org.failearly.dataset.internal.template.TemplateObjectsResolver;
+import org.failearly.dataset.internal.template.TemplateObjects;
+import org.failearly.dataset.resource.DataResource;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * TestMethodImpl is responsible for ...
  */
 final class TestMethodImpl implements TestMethod {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TestMethodImpl.class);
-
     private final String name;
 
     private final List<DataResource> setupResources = new LinkedList<>();
@@ -54,36 +56,35 @@ final class TestMethodImpl implements TestMethod {
     /**
      * Create a test method implementation.
      *
-     * @param testMethod  the test method instance
+     * @param testMethod the test method instance
      * @param testClass  the enclosing (test) class
-     *
      * @return the test method instance
      */
     public static TestMethod createTestMethod(Method testMethod, Class<?> testClass) {
         final TestMethodImpl newInstance = new TestMethodImpl(testMethod.getName(), isSuppressCleanupAvailable(testMethod, testClass));
-        newInstance.resolveDataResources(GeneratorResolver.resolveFromTestMethod(testMethod), testMethod);
+        newInstance.resolveDataResources(TemplateObjectsResolver.resolveFromTestMethod(testMethod), testMethod);
         return newInstance;
     }
 
-    private void resolveDataResources(List<GeneratorCreator> generatorCreators, Method testMethod) {
-        resolveSetupDataResources(testMethod, generatorCreators);
-        resolveCleanupDataResources(testMethod, generatorCreators);
+    private void resolveDataResources(TemplateObjects templateObjects, Method testMethod) {
+        resolveSetupDataResources(testMethod, templateObjects);
+        resolveCleanupDataResources(testMethod, templateObjects);
     }
 
-    private void resolveSetupDataResources(Method testMethod, List<GeneratorCreator> generatorCreators) {
+    private void resolveSetupDataResources(Method testMethod, TemplateObjects templateObjects) {
         final AnnotationTraverser<Annotation> resourcesTraverser = AnnotationTraversers.createMetaAnnotationTraverser(
                 DataSetupResourceFactoryDefinition.class,
-                TraverseStrategy.BOTTOM_UP,
-                Order.UNCHANGED);
-        resourcesTraverser.traverse(testMethod, new DataSetupResourceAnnotationHandler(setupResources, generatorCreators));
+                TraverseStrategy.BOTTOM_UP, TraverseDepth.CLASS_HIERARCHY
+        );
+        resourcesTraverser.traverse(testMethod, new DataSetupResourceAnnotationHandler(setupResources, templateObjects));
     }
 
-    private void resolveCleanupDataResources(Method testMethod, List<GeneratorCreator> generatorCreators) {
+    private void resolveCleanupDataResources(Method testMethod, TemplateObjects templateObjects) {
         final AnnotationTraverser<Annotation> resourcesTraverser = AnnotationTraversers.createMetaAnnotationTraverser(
                 DataCleanupResourceFactoryDefinition.class,
-                TraverseStrategy.BOTTOM_UP,
-                Order.UNCHANGED);
-        resourcesTraverser.traverse(testMethod, new DataCleanupResourceAnnotationHandler(cleanupResources, generatorCreators));
+                TraverseStrategy.BOTTOM_UP, TraverseDepth.CLASS_HIERARCHY
+        );
+        resourcesTraverser.traverse(testMethod, new DataCleanupResourceAnnotationHandler(cleanupResources, templateObjects));
         Collections.reverse(cleanupResources);
     }
 
@@ -111,7 +112,7 @@ final class TestMethodImpl implements TestMethod {
 
     @Override
     public void handleCleanupResource(String dataStoreId, DataResourceHandler dataResourceHandler) {
-        assert ! suppressCleanup : "handleCleanupResource() must not be called if @SuppressCleanup is active.";
+        assert !suppressCleanup : "handleCleanupResource() must not be called if @SuppressCleanup is active.";
         handleResource(cleanupResources, dataStoreId, dataResourceHandler);
     }
 

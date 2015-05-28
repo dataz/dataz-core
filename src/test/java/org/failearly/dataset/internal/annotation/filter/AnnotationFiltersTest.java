@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,8 +20,8 @@
 package org.failearly.dataset.internal.annotation.filter;
 
 import org.failearly.dataset.internal.annotation.MetaAnnotation;
-import org.failearly.dataset.internal.annotation.AnnotationWithMetaAnnotation;
-import org.failearly.dataset.internal.annotation.NoMetaAnnotation;
+import org.failearly.dataset.internal.annotation.meta.UsingMetaAnnotation;
+import org.failearly.dataset.internal.annotation.AnyOtherAnnotation;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +40,7 @@ public class AnnotationFiltersTest {
     @Test
     public void instanceOf() throws Exception {
         // arrange / given
-        final AnnotationFilter filter = AnnotationFilters.isInstance(AnnotationWithMetaAnnotation.class);
+        final AnnotationFilter filter = AnnotationFilters.isInstance(UsingMetaAnnotation.class);
 
         // assert / then
         assertThat("Correct annotation?", filter.test(resolveAnnotation(0)), is(true));
@@ -64,7 +64,7 @@ public class AnnotationFiltersTest {
     }
 
 
-    @AnnotationWithMetaAnnotation(name="MyClass1")
-    @NoMetaAnnotation
+    @UsingMetaAnnotation(name="MyClass1")
+    @AnyOtherAnnotation
     private static class MyClass {}
 }

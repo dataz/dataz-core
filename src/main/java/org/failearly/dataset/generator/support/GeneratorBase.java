@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,25 +20,20 @@
 package org.failearly.dataset.generator.support;
 
 
+import org.failearly.dataset.template.TemplateObjectBase;
+
 import java.util.Iterator;
-import java.util.Objects;
 
 /**
  * GeneratorBase is the base class for {@link Generator} implementations.
  */
-public abstract class GeneratorBase<T> implements Generator<T> {
+public abstract class GeneratorBase<T> extends TemplateObjectBase implements Generator<T> {
 
-    private final String dataset;
-    private final String name;
     Iterator<T> iterator;
 
 
-    protected GeneratorBase(String name, String dataset) {
-        this.name = name;
-        this.dataset = dataset;
-
-        assert ! Objects.toString(name,"").isEmpty() : "name is empty or null";
-        assert ! Objects.toString(dataset,"").isEmpty() : "dataset is empty or null";
+    protected GeneratorBase(String dataset, String name) {
+        super(dataset, name);
     }
 
     /**
@@ -52,29 +47,20 @@ public abstract class GeneratorBase<T> implements Generator<T> {
     }
 
     @Override
-    public final String name() {
-        return name;
-    }
-
-    @Override
-    public final String dataset() {
-        return dataset;
-    }
-
-    @Override
     public Iterator<T> iterator() {
         return createIterator();
     }
 
     @Override
     public T next() {
-        if( iterator.hasNext() )
+        if (iterator.hasNext())
             return iterator.next();
         return null;
     }
 
     /**
      * Internal use only!
+     *
      * @return creates a new iterator.
      */
     public abstract Iterator<T> createIterator();

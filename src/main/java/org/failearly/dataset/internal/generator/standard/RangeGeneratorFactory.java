@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,16 +19,20 @@
 package org.failearly.dataset.internal.generator.standard;
 
 import org.failearly.dataset.generator.RangeGenerator;
-import org.failearly.dataset.generator.support.Generator;
 import org.failearly.dataset.generator.support.GeneratorFactoryBase;
+import org.failearly.dataset.template.TemplateObject;
 
 /**
  * RangeGeneratorFactory is responsible for creating instances of implementation for {@link org.failearly.dataset.generator.RangeGenerator}.
  */
 public final class RangeGeneratorFactory extends GeneratorFactoryBase<Integer, RangeGenerator> {
+    public RangeGeneratorFactory() {
+        super(RangeGenerator.class);
+    }
+
     @Override
-    public Generator<Integer> create(RangeGenerator annotation) {
-        return doCreateGenerator(annotation, annotation.limit(), a->0);
+    protected TemplateObject doCreate(RangeGenerator annotation) {
+        return doCreateGenerator(annotation, annotation.limit(), a -> 0);
     }
 
     @Override

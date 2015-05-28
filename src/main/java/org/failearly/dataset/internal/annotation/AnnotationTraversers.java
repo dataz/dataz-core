@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,6 +22,7 @@ package org.failearly.dataset.internal.annotation;
 import org.failearly.dataset.internal.annotation.filter.AnnotationFilters;
 import org.failearly.dataset.internal.annotation.resolver.AnnotationResolver;
 import org.failearly.dataset.internal.annotation.resolver.AnnotationResolvers;
+import org.failearly.dataset.template.TemplateObjectFactoryDefinition;
 
 import java.lang.annotation.Annotation;
 import java.lang.annotation.Repeatable;
@@ -37,15 +38,18 @@ public final class AnnotationTraversers {
     /**
      * Creates a {@link org.failearly.dataset.internal.annotation.AnnotationTraverser} for specified {@code annotationClass}.
      *
-     * @param annotationClass the annotationClass
+     * @param annotationClass  the annotationClass
      * @param traverseStrategy the traversing direction.
-     * @param order the order (unchanged or reverted)
-     * @param <T> an annotation type
+     * @param traverseDepth    the traversing depth
+     * @param <T>              an annotation type
      * @return the annotation traverser
      */
-    public static <T extends Annotation> AnnotationTraverser<T> createAnnotationTraverser(Class<T> annotationClass, TraverseStrategy traverseStrategy, Order order) {
+    public static <T extends Annotation> AnnotationTraverser<T> createAnnotationTraverser(
+            Class<T> annotationClass,
+            TraverseStrategy traverseStrategy,
+            TraverseDepth traverseDepth) {
         final AnnotationResolver<T> resolver = doCreateAnnotationResolver(annotationClass);
-        return doCreateAnnotationTraverser(traverseStrategy, order, resolver);
+        return doCreateAnnotationTraverser(resolver, traverseStrategy, traverseDepth);
     }
 
     /**
@@ -53,22 +57,25 @@ public final class AnnotationTraversers {
      * which could be applied only on an annotation. So it's not possible to specify the type of the actually annotation.
      *
      * @param metaAnnotationClass the meta annotation.
-     * @param traverseStrategy the traversing direction.
-     * @param order the order (unchanged or reverted)
-     *
+     * @param traverseStrategy    the traversing direction.
+     * @param traverseDepth       the traversing depth
      * @return the meta annotation traverser
-     *
-     * @see org.failearly.dataset.generator.support.GeneratorFactoryDefinition
+     * @see TemplateObjectFactoryDefinition
      * @see org.failearly.dataset.datastore.DataStoreFactoryDefinition
      */
-    public static AnnotationTraverser<Annotation> createMetaAnnotationTraverser(Class<? extends Annotation> metaAnnotationClass, TraverseStrategy traverseStrategy, Order order) {
+    public static AnnotationTraverser<Annotation> createMetaAnnotationTraverser(
+            Class<? extends Annotation> metaAnnotationClass,
+            TraverseStrategy traverseStrategy,
+            TraverseDepth traverseDepth) {
         final AnnotationResolver<Annotation> resolver = doCreateMetaAnnotationResolver(metaAnnotationClass);
-        return doCreateAnnotationTraverser(traverseStrategy, order, resolver);
+        return doCreateAnnotationTraverser(resolver, traverseStrategy, traverseDepth);
     }
 
-    private static <T extends Annotation> AnnotationTraverser<T> doCreateAnnotationTraverser(TraverseStrategy traverseStrategy, Order order, AnnotationResolver<T> resolver) {
-        final AnnotationTraverser<T> annotationTraverser = doCreateAnnotationTraverserByTraverseDirection(resolver, traverseStrategy);
-        return decorateByOrder(order, annotationTraverser);
+    private static <T extends Annotation> AnnotationTraverser<T> doCreateAnnotationTraverser( //
+            AnnotationResolver<T> resolver,   //
+            TraverseStrategy traverseStrategy, //
+            TraverseDepth traverseDepth) {
+        return doCreateAnnotationTraverserByTraverseDirection(resolver, traverseStrategy, traverseDepth);
     }
 
     private static AnnotationResolver<Annotation> doCreateMetaAnnotationResolver(Class<? extends Annotation> metaAnnotationClass) {
@@ -87,21 +94,14 @@ public final class AnnotationTraversers {
         return annotationClass.isAnnotationPresent(Repeatable.class);
     }
 
-    private static <T extends Annotation> AnnotationTraverser<T> decorateByOrder(Order order, AnnotationTraverser<T> annotationTraverser) {
-        if( order==Order.UNCHANGED ) {
-            return annotationTraverser;
-        }
-
-        return new ReverseAnnotationTraverser<>(annotationTraverser);
-    }
-
     private static <T extends Annotation> AnnotationTraverser<T> doCreateAnnotationTraverserByTraverseDirection(
             AnnotationResolver<T> resolver,
-            TraverseStrategy traverseStrategy
-        ) {
-        if( traverseStrategy == TraverseStrategy.BOTTOM_UP ) {
-            return new BottomUpAnnotationTraverser<>(resolver);
+            TraverseStrategy traverseStrategy,
+            TraverseDepth traverseDepth
+    ) {
+        if (traverseStrategy == TraverseStrategy.BOTTOM_UP) {
+            return new BottomUpAnnotationTraverser<>(resolver, traverseDepth);
         }
-        return new TopDownAnnotationTraverser<>(resolver);
+        return new TopDownAnnotationTraverser<>(resolver, traverseDepth);
     }
 }

@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@ package org.failearly.dataset.datastore;
 
 import org.failearly.dataset.DataStoreDefinition;
 import org.failearly.dataset.config.DataSetProperties;
-import org.failearly.dataset.util.ClassUtils;
+import org.failearly.dataset.util.ObjectCreator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,7 +33,7 @@ public final class DefaultDataStoreFactory implements DataStoreFactory<DataStore
     private final DataStoreType dataStoreType;
 
     public DefaultDataStoreFactory() {
-        this.dataStoreType = ClassUtils.createInstance(DataStoreType.class, DataSetProperties.getDefaultDataStoreTypeClassName());
+        this.dataStoreType = ObjectCreator.createInstance(DataStoreType.class, DataSetProperties.getDefaultDataStoreTypeClassName());
     }
 
     @Override

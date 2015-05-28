@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,7 +22,6 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * AnnotationUtils provides some basic utility methods for annotations.
@@ -63,8 +62,8 @@ public final class AnnotationUtils {
     public static boolean checkForMetaAnnotation(Method method, Class<? extends Annotation> metaAnnotationClass) {
         final AnnotationTraverser<Annotation> traverser = AnnotationTraversers.createMetaAnnotationTraverser( //
                 metaAnnotationClass,                //
-                TraverseStrategy.TOP_DOWN,          //
-                Order.UNCHANGED                     //
+                TraverseStrategy.TOP_DOWN, TraverseDepth.CLASS_HIERARCHY          //
+                //
             );
         final List<Annotation> annotationsWithMetaAnnotation=new LinkedList<>();
         traverser.traverse(method, new AnnotationHandlerBase<Annotation>() {

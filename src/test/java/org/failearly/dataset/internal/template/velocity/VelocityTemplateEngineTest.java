@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,11 +25,14 @@ import org.failearly.dataset.template.TemplateEngine;
 import org.failearly.dataset.template.TemplateEngineTestBase;
 import org.failearly.dataset.test.TestUtils;
 import org.hamcrest.Matchers;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.InputStream;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 
@@ -40,56 +43,64 @@ public class VelocityTemplateEngineTest extends TemplateEngineTestBase {
 
     private static final String TEMPLATE = "$unlimited.next()\n$limited.next()\n";
 
+    private static final String ANY_TEMPLATE_RESOURCE_NAME = "/any/path/to/dataset-resource.suffix.vm";
+
+    private TemplateEngine templateEngine;
+
+    private static InputStream templateInputStream() {
+        return new ByteArrayInputStream(TEMPLATE.getBytes());
+    }
+
+    @Before
+    public void setUp() throws Exception {
+        templateEngine = TemplateEngines.createTemplateEngine();
+    }
+
     @Test
     public void mergeMultipleGenerators_different_datasets() throws Exception {
-        // arrange / given
-        final TemplateEngine templateEngine = TemplateEngines.createTemplateEngine(
-                "UNLIMITED_DS",
-                "/any/path/to/dataset-resource.suffix.vm",
-                TemplateEngineTestBase.generatorCreators(GeneratorDifferentDataSets.class));
-
         // act / when
-        final InputStream mergedInputStream = templateEngine.mergeToInputStream(new ByteArrayInputStream(TEMPLATE.getBytes()));
+        final File generatedFile = templateEngine.generate(
+                    templateInputStream(),
+                    ANY_TEMPLATE_RESOURCE_NAME,
+                    resolveTemplateObjects(GeneratorDifferentDataSets.class).filterByDataSet(UNLIMITED_DATA_SET)
+            );
 
         // assert / then
-        assertThat("Use only UNLIMITED_DS dataset?", TestUtils.inputStreamToString(mergedInputStream), Matchers.is("unlimited constant\n$limited.next()\n"));
+        assertThat("Use only UNLIMITED_DS dataset?", TestUtils.fileToString(generatedFile), is("unlimited constant\n$limited.next()\n"));
     }
 
     @Test
     public void mergeMultipleGenerators_shared_dataset() throws Exception {
-        // arrange / given
-        final TemplateEngine templateEngine = TemplateEngines.createTemplateEngine(
-                "SHARED_DS",
-                "/any/path/to/dataset-resource.suffix.vm",
-                TemplateEngineTestBase.generatorCreators(GeneratorsSharedDataSet.class));
-
         // act / when
-        final InputStream mergedInputStream = templateEngine.mergeToInputStream(new ByteArrayInputStream(TEMPLATE.getBytes()));
+        final File generatedFile = templateEngine.generate(
+                templateInputStream(),
+                ANY_TEMPLATE_RESOURCE_NAME,
+                resolveTemplateObjects(GeneratorsSharedDataSet.class).filterByDataSet(SHARED_DATA_SET)
+        );
 
         // assert / then
-        assertThat("Use both generators?", TestUtils.inputStreamToString(mergedInputStream), Matchers.is("unlimited constant\nlimited constant\n"));
+        assertThat("Use both generators?", TestUtils.fileToString(generatedFile), Matchers.is("unlimited constant\nlimited constant\n"));
     }
 
 
     @Test
-    public void mergeMultipleGenerators_duplicated_names() throws Exception {
-        // arrange / given
-        final TemplateEngine templateEngine = TemplateEngines.createTemplateEngine(
-                "SHARED_DS",
-                "/any/path/to/dataset-resource.suffix.vm",
-                TemplateEngineTestBase.generatorCreators(MyClass.class));
-
+    public void multiple_generators_with_same_name__should_win_the_last_one() throws Exception {
         // act / when
-        final InputStream mergedInputStream = templateEngine.mergeToInputStream(new ByteArrayInputStream(TEMPLATE.getBytes()));
+        final File generatedFile = templateEngine.generate(
+                        templateInputStream(),
+                        ANY_TEMPLATE_RESOURCE_NAME,
+                        resolveTemplateObjects(MyClass.class).filterByDataSet(SHARED_DATA_SET)
+                );
+
 
         // assert / then
-        assertThat("Use overridden generators?", TestUtils.inputStreamToString(mergedInputStream), Matchers.is("override unlimited\noverride limited\n"));
+        assertThat("Use overridden generators?", TestUtils.fileToString(generatedFile), Matchers.is("unlimited constant\noverride limited\n"));
     }
 
 
     private static class MyClass extends GeneratorsSharedDataSet {
-        @ConstantGenerator(name = "unlimited", dataset = "SHARED_DS", constant = "override unlimited", limit = Limit.UNLIMITED)
-        @ConstantGenerator(name = "limited", dataset = "SHARED_DS", constant = "override limited", limit = Limit.LIMITED)
+        @ConstantGenerator(name = "unlimited", dataset = UNLIMITED_DATA_SET, constant = "override unlimited", limit = Limit.UNLIMITED)
+        @ConstantGenerator(name = "limited", dataset = SHARED_DATA_SET, constant = "override limited", limit = Limit.LIMITED)
         public void anyTestMethod() {
         }
     }

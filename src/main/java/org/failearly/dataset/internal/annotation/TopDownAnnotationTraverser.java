@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,28 +19,23 @@
 package org.failearly.dataset.internal.annotation;
 
 import org.failearly.dataset.internal.annotation.resolver.AnnotationResolver;
-import org.failearly.dataset.util.ClassUtils;
+import org.failearly.dataset.util.ClassesCollector;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.List;
 
 /**
  * Top down implementation of AnnotationTraverser.
  */
 final class TopDownAnnotationTraverser<T extends Annotation> extends AnnotationTraverserBase<T> {
 
-    TopDownAnnotationTraverser(AnnotationResolver<T> annotationResolver) {
-        super(annotationResolver);
+    TopDownAnnotationTraverser(AnnotationResolver<T> annotationResolver, TraverseDepth traverseDepth) {
+        super(annotationResolver, new ClassesCollector(ClassesCollector.Order.TOP_DOWN, traverseDepth.getDepth()));
     }
 
     @Override
     public void traverse(Method method, AnnotationHandler<T> annotationHandler) {
-        annotationResolver.resolveMethodAnnotations(method, annotationHandler);
+        doTraverse(method, annotationHandler);
         traverse(method.getDeclaringClass(), annotationHandler);
-    }
-
-    protected List<Class<?>> doCollectClasses(Class<?> clazz) {
-        return ClassUtils.collectClasses(clazz);
     }
 }

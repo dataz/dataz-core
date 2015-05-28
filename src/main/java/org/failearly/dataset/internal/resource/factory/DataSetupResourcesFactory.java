@@ -1,7 +1,7 @@
 /*
  * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2015 marko (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,13 +20,11 @@ package org.failearly.dataset.internal.resource.factory;
 
 import org.failearly.dataset.DataSetup;
 import org.failearly.dataset.annotations.DataSetupResourceFactoryDefinition;
-import org.failearly.dataset.internal.generator.resolver.GeneratorCreator;
 import org.failearly.dataset.internal.resource.ResourceType;
+import org.failearly.dataset.internal.template.TemplateObjects;
 import org.failearly.dataset.resource.DataResource;
 import org.failearly.dataset.resource.DataResourceBuilder;
 import org.failearly.dataset.resource.GenericDataResourcesFactory;
-
-import java.util.List;
 
 /**
  * DataSetupResourcesFactory creates {@link DataResource}s from a {@link DataSetup} annotation.
@@ -41,14 +39,14 @@ public final class DataSetupResourcesFactory extends GenericDataResourcesFactory
     }
 
     @Override
-    protected DataResource createDataResourceFromAnnotation(DataSetup annotation, Class<?> testClass, String resourceName, List<GeneratorCreator> generatorCreators) {
+    protected DataResource createDataResourceFromAnnotation(DataSetup annotation, Class<?> testClass, String resourceName, TemplateObjects generatorCreators) {
         return DataResourceBuilder.createBuilder(testClass)         //
                 .withDataSetName(annotation.name())                 //
                 .withDataStoreId(annotation.datastore())            //
                 .withResourceName(resourceName)                     //
                 .withFailOnError(annotation.failOnError())          //
                 .withTransactional(annotation.transactional())      //
-                .withGeneratorCreators(generatorCreators)           //
+                .withTemplateObjects(generatorCreators)             //
                 .mandatory()                                        //
                 .build();
     }

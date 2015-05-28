@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,18 +24,18 @@ import org.failearly.dataset.config.Constants;
 import org.failearly.dataset.internal.annotation.*;
 import org.failearly.dataset.internal.annotation.invoker.AnnotationElementResolver;
 import org.failearly.dataset.internal.annotation.invoker.AnnotationElementResolvers;
-import org.failearly.dataset.internal.generator.resolver.GeneratorCreator;
-import org.failearly.dataset.internal.generator.resolver.GeneratorResolver;
-import org.failearly.dataset.util.ClassUtils;
+import org.failearly.dataset.internal.template.TemplateObjects;
+import org.failearly.dataset.util.ObjectCreator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static org.failearly.dataset.internal.template.TemplateObjectsResolver.resolveFromTestClass;
 
 /**
  * DataStores is responsible for creating and keeping all data stores.
@@ -58,13 +58,13 @@ public final class DataStores {
 
     private final AnnotationTraverser<DataStoreSetup> dataStoreSetupAnnotationTraverser = AnnotationTraversers.createAnnotationTraverser(
             DataStoreSetup.class,
-            TraverseStrategy.BOTTOM_UP,
-            Order.UNCHANGED);
+            TraverseStrategy.BOTTOM_UP, TraverseDepth.CLASS_HIERARCHY
+    );
 
     private final AnnotationTraverser<Annotation> metaDataStoreFactoryAnnotationTraverser = AnnotationTraversers.createMetaAnnotationTraverser(
             DataStoreFactoryDefinition.class,
-            TraverseStrategy.BOTTOM_UP,
-            Order.UNCHANGED);
+            TraverseStrategy.BOTTOM_UP, TraverseDepth.CLASS_HIERARCHY
+    );
 
     private DataStores() {
     }
@@ -111,9 +111,9 @@ public final class DataStores {
 
     private DataStore doInitializeDataStore(Class<?> testClass, DataStore dataStore) {
         final List<DataStoreSetupInstance> dataStoreSetupAnnotations = collectDataStoreSetupAnnotationsFromTestClass(testClass);
-        final List<GeneratorCreator> generatorCreators = collectGenerators(testClass);
+        final TemplateObjects templateObjects = resolveFromTestClass(testClass);
         dataStore.initialize();
-        dataStore.setupDataStore(dataStoreSetupAnnotations, generatorCreators);
+        dataStore.setupDataStore(dataStoreSetupAnnotations, templateObjects);
         return dataStore;
     }
 
@@ -237,18 +237,14 @@ public final class DataStores {
 
     private DataStore doLoadDataStore0(Class<?> testClass) {
         final List<DataStoreSetupInstance> dataStoreSetupAnnotations = collectDataStoreSetupAnnotationsFromTestClass(testClass);
-        final List<GeneratorCreator> generatorCreators = collectGenerators(testClass);
-        final DataStoreCollection dataStoreCollection = collectDataStoresFromTestClass(testClass, dataStoreSetupAnnotations, generatorCreators);
+        final TemplateObjects templateObjects = resolveFromTestClass(testClass);
+        final DataStoreCollection dataStoreCollection = collectDataStoresFromTestClass(testClass, dataStoreSetupAnnotations, templateObjects);
 
         if (dataStoreCollection.isEmpty()) {
-            dataStoreCollection.addDataStore(findOrCreateDataStoreFromAnnotation(DEFAULT_DATA_STORE_ANNOTATION, dataStoreSetupAnnotations, generatorCreators));
+            dataStoreCollection.addDataStore(findOrCreateDataStoreFromAnnotation(DEFAULT_DATA_STORE_ANNOTATION, dataStoreSetupAnnotations, templateObjects));
         }
 
         return dataStoreCollection.getDataStore();
-    }
-
-    private List<GeneratorCreator> collectGenerators(Class<?> testClass) {
-        return GeneratorResolver.resolveFromTestClass(testClass);
     }
 
     private List<DataStoreSetupInstance> collectDataStoreSetupAnnotationsFromTestClass(Class<?> testClass) {
@@ -268,12 +264,12 @@ public final class DataStores {
     private DataStoreCollection collectDataStoresFromTestClass(
             Class<?> testClass,
             List<DataStoreSetupInstance> dataStoreSetupAnnotations,
-            List<GeneratorCreator> generatorCreators) {
+            TemplateObjects templateObjects) {
         final DataStoreCollection dataStoreCollection = new DataStoreCollection();
         metaDataStoreFactoryAnnotationTraverser.traverse(testClass, new AnnotationHandlerBase<Annotation>() {
             @Override
             public void handleAnnotation(Annotation annotation) {
-                dataStoreCollection.addDataStore(findOrCreateDataStoreFromAnnotation(annotation, dataStoreSetupAnnotations, generatorCreators));
+                dataStoreCollection.addDataStore(findOrCreateDataStoreFromAnnotation(annotation, dataStoreSetupAnnotations, templateObjects));
             }
         });
 
@@ -283,9 +279,9 @@ public final class DataStores {
     private DataStore findOrCreateDataStoreFromAnnotation(
             Annotation annotation,
             List<DataStoreSetupInstance> dataStoreSetupAnnotations,
-            List<GeneratorCreator> generatorCreators) {
+            TemplateObjects templateObjects) {
         final String dataStoreId = resolveDataStoreId(annotation);
-        return dataStoreById.computeIfAbsent(dataStoreId, (id) -> createDataStoreFromAnnotation(annotation, dataStoreSetupAnnotations, generatorCreators));
+        return dataStoreById.computeIfAbsent(dataStoreId, (id) -> createDataStoreFromAnnotation(annotation, dataStoreSetupAnnotations, templateObjects));
     }
 
     private static final AnnotationElementResolver<String> idResolver = AnnotationElementResolvers.createResolver(String.class, "id");
@@ -298,13 +294,13 @@ public final class DataStores {
     }
 
     @SuppressWarnings("unchecked")
-    private DataStore createDataStoreFromAnnotation(Annotation annotation, List<DataStoreSetupInstance> dataStoreSetupAnnotations, List<GeneratorCreator> generatorCreators) {
+    private DataStore createDataStoreFromAnnotation(Annotation annotation, List<DataStoreSetupInstance> dataStoreSetupAnnotations, TemplateObjects templateObjects) {
         final DataStoreFactoryDefinition dataStoreFactoryDefinition = AnnotationUtils.getMetaAnnotation(DataStoreFactoryDefinition.class, annotation);
         final Class<? extends DataStoreFactory> dataStoreFactoryClass = dataStoreFactoryDefinition.dataStoreFactory();
-        final DataStore dataStore = ClassUtils.createInstance(dataStoreFactoryClass).createDataStore(annotation, null);
+        final DataStore dataStore = ObjectCreator.createInstance(dataStoreFactoryClass).createDataStore(annotation, null);
 
         dataStore.initialize();
-        dataStore.setupDataStore(dataStoreSetupAnnotations, generatorCreators);
+        dataStore.setupDataStore(dataStoreSetupAnnotations, templateObjects);
 
         return dataStore;
     }

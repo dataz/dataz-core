@@ -1,7 +1,7 @@
 /*
  * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2015 marko (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,13 +19,11 @@
 package org.failearly.dataset.internal.resource.factory.dataset;
 
 import org.failearly.dataset.DataSet;
-import org.failearly.dataset.internal.generator.resolver.GeneratorCreator;
 import org.failearly.dataset.internal.resource.ResourceType;
+import org.failearly.dataset.internal.template.TemplateObjects;
 import org.failearly.dataset.resource.DataResource;
 import org.failearly.dataset.resource.DataResourceBuilder;
 import org.failearly.dataset.resource.GenericDataResourcesFactory;
-
-import java.util.List;
 
 /**
  * DataSetResourcesFactoryBase is the base class for {@link DataSet} based {@link DataResource}s factory classes.
@@ -41,7 +39,7 @@ abstract class ResourcesFactoryBase extends GenericDataResourcesFactory<DataSet>
         return annotation.datastore();
     }
 
-    protected final DataResource createDataResourceFromAnnotation(DataSet annotation, Class<?> testClass, String resourceName, List<GeneratorCreator> generatorCreators) {
+    protected final DataResource createDataResourceFromAnnotation(DataSet annotation, Class<?> testClass, String resourceName, TemplateObjects generatorCreators) {
         return DataResourceBuilder.createBuilder(testClass)        //
                 .withResourceType(this.resourceType)           //
                 .withDataSetName(annotation.name())            //
@@ -49,7 +47,7 @@ abstract class ResourcesFactoryBase extends GenericDataResourcesFactory<DataSet>
                 .withResourceName(resourceName)                //
                 .withFailOnError(annotation.failOnError())     //
                 .withTransactional(annotation.transactional()) //
-                .withGeneratorCreators(generatorCreators)      //
+                .withTemplateObjects(generatorCreators)      //
                 .build();
     }
 

@@ -1,14 +1,26 @@
 /*
- * Copyright (c) 2009.
+ * dataSet - Test Support For Data Stores.
  *
- * Date: 10.05.15
- * 
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 package org.failearly.dataset.resource;
 
 import org.failearly.dataset.DataSet;
-import org.failearly.dataset.internal.generator.resolver.GeneratorCreator;
 import org.failearly.dataset.internal.resource.ResourceType;
+import org.failearly.dataset.internal.template.TemplateObjects;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -22,7 +34,7 @@ import static org.failearly.dataset.resource.ResourcePathUtils.createDefaultReso
 /**
  * GenericResourcesFactory provides a generic/default implementation. Only some methods which base on the concrete knowledge of the annotation.
  *
- * @see #createDataResourceFromAnnotation(Annotation, Class, String, List)
+ * @see #createDataResourceFromAnnotation(Annotation, Class, String, TemplateObjects)
  * @see #getDataStoreIdFromAnnotation(Annotation)
  * @see #getResourceNamesFromAnnotation(Annotation)
  */
@@ -36,7 +48,7 @@ public abstract class GenericDataResourcesFactory<T extends Annotation> extends 
     }
 
     @Override
-    protected final List<DataResource> doCreateDataResourcesFromTestClass(Class<?> testClass, T annotation, List<GeneratorCreator> generatorCreators) {
+    protected final List<DataResource> doCreateDataResourcesFromTestClass(Class<?> testClass, T annotation, TemplateObjects generatorCreators) {
         final List<DataResource> dataResources = new LinkedList<>();
         if (userHasProvidedResourceNames(annotation)) {
             dataResources.addAll(doResolveDataResourcesFromResourceNames(annotation, testClass, generatorCreators));
@@ -54,7 +66,7 @@ public abstract class GenericDataResourcesFactory<T extends Annotation> extends 
     }
 
     @Override
-    protected final List<DataResource> doCreateDataResourcesFromTestMethod(Method testMethod, T annotation, List<GeneratorCreator> generatorCreators) {
+    protected final List<DataResource> doCreateDataResourcesFromTestMethod(Method testMethod, T annotation, TemplateObjects generatorCreators) {
         final Class<?> testClass = testMethod.getDeclaringClass();
         final List<DataResource> dataResources = new LinkedList<>();
         if (userHasProvidedResourceNames(annotation)) {
@@ -79,7 +91,7 @@ public abstract class GenericDataResourcesFactory<T extends Annotation> extends 
     private List<DataResource> doResolveDataResourcesFromResourceNames(    //
                                                                            T annotation,            //
                                                                            Class<?> testClass,      //
-                                                                           List<GeneratorCreator> generatorCreators  //
+                                                                           TemplateObjects generatorCreators  //
     ) {
         final String[] resourceNames = getResourceNamesFromAnnotation(annotation);
         final List<DataResource> dataResources = new ArrayList<>();
@@ -117,6 +129,6 @@ public abstract class GenericDataResourcesFactory<T extends Annotation> extends 
      * @param generatorCreators the generators
      * @return the data resource object.
      */
-    protected abstract DataResource createDataResourceFromAnnotation(T annotation, Class<?> testClass, String resourceName, List<GeneratorCreator> generatorCreators);
+    protected abstract DataResource createDataResourceFromAnnotation(T annotation, Class<?> testClass, String resourceName, TemplateObjects generatorCreators);
 
 }

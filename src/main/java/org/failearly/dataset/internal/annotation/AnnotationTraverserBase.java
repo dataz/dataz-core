@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,27 +19,35 @@
 package org.failearly.dataset.internal.annotation;
 
 import org.failearly.dataset.internal.annotation.resolver.AnnotationResolver;
+import org.failearly.dataset.util.ClassesCollector;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 import java.util.List;
 
 /**
- * AnnotationTraverserBase is responsible for ...
+ * AnnotationTraverserBase is the base class for {@link AnnotationTraverser} implementations.
  */
 abstract class AnnotationTraverserBase<T extends Annotation> implements AnnotationTraverser<T> {
     final AnnotationResolver<T> annotationResolver;
+    private final ClassesCollector classesCollector;
 
-    AnnotationTraverserBase(AnnotationResolver<T> annotationResolver) {
+    AnnotationTraverserBase(AnnotationResolver<T> annotationResolver, ClassesCollector classesCollector) {
         this.annotationResolver = annotationResolver;
+        this.classesCollector = classesCollector;
     }
+
 
     @Override
     public final void traverse(Class<?> clazz, AnnotationHandler<T> annotationHandler) {
-        final List<Class<?>> classes = doCollectClasses(clazz);
+        final List<Class<?>> classes = classesCollector.collect(clazz);
         for (Class<?> currClass : classes) {
             annotationResolver.resolveClassAnnotations(currClass, annotationHandler);
         }
     }
 
-    protected abstract List<Class<?>> doCollectClasses(Class<?> clazz);
+    protected final void doTraverse(Method method, AnnotationHandler<T> annotationHandler) {
+        annotationResolver.resolveMethodAnnotations(method, annotationHandler);
+    }
+
 }

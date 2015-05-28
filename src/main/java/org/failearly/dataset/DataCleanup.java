@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -55,7 +55,7 @@ public @interface DataCleanup {
 
     /**
      * The DataSet's name. Multiple DataSets with the same name will be executed.
-     * The name becomes necessary if you are using {@link org.failearly.dataset.generator.support.Generator}.
+     * The name becomes necessary if you are using {@link org.failearly.dataset.template.TemplateObject}.
      * <p>
      * <br><br>
      * <p>

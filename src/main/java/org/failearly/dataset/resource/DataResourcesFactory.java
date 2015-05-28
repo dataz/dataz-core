@@ -16,12 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
 package org.failearly.dataset.resource;
 
 
 import org.failearly.dataset.annotations.DataCleanupResourceFactoryDefinition;
 import org.failearly.dataset.annotations.DataSetupResourceFactoryDefinition;
-import org.failearly.dataset.internal.generator.resolver.GeneratorCreator;
+import org.failearly.dataset.internal.template.TemplateObjects;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -38,22 +39,22 @@ import java.util.List;
  */
 public interface DataResourcesFactory {
     /**
-     * Create {@link org.failearly.dataset.resource.DataResource}s from the annotation and the generatorCreators.
+     * Create {@link org.failearly.dataset.resource.DataResource}s from the annotation and the templateObjectCreators.
      *
      * @param annotatedClass    the annotated element (in this case the test class). Used for default resource name (if no resource has been set).
      * @param annotation        the actually annotation
-     * @param generatorCreators the generators
+     * @param templateObjects the template objects
      * @return the resources
      */
-    List<DataResource> createDataResources(Class<?> annotatedClass, Annotation annotation, List<GeneratorCreator> generatorCreators);
+    List<DataResource> createDataResources(Class<?> annotatedClass, Annotation annotation, TemplateObjects templateObjects);
 
     /**
-     * Create {@link org.failearly.dataset.resource.DataResource}s from the annotation and the generatorCreators.
+     * Create {@link org.failearly.dataset.resource.DataResource}s from the annotation and the templateObjectCreators.
      *
      * @param annotatedMethod   the annotated element (in this case the test method). Used for default resource name (if no resource has been set).
      * @param annotation        the actually annotation
-     * @param generatorCreators the generators
+     * @param templateObjects the template objects
      * @return the resources
      */
-    List<DataResource> createDataResources(Method annotatedMethod, Annotation annotation, List<GeneratorCreator> generatorCreators);
+    List<DataResource> createDataResources(Method annotatedMethod, Annotation annotation, TemplateObjects templateObjects);
 }

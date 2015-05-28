@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,9 +18,6 @@
  */
 package org.failearly.dataset.template;
 
-import org.failearly.dataset.internal.generator.resolver.GeneratorCreator;
-
-import java.util.List;
 
 /**
  * TemplateEngineFactory creates a template engine.
@@ -29,10 +26,7 @@ public interface TemplateEngineFactory {
     /**
      * Create an instance of TemplateEngine.
      *
-     * @param fullQualifiedResourceTemplate the resource (template).
-     * @param generatorCreators associated generators creators.
-     *
      * @return a new template engine.
      */
-    TemplateEngine createTemplateEngine(String fullQualifiedResourceTemplate, List<GeneratorCreator> generatorCreators);
+    TemplateEngine createTemplateEngine();
 }

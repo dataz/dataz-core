@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,9 +19,9 @@
 package org.failearly.dataset.internal.generator.standard;
 
 import org.failearly.dataset.generator.RandomRangeGenerator;
-import org.failearly.dataset.generator.support.Generator;
 import org.failearly.dataset.generator.support.GeneratorFactoryBase;
 import org.failearly.dataset.generator.support.UnlimitedGeneratorBase;
+import org.failearly.dataset.template.TemplateObject;
 
 import java.util.Iterator;
 import java.util.Random;
@@ -31,8 +31,12 @@ import java.util.Random;
  */
 public final class RandomRangeGeneratorFactory extends GeneratorFactoryBase<Integer,RandomRangeGenerator> {
 
+    public RandomRangeGeneratorFactory() {
+        super(RandomRangeGenerator.class);
+    }
+
     @Override
-    public Generator<Integer> create(RandomRangeGenerator annotation) {
+    protected TemplateObject doCreate(RandomRangeGenerator annotation) {
         if( annotation.unique() ) {
             return doCreateUniqueGenerator(annotation, RandomRangeGeneratorFactory::calculateUniqueLimitValue);
         }
@@ -53,7 +57,7 @@ public final class RandomRangeGeneratorFactory extends GeneratorFactoryBase<Inte
 
     @Override
     protected UnlimitedGeneratorBase<Integer> doCreateUnlimitedGenerator(RandomRangeGenerator generatorAnnotation, Integer limitValue) {
-        return new RandomRangeGeneratorImpl(generatorAnnotation.name(), generatorAnnotation.dataset(), generatorAnnotation.start(), generatorAnnotation.end(), generatorAnnotation.seed());
+        return new RandomRangeGeneratorImpl(generatorAnnotation.dataset(), generatorAnnotation.name(), generatorAnnotation.start(), generatorAnnotation.end(), generatorAnnotation.seed());
     }
 
 
@@ -72,8 +76,8 @@ public final class RandomRangeGeneratorFactory extends GeneratorFactoryBase<Inte
         private int bound = 0;
 
 
-        private RandomRangeGeneratorImpl(String name, String dataset, int start, int end, int seed) {
-            super(name, dataset);
+        private RandomRangeGeneratorImpl(String dataset, String name, int start, int end, int seed) {
+            super(dataset, name);
 
             this.start = start;
             this.end = end;

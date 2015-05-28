@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,58 +19,22 @@
 package org.failearly.dataset.template;
 
 import org.failearly.dataset.config.DataSetProperties;
-import org.failearly.dataset.generator.support.Generator;
-import org.failearly.dataset.internal.generator.resolver.GeneratorCreator;
-import org.failearly.dataset.internal.util.IOUtils;
-import org.failearly.dataset.internal.util.ResourceNameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
 
 /**
  * TemplateEngineBase is the base class for template engines.
  */
 public abstract class TemplateEngineBase implements TemplateEngine {
     protected final Logger LOGGER = LoggerFactory.getLogger(getClass());
-    private final List<GeneratorCreator> generatorCreators;
-    private final String resourceName;
-    private final String resourceSuffix;
-    private final String resourcePath;
 
-    protected TemplateEngineBase(String fullQualifiedResourceName, List<GeneratorCreator> generatorCreators) {
-        this.generatorCreators = generatorCreators;
-        this.resourceSuffix = ResourceNameUtils.getResourceSuffix(fullQualifiedResourceName);
-        this.resourcePath = ResourceNameUtils.getResourcePath(fullQualifiedResourceName);
-        this.resourceName = ResourceNameUtils.getResourceNameWithoutPathAndSuffix(fullQualifiedResourceName) + "-";
+    protected TemplateEngineBase() {
     }
 
-    @Override
-    public final InputStream mergeToInputStream(InputStream inputStream) throws IOException {
-        return fileToInputStream(mergeToFile(inputStream));
-    }
-
-    /**
-     * Merge the content of input stream to a new file.
-     *
-     * @param inputStream the content of the template.
-     * @return a new (temp) file.
-     *
-     * @throws java.io.IOException in case the template engine has any IO issues with template resource.
-     */
-    protected abstract File mergeToFile(InputStream inputStream) throws IOException;
-
-
-    private InputStream fileToInputStream(File targetFile) throws FileNotFoundException {
-        return IOUtils.autoClose(new FileInputStream(targetFile));
-    }
-
-    protected final File createTempFile() throws IOException {
-        final File targetFile = File.createTempFile(this.resourceName, this.resourceSuffix, DataSetProperties.createTempDir(this.resourcePath));
+    protected final File createTempFile(String resourceName, String resourceSuffix, String resourcePath) throws IOException {
+        final File targetFile = File.createTempFile(resourceName, resourceSuffix, DataSetProperties.createTempDir(resourcePath));
         LOGGER.debug("Create target file '{}'", targetFile);
         if (DataSetProperties.isDropTempFile()) {
             targetFile.deleteOnExit();
@@ -80,24 +44,5 @@ public abstract class TemplateEngineBase implements TemplateEngine {
         return targetFile;
     }
 
-    protected final List<GeneratorCreator> getGeneratorCreators() {
-        return generatorCreators;
-    }
 
-
-    protected final List<Generator> createGenerators() {
-        final List<Generator> generators=new LinkedList<>();
-        final Set<String> generatorNames=new HashSet<>();
-        for (GeneratorCreator generatorCreator : getGeneratorCreators()) {
-            final Generator generator = generatorCreator.createGeneratorInstance();
-            if( generatorNames.add(generator.name()) ) {
-                LOGGER.debug("Use generator '{}' (annotation={})", generator.name(), generatorCreator.getAnnotation());
-                generators.add(generator);
-            }
-            else {
-                LOGGER.warn("Generator '{}' already defined (annotation={}). Ignored!", generator.name(), generatorCreator.getAnnotation());
-            }
-        }
-        return generators;
-    }
 }

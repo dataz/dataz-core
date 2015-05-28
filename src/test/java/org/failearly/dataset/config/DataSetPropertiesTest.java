@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,6 +34,7 @@ import java.io.IOException;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
+@SuppressWarnings("ResultOfMethodCallIgnored")
 public class DataSetPropertiesTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(DataSetPropertiesTest.class);
 
@@ -46,8 +47,8 @@ public class DataSetPropertiesTest {
         propertyFile.deleteOnExit();
 
         try (FileWriter fileWriter = new FileWriter(propertyFile, false)) {
-            fileWriter.append(Constants.DATASET_PROPERTY_DEFAULT_SETUP_SUFFIX + "=" + CUSTOM_SETUP_SUFFIX + System.lineSeparator());
-            fileWriter.append(Constants.DATASET_PROPERTY_DEFAULT_CLEANUP_SUFFIX + "=" + CUSTOM_CLEANUP_SUFFIX + System.lineSeparator());
+            fileWriter.append(Constants.DATASET_PROPERTY_DEFAULT_SETUP_SUFFIX + "=" + CUSTOM_SETUP_SUFFIX).append(System.lineSeparator());
+            fileWriter.append(Constants.DATASET_PROPERTY_DEFAULT_CLEANUP_SUFFIX + "=" + CUSTOM_CLEANUP_SUFFIX).append(System.lineSeparator());
         }
     }
 
@@ -129,40 +130,40 @@ public class DataSetPropertiesTest {
         assertThat("Replace System property?", DataSetProperties.getProperty("dataset.any.prop"), is(System.getProperty("user.home") + "/my/dir"));
     }
 
-    @Test
-    public void getGeneratorTraversingStrategy_default_strategy() throws Exception {
-        assertThat("Default strategy?", DataSetProperties.getGeneratorTraversingStrategy(), is(TraverseStrategy.TOP_DOWN));
-    }
+//    @Test
+//    public void getGeneratorTraversingStrategy_default_strategy() throws Exception {
+//        assertThat("Default strategy?", DataSetProperties.getGeneratorTraversingStrategy(), is(TraverseStrategy.TOP_DOWN));
+//    }
+//
+//    @Test
+//    public void getGeneratorTraversingStrategy_bottom_up_strategy() throws Exception {
+//        // arrange / given
+//        DataSetProperties.setProperty(Constants.DATASET_GENERATOR_TRAVERSING_STRATEGY, "BOTTOM_UP");
+//
+//        // assert / then
+//        assertThat("Custom strategy?", DataSetProperties.getGeneratorTraversingStrategy(), is(TraverseStrategy.BOTTOM_UP));
+//    }
+//
+//    @Test(expected = IllegalArgumentException.class)
+//    public void getGeneratorTraversingStrategy_invalid_strategy() throws Exception {
+//        // arrange / given
+//        DataSetProperties.setProperty(Constants.DATASET_GENERATOR_TRAVERSING_STRATEGY, "NONE_EXISTING_STRATEGY");
+//
+//        // act / when
+//        DataSetProperties.getGeneratorTraversingStrategy();
+//
+//        // assert / then
+//    }
 
-    @Test
-    public void getGeneratorTraversingStrategy_bottom_up_strategy() throws Exception {
-        // arrange / given
-        DataSetProperties.setProperty(Constants.DATASET_GENERATOR_TRAVERSING_STRATEGY, "BOTTOM_UP");
-
-        // assert / then
-        assertThat("Custom strategy?", DataSetProperties.getGeneratorTraversingStrategy(), is(TraverseStrategy.BOTTOM_UP));
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void getGeneratorTraversingStrategy_invalid_strategy() throws Exception {
-        // arrange / given
-        DataSetProperties.setProperty(Constants.DATASET_GENERATOR_TRAVERSING_STRATEGY, "NONE_EXISTING_STRATEGY");
-
-        // act / when
-        DataSetProperties.getGeneratorTraversingStrategy();
-
-        // assert / then
-    }
-
-    @Test
-    public void getGeneratorTraversingStrategy_missing_strategy() throws Exception {
-        // arrange / given
-        DataSetProperties.setProperty(Constants.DATASET_GENERATOR_TRAVERSING_STRATEGY, null);
-
-        // assert / then
-        assertThat("Missing use default strategy?", DataSetProperties.getGeneratorTraversingStrategy(), is(TraverseStrategy.TOP_DOWN));
-    }
-
+//    @Test
+//    public void getGeneratorTraversingStrategy_missing_strategy() throws Exception {
+//        // arrange / given
+//        DataSetProperties.setProperty(Constants.DATASET_TEMPLATE_OBJECT_TRAVERSING_DEPTH, null);
+//
+//        // assert / then
+//        assertThat("Missing use default strategy?", DataSetProperties.getGeneratorTraversingStrategy(), is(TraverseStrategy.TOP_DOWN));
+//    }
+//
 
     private String createTempPropertyFile(String property) throws IOException {
         final File tempFile = File.createTempFile("dataset-", ".properties");

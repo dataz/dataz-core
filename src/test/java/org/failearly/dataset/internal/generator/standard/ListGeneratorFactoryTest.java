@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,8 +21,8 @@ package org.failearly.dataset.internal.generator.standard;
 
 import org.failearly.dataset.generator.Limit;
 import org.failearly.dataset.generator.ListGenerator;
-import org.failearly.dataset.internal.generator.GeneratorTestBase;
 import org.failearly.dataset.generator.support.Generator;
+import org.failearly.dataset.internal.generator.GeneratorTestBase;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.hasSize;

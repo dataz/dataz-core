@@ -1,7 +1,7 @@
 /*
  * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
  */
 package org.failearly.dataset.internal.junit;
 
-import org.failearly.dataset.util.ClassUtils;
+import org.failearly.dataset.util.ObjectCreator;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -68,7 +68,7 @@ public final class TestRuleSupport<T extends TestRuleBase> {
 
     @SuppressWarnings("unchecked")
     private T createInstance(Class<?> testClass, Object context, Predicate<Method> predicate) {
-        final T instance = ClassUtils.createInstanceByConstructor(testRuleClass);
+        final T instance = ObjectCreator.createInstanceByConstructor(testRuleClass);
 
         instance.init(testClass, context, resolveNumberOfTests(testClass, predicate));
 

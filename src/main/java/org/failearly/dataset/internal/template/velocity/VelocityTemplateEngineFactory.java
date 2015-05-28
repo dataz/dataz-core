@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,18 +18,15 @@
  */
 package org.failearly.dataset.internal.template.velocity;
 
-import org.failearly.dataset.internal.generator.resolver.GeneratorCreator;
 import org.failearly.dataset.template.TemplateEngine;
 import org.failearly.dataset.template.TemplateEngineFactory;
-
-import java.util.List;
 
 /**
  * VelocityTemplateEngineFactory creates instances of {@link VelocityTemplateEngine}.
  */
 public final class VelocityTemplateEngineFactory implements TemplateEngineFactory {
     @Override
-    public TemplateEngine createTemplateEngine(String fullQualifiedResourceTemplate, List<GeneratorCreator> generatorCreators) {
-        return new VelocityTemplateEngine(fullQualifiedResourceTemplate, generatorCreators);
+    public TemplateEngine createTemplateEngine() {
+        return new VelocityTemplateEngine();
     }
 }

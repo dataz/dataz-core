@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ final class UniqueGeneratorDecorator<T> extends LimitedGeneratorBase<T> {
     private final int limit;
 
     UniqueGeneratorDecorator(UnlimitedGeneratorBase<T> generator, int limit) {
-        super(generator.name(), generator.dataset());
+        super(generator.dataset(), generator.name());
 
         this.generator = generator;
         this.limit = limit;

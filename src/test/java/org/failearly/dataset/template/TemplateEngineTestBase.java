@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,24 +22,27 @@ import org.failearly.dataset.config.Constants;
 import org.failearly.dataset.config.DataSetProperties;
 import org.failearly.dataset.generator.Limit;
 import org.failearly.dataset.generator.ConstantGenerator;
-import org.failearly.dataset.internal.generator.resolver.GeneratorCreator;
 import org.failearly.dataset.internal.template.TemplateEngines;
+import org.failearly.dataset.internal.template.TemplateObjects;
+import org.failearly.dataset.internal.template.velocity.VelocityTemplateEngine;
 import org.failearly.dataset.test.TestUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.List;
-
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 
 /**
  * TemplateEngineBaseTest is responsible for ...
  */
 public abstract class TemplateEngineTestBase {
-    protected static List<GeneratorCreator> generatorCreators(Class<?> aClass) throws NoSuchMethodException {
-        return TestUtils.resolveGeneratorCreators("anyTestMethod", aClass);
+    protected static final String UNLIMITED_DATA_SET = "UNLIMITED_DS";
+    public static final String SHARED_DATA_SET = "SHARED_DS";
+
+    protected static TemplateObjects resolveTemplateObjects(Class<?> aClass) throws NoSuchMethodException {
+        return TestUtils.resolveTemplateObjects("anyTestMethod", aClass);
     }
 
     @Before
@@ -48,13 +51,12 @@ public abstract class TemplateEngineTestBase {
     }
 
     @Test
-    public void checkForDefaultTemplateEngine() throws Exception {
+    public void default_template_engine__should_be_VelocityTemplateEngine() throws Exception {
         // act / when
-        final TemplateEngine templateEngine = TemplateEngines.createTemplateEngine(
-                "UNLIMITED_DS", "/any/path/to/dataset-resource.suffix.vm", generatorCreators(GeneratorDifferentDataSets.class));
+        final TemplateEngine templateEngine = TemplateEngines.createTemplateEngine();
 
         // assert / then
-        assertThat("Engine's Type?", templateEngine.getClass().getName(), is("org.failearly.dataset.internal.template.velocity.VelocityTemplateEngine"));
+        assertThat("Engine's Type?", templateEngine, is(instanceOf(VelocityTemplateEngine.class)));
     }
 
 
@@ -64,7 +66,7 @@ public abstract class TemplateEngineTestBase {
     }
 
     @SuppressWarnings("UnusedDeclaration")
-    @ConstantGenerator(name = "unlimited", dataset = "UNLIMITED_DS", constant = "unlimited constant", limit = Limit.UNLIMITED)
+    @ConstantGenerator(name = "unlimited", dataset = UNLIMITED_DATA_SET, constant = "unlimited constant", limit = Limit.UNLIMITED)
     @ConstantGenerator(name = "limited", dataset = "LIMITED_DS", constant = "limited constant", limit = Limit.LIMITED)
     protected static class GeneratorDifferentDataSets {
         public void anyTestMethod() {

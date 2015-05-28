@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,8 +19,10 @@
 package org.failearly.dataset.generator.support;
 
 import org.failearly.dataset.generator.GeneratorConstants;
-import org.failearly.dataset.internal.generator.decorator.GeneratorDecorators;
 import org.failearly.dataset.generator.Limit;
+import org.failearly.dataset.internal.generator.decorator.GeneratorDecorators;
+import org.failearly.dataset.template.TemplateObject;
+import org.failearly.dataset.template.TypedTemplateObjectFactory;
 
 import java.lang.annotation.Annotation;
 import java.util.function.Function;
@@ -28,29 +30,31 @@ import java.util.function.Function;
 /**
  * GeneratorFactoryBase is the base class for GeneratorFactory.
  */
-public abstract class GeneratorFactoryBase<T,A extends Annotation> implements GeneratorFactory<T,A>, GeneratorConstants {
+public abstract class GeneratorFactoryBase<T, A extends Annotation> extends TypedTemplateObjectFactory<A> implements GeneratorConstants {
+
+    protected GeneratorFactoryBase(Class<A> annotationClass) {
+        super(annotationClass);
+    }
 
     /**
      * Creates an generator associated from {@code generatorAnnotation}.
-     *
+     * <p>
      * Either {@link #doCreateLimitedGenerator(java.lang.annotation.Annotation, Integer)} or
      * {@link #doCreateUnlimitedGenerator(java.lang.annotation.Annotation, Integer)} must be overridden.
-     *
+     * <p>
      * A good indicator which one to override is the default value for {@code Limit limit()} in the generator annotation.
      *
      * @param generatorAnnotation the generatorAnnotation
-     * @param limit the limit value of the annotation.
-     * @param limitClosure the limit evaluation closure in case of {@link Limit#LIMITED}.
-     *
+     * @param limit               the limit value of the annotation.
+     * @param limitClosure        the limit evaluation closure in case of {@link Limit#LIMITED}.
      * @return the created (limited or unlimited) generator.
      */
-    protected final Generator<T> doCreateGenerator(A generatorAnnotation, Limit limit, Function<A, Integer> limitClosure) {
+    protected final TemplateObject doCreateGenerator(A generatorAnnotation, Limit limit, Function<A, Integer> limitClosure) {
         final GeneratorBase<T> generator;
-        if( limit.isLimited() ) {
-            generator=doCreateLimitedGenerator(generatorAnnotation, limitClosure.apply(generatorAnnotation));
-        }
-        else {
-            generator=doCreateUnlimitedGenerator(generatorAnnotation, limitClosure.apply(generatorAnnotation));
+        if (limit.isLimited()) {
+            generator = doCreateLimitedGenerator(generatorAnnotation, limitClosure.apply(generatorAnnotation));
+        } else {
+            generator = doCreateUnlimitedGenerator(generatorAnnotation, limitClosure.apply(generatorAnnotation));
         }
 
         return generator.init();
@@ -58,19 +62,18 @@ public abstract class GeneratorFactoryBase<T,A extends Annotation> implements Ge
 
     /**
      * Creates an generator associated from {@code generatorAnnotation}.
-     *
+     * <p>
      * Either {@link #doCreateLimitedGenerator(java.lang.annotation.Annotation, Integer)} or
      * {@link #doCreateUnlimitedGenerator(java.lang.annotation.Annotation, Integer)} must be overridden.
-     *
+     * <p>
      * A good indicator which one to override is the default value for {@code Limit limit()} in the generator annotation.
      *
      * @param generatorAnnotation the generatorAnnotation
-     * @param limitClosure the limit evaluation closure in case of {@link Limit#LIMITED}.
-     *
+     * @param limitClosure        the limit evaluation closure in case of {@link Limit#LIMITED}.
      * @return the created (limited or unlimited) generator.
      */
-    protected final Generator<T> doCreateUniqueGenerator(A generatorAnnotation, Function<A, Integer> limitClosure) {
-        final int limitValue=limitClosure.apply(generatorAnnotation);
+    protected final TemplateObject doCreateUniqueGenerator(A generatorAnnotation, Function<A, Integer> limitClosure) {
+        final int limitValue = limitClosure.apply(generatorAnnotation);
         final GeneratorBase<T> generator = GeneratorDecorators.makeUnique(
                 doCreateUnlimitedGenerator(generatorAnnotation, limitValue),
                 limitValue
@@ -79,28 +82,14 @@ public abstract class GeneratorFactoryBase<T,A extends Annotation> implements Ge
         return generator.init();
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public final String resolveDataSetName(Annotation annotation) {
-        return doResolveDataSetName((A) annotation);
-    }
-
-    /**
-     * Actually an (type safe) implementation of {@link #resolveDataSetName(java.lang.annotation.Annotation)}.
-     * @param annotation the annotation.
-     * @return the name of the associated data set.
-     */
-    protected abstract String doResolveDataSetName(A annotation);
-
     /**
      * Create a limited generator. Override if the naturally implementation is limited.
      *
      * @param generatorAnnotation the generator annotation.
-     * @param limitValue limit value will be used by
-     *          {@link org.failearly.dataset.internal.generator.decorator.GeneratorDecorators#makeLimited(org.failearly.dataset.generator.support.UnlimitedGeneratorBase, int)}
-     *          in {@link #doCreateUnlimitedGenerator(java.lang.annotation.Annotation, Integer)}
+     * @param limitValue          limit value will be used by
+     *                            {@link org.failearly.dataset.internal.generator.decorator.GeneratorDecorators#makeLimited(org.failearly.dataset.generator.support.UnlimitedGeneratorBase, int)}
+     *                            in {@link #doCreateUnlimitedGenerator(java.lang.annotation.Annotation, Integer)}
      * @return an decorated limited generator of an unlimited generator.
-     *
      * @see org.failearly.dataset.internal.generator.decorator.GeneratorDecorators#makeLimited(org.failearly.dataset.generator.support.UnlimitedGeneratorBase, int)
      */
     protected LimitedGeneratorBase<T> doCreateLimitedGenerator(A generatorAnnotation, Integer limitValue) {
@@ -111,9 +100,8 @@ public abstract class GeneratorFactoryBase<T,A extends Annotation> implements Ge
      * Create an unlimited generator. Override if the naturally implementation is unlimited.
      *
      * @param generatorAnnotation the generator annotation.
-     * @param limitValue used by {@link #doCreateLimitedGenerator(java.lang.annotation.Annotation, Integer)}.
+     * @param limitValue          used by {@link #doCreateLimitedGenerator(java.lang.annotation.Annotation, Integer)}.
      * @return an decorated unlimited generator of the limited generator.
-     *
      * @see org.failearly.dataset.internal.generator.decorator.GeneratorDecorators#makeUnlimited(org.failearly.dataset.generator.support.GeneratorBase)
      */
     protected UnlimitedGeneratorBase<T> doCreateUnlimitedGenerator(A generatorAnnotation, Integer limitValue) {
@@ -122,6 +110,6 @@ public abstract class GeneratorFactoryBase<T,A extends Annotation> implements Ge
 
 
     protected static <A extends Annotation> Function<A, Integer> unlimited() {
-        return (a)->0;
+        return (a) -> 0;
     }
 }

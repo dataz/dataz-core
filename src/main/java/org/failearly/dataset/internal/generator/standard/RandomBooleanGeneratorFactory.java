@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,11 +18,11 @@
  */
 package org.failearly.dataset.internal.generator.standard;
 
-import org.failearly.dataset.generator.support.Generator;
 import org.failearly.dataset.generator.Limit;
 import org.failearly.dataset.generator.support.UnlimitedGeneratorBase;
 import org.failearly.dataset.generator.support.GeneratorFactoryBase;
 import org.failearly.dataset.generator.RandomBooleanGenerator;
+import org.failearly.dataset.template.TemplateObject;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -34,10 +34,11 @@ import java.util.Set;
  */
 public final class RandomBooleanGeneratorFactory extends GeneratorFactoryBase<Boolean,RandomBooleanGenerator> {
     public RandomBooleanGeneratorFactory() {
+        super(RandomBooleanGenerator.class);
     }
 
     @Override
-    public Generator<Boolean> create(RandomBooleanGenerator annotation) {
+    protected TemplateObject doCreate(RandomBooleanGenerator annotation) {
         return doCreateGenerator(annotation, Limit.UNLIMITED, unlimited());
     }
 
@@ -58,7 +59,7 @@ public final class RandomBooleanGeneratorFactory extends GeneratorFactoryBase<Bo
         private final Set<Integer> trueIntValues;
 
         private RandomBooleanGeneratorImpl(String name, String dataset, float percent, int seed) {
-            super(name, dataset);
+            super(dataset, name);
 
             assert 0<percent : "@RandomBooleanGenerator(name=" + name +"): percent <= 0. Only value between 0 and 100 are permitted.";
 

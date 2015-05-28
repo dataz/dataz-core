@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,15 +21,13 @@ package org.failearly.dataset.internal.generator.standard;
 
 import org.failearly.dataset.generator.ConstantGenerator;
 import org.failearly.dataset.generator.Limit;
-import org.failearly.dataset.internal.generator.GeneratorTestBase;
 import org.failearly.dataset.generator.support.Generator;
+import org.failearly.dataset.internal.generator.GeneratorTestBase;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.*;
 
 public class ConstantGeneratorFactoryTest extends GeneratorTestBase<String, ConstantGenerator, ConstantGeneratorFactory> {
 
@@ -42,7 +40,7 @@ public class ConstantGeneratorFactoryTest extends GeneratorTestBase<String, Cons
     @Test
     public void countZero() throws Exception {
         // arrange / given
-        final Generator<String> generator=createGenerator(TestFixture.class, 0);
+        final Generator<String> generator = createGenerator(TestFixture.class, 0);
 
         // assert / then
         Assert.assertThat("next()?", generator.next(), is(nullValue()));
@@ -52,7 +50,7 @@ public class ConstantGeneratorFactoryTest extends GeneratorTestBase<String, Cons
     @Test
     public void countOne() throws Exception {
         // arrange / given
-        final Generator<String> generator=createGenerator(TestFixture.class, 1);
+        final Generator<String> generator = createGenerator(TestFixture.class, 1);
 
         // assert / then
         Assert.assertThat("next()?", generator.next(), is(ANY_CONSTANT));
@@ -62,7 +60,7 @@ public class ConstantGeneratorFactoryTest extends GeneratorTestBase<String, Cons
     @Test
     public void countMultiple() throws Exception {
         // arrange / given
-        final Generator<String> generator=createGenerator(TestFixture.class, 2);
+        final Generator<String> generator = createGenerator(TestFixture.class, 2);
 
         // assert / then
         Assert.assertThat("next()?", generator.next(), is(ANY_CONSTANT));
@@ -72,7 +70,7 @@ public class ConstantGeneratorFactoryTest extends GeneratorTestBase<String, Cons
     @Test
     public void unlimited() throws Exception {
         // arrange / given
-        final Generator<String> generator=createGenerator(TestFixture.class, 3);
+        final Generator<String> generator = createGenerator(TestFixture.class, 3);
 
         // assert / then
         assertUnlimitedGenerator(generator);
@@ -87,5 +85,6 @@ public class ConstantGeneratorFactoryTest extends GeneratorTestBase<String, Cons
     @ConstantGenerator(name = "CG", dataset = "DS", constant = ANY_CONSTANT, count = 1, limit = Limit.LIMITED)
     @ConstantGenerator(name = "CG", dataset = "DS", constant = ANY_CONSTANT, count = 3, limit = Limit.LIMITED)
     @ConstantGenerator(name = "CG", dataset = "DS", constant = ANY_CONSTANT)
-    private static class TestFixture {}
+    private static class TestFixture {
+    }
 }

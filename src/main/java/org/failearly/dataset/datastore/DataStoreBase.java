@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,9 +22,9 @@ import org.apache.commons.lang.StringUtils;
 import org.failearly.dataset.DataStoreSetup;
 import org.failearly.dataset.config.Constants;
 import org.failearly.dataset.config.DataSetProperties;
-import org.failearly.dataset.internal.generator.resolver.GeneratorCreator;
 import org.failearly.dataset.internal.model.TestMethod;
 import org.failearly.dataset.internal.resource.ResourceType;
+import org.failearly.dataset.internal.template.TemplateObjects;
 import org.failearly.dataset.internal.util.ResourceUtils;
 import org.failearly.dataset.resource.DataResource;
 import org.failearly.dataset.resource.DataResourceBuilder;
@@ -136,10 +136,10 @@ public abstract class DataStoreBase extends AbstractDataStore {
     }
 
     @Override
-    public final void setupDataStore(List<DataStoreSetupInstance> dataStoreSetups, List<GeneratorCreator> generatorCreators) throws DataStoreInitializationException {
+    public final void setupDataStore(List<DataStoreSetupInstance> dataStoreSetups, TemplateObjects templateObjects) throws DataStoreInitializationException {
         dataStoreSetups.stream()
                 .filter(this::belongsToThisDataStore)
-                .forEach((dataStoreSetup) -> doCreateDataSetResources(dataStoreSetup, generatorCreators));
+                .forEach((dataStoreSetup) -> doCreateDataSetResources(dataStoreSetup, templateObjects));
         Collections.reverse(this.cleanupDataStoreResources);
     }
 
@@ -214,35 +214,35 @@ public abstract class DataStoreBase extends AbstractDataStore {
         }
     }
 
-    private void doCreateDataSetResources(DataStoreSetupInstance dataStoreSetup, List<GeneratorCreator> generatorCreators) {
-        applyDataStoreSetupResources(dataStoreSetup, generatorCreators);
-        addDataStoreCleanupResources(dataStoreSetup, generatorCreators);
+    private void doCreateDataSetResources(DataStoreSetupInstance dataStoreSetup, TemplateObjects templateObjects) {
+        applyDataStoreSetupResources(dataStoreSetup, templateObjects);
+        addDataStoreCleanupResources(dataStoreSetup, templateObjects);
     }
 
-    private void applyDataStoreSetupResources(DataStoreSetupInstance dataStoreSetup, List<GeneratorCreator> generatorCreators) {
-        doHandleDataStoreSetupResources(ResourceType.SETUP, dataStoreSetup, generatorCreators, dataStoreSetup.setup(), this::doApplyResource);
+    private void applyDataStoreSetupResources(DataStoreSetupInstance dataStoreSetup, TemplateObjects templateObjects) {
+        doHandleDataStoreSetupResources(ResourceType.SETUP, dataStoreSetup, templateObjects, dataStoreSetup.setup(), this::doApplyResource);
     }
 
-    private void addDataStoreCleanupResources(DataStoreSetupInstance dataStoreSetup, List<GeneratorCreator> generatorCreators) {
-        doHandleDataStoreSetupResources(ResourceType.CLEANUP, dataStoreSetup, generatorCreators, dataStoreSetup.cleanup(), cleanupDataStoreResources::add);
+    private void addDataStoreCleanupResources(DataStoreSetupInstance dataStoreSetup, TemplateObjects templateObjects) {
+        doHandleDataStoreSetupResources(ResourceType.CLEANUP, dataStoreSetup, templateObjects, dataStoreSetup.cleanup(), cleanupDataStoreResources::add);
     }
 
     private static void doHandleDataStoreSetupResources(
             ResourceType resourceType,
             DataStoreSetupInstance dataStoreSetupInstance,
-            List<GeneratorCreator> generatorCreators,
+            TemplateObjects templateObjects,
             String[] resourceNames,
             Consumer<DataResource> dataResourceConsumer) {
         for (String resourceName : resourceNames) {
 
-            dataResourceConsumer.accept(createDataResourceFromDataStoreSetup(resourceType, dataStoreSetupInstance, generatorCreators, resourceName));
+            dataResourceConsumer.accept(createDataResourceFromDataStoreSetup(resourceType, dataStoreSetupInstance, templateObjects, resourceName));
         }
     }
 
     private static DataResource createDataResourceFromDataStoreSetup( //
             ResourceType resourceType,                                //
             DataStoreSetupInstance dataStoreSetupInstance,            //
-            List<GeneratorCreator> generatorCreators,                 //
+            TemplateObjects templateObjects,                 //
             String resourceName) {
         final DataStoreSetup dataStoreSetup = dataStoreSetupInstance.getAnnotation();
         String dataSetName = dataStoreSetup.name();
@@ -256,7 +256,7 @@ public abstract class DataStoreBase extends AbstractDataStore {
                     .withResourceName(resourceName) //
                     .withFailOnError(dataStoreSetup.failOnError()) //
                     .withTransactional(dataStoreSetup.transactional()) //
-                    .withGeneratorCreators(generatorCreators) //
+                    .withTemplateObjects(templateObjects) //
                 .build();
     }
 

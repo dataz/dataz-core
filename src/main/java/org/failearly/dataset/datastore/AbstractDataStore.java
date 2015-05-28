@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
  */
 package org.failearly.dataset.datastore;
 
-import org.failearly.dataset.internal.generator.resolver.GeneratorCreator;
 import org.failearly.dataset.internal.model.TestMethod;
+import org.failearly.dataset.internal.template.TemplateObjects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -64,7 +64,7 @@ public abstract class AbstractDataStore implements DataStore {
     }
 
     @Override
-    public void setupDataStore(List<DataStoreSetupInstance> dataStoreSetups, List<GeneratorCreator> generatorCreators) {
+    public void setupDataStore(List<DataStoreSetupInstance> dataStoreSetups, TemplateObjects templateObjects) {
         LOGGER.error("setupDataStore() not implemented");
         throw new UnsupportedOperationException("setupDataStore() not implemented");
     }

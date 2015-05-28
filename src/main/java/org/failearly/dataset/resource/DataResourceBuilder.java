@@ -16,14 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
 package org.failearly.dataset.resource;
 
-import org.failearly.dataset.internal.generator.resolver.GeneratorCreator;
 import org.failearly.dataset.internal.resource.DataResourceFactory;
 import org.failearly.dataset.internal.resource.ResourceType;
+import org.failearly.dataset.internal.template.TemplateObjects;
 import org.failearly.dataset.internal.util.BuilderBase;
-
-import java.util.List;
 
 /**
  * DataResourceFactory is responsible for ...
@@ -31,7 +30,7 @@ import java.util.List;
 public final class DataResourceBuilder extends BuilderBase<DataResource> {
     private final DataResourceValues.Builder dataResourceValueBuilder;
     private Boolean mandatory;
-    private List<GeneratorCreator> generatorCreators;
+    private TemplateObjects templateObjects;
 
     private DataResourceBuilder(Class<?> testClass) {
         dataResourceValueBuilder = DataResourceValues.builder(testClass);
@@ -39,15 +38,16 @@ public final class DataResourceBuilder extends BuilderBase<DataResource> {
 
     /**
      * Creates a new {@link org.failearly.dataset.resource.DataResource} builder.
+     *
      * @param testClass a test class
      * @return a newInstance instance.
      */
-    public static DataResourceBuilder createBuilder(Class<?> testClass)  {
+    public static DataResourceBuilder createBuilder(Class<?> testClass) {
         return new DataResourceBuilder(testClass);
     }
 
     public DataResourceBuilder withResourceType(ResourceType resourceType) {
-        return resourceType==ResourceType.SETUP ? this.mandatory() : this.optional();
+        return resourceType == ResourceType.SETUP ? this.mandatory() : this.optional();
     }
 
     public DataResourceBuilder mandatory() {
@@ -60,8 +60,8 @@ public final class DataResourceBuilder extends BuilderBase<DataResource> {
         return this;
     }
 
-    public DataResourceBuilder withGeneratorCreators(List<GeneratorCreator> generatorCreators) {
-        this.generatorCreators = generatorCreators;
+    public DataResourceBuilder withTemplateObjects(TemplateObjects templateObjects) {
+        this.templateObjects = templateObjects;
         return this;
     }
 
@@ -98,29 +98,28 @@ public final class DataResourceBuilder extends BuilderBase<DataResource> {
     @Override
     protected DataResource doBuild() {
         final DataResource dataResource;
-        final DataResourceValues dataResourceValues= dataResourceValueBuilder.build();
-        if( dataResourceValues.doesResourceExists() ) {
-            if( dataResourceValues.isTemplateResource() ) {
-                dataResource = DataResourceFactory.createTemplateInstance(dataResourceValues, generatorCreators);
-            }
-            else {
+        final DataResourceValues dataResourceValues = dataResourceValueBuilder.build();
+        if (dataResourceValues.doesResourceExists()) {
+            if (dataResourceValues.isTemplateResource()) {
+                dataResource = DataResourceFactory.createTemplateInstance(dataResourceValues);
+            } else {
                 dataResource = DataResourceFactory.createStandardInstance(dataResourceValues);
             }
+        } else if (mandatory) {
+            dataResource = DataResourceFactory.createMissingResourceInstance(dataResourceValues);
+        } else {
+            dataResource = DataResourceFactory.createIgnoringInstance(dataResourceValues);
         }
-        else if( mandatory ) {
-            dataResource=DataResourceFactory.createMissingResourceInstance(dataResourceValues);
-        }
-        else {
-            dataResource=DataResourceFactory.createIgnoringInstance(dataResourceValues);
-        }
+
+        dataResource.generate(templateObjects);
 
         return dataResource;
     }
 
     @Override
     protected void checkMandatoryFields() {
-        checkMandatoryField(this.mandatory,"mandatory/optional");
-        checkMandatoryField(this.generatorCreators,"generatorCreators");
+        checkMandatoryField(this.mandatory, "mandatory/optional");
+        checkMandatoryField(this.templateObjects, "templateObjects");
     }
 
 }

@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,8 +19,8 @@
 
 package org.failearly.dataset.internal.annotation.invoker;
 
-import org.failearly.dataset.internal.annotation.AnnotationWithMetaAnnotation;
-import org.failearly.dataset.internal.annotation.NoMetaAnnotation;
+import org.failearly.dataset.internal.annotation.meta.UsingMetaAnnotation;
+import org.failearly.dataset.internal.annotation.AnyOtherAnnotation;
 import org.failearly.dataset.test.TestUtils;
 import org.junit.Test;
 
@@ -43,10 +43,10 @@ public class AnnotationElementResolverTest {
                                 String.class, "name");
 
         // assert / then
-        assertThat("MyAnnotation.name() exists?", resolver.hasElement(getAnnotation(AnnotationWithMetaAnnotation.class)), is(true));
-        assertThat("MyAnnotation.name() returns?", resolver.resolveElementValue(getAnnotation(AnnotationWithMetaAnnotation.class)), is("MyAnnotation"));
-        assertThat("OtherAnnotation.name() exists?", resolver.hasElement(getAnnotation(NoMetaAnnotation.class)), is(true));
-        assertThat("OtherAnnotation.name() returns?", resolver.resolveElementValue(getAnnotation(NoMetaAnnotation.class)), is("Other"));
+        assertThat("MyAnnotation.name() exists?", resolver.hasElement(getAnnotation(UsingMetaAnnotation.class)), is(true));
+        assertThat("MyAnnotation.name() returns?", resolver.resolveElementValue(getAnnotation(UsingMetaAnnotation.class)), is("MyAnnotation"));
+        assertThat("OtherAnnotation.name() exists?", resolver.hasElement(getAnnotation(AnyOtherAnnotation.class)), is(true));
+        assertThat("OtherAnnotation.name() returns?", resolver.resolveElementValue(getAnnotation(AnyOtherAnnotation.class)), is("Other"));
         assertThat("NameArrayAnnotation.name() has wrong type?", resolver.hasElement(getAnnotation(NameArrayAnnotation.class)), is(false));
         TestUtils.assertException(RuntimeException.class,
                 "Invoke name() failed",
@@ -100,8 +100,8 @@ public class AnnotationElementResolverTest {
         return false;
     }
 
-    @AnnotationWithMetaAnnotation(name = "MyAnnotation")
-    @NoMetaAnnotation(name="Other")
+    @UsingMetaAnnotation(name = "MyAnnotation")
+    @AnyOtherAnnotation(name="Other")
     @NameArrayAnnotation
     @NameArrayAnnotations
     static class TestFixture {

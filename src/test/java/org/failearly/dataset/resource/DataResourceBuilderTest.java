@@ -20,12 +20,10 @@
 package org.failearly.dataset.resource;
 
 import org.failearly.dataset.config.Constants;
-import org.failearly.dataset.internal.generator.resolver.GeneratorCreator;
+import org.failearly.dataset.internal.template.TemplateObjects;
+import org.failearly.dataset.internal.template.TemplateObjectsTestHelper;
 import org.failearly.dataset.test.TestUtils;
 import org.junit.Test;
-
-import java.util.Collections;
-import java.util.List;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
@@ -36,14 +34,14 @@ import static org.junit.Assert.assertThat;
  */
 public class DataResourceBuilderTest {
 
-    private static final List<GeneratorCreator> NO_GENERATOR_CREATORS = Collections.emptyList();
+    private static TemplateObjects NO_TEMPLATE_OBJECTS = TemplateObjectsTestHelper.noTemplateObjects();
 
     @Test
     public void all_mandatory_fields_set__should_build_an_instance() throws Exception {
         // act / when
         final DataResource dataResource = DataResourceBuilder.createBuilder(ATestClass.class) //
                 .optional()                                                             //
-                .withGeneratorCreators(NO_GENERATOR_CREATORS)                           //
+                .withTemplateObjects(NO_TEMPLATE_OBJECTS)                           //
                 .withDataSetName("DS")                                                  //
                 .withDataStoreId(Constants.DATASET_DEFAULT_DATASTORE_ID)                //
                 .withResourceName("/any-resource-name.setup")                           //
@@ -58,7 +56,7 @@ public class DataResourceBuilderTest {
         // act / when
         final DataResource dataResource = DataResourceBuilder.createBuilder(ATestClass.class) //
                 .optional()                                                             //
-                .withGeneratorCreators(NO_GENERATOR_CREATORS)                                      //
+                .withTemplateObjects(NO_TEMPLATE_OBJECTS)                                      //
                 .withDataSetName("DS")                                                  //
                 .withDataStoreId(Constants.DATASET_DEFAULT_DATASTORE_ID)                //
                 .withResourceName("/not-existing-resource.setup")                           //
@@ -73,7 +71,7 @@ public class DataResourceBuilderTest {
         // act / when
         final DataResource dataResource = DataResourceBuilder.createBuilder(ATestClass.class) //
                 .mandatory()                                                             //
-                .withGeneratorCreators(NO_GENERATOR_CREATORS)                                      //
+                .withTemplateObjects(NO_TEMPLATE_OBJECTS)                                      //
                 .withDataSetName("DS")                                                  //
                 .withDataStoreId(Constants.DATASET_DEFAULT_DATASTORE_ID)                //
                 .withResourceName("/not-existing-resource.setup")                           //
@@ -88,7 +86,7 @@ public class DataResourceBuilderTest {
         // act / when
         final DataResource dataResource = DataResourceBuilder.createBuilder(ATestClass.class) //
                 .optional()                                                             //
-                .withGeneratorCreators(NO_GENERATOR_CREATORS)                                      //
+                .withTemplateObjects(NO_TEMPLATE_OBJECTS)                                      //
                 .withDataSetName("DS")                                                  //
                 .withDataStoreId(Constants.DATASET_DEFAULT_DATASTORE_ID)                //
                 .withResourceName("/any-existing-resource.setup")                        //
@@ -103,7 +101,7 @@ public class DataResourceBuilderTest {
         // act / when
         final DataResource dataResource = DataResourceBuilder.createBuilder(ATestClass.class) //
                 .optional()                                                             //
-                .withGeneratorCreators(NO_GENERATOR_CREATORS)                           //
+                .withTemplateObjects(NO_TEMPLATE_OBJECTS)                           //
                 .withDataSetName("DS")                                                  //
                 .withDataStoreId(Constants.DATASET_DEFAULT_DATASTORE_ID)                //
                 .withResourceName("/any-existing-resource.setup.vm")                    //
@@ -124,12 +122,12 @@ public class DataResourceBuilderTest {
         );
         TestUtils.assertException( //
                 IllegalStateException.class, //
-                "DataResourceBuilder: Mandatory field 'generatorCreators' missing (must not be null)!", //
+                "DataResourceBuilder: Mandatory field 'templateObjects' missing (must not be null)!", //
                 () -> DataResourceBuilder.createBuilder(ATestClass.class).optional().build() //
         );
         TestUtils.assertException( //
                 IllegalStateException.class, //
-                "DataResourceBuilder: Mandatory field 'generatorCreators' missing (must not be null)!", //
+                "DataResourceBuilder: Mandatory field 'templateObjects' missing (must not be null)!", //
                 () -> DataResourceBuilder.createBuilder(ATestClass.class).mandatory().build() //
         );
 
@@ -138,7 +136,7 @@ public class DataResourceBuilderTest {
                 "Builder: Mandatory field 'dataSetName' missing (must not be null)!", //
                 () -> DataResourceBuilder.createBuilder(ATestClass.class)  //
                         .optional()                                  //
-                        .withGeneratorCreators(NO_GENERATOR_CREATORS)           //
+                        .withTemplateObjects(NO_TEMPLATE_OBJECTS)           //
                         .build() //
         );
         TestUtils.assertException( //
@@ -146,7 +144,7 @@ public class DataResourceBuilderTest {
                 "Builder: Mandatory field 'dataStoreId' missing (must not be null)!", //
                 () -> DataResourceBuilder.createBuilder(ATestClass.class)  //
                         .optional()                                  //
-                        .withGeneratorCreators(NO_GENERATOR_CREATORS)           //
+                        .withTemplateObjects(NO_TEMPLATE_OBJECTS)           //
                         .withDataSetName("DS")                       //
                         .build() //
         );
@@ -155,7 +153,7 @@ public class DataResourceBuilderTest {
                 "Builder: Mandatory field 'resourceName' missing (must not be null)!", //
                 () -> DataResourceBuilder.createBuilder(ATestClass.class)  //
                         .optional()                                  //
-                        .withGeneratorCreators(NO_GENERATOR_CREATORS)           //
+                        .withTemplateObjects(NO_TEMPLATE_OBJECTS)           //
                         .withDataSetName("DataSetName")              //
                         .withDataStoreId("DataStoreId")              //
                         .build() //

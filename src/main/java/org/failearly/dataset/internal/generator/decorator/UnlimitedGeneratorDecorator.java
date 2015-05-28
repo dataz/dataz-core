@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,12 +26,12 @@ import java.util.Iterator;
 /**
  * Decorates a limited generator with unlimited behaviour.
  */
-class UnlimitedGeneratorDecorator<T> extends UnlimitedGeneratorBase<T> {
+final class UnlimitedGeneratorDecorator<T> extends UnlimitedGeneratorBase<T> {
 
     private final GeneratorBase<T> generator;
 
     UnlimitedGeneratorDecorator(GeneratorBase<T> generator) {
-        super(generator.name(), generator.dataset());
+        super(generator.dataset(), generator.name());
         this.generator = generator;
     }
 

@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,52 +18,58 @@
  */
 package org.failearly.dataset.internal.resource;
 
-import org.failearly.dataset.internal.generator.resolver.GeneratorCreator;
+import org.failearly.dataset.exception.DataSetException;
 import org.failearly.dataset.internal.template.TemplateEngines;
+import org.failearly.dataset.internal.template.TemplateObjects;
 import org.failearly.dataset.internal.util.IOUtils;
 import org.failearly.dataset.internal.util.ResourceUtils;
 import org.failearly.dataset.resource.DataResourceValues;
 import org.failearly.dataset.template.TemplateEngine;
-import org.junit.Assert;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 
 /**
  * TemplateDataSetResource uses the {@code resourceName} as template, so the {@link org.failearly.dataset.template.TemplateEngine}
  * creates the actually (target) resource.
  *
  * @see org.failearly.dataset.template.TemplateEngine
- * @see org.failearly.dataset.generator.support.Generator
+ * @see org.failearly.dataset.template.TemplateObject
  */
 final class TemplateDataResource extends DataResourceBase {
     private final Class<?> testClass;
     private final TemplateEngine templateEngine;
+    private File generatedFile;
 
-    TemplateDataResource(DataResourceValues dataResourceValues, List<GeneratorCreator> generatorCreators) {
+    TemplateDataResource(DataResourceValues dataResourceValues) {
         super(dataResourceValues);
         this.testClass = dataResourceValues.getTestClass();
-        this.templateEngine = TemplateEngines.createTemplateEngine(
-                dataResourceValues.getDataSetName(),
-                dataResourceValues.getResource(),
-                generatorCreators
-        );
+        this.templateEngine = TemplateEngines.createTemplateEngine();
     }
 
     @Override
-    public InputStream open() {
+    public void generate(TemplateObjects templateObjects) throws DataResourceProcessingException {
         try {
-            return IOUtils.autoClose(
-                        this.templateEngine.mergeToInputStream(
-                            ResourceUtils.openResource(this.testClass, getResource())
-                        )
-                    );
+            this.generatedFile = this.templateEngine.generate(
+                    ResourceUtils.openResource(this.testClass, getResource()),
+                    getResource(),
+                    templateObjects.filterByDataSet(getDataSetName())
+            );
         } catch (IOException e) {
             logger.error("Can't open/process template '{}'. Reason: {}!", getResource(), e.getMessage());
-            Assert.fail("Can't open/process template resource '" + getResource() + "'.");
+            throw new DataResourceProcessingException(getResource(), e);
         }
+    }
 
-        return IOUtils.nullInputStream();
+    @Override
+    public InputStream open() throws DataSetException {
+        try {
+            return IOUtils.autoClose(new FileInputStream(generatedFile));
+        } catch (IOException e) {
+            logger.error("Can't open file '{}'. Reason: {}!", generatedFile, e.getMessage());
+            throw new DataResourceProcessingException(generatedFile.getAbsolutePath(), e);
+        }
     }
 }

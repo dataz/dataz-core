@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,13 +19,9 @@
 package org.failearly.dataset.internal.template;
 
 import org.failearly.dataset.config.DataSetProperties;
-import org.failearly.dataset.internal.generator.resolver.GeneratorCreator;
-import org.failearly.dataset.util.ClassUtils;
+import org.failearly.dataset.util.ObjectCreator;
 import org.failearly.dataset.template.TemplateEngine;
 import org.failearly.dataset.template.TemplateEngineFactory;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * TemplateEngines provides a single factory method for TemplateEngines.
@@ -37,23 +33,15 @@ public final class TemplateEngines {
 
     /**
      * Creates a template engine using {@link org.failearly.dataset.config.DataSetProperties#getTemplateEngineFactoryClass()}.
-     * @param dataset the data set
-     * @param fullQualifiedResourceTemplate the resource name
-     * @param generatorCreators all {@link org.failearly.dataset.internal.generator.resolver.GeneratorCreator}s.
      * @return a template engine.
      */
-    public static TemplateEngine createTemplateEngine(String dataset, String fullQualifiedResourceTemplate, List<GeneratorCreator> generatorCreators) {
+    public static TemplateEngine createTemplateEngine() {
         final TemplateEngineFactory factory=resolveTemplateEngineFactory();
-        return factory.createTemplateEngine(fullQualifiedResourceTemplate, filterDataSetAssociatedGenerators(dataset, generatorCreators));
+        return factory.createTemplateEngine();
     }
 
     private static TemplateEngineFactory resolveTemplateEngineFactory() {
         final String factoryClass=DataSetProperties.getTemplateEngineFactoryClass();
-        return ClassUtils.createInstance(TemplateEngineFactory.class, factoryClass);
+        return ObjectCreator.createInstance(TemplateEngineFactory.class, factoryClass);
     }
-
-    private static List<GeneratorCreator> filterDataSetAssociatedGenerators(String dataSet, List<GeneratorCreator> generatorCreators) {
-        return generatorCreators.stream().filter(gc->dataSet.equals(gc.dataSet())).collect(Collectors.toList());
-    }
-
 }

@@ -16,9 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
 package org.failearly.dataset.resource;
 
-import org.failearly.dataset.internal.generator.resolver.GeneratorCreator;
+import org.failearly.dataset.internal.template.TemplateObjects;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -36,8 +37,8 @@ public abstract class TypedDataResourcesFactory<T extends Annotation> implements
     }
 
     @Override
-    public final List<DataResource> createDataResources(Class<?> annotatedClass, Annotation annotation, List<GeneratorCreator> generatorCreators) {
-        return doCreateDataResourcesFromTestClass(annotatedClass, annotationClass.cast(annotation), generatorCreators);
+    public final List<DataResource> createDataResources(Class<?> annotatedClass, Annotation annotation, TemplateObjects templateObjects) {
+        return doCreateDataResourcesFromTestClass(annotatedClass, annotationClass.cast(annotation), templateObjects);
     }
 
     /**
@@ -45,14 +46,14 @@ public abstract class TypedDataResourcesFactory<T extends Annotation> implements
      *
      * @param testClass         the test class
      * @param annotation        the annotation
-     * @param generatorCreators all known generator (creator)s.
+     * @param templateObjects   all template objects.
      * @return a list with all DataResource
      */
-    protected abstract List<DataResource> doCreateDataResourcesFromTestClass(Class<?> testClass, T annotation, List<GeneratorCreator> generatorCreators);
+    protected abstract List<DataResource> doCreateDataResourcesFromTestClass(Class<?> testClass, T annotation, TemplateObjects templateObjects);
 
     @Override
-    public final List<DataResource> createDataResources(Method annotatedMethod, Annotation annotation, List<GeneratorCreator> generatorCreators) {
-        return doCreateDataResourcesFromTestMethod(annotatedMethod, annotationClass.cast(annotation), generatorCreators);
+    public final List<DataResource> createDataResources(Method annotatedMethod, Annotation annotation, TemplateObjects templateObjects) {
+        return doCreateDataResourcesFromTestMethod(annotatedMethod, annotationClass.cast(annotation), templateObjects);
     }
 
     /**
@@ -60,8 +61,8 @@ public abstract class TypedDataResourcesFactory<T extends Annotation> implements
      *
      * @param testMethod        the test method
      * @param annotation        the annotation
-     * @param generatorCreators all known generator (creator)s.
+     * @param templateObjects   all template objects.
      * @return a list with all DataResource
      */
-    protected abstract List<DataResource> doCreateDataResourcesFromTestMethod(Method testMethod, T annotation, List<GeneratorCreator> generatorCreators);
+    protected abstract List<DataResource> doCreateDataResourcesFromTestMethod(Method testMethod, T annotation, TemplateObjects templateObjects);
 }

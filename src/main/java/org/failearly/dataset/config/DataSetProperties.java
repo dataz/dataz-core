@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,7 +20,6 @@
 package org.failearly.dataset.config;
 
 import org.apache.commons.lang.StringUtils;
-import org.failearly.dataset.internal.annotation.TraverseStrategy;
 import org.failearly.dataset.util.ExtendedProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -124,18 +123,6 @@ public final class DataSetProperties implements Constants {
      */
     public static String getTemplateEngineFactoryClass() {
         return properties.getTemplateEngineFactoryClass();
-    }
-
-    /**
-     * @return the {@link org.failearly.dataset.internal.annotation.TraverseStrategy} for generator annotation resolving using property
-     * {@value #DATASET_GENERATOR_TRAVERSING_STRATEGY}.
-     * @see #DATASET_GENERATOR_TRAVERSING_STRATEGY
-     * @see org.failearly.dataset.internal.generator.resolver.GeneratorResolver
-     * @see org.failearly.dataset.internal.annotation.AnnotationTraversers
-     * @see org.failearly.dataset.internal.annotation.TraverseStrategy
-     */
-    public static TraverseStrategy getGeneratorTraversingStrategy() {
-        return properties.getGeneratorTraversingStrategy();
     }
 
     /**
@@ -320,15 +307,11 @@ public final class DataSetProperties implements Constants {
             return Boolean.parseBoolean(properties.getProperty(Constants.DATASET_PROPERTY_DROP_TEMP_FILE, "true"));
         }
 
-        TraverseStrategy getGeneratorTraversingStrategy() {
-            final String propertyValue = getProperty(DATASET_GENERATOR_TRAVERSING_STRATEGY, TraverseStrategy.TOP_DOWN.name());
-            return TraverseStrategy.valueOf(propertyValue);
-        }
-
         String getProperty(String key) {
             return properties.getProperty(key);
         }
 
+        @SuppressWarnings("unused")
         String getProperty(String key, String defaultValue) {
             final String value = properties.getProperty(key, defaultValue);
             LOGGER.info("Property {}='{}'",key, value);

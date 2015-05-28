@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,16 +26,15 @@
  *    <li>{@code dataset()}: A generator must be associated to a specific {@link org.failearly.dataset.DataSet#name()}.</li>
  * </ul>
  * <br><br>
- * Steps to newInstance your own Generator:
+ * Steps to create your own Generator:
  * <ol>
- *    <li>Creating a generator annotation. (Take a look at {@link org.failearly.dataset.generator.ConstantGenerator}.)</li>
- *    <li>Supply a {@link org.failearly.dataset.generator.support.GeneratorFactory} implementation.</li>
- *    <li>And last but not at least a {@link org.failearly.dataset.generator.support.Generator} implementation.</li>
+ *    <li>Creating a generator annotation. (For example: Take a look at {@link org.failearly.dataset.generator.ConstantGenerator}.)</li>
+ *    <li>Override {@link org.failearly.dataset.generator.support.GeneratorFactoryBase}.</li>
+ *    <li>And last but not at least a {@link org.failearly.dataset.generator.support.GeneratorBase} implementation.</li>
  * </ol>
  * For that purpose dataSet provides following base or utility classes:<br>
  * <ul>
- *    <li>{@link org.failearly.dataset.generator.support.GeneratorFactoryBase}. You should extend your
- *    {@link org.failearly.dataset.generator.support.GeneratorFactory} implementation from this base class.</li>
+ *    <li>{@link org.failearly.dataset.generator.support.GeneratorFactoryBase}. You should extend your implementation from this base class.</li>
  *    <li>Typically you override either
  *    {@link org.failearly.dataset.generator.support.GeneratorFactoryBase#doCreateLimitedGenerator(java.lang.annotation.Annotation, Integer)} or
  *    {@link org.failearly.dataset.generator.support.GeneratorFactoryBase#doCreateLimitedGenerator(java.lang.annotation.Annotation, Integer)}.
@@ -47,6 +46,6 @@
  * </ul>
  *
  * @see org.failearly.dataset.generator.support.Generator
- * @see org.failearly.dataset.generator.support.GeneratorFactory
+ * @see org.failearly.dataset.generator.support.GeneratorFactoryBase
  */
 package org.failearly.dataset.generator.support;

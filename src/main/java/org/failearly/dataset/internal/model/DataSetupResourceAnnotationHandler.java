@@ -16,13 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
 package org.failearly.dataset.internal.model;
 
-import org.failearly.dataset.internal.generator.resolver.GeneratorCreator;
+import org.failearly.dataset.internal.template.TemplateObjects;
 import org.failearly.dataset.resource.DataResource;
 import org.failearly.dataset.resource.DataResourcesFactory;
 import org.failearly.dataset.annotations.DataSetupResourceFactoryDefinition;
-import org.failearly.dataset.util.ClassUtils;
+import org.failearly.dataset.util.ObjectCreator;
 
 import java.util.List;
 
@@ -32,12 +33,12 @@ import java.util.List;
 */
 final class DataSetupResourceAnnotationHandler extends DataResourceAnnotationHandlerBase<DataSetupResourceFactoryDefinition> {
 
-    DataSetupResourceAnnotationHandler(List<DataResource> dataResourceList, List<GeneratorCreator> generatorCreators) {
+    DataSetupResourceAnnotationHandler(List<DataResource> dataResourceList, TemplateObjects generatorCreators) {
         super(DataSetupResourceFactoryDefinition.class, generatorCreators, dataResourceList);
     }
 
     @Override
     protected DataResourcesFactory createDataResourceFactory(DataSetupResourceFactoryDefinition metaAnnotation) {
-        return ClassUtils.createInstance(metaAnnotation.factory());
+        return ObjectCreator.createInstance(metaAnnotation.factory());
     }
 }

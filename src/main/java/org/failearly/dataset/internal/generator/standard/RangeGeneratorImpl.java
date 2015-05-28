@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,15 +35,15 @@ public final class RangeGeneratorImpl extends LimitedGeneratorBase<Integer> {
     private final int end;
 
     RangeGeneratorImpl(RangeGenerator rangeGenerator) {
-        this(rangeGenerator.name(), rangeGenerator.dataset(), rangeGenerator.start(), rangeGenerator.end());
+        this(rangeGenerator.dataset(), rangeGenerator.name(), rangeGenerator.start(), rangeGenerator.end());
     }
 
     RangeGeneratorImpl(LoopGenerator rangeGenerator) {
-        this(rangeGenerator.name(), rangeGenerator.dataset(), 1, rangeGenerator.size());
+        this(rangeGenerator.dataset(), rangeGenerator.name(), 1, rangeGenerator.size());
     }
 
-    private RangeGeneratorImpl(String name, String dataset, int start, int end) {
-        super(name, dataset);
+    private RangeGeneratorImpl(String dataset, String name, int start, int end) {
+        super(dataset, name);
 
         this.start = start;
         this.end = end;

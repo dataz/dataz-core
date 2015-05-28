@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,6 +19,8 @@
 package org.failearly.dataset.config;
 
 import org.failearly.dataset.DataSet;
+import org.failearly.dataset.internal.annotation.TraverseDepth;
+import org.failearly.dataset.internal.annotation.TraverseStrategy;
 
 /**
  * DataSetConstants contains the name and position of property files and the property keys used by DataSet.
@@ -157,15 +159,17 @@ public interface Constants {
     String DATASET_PROPERTY_DATASTORE_TYPE_CLASS_NAME = "dataset.default.datastore.type.class";
 
     /**
-     * Defines the used strategy for resolving {@link org.failearly.dataset.generator.support.Generator} annotations. Currently possible values are:<br><br>
+     * Defines the used depth for resolving {@link org.failearly.dataset.template.TemplateObject} annotations. Currently possible values are:<br><br>
      * <ul>
-     * <li>BOTTOM_UP</li>
-     * <li>TOP_DOWN (default)</li>
+     * <li>{@link org.failearly.dataset.internal.annotation.TraverseDepth#CLASS_HIERARCHY}</li>
+     * <li>{@link org.failearly.dataset.internal.annotation.TraverseDepth#DECLARING_CLASS} (default)</li>
+     * <li>{@link org.failearly.dataset.internal.annotation.TraverseDepth#METHOD_ONLY}</li>
      * </ul>
      *
-     * @see org.failearly.dataset.internal.annotation.TraverseStrategy
+     * @see org.failearly.dataset.internal.annotation.TraverseDepth
+     * @see org.failearly.dataset.internal.annotation.AnnotationTraversers#createMetaAnnotationTraverser(Class, TraverseStrategy, TraverseDepth)
      */
-    String DATASET_GENERATOR_TRAVERSING_STRATEGY = "dataset.generator.traversing.strategy";
+    String DATASET_TEMPLATE_OBJECT_TRAVERSING_DEPTH = "dataset.template.object.traversing.depth";
 
     /**
      * Used by {@link org.failearly.dataset.DataStoreDefinition#setupSuffix()} and

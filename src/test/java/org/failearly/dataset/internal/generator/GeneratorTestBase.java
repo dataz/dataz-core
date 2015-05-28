@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,9 +20,9 @@ package org.failearly.dataset.internal.generator;
 
 import org.apache.commons.collections4.IteratorUtils;
 import org.failearly.dataset.generator.support.Generator;
-import org.failearly.dataset.generator.support.GeneratorFactoryDefinition;
+import org.failearly.dataset.generator.support.GeneratorFactoryBase;
+import org.failearly.dataset.template.TemplateObjectFactoryDefinition;
 import org.failearly.dataset.generator.support.UnlimitedGenerator;
-import org.failearly.dataset.generator.support.GeneratorFactory;
 import org.failearly.dataset.test.TestUtils;
 import org.junit.Test;
 
@@ -35,9 +35,13 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * AbstractGeneratorTest provides some basic tests for any generator implementation and some utility methods.
+ * GeneratorTestBase provides some basic tests for any generator implementation and some utility methods.
+ *
+ * @param <T> target type of the generator (see {@link Generator#next()}).
+ * @param <GA> the generator annotation
+ * @param <GF> the generator factory implementation class
  */
-public abstract class GeneratorTestBase<T, GA extends Annotation, GF extends GeneratorFactory<T, GA>> {
+public abstract class GeneratorTestBase<T, GA extends Annotation, GF extends GeneratorFactoryBase<T, GA>> {
     private final Class<GF> generatorFactoryClass;
     private final Class<GA> generatorAnnotationClass;
     private GA annotationInstance;
@@ -50,7 +54,7 @@ public abstract class GeneratorTestBase<T, GA extends Annotation, GF extends Gen
 
     @Test
     public final void testNameAndDataset() throws Exception {
-        final Generator generator = defaultGenerator();
+        final Generator<T> generator = defaultGenerator();
         assertThat("generator name?", generator.name(), is(expectedGeneratorName()));
         assertThat("generator dataset?", generator.dataset(), is(expectedDataSetName()));
     }
@@ -58,12 +62,12 @@ public abstract class GeneratorTestBase<T, GA extends Annotation, GF extends Gen
     @SuppressWarnings("ConstantConditions")
     @Test
     public void testGeneratorDefinition() throws Exception {
-        assertThat("Annotation class has correct Meta Annotation?", generatorAnnotationClass.isAnnotationPresent(GeneratorFactoryDefinition.class), is(true));
-        assertThat("Annotation class has correct GeneratorFactoryDefinition#generatorFactory?",
-                generatorAnnotationClass.getDeclaredAnnotation(GeneratorFactoryDefinition.class).generatorFactory().getName(), is(generatorFactoryClass.getName()));
+        assertThat("Annotation class has correct Meta Annotation?", generatorAnnotationClass.isAnnotationPresent(TemplateObjectFactoryDefinition.class), is(true));
+        assertThat("Annotation class has correct GeneratorFactoryDefinition#factory?",
+                generatorAnnotationClass.getDeclaredAnnotation(TemplateObjectFactoryDefinition.class).factory().getName(), is(generatorFactoryClass.getName()));
     }
 
-    protected abstract Generator defaultGenerator() throws Exception;
+    protected abstract Generator<T> defaultGenerator() throws Exception;
 
     protected List<T> asList(Generator<T> generator) {
         return IteratorUtils.toList(generator.iterator());
@@ -80,7 +84,8 @@ public abstract class GeneratorTestBase<T, GA extends Annotation, GF extends Gen
     private Generator<T> createGenerator(GA annotation) throws Exception {
         final GF generatorFactory = generatorFactoryClass.newInstance();
 
-        return generatorFactory.create(annotation);
+        //noinspection unchecked
+        return (Generator<T>) generatorFactory.create(annotation);
     }
 
     /**
@@ -110,7 +115,7 @@ public abstract class GeneratorTestBase<T, GA extends Annotation, GF extends Gen
         assertUnsupportedIterator(generator);
     }
 
-    protected static void assertUnsupportedIterator(Generator generator) {
+    protected void assertUnsupportedIterator(Generator<T> generator) {
         TestUtils.assertException(
                 UnsupportedOperationException.class,
                 "Don't use iterator() for unlimited generators! Use next() instead.",

@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,17 +19,13 @@
 
 package org.failearly.dataset.test;
 
-import org.failearly.dataset.internal.generator.resolver.GeneratorCreator;
-import org.failearly.dataset.internal.generator.resolver.GeneratorResolver;
+import org.failearly.dataset.internal.template.TemplateObjectsResolver;
+import org.failearly.dataset.internal.template.TemplateObjects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.lang.reflect.Method;
-import java.util.List;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
@@ -55,15 +51,25 @@ public final class TestUtils {
     }
 
     /**
-     * Tiny wrapper around {@link org.failearly.dataset.internal.generator.resolver.GeneratorResolver}.
+     * Tiny wrapper around {@link TemplateObjectsResolver} to resolve {@link TemplateObjects}.
      *
      * @param methodName the method name
      * @param clazz      the class to resolve from
      * @return list of generator creators.
      * @throws NoSuchMethodException method has not been found
      */
-    public static List<GeneratorCreator> resolveGeneratorCreators(String methodName, Class<?> clazz) throws NoSuchMethodException {
-        return GeneratorResolver.resolveFromTestMethod(resolveMethodFromClass(methodName, clazz));
+    public static TemplateObjects resolveTemplateObjects(String methodName, Class<?> clazz) throws NoSuchMethodException {
+        return TemplateObjectsResolver.resolveFromTestMethod(resolveMethodFromClass(methodName, clazz));
+    }
+
+    /**
+     * Reads the entire file content.
+     * @param file the file
+     * @return the content of the file
+     * @throws FileNotFoundException thrown file does not exists
+     */
+    public static String fileToString(File file) throws FileNotFoundException {
+        return inputStreamToString(new FileInputStream(file));
     }
 
     /**

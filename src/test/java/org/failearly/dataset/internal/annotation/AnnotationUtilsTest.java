@@ -1,7 +1,7 @@
 /*
  * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2015 marko (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,6 +19,7 @@
 
 package org.failearly.dataset.internal.annotation;
 
+import org.failearly.dataset.internal.annotation.meta.UsingMetaAnnotation;
 import org.junit.Test;
 
 import java.lang.reflect.Method;
@@ -33,11 +34,11 @@ public class AnnotationUtilsTest {
     @Test
     public void getMetaAnnotation__should_return_meta_annotation_or_null() throws Exception {
         assertThat("Existing meta annotation?",                                                                                                       //
-                AnnotationUtils.getMetaAnnotation(MetaAnnotation.class, WithMetaAnnotation.class.getAnnotation(AnnotationWithMetaAnnotation.class)),  //
+                AnnotationUtils.getMetaAnnotation(MetaAnnotation.class, WithMetaAnnotation.class.getAnnotation(UsingMetaAnnotation.class)),  //
                 is(notNullValue()));
 
         assertThat("None Existing meta annotation?",                                                                                                  //
-                AnnotationUtils.getMetaAnnotation(MetaAnnotation.class, WithoutMetaAnnotation.class.getAnnotation(NoMetaAnnotation.class)),           //
+                AnnotationUtils.getMetaAnnotation(MetaAnnotation.class, WithoutMetaAnnotation.class.getAnnotation(AnyOtherAnnotation.class)),           //
                 is(nullValue()));
     }
 
@@ -58,7 +59,7 @@ public class AnnotationUtilsTest {
 
     @Test
     public void checkForMetaAnnotation__should_return_true_if_meta_meta_annotation_are_available() throws Exception {
-        assertTrue("Has meta meta annotations?", AnnotationUtils.checkForMetaAnnotation(getMethod(MethodWithMetaAnnotation.class), MetaMetaAnnotation.class));
+        assertTrue("Has meta meta annotations?", AnnotationUtils.checkForMetaAnnotation(getMethod(MethodWithMetaAnnotation.class), MarkerMetaAnnotation.class));
     }
 
     @Test
@@ -77,14 +78,14 @@ public class AnnotationUtilsTest {
         return clazz.getMethod("anyMethod");
     }
 
-    @AnnotationWithMetaAnnotation
-    @NoMetaAnnotation
+    @UsingMetaAnnotation
+    @AnyOtherAnnotation
     @SuppressWarnings("unused")
     private static class WithMetaAnnotation {
         public void anyMethod() {}
     }
 
-    @NoMetaAnnotation
+    @AnyOtherAnnotation
     @SuppressWarnings("unused")
     private static class WithoutMetaAnnotation {
         public void anyMethod() {}
@@ -92,18 +93,18 @@ public class AnnotationUtilsTest {
 
     @SuppressWarnings("unused")
     private static class MethodWithMetaAnnotation {
-        @AnnotationWithMetaAnnotation
+        @UsingMetaAnnotation
         public void anyMethod() {}
     }
 
-    @AnnotationWithMetaAnnotation(name = "1")
-    @AnnotationWithMetaAnnotation(name = "2")
+    @UsingMetaAnnotation(name = "1")
+    @UsingMetaAnnotation(name = "2")
     @SuppressWarnings("unused")
     private static class MultipleMetaAnnotation {
         public void anyMethod() {}
     }
 
-    @AnnotationWithMetaAnnotation
+    @UsingMetaAnnotation
     private static class BaseClassWithMetaAnnotation {
     }
 

@@ -16,12 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
 package org.failearly.dataset.internal.model;
 
-import org.failearly.dataset.internal.annotation.AnnotationHandler;
 import org.failearly.dataset.internal.annotation.AnnotationHandlerBase;
 import org.failearly.dataset.internal.annotation.AnnotationUtils;
-import org.failearly.dataset.internal.generator.resolver.GeneratorCreator;
+import org.failearly.dataset.internal.template.TemplateObjects;
 import org.failearly.dataset.resource.DataResource;
 import org.failearly.dataset.resource.DataResourcesFactory;
 
@@ -34,10 +34,10 @@ import java.util.List;
  */
 public abstract class DataResourceAnnotationHandlerBase<T extends Annotation> extends AnnotationHandlerBase<Annotation> {
     private final List<DataResource> dataResourceList;
-    private final List<GeneratorCreator> generatorCreators;
+    private final TemplateObjects generatorCreators;
     private final Class<T> metaAnnotationClass;
 
-    protected DataResourceAnnotationHandlerBase(Class<T> metaAnnotationClass, List<GeneratorCreator> generatorCreators, List<DataResource> dataResourceList) {
+    protected DataResourceAnnotationHandlerBase(Class<T> metaAnnotationClass, TemplateObjects generatorCreators, List<DataResource> dataResourceList) {
         this.metaAnnotationClass = metaAnnotationClass;
         this.generatorCreators = generatorCreators;
         this.dataResourceList = dataResourceList;

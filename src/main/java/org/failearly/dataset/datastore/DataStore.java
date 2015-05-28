@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
  */
 package org.failearly.dataset.datastore;
 
-import org.failearly.dataset.internal.generator.resolver.GeneratorCreator;
 import org.failearly.dataset.internal.model.TestMethod;
+import org.failearly.dataset.internal.template.TemplateObjects;
 import org.failearly.dataset.resource.DataResource;
 
 import java.util.List;
@@ -69,12 +69,12 @@ public interface DataStore {
      * After initialization, the DataStore needs sometimes special setup (like creating a schema).
      *
      * @param dataStoreSetups   all declared {@link org.failearly.dataset.DataStoreSetup} annotations available.
-     * @param generatorCreators a list of {@link org.failearly.dataset.internal.generator.resolver.GeneratorCreator}, which represents
-     *                          all declared generator annotations.
+     * @param templateObjects a list of {@link org.failearly.dataset.template.TemplateObject}s, which represents
+     *                          all template object annotations.
      * @throws org.failearly.dataset.datastore.DataStoreException in case of any exception while setup the Datastore.
      * @see org.failearly.dataset.DataStoreSetup
      */
-    void setupDataStore(List<DataStoreSetupInstance> dataStoreSetups, List<GeneratorCreator> generatorCreators) throws DataStoreException;
+    void setupDataStore(List<DataStoreSetupInstance> dataStoreSetups, TemplateObjects templateObjects) throws DataStoreException;
 
     /**
      * If the DataStore supports transactional behaviour, the {@link org.failearly.dataset.DataSet#transactional()} will

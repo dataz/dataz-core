@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,6 +18,9 @@
  */
 package org.failearly.dataset.template;
 
+import org.failearly.dataset.internal.template.TemplateObjects;
+
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -27,13 +30,17 @@ import java.io.InputStream;
  * Currently there is only one template engine supported: {@link org.apache.velocity.app.VelocityEngine}.
  */
 public interface TemplateEngine {
+
     /**
-     * Merge the input stream.
+     * Generate target resource from template ({@code templateStream}).
      *
-     * @param inputStream the input stream (of the template).
-     * @return the input stream of the generated file.
+     * @param templateStream the input stream (of the template).
+     * @param templateResource the template resource (name).
+     * @param templateObjects all template objects.
+     *
+     * @return the generated file (object).
      *
      * @throws IOException the template engine has an issue with the input stream.
      */
-    InputStream mergeToInputStream(InputStream inputStream) throws IOException;
+    File generate(InputStream templateStream, String templateResource, TemplateObjects templateObjects) throws IOException;
 }

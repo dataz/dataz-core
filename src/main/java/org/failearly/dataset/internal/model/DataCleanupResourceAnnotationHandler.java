@@ -19,11 +19,11 @@
 
 package org.failearly.dataset.internal.model;
 
-import org.failearly.dataset.internal.generator.resolver.GeneratorCreator;
 import org.failearly.dataset.annotations.DataCleanupResourceFactoryDefinition;
+import org.failearly.dataset.internal.template.TemplateObjects;
 import org.failearly.dataset.resource.DataResource;
 import org.failearly.dataset.resource.DataResourcesFactory;
-import org.failearly.dataset.util.ClassUtils;
+import org.failearly.dataset.util.ObjectCreator;
 
 import java.util.List;
 
@@ -33,12 +33,12 @@ import java.util.List;
  */
     final class DataCleanupResourceAnnotationHandler extends DataResourceAnnotationHandlerBase<DataCleanupResourceFactoryDefinition> {
 
-    DataCleanupResourceAnnotationHandler(List<DataResource> dataResourceList, List<GeneratorCreator> generatorCreators) {
+    DataCleanupResourceAnnotationHandler(List<DataResource> dataResourceList, TemplateObjects generatorCreators) {
         super(DataCleanupResourceFactoryDefinition.class, generatorCreators, dataResourceList);
     }
 
     @Override
     protected DataResourcesFactory createDataResourceFactory(DataCleanupResourceFactoryDefinition metaAnnotation) {
-        return ClassUtils.createInstance(metaAnnotation.factory());
+        return ObjectCreator.createInstance(metaAnnotation.factory());
     }
 }

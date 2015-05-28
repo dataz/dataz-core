@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,31 +20,39 @@ package org.failearly.dataset.internal.template.velocity;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
-import org.failearly.dataset.generator.support.Generator;
-import org.failearly.dataset.internal.generator.resolver.GeneratorCreator;
+import org.failearly.dataset.internal.template.TemplateObjects;
+import org.failearly.dataset.internal.util.ResourceNameUtils;
 import org.failearly.dataset.template.TemplateEngineBase;
 
 import java.io.*;
-import java.util.List;
 
 /**
- * VelocityTemplateEngine is a wrapper around VelocityEngine.
+ * VelocityTemplateEngine is the default implementation for {@link org.failearly.dataset.template.TemplateEngine}.
+ * <br><br>
+ * Remark: Overwrite property {@value org.failearly.dataset.config.DataSetProperties#DATASET_PROPERTY_TEMPLATE_ENGINE_FACTORY} and provide your own
+ *     {@link org.failearly.dataset.template.TemplateEngineFactory}.
  */
-final class VelocityTemplateEngine extends TemplateEngineBase {
+public final class VelocityTemplateEngine extends TemplateEngineBase {
     private final VelocityEngine engine;
 
-    VelocityTemplateEngine(String fullQualifiedResourceName, List<GeneratorCreator> generatorCreators) {
-        super(fullQualifiedResourceName, generatorCreators);
+    public VelocityTemplateEngine() {
+        super();
         engine = new VelocityEngine();
         engine.init();
     }
 
-    protected File mergeToFile(InputStream inputStream) throws IOException {
-        final File targetFile = createTempFile();
-        final VelocityContext context = createVelocityContext();
-        doMerge(inputStream, targetFile, context);
-
+    @Override
+    public File generate(InputStream templateStream, String resource, TemplateObjects templateObjects) throws IOException {
+        final File targetFile = createTargetFile(resource);
+        doMerge(templateStream, targetFile, createVelocityContext(templateObjects));
         return targetFile;
+    }
+
+    private File createTargetFile(String resource) throws IOException {
+        final String resourceSuffix = ResourceNameUtils.getResourceSuffix(resource);
+        final String resourcePath = ResourceNameUtils.getResourcePath(resource);
+        final String resourceName = ResourceNameUtils.getResourceNameWithoutPathAndSuffix(resource) + "-";
+        return createTempFile(resourceName, resourceSuffix, resourcePath);
     }
 
     private void doMerge(InputStream inputStream, File targetFile, VelocityContext context) throws IOException {
@@ -53,12 +61,12 @@ final class VelocityTemplateEngine extends TemplateEngineBase {
         }
     }
 
-    private VelocityContext createVelocityContext() {
+    private VelocityContext createVelocityContext(TemplateObjects templateObjects) {
         final VelocityContext context=new VelocityContext();
-        for (Generator generator : createGenerators()) {
-            LOGGER.debug("Add generator '{}' to velocity context", generator.name());
-            context.put(generator.name(), generator);
-        }
+        templateObjects.apply((templateObject) -> {
+            LOGGER.debug("Add template object '{}' to velocity context", templateObject.name());
+            context.put(templateObject.name(), templateObject);
+        });
         return context;
     }
 
