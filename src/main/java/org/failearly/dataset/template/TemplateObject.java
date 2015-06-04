@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
 package org.failearly.dataset.template;
 
 /**
@@ -53,5 +54,6 @@ public interface TemplateObject {
      */
     String dataset();
 
-    void __use_TemplateObjectBase__instead_of_implementing_TemplateObject();
+    @SuppressWarnings("unused")
+    void __extend_TemplateObjectBase__instead_of_implementing_TemplateObject();
 }

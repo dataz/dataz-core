@@ -16,44 +16,114 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
 package org.failearly.dataset.internal.template;
 
-import org.failearly.dataset.generator.RangeGenerator;
+import org.failearly.dataset.internal.annotation.TraverseDepth;
+import org.failearly.dataset.template.TemplateObject;
+import org.failearly.dataset.test.MyTemplateObjectAnnotation;
 import org.failearly.dataset.test.TestUtils;
+import org.junit.Before;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.empty;
+import static org.junit.Assert.assertThat;
+
 /**
- * TemplateObjectsTestBase is responsible for ...
+ * TemplateObjectsTestBase is base class for all {@link TemplateObjects} or {@link TemplateObjectsResolver} related tests.
  */
-public abstract class TemplateObjectsTestBase {
+abstract class TemplateObjectsTestBase {
+    private TemplateObjectsResolver.Builder templateObjectsResolverBuilder;
+
+    @Before
+    public void createTemplateObjectResolverBuilder() throws Exception {
+        templateObjectsResolverBuilder = TemplateObjectsResolver.builder();
+    }
+
     protected static Method getTestMethod(String name) throws NoSuchMethodException {
-        return TestUtils.resolveMethodFromClass(name, TestFixture.class);
+        return TestUtils.resolveMethodFromClass(name, AClass.class);
     }
 
-    protected static List<String> extractAnnotations(TemplateObjects templateObjects) {
-        return templateObjects.collectAnnotations().stream().map(Annotation::toString).collect(Collectors.toList());
+    protected static List<String> extractTemplateObjectInstances(TemplateObjects templateObjects) {
+        return templateObjects.collectTemplateObjectInstances().stream().map(TemplateObject::toString).collect(Collectors.toList());
     }
 
-    @RangeGenerator(name = "G1", dataset = "D0", start = 0, end = 10)
+    protected static Set<String> extractDataSetNames(TemplateObjects templateObjects) {
+        return templateObjects.collectDataSets();
+    }
+
+    protected static Method withTemplateObjects() throws NoSuchMethodException {
+        return getTestMethod("withTemplateObjects");
+    }
+
+    protected static Method withoutTemplateObjects() throws NoSuchMethodException {
+        return getTestMethod("withoutTemplateObjects");
+    }
+
+    protected static Method withDuplicatedTemplateObjects() throws NoSuchMethodException {
+        return getTestMethod("withDuplicatedTemplateObjects");
+    }
+
+    protected static void assertTemplateObjects(TemplateObjects templateObjects, String... expectedAnnotations) {
+        assertThat(extractTemplateObjectInstances(templateObjects), containsInAnyOrder(expectedAnnotations));
+    }
+
+    protected static void assertEmptyTemplateObjects(TemplateObjects templateObjects) {
+        assertThat(extractTemplateObjectInstances(templateObjects), is(empty()));
+    }
+
+
+    protected TemplateObjectsResolver buildTemplateObjectsResolver(TraverseDepth traverseDepth) {
+        return templateObjectsResolverBuilder                                                     //
+                .withTemplateObjectDuplicateStrategy(TemplateObjectDuplicateStrategy.IGNORE)  //
+                .withTraverseDepth(traverseDepth)                                             //
+                .build();
+    }
+
+    protected TemplateObjectsResolver buildTemplateObjectResolverNoDuplicateHandler(TemplateObjectDuplicateStrategy templateObjectDuplicateStrategy) {
+        return templateObjectsResolverBuilder                                           //
+                .withTraverseDepth(TraverseDepth.METHOD_ONLY)                        //
+                .withTemplateObjectDuplicateStrategy(templateObjectDuplicateStrategy)   //
+                .build();
+    }
+
+    protected TemplateObjectsResolver buildTemplateObjectResolver(TemplateObjectDuplicateStrategy templateObjectDuplicateStrategy, DuplicateHandler duplicateHandler) {
+        return templateObjectsResolverBuilder                                               //
+                .withTraverseDepth(TraverseDepth.METHOD_ONLY)                        //
+                .withTemplateObjectDuplicateStrategy(templateObjectDuplicateStrategy)   //
+                .withDuplicateHandler(duplicateHandler)                                 //
+                .build();
+    }
+
+    // Test Fixtures
+    @MyTemplateObjectAnnotation(name = "G1", dataset = "D0", description = "(0) on class BaseClass")
     private static class BaseClass {
     }
 
     @SuppressWarnings("UnusedDeclaration")
-    @RangeGenerator(name = "G1", dataset = "D1", start = 0, end = 10)
-    @RangeGenerator(name = "G2", dataset = "D2", start = 10, end = 20)
-    private static class TestFixture extends BaseClass {
+    @MyTemplateObjectAnnotation(name = "G1", dataset = "D1", description = "(1) on class AClass")
+    @MyTemplateObjectAnnotation(name = "G2", dataset = "D2", description = "(2) on class AClass")
+    static class AClass extends BaseClass {
 
-        @RangeGenerator(name = "G2", dataset = "D3", start = 10, end = 20)
-        @RangeGenerator(name = "G3", dataset = "D3", start = 10, end = 20)
-        public void anyTestMethodWithGenerator() {
+        @MyTemplateObjectAnnotation(name = "G2", dataset = "D3", description = "(3) On method withTemplateObjects")
+        @MyTemplateObjectAnnotation(name = "G3", dataset = "D3", description = "(4) On method withTemplateObjects")
+        public void withTemplateObjects() {
         }
 
-        public void anyTestMethodWithoutGenerator() {
+        public void withoutTemplateObjects() {
         }
 
+
+        @MyTemplateObjectAnnotation(name = "G0", dataset = "SAME-DATASET", description = "(5) On method withDuplicatedTemplateObjects")
+        @MyTemplateObjectAnnotation(name = "G0", dataset = "OTHER-DATASET", description = "(6) On method withDuplicatedTemplateObjects")
+        @MyTemplateObjectAnnotation(name = "G0", dataset = "SAME-DATASET", description = "(7) On method withDuplicatedTemplateObjects. OVERWRITE G0")
+        public void withDuplicatedTemplateObjects() {
+        }
     }
 }

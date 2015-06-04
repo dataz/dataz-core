@@ -17,21 +17,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package org.failearly.dataset.generator.support;
+package org.failearly.dataset.internal.template;
 
-import java.lang.annotation.Annotation;
+import org.failearly.dataset.exception.DataSetException;
+import org.failearly.dataset.template.TemplateObject;
 
 /**
- * LimitedGeneratorBase - the base implementation for limited generators.
+ * DuplicateTemplateObjectException used by {@link TemplateObjectDuplicateStrategy#STRICT}.
  */
-public abstract class LimitedGeneratorBase<T> extends GeneratorBase<T> implements LimitedGenerator<T> {
-
-    protected LimitedGeneratorBase(String dataset, String name) {
-        super(dataset, name);
+public class DuplicateTemplateObjectException extends DataSetException {
+    public DuplicateTemplateObjectException(TemplateObject templateObject) {
+        super("Duplicate template object found: " + templateObject);
     }
-
-    protected LimitedGeneratorBase(Annotation annotation, String dataset, String name) {
-        super(annotation, dataset, name);
-    }
-
 }

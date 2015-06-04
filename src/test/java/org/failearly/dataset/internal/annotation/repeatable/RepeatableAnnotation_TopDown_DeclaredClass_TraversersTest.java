@@ -33,7 +33,7 @@ public class RepeatableAnnotation_TopDown_DeclaredClass_TraversersTest extends A
     private final AnnotationTraverser<RepeatableAnnotation> topDownDeclaringClassTraverser = AnnotationTraversers.createAnnotationTraverser(
             RepeatableAnnotation.class,
             TraverseStrategy.TOP_DOWN,
-            TraverseDepth.DECLARING_CLASS  // << ONLY METHOD AND DECLARED/TOP LEVEL CLASSES
+            TraverseDepth.DECLARED_CLASS  // << ONLY METHOD AND DECLARED/TOP LEVEL CLASSES
     );
 
     @Test

@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
 package org.failearly.dataset.internal.template;
 
 import org.failearly.dataset.template.TemplateObject;
@@ -34,13 +35,25 @@ public final class TemplateObjects {
     private static final Logger LOGGER = LoggerFactory.getLogger(TemplateObjects.class);
 
     private final List<TemplateObjectCreator> templateObjectCreators;
+    private final DuplicateHandler duplicateHandler;
+    private final TemplateObjectCreatorListOrder templateObjectCreatorListOrder;
 
-    TemplateObjects() {
-        this(new LinkedList<>());
+    TemplateObjects(DuplicateHandler duplicateHandler, TemplateObjectCreatorListOrder templateObjectCreatorListOrder) {
+        this(new LinkedList<>(), duplicateHandler, templateObjectCreatorListOrder);
     }
 
-    private TemplateObjects(List<TemplateObjectCreator> templateObjectCreators) {
+    private TemplateObjects(List<TemplateObjectCreator> templateObjectCreators, DuplicateHandler duplicateHandler, TemplateObjectCreatorListOrder templateObjectCreatorListOrder) {
         this.templateObjectCreators=templateObjectCreators;
+        this.duplicateHandler = duplicateHandler;
+        this.templateObjectCreatorListOrder = templateObjectCreatorListOrder;
+    }
+
+    TemplateObjects() {
+        this(TemplateObjectDuplicateStrategy.STRICT);
+    }
+
+    private TemplateObjects(TemplateObjectDuplicateStrategy templateObjectDuplicateStrategy) {
+        this(templateObjectDuplicateStrategy, templateObjectDuplicateStrategy);
     }
 
     /**
@@ -53,13 +66,23 @@ public final class TemplateObjects {
     }
 
     /**
-     * Collects the annotation instances.
+     * creates all {@link TemplateObject} instances.
      *
-     * @return associated annotations
+     * @return template object instances
      */
-    public List<Annotation> collectAnnotations() {
-        return templateObjectCreators.stream().map(TemplateObjectCreator::getAnnotation).collect(Collectors.toList());
+    public List<TemplateObject> collectTemplateObjectInstances() {
+        return templateObjectCreators.stream().map(TemplateObjectCreator::createTemplateObjectInstance).collect(Collectors.toList());
     }
+
+    /**
+     * Collects the data set names.
+     *
+     * @return dataset names
+     */
+    public Set<String> collectDataSets() {
+        return templateObjectCreators.stream().map(TemplateObjectCreator::getDataSetName).collect(Collectors.toSet());
+    }
+
 
     /**
      * Filter the template objects which belongs to given data set.
@@ -67,7 +90,7 @@ public final class TemplateObjects {
      * @return filtered instance of template objects.
      */
     public TemplateObjects filterByDataSet(String dataSetName) {
-        return new TemplateObjects(doFilterByDataSetName(dataSetName));
+        return new TemplateObjects(doFilterByDataSetName(dataSetName), duplicateHandler, templateObjectCreatorListOrder);
     }
 
     /**
@@ -80,13 +103,14 @@ public final class TemplateObjects {
      */
     public void apply(Consumer<TemplateObject> templateObjectConsumer) {
         final Set<String> templateObjectNames=new HashSet<>();
-        for (TemplateObjectCreator templateObjectCreator : templateObjectCreators) {
+        for (TemplateObjectCreator templateObjectCreator : templateObjectCreatorListOrder.order(templateObjectCreators)) {
             final TemplateObject templateObject = templateObjectCreator.createTemplateObjectInstance();
             if( templateObjectNames.add(templateObject.name()) ) {
                 LOGGER.debug("Use template object '{}' (annotation={})", templateObject.name(), templateObjectCreator.getAnnotation());
                 templateObjectConsumer.accept(templateObject);
             }
             else {
+                duplicateHandler.handleDuplicate(templateObject);
                 LOGGER.warn("Template object '{}' already defined (annotation={}). Ignored!", templateObject.name(), templateObjectCreator.getAnnotation());
             }
         }

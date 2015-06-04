@@ -33,7 +33,7 @@ public class StandardAnnotation_BottomUp_DeclaredClass_TraversersTest extends An
     private final AnnotationTraverser<StandardAnnotation> bottomUpDeclaringClassTraverser = AnnotationTraversers.createAnnotationTraverser(
             StandardAnnotation.class,
             TraverseStrategy.BOTTOM_UP,
-            TraverseDepth.DECLARING_CLASS  // << ONLY METHOD AND DECLARED/TOP LEVEL CLASSES
+            TraverseDepth.DECLARED_CLASS  // << ONLY METHOD AND DECLARED/TOP LEVEL CLASSES
     );
 
     @Test

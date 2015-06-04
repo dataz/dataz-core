@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
 package org.failearly.dataset.datastore;
 
 import org.failearly.dataset.DataStoreDefinition;
@@ -25,6 +26,7 @@ import org.failearly.dataset.internal.annotation.*;
 import org.failearly.dataset.internal.annotation.invoker.AnnotationElementResolver;
 import org.failearly.dataset.internal.annotation.invoker.AnnotationElementResolvers;
 import org.failearly.dataset.internal.template.TemplateObjects;
+import org.failearly.dataset.internal.template.TemplateObjectsResolver;
 import org.failearly.dataset.util.ObjectCreator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,10 +37,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static org.failearly.dataset.internal.template.TemplateObjectsResolver.resolveFromTestClass;
 
 /**
- * DataStores is responsible for creating and keeping all data stores.
+ * DataStores is responsible for creating and holding all data stores.
  */
 @SuppressWarnings("UnusedDeclaration")
 public final class DataStores {
@@ -111,10 +112,14 @@ public final class DataStores {
 
     private DataStore doInitializeDataStore(Class<?> testClass, DataStore dataStore) {
         final List<DataStoreSetupInstance> dataStoreSetupAnnotations = collectDataStoreSetupAnnotationsFromTestClass(testClass);
-        final TemplateObjects templateObjects = resolveFromTestClass(testClass);
+        final TemplateObjects templateObjects = resolveTemplateObjects(testClass);
         dataStore.initialize();
         dataStore.setupDataStore(dataStoreSetupAnnotations, templateObjects);
         return dataStore;
+    }
+
+    private static TemplateObjects resolveTemplateObjects(Class<?> testClass) {
+        return TemplateObjectsResolver.resolveFromTestClass(testClass);
     }
 
     /**
@@ -237,7 +242,7 @@ public final class DataStores {
 
     private DataStore doLoadDataStore0(Class<?> testClass) {
         final List<DataStoreSetupInstance> dataStoreSetupAnnotations = collectDataStoreSetupAnnotationsFromTestClass(testClass);
-        final TemplateObjects templateObjects = resolveFromTestClass(testClass);
+        final TemplateObjects templateObjects = resolveTemplateObjects(testClass);
         final DataStoreCollection dataStoreCollection = collectDataStoresFromTestClass(testClass, dataStoreSetupAnnotations, templateObjects);
 
         if (dataStoreCollection.isEmpty()) {

@@ -22,6 +22,7 @@ package org.failearly.dataset.generator.support;
 
 import org.failearly.dataset.template.TemplateObjectBase;
 
+import java.lang.annotation.Annotation;
 import java.util.Iterator;
 
 /**
@@ -31,9 +32,12 @@ public abstract class GeneratorBase<T> extends TemplateObjectBase implements Gen
 
     Iterator<T> iterator;
 
-
     protected GeneratorBase(String dataset, String name) {
         super(dataset, name);
+    }
+
+    protected GeneratorBase(Annotation annotation, String dataset, String name) {
+        super(annotation, dataset, name);
     }
 
     /**

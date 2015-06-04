@@ -16,11 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
 package org.failearly.dataset.internal.generator.decorator;
 
 import org.failearly.dataset.generator.support.LimitedGeneratorBase;
 import org.failearly.dataset.generator.support.UnlimitedGeneratorBase;
 
+import java.lang.annotation.Annotation;
 import java.util.Iterator;
 
 /**

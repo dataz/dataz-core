@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
 package org.failearly.dataset.config;
 
 import org.failearly.dataset.DataSet;
@@ -162,7 +163,7 @@ public interface Constants {
      * Defines the used depth for resolving {@link org.failearly.dataset.template.TemplateObject} annotations. Currently possible values are:<br><br>
      * <ul>
      * <li>{@link org.failearly.dataset.internal.annotation.TraverseDepth#CLASS_HIERARCHY}</li>
-     * <li>{@link org.failearly.dataset.internal.annotation.TraverseDepth#DECLARING_CLASS} (default)</li>
+     * <li>{@link org.failearly.dataset.internal.annotation.TraverseDepth#DECLARED_CLASS} (default)</li>
      * <li>{@link org.failearly.dataset.internal.annotation.TraverseDepth#METHOD_ONLY}</li>
      * </ul>
      *
@@ -170,6 +171,20 @@ public interface Constants {
      * @see org.failearly.dataset.internal.annotation.AnnotationTraversers#createMetaAnnotationTraverser(Class, TraverseStrategy, TraverseDepth)
      */
     String DATASET_TEMPLATE_OBJECT_TRAVERSING_DEPTH = "dataset.template.object.traversing.depth";
+
+    /**
+     * Defines the used strategy for handling duplicate {@link org.failearly.dataset.template.TemplateObject}s. A template object should be unique
+     * with it's name within the same dataset, otherwise the {@link org.failearly.dataset.internal.template.TemplateObjectDuplicateStrategy} will be used.
+     * <br><br>
+     * Currently possible values are:<br><br>
+     * <br><br>
+     * <ul>
+     *    <li>{@link org.failearly.dataset.internal.template.TemplateObjectDuplicateStrategy#IGNORE}</li>
+     *    <li>{@link org.failearly.dataset.internal.template.TemplateObjectDuplicateStrategy#OVERWRITE}</li>
+     *    <li>{@link org.failearly.dataset.internal.template.TemplateObjectDuplicateStrategy#STRICT} (default)</li>
+     * </ul>
+     */
+    String DATASET_TEMPLATE_OBJECT_DUPLICATE_STRATEGY = "dataset.template.object.duplicate.strategy";
 
     /**
      * Used by {@link org.failearly.dataset.DataStoreDefinition#setupSuffix()} and

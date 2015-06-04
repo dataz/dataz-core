@@ -16,10 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
 package org.failearly.dataset.generator.support;
 
 import org.failearly.dataset.generator.GeneratorConstants;
 
+import java.lang.annotation.Annotation;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -29,6 +31,10 @@ import java.util.Random;
 public abstract class UnlimitedGeneratorBase<T> extends GeneratorBase<T> implements UnlimitedGenerator<T> {
     protected UnlimitedGeneratorBase(String dataset, String name) {
         super(dataset, name);
+    }
+
+    protected UnlimitedGeneratorBase(Annotation annotation, String dataset, String name) {
+        super(annotation, dataset, name);
     }
 
     /**

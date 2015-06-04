@@ -16,13 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
 package org.failearly.dataset.generator.support;
 
 import org.failearly.dataset.generator.GeneratorConstants;
 import org.failearly.dataset.generator.Limit;
 import org.failearly.dataset.internal.generator.decorator.GeneratorDecorators;
 import org.failearly.dataset.template.TemplateObject;
-import org.failearly.dataset.template.TypedTemplateObjectFactory;
+import org.failearly.dataset.template.TemplateObjectFactoryBase;
 
 import java.lang.annotation.Annotation;
 import java.util.function.Function;
@@ -30,7 +31,7 @@ import java.util.function.Function;
 /**
  * GeneratorFactoryBase is the base class for GeneratorFactory.
  */
-public abstract class GeneratorFactoryBase<T, A extends Annotation> extends TypedTemplateObjectFactory<A> implements GeneratorConstants {
+public abstract class GeneratorFactoryBase<T, A extends Annotation> extends TemplateObjectFactoryBase<A> implements GeneratorConstants {
 
     protected GeneratorFactoryBase(Class<A> annotationClass) {
         super(annotationClass);

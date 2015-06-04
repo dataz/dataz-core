@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -71,6 +71,7 @@ public class IntegrateAllTest {
     @BeforeClass
     public static void setDefaultSuffix() throws Exception {
         DataSetProperties.setProperty(Constants.DATASET_PROPERTY_DEFAULT_SETUP_SUFFIX, "setup.vm");
+        DataSetProperties.setProperty(Constants.DATASET_TEMPLATE_OBJECT_DUPLICATE_STRATEGY, "IGNORE");
     }
 
     @AfterClass

@@ -17,21 +17,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package org.failearly.dataset.generator.support;
+package org.failearly.dataset.internal.template;
 
-import java.lang.annotation.Annotation;
+import java.util.List;
 
 /**
- * LimitedGeneratorBase - the base implementation for limited generators.
+ * TemplateObjectCreatorListOrder is responsible for changing the order of a list of templateObjectCreatorList.
+ *
+ * @see TemplateObjectDuplicateStrategy
+ * @see TemplateObjects
  */
-public abstract class LimitedGeneratorBase<T> extends GeneratorBase<T> implements LimitedGenerator<T> {
-
-    protected LimitedGeneratorBase(String dataset, String name) {
-        super(dataset, name);
-    }
-
-    protected LimitedGeneratorBase(Annotation annotation, String dataset, String name) {
-        super(annotation, dataset, name);
-    }
-
+interface TemplateObjectCreatorListOrder {
+    List<TemplateObjectCreator> order(List<TemplateObjectCreator> templateObjectCreatorList);
 }

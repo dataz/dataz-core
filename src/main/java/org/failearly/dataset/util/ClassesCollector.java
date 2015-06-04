@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
 package org.failearly.dataset.util;
 
 import java.lang.reflect.Method;
@@ -28,8 +29,8 @@ import java.util.List;
  */
 public final class ClassesCollector {
 
-    public static int ENTIRE_HIERARCHY_DEPTH = Integer.MAX_VALUE;
-    public static int ONLY_DECLARING_CLASS_DEPTH = 1;
+    public static int CLASS_HIERARCHY_DEPTH = Integer.MAX_VALUE;
+    public static int ONLY_DECLARED_CLASS_DEPTH = 1;
     public static int NO_CLASS_DEPTH = 0;
 
     private final Order order;

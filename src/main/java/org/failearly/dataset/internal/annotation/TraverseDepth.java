@@ -35,11 +35,11 @@ public enum TraverseDepth {
     /**
      * The method and declaring class.
      */
-    DECLARING_CLASS(ClassesCollector.ONLY_DECLARING_CLASS_DEPTH),
+    DECLARED_CLASS(ClassesCollector.ONLY_DECLARED_CLASS_DEPTH),
     /**
      * The method, the declaring class and all super classes of the declaring class.
      */
-    CLASS_HIERARCHY(ClassesCollector.ENTIRE_HIERARCHY_DEPTH);
+    CLASS_HIERARCHY(ClassesCollector.CLASS_HIERARCHY_DEPTH);
 
     final int depth;
     TraverseDepth(int depth) {

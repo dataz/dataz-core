@@ -34,12 +34,12 @@ import java.lang.annotation.Target;
  *     {@literal @Target}({ElementType.METHOD, ElementType.TYPE})
  *     {@literal @Retention}(RetentionPolicy.RUNTIME)
  *     <b>{@literal @TemplateObjectFactoryDefinition}(factory = MyGeneratorFactory.class)</b>
- *     {@literal @}{@link java.lang.annotation.Repeatable}(MyGenerator.MyGenerators.class)
- *     public {@literal @interface} MyGenerator {
- *         // mandatory element
+ *     {@literal @}{@link java.lang.annotation.Repeatable}(MyTemplateObjectAnnotation.MyTemplateObjectAnnotations.class)
+ *     public {@literal @interface} MyTemplateObjectAnnotation {
+ *         // mandatory attribute
  *         String name();
  *
- *         // mandatory element
+ *         // mandatory attribute
  *         String dataset();
  *
  *         // additional elements omitted for brevity
@@ -49,17 +49,14 @@ import java.lang.annotation.Target;
  *         {@literal @Target}({ElementType.METHOD, ElementType.TYPE})
  *         {@literal @Retention}(RetentionPolicy.RUNTIME)
  *         {@literal @interface} MyGenerators {
- *         MyGenerator[] value();
+ *             MyTemplateObjectAnnotation[] value();
  *         }
  *     }
  * </pre>
  *
- * @see org.failearly.dataset.generator.ConstantGenerator
- * @see org.failearly.dataset.generator.ListGenerator
- * @see org.failearly.dataset.generator.RangeGenerator
- * @see org.failearly.dataset.generator.LoopGenerator
- * @see org.failearly.dataset.generator.RandomBooleanGenerator
- * @see org.failearly.dataset.generator.RandomRangeGenerator
+ * @see TemplateObjectFactory
+ * @see TemplateObjectFactoryBase
+ * @see TemplateObject
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.ANNOTATION_TYPE)

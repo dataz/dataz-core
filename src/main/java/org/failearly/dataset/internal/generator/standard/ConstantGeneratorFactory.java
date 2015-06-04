@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
 package org.failearly.dataset.internal.generator.standard;
 
 import org.failearly.dataset.generator.ConstantGenerator;
@@ -23,6 +24,7 @@ import org.failearly.dataset.generator.support.GeneratorFactoryBase;
 import org.failearly.dataset.generator.support.UnlimitedGeneratorBase;
 import org.failearly.dataset.template.TemplateObject;
 
+import java.lang.annotation.Annotation;
 import java.util.Iterator;
 
 /**
@@ -41,7 +43,7 @@ public final class ConstantGeneratorFactory extends GeneratorFactoryBase<String,
 
     @Override
     protected UnlimitedGeneratorBase<String> doCreateUnlimitedGenerator(ConstantGenerator generatorAnnotation, Integer limitValue) {
-        return new ConstantGeneratorImpl(generatorAnnotation.name(), generatorAnnotation.dataset(), generatorAnnotation.constant());
+        return new ConstantGeneratorImpl(generatorAnnotation, generatorAnnotation.name(), generatorAnnotation.dataset(), generatorAnnotation.constant());
     }
 
     @Override
@@ -53,8 +55,8 @@ public final class ConstantGeneratorFactory extends GeneratorFactoryBase<String,
     public static class ConstantGeneratorImpl extends UnlimitedGeneratorBase<String> {
         private final String constant;
 
-        ConstantGeneratorImpl(String name, String dataset, String constant) {
-            super(dataset, name);
+        ConstantGeneratorImpl(Annotation annotation, String name, String dataset, String constant) {
+            super(annotation, dataset, name);
             this.constant = constant;
         }
 
@@ -72,17 +74,5 @@ public final class ConstantGeneratorFactory extends GeneratorFactoryBase<String,
                 }
             };
         }
-
-
-
-        @Override
-        public String toString() {
-            return "ConstantGenerator{" +
-                    "dataset=" + super.dataset() +
-                    ", name=" + super.name() +
-                    ", constant=" + constant +
-                    '}';
-        }
-
     }
 }

@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
 package org.failearly.dataset.internal.generator.standard;
 
 import org.failearly.dataset.generator.Limit;
@@ -44,7 +45,7 @@ public final class RandomBooleanGeneratorFactory extends GeneratorFactoryBase<Bo
 
     @Override
     protected UnlimitedGeneratorBase<Boolean> doCreateUnlimitedGenerator(RandomBooleanGenerator generatorAnnotation, Integer limitValue) {
-        return new RandomBooleanGeneratorImpl(generatorAnnotation.name(), generatorAnnotation.dataset(), generatorAnnotation.percent(), generatorAnnotation.seed());
+        return new RandomBooleanGeneratorImpl(generatorAnnotation);
     }
 
     @Override
@@ -58,16 +59,15 @@ public final class RandomBooleanGeneratorFactory extends GeneratorFactoryBase<Bo
         private final Random random;
         private final Set<Integer> trueIntValues;
 
-        private RandomBooleanGeneratorImpl(String name, String dataset, float percent, int seed) {
-            super(dataset, name);
+        private RandomBooleanGeneratorImpl(RandomBooleanGenerator generatorAnnotation) {
+            super(generatorAnnotation, generatorAnnotation.dataset(), generatorAnnotation.name());
 
-            assert 0<percent : "@RandomBooleanGenerator(name=" + name +"): percent <= 0. Only value between 0 and 100 are permitted.";
+            final int percentAsIntValue = (int)(generatorAnnotation.percent() * (BOUND/100));
 
-            final int percentAsIntValue = (int)(percent*(BOUND/100));
+            assert 0<percentAsIntValue : generatorAnnotation +": percent <= 0. Only value between 0 and 100 are permitted.";
+            assert percentAsIntValue<10_000 : generatorAnnotation +": percent >= 100. Only value between 0 and 100 are permitted.";
 
-            assert percentAsIntValue<10_000 : "@RandomBooleanGenerator(name=" + name +"): percent >= 100. Only value between 0 and 100 are permitted.";
-
-            this.random = random(seed);
+            this.random = random(generatorAnnotation.seed());
             this.trueIntValues = createValues(percentAsIntValue);
         }
 

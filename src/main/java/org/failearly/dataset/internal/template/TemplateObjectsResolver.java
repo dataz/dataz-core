@@ -21,6 +21,7 @@ package org.failearly.dataset.internal.template;
 
 import org.failearly.dataset.config.DataSetProperties;
 import org.failearly.dataset.internal.annotation.*;
+import org.failearly.dataset.internal.util.BuilderBase;
 import org.failearly.dataset.template.TemplateObjectFactory;
 import org.failearly.dataset.template.TemplateObjectFactoryDefinition;
 import org.failearly.dataset.util.ObjectCreator;
@@ -31,11 +32,34 @@ import java.lang.reflect.Method;
 import static org.failearly.dataset.internal.annotation.AnnotationUtils.getMetaAnnotation;
 
 /**
- * GeneratorResolver is responsible for resolving
+ * TemplateObjectsResolver resolves {@link TemplateObjects} from a test class or test method.
  */
 public final class TemplateObjectsResolver {
 
-    private TemplateObjectsResolver() {
+    private final TraverseDepth traverseDepth;
+    private final DuplicateHandler duplicateHandler;
+    private final TemplateObjectCreatorListOrder templateObjectCreatorListOrder;
+
+    private TemplateObjectsResolver(TraverseDepth traverseDepth, DuplicateHandler duplicateHandler, TemplateObjectCreatorListOrder templateObjectCreatorListOrder) {
+        this.traverseDepth = traverseDepth;
+        this.duplicateHandler = duplicateHandler;
+        this.templateObjectCreatorListOrder = templateObjectCreatorListOrder;
+    }
+
+    /**
+     * For testing purposes.
+     * @return returns a builder object.
+     */
+    static Builder builder() {
+        return new Builder();
+    }
+
+    /**
+     * Create a standard template resolver.
+     * @return a template object resolver
+     */
+    static TemplateObjectsResolver newStandardInstance() {
+        return builder().withStandardSettings().build();
     }
 
     /**
@@ -45,7 +69,11 @@ public final class TemplateObjectsResolver {
      * @return the template {@link TemplateObjects}.
      */
     public static TemplateObjects resolveFromTestMethod(Method testMethod) {
-        final TemplateObjects creators = new TemplateObjects();
+        return newStandardInstance().resolveFromTestMethod0(testMethod);
+    }
+
+    TemplateObjects resolveFromTestMethod0(Method testMethod) {
+        final TemplateObjects creators = createTemplateObjects();
         doResolveTemplateObjectCreators(testMethod, creators);
         return creators;
     }
@@ -57,16 +85,24 @@ public final class TemplateObjectsResolver {
      * @return the template {@link TemplateObjects}.
      */
     public static TemplateObjects resolveFromTestClass(Class<?> testClass) {
-        final TemplateObjects creators = new TemplateObjects();
+        return newStandardInstance().resolveFromTestClass0(testClass);
+    }
+
+    TemplateObjects resolveFromTestClass0(Class<?> testClass) {
+        final TemplateObjects creators = createTemplateObjects();
         doResolveTemplateObjectCreators(testClass, creators);
         return creators;
     }
 
-    private static void doResolveTemplateObjectCreators(Class<?> testClass, final TemplateObjects creators) {
+    private TemplateObjects createTemplateObjects() {
+        return new TemplateObjects(duplicateHandler, templateObjectCreatorListOrder);
+    }
+
+    private void doResolveTemplateObjectCreators(Class<?> testClass, final TemplateObjects creators) {
         final AnnotationTraverser<Annotation> traverser = AnnotationTraversers.createMetaAnnotationTraverser(
                 TemplateObjectFactoryDefinition.class,
                 TraverseStrategy.TOP_DOWN,
-                TraverseDepth.CLASS_HIERARCHY
+                traverseDepth
         );
         traverser.traverse(testClass, new AnnotationHandlerBase<Annotation>() {
             @Override
@@ -76,11 +112,11 @@ public final class TemplateObjectsResolver {
         });
     }
 
-    private static void doResolveTemplateObjectCreators(Method testClass, final TemplateObjects creators) {
+    private void doResolveTemplateObjectCreators(Method testClass, final TemplateObjects creators) {
         final AnnotationTraverser<Annotation> traverser = AnnotationTraversers.createMetaAnnotationTraverser(
                 TemplateObjectFactoryDefinition.class,
                 TraverseStrategy.TOP_DOWN,
-                TraverseDepth.CLASS_HIERARCHY
+                traverseDepth
         );
         traverser.traverse(testClass, new AnnotationHandlerBase<Annotation>() {
             @Override
@@ -99,6 +135,45 @@ public final class TemplateObjectsResolver {
 
     private static TemplateObjectFactory createTemplateObjectFactoryFromDefinition(TemplateObjectFactoryDefinition templateObjectFactoryDefinition) {
         return ObjectCreator.createInstance(templateObjectFactoryDefinition.factory());
+    }
+
+
+    public static final class Builder extends BuilderBase<TemplateObjectsResolver> {
+
+        private TraverseDepth traverseDepth;
+        private DuplicateHandler duplicateHandler;
+        private TemplateObjectCreatorListOrder templateObjectCreatorListOrder;
+
+        private Builder() {
+        }
+
+        public Builder withStandardSettings() {
+            withTraverseDepth(DataSetProperties.getTemplateObjectTraverseDepth());
+            withTemplateObjectDuplicateStrategy(DataSetProperties.getTemplateObjectDuplicateStrategy());
+            return this;
+        }
+
+        public Builder withTraverseDepth(TraverseDepth traverseDepth) {
+            this.traverseDepth = traverseDepth;
+            return this;
+        }
+
+        public Builder withTemplateObjectDuplicateStrategy(TemplateObjectDuplicateStrategy templateObjectDuplicateStrategy) {
+            this.templateObjectCreatorListOrder = templateObjectDuplicateStrategy;
+            this.duplicateHandler = templateObjectDuplicateStrategy;
+            return this;
+        }
+
+        // For test purposes
+        Builder withDuplicateHandler(DuplicateHandler duplicateHandler) {
+            this.duplicateHandler = duplicateHandler;
+            return this;
+        }
+
+        @Override
+        protected TemplateObjectsResolver doBuild() {
+            return new TemplateObjectsResolver(traverseDepth, duplicateHandler, templateObjectCreatorListOrder);
+        }
     }
 
 }

@@ -16,20 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
 package org.failearly.dataset.template;
 
 import java.lang.annotation.Annotation;
 
 /**
- * TypedTemplateObjectFactory cast to the actually expected annotation and provides to type safe methods.
+ * TemplateObjectFactoryBase is the base class for implementing {@link TemplateObjectFactory}. It also cast to the actually expected annotation
+ * and provides to type safe methods.
  *
  * @see #doCreate(Annotation)
  * @see #doResolveDataSetName(Annotation)
  */
-public abstract class TypedTemplateObjectFactory<T extends Annotation> implements TemplateObjectFactory {
+public abstract class TemplateObjectFactoryBase<T extends Annotation> implements TemplateObjectFactory {
     private final Class<T> annotationClass;
 
-    protected TypedTemplateObjectFactory(Class<T> annotationClass) {
+    protected TemplateObjectFactoryBase(Class<T> annotationClass) {
         this.annotationClass = annotationClass;
     }
 
@@ -57,4 +59,9 @@ public abstract class TypedTemplateObjectFactory<T extends Annotation> implement
      * @return the data set name.
      */
     protected abstract String doResolveDataSetName(T annotation);
+
+    @Override
+    public final void __extend_TemplateObjectFactoryBase__instead_of_implementing_TemplateObjectFactory() {
+        throw new UnsupportedOperationException("__extend_TemplateObjectFactoryBase__instead_of_implementing_TemplateObjectFactory should not be called");
+    }
 }

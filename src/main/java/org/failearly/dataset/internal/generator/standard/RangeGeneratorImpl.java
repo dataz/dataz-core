@@ -16,12 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
 package org.failearly.dataset.internal.generator.standard;
 
 import org.failearly.dataset.generator.support.LimitedGeneratorBase;
 import org.failearly.dataset.generator.LoopGenerator;
 import org.failearly.dataset.generator.RangeGenerator;
 
+import java.lang.annotation.Annotation;
 import java.util.Iterator;
 
 /**
@@ -35,15 +37,15 @@ public final class RangeGeneratorImpl extends LimitedGeneratorBase<Integer> {
     private final int end;
 
     RangeGeneratorImpl(RangeGenerator rangeGenerator) {
-        this(rangeGenerator.dataset(), rangeGenerator.name(), rangeGenerator.start(), rangeGenerator.end());
+        this(rangeGenerator, rangeGenerator.dataset(), rangeGenerator.name(), rangeGenerator.start(), rangeGenerator.end());
     }
 
-    RangeGeneratorImpl(LoopGenerator rangeGenerator) {
-        this(rangeGenerator.dataset(), rangeGenerator.name(), 1, rangeGenerator.size());
+    RangeGeneratorImpl(LoopGenerator loopGenerator) {
+        this(loopGenerator, loopGenerator.dataset(), loopGenerator.name(), 1, loopGenerator.size());
     }
 
-    private RangeGeneratorImpl(String dataset, String name, int start, int end) {
-        super(dataset, name);
+    private RangeGeneratorImpl(Annotation annotation, String dataset, String name, int start, int end) {
+        super(annotation, dataset, name);
 
         this.start = start;
         this.end = end;
@@ -67,16 +69,5 @@ public final class RangeGeneratorImpl extends LimitedGeneratorBase<Integer> {
                 return next;
             }
         };
-    }
-
-
-    @Override
-    public String toString() {
-        return "RangeGenerator{" +
-                "dataset=" + super.dataset() +
-                ", name=" + super.name() +
-                ", start=" + start +
-                ", end=" + end +
-                '}';
     }
 }

@@ -20,6 +20,8 @@
 package org.failearly.dataset.config;
 
 import org.apache.commons.lang.StringUtils;
+import org.failearly.dataset.internal.annotation.TraverseDepth;
+import org.failearly.dataset.internal.template.TemplateObjectDuplicateStrategy;
 import org.failearly.dataset.util.ExtendedProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -123,6 +125,27 @@ public final class DataSetProperties implements Constants {
      */
     public static String getTemplateEngineFactoryClass() {
         return properties.getTemplateEngineFactoryClass();
+    }
+
+    /**
+     * @return the template object (annotation) traverse depth.
+     *
+     * @see TraverseDepth
+     * @see org.failearly.dataset.internal.annotation.AnnotationTraversers
+     * @see org.failearly.dataset.internal.template.TemplateObjectsResolver.Builder
+     */
+    public static TraverseDepth getTemplateObjectTraverseDepth() {
+        return properties.getTemplateObjectTraverseDepth();
+    }
+
+    /**
+     * @return the strategy for duplicated template objects
+     *
+     * @see TemplateObjectDuplicateStrategy
+     * @see org.failearly.dataset.internal.template.TemplateObjectsResolver.Builder
+     */
+    public static TemplateObjectDuplicateStrategy getTemplateObjectDuplicateStrategy() {
+        return properties.getTemplateObjectDuplicateStrategy();
     }
 
     /**
@@ -307,11 +330,18 @@ public final class DataSetProperties implements Constants {
             return Boolean.parseBoolean(properties.getProperty(Constants.DATASET_PROPERTY_DROP_TEMP_FILE, "true"));
         }
 
+        TraverseDepth getTemplateObjectTraverseDepth() {
+            return TraverseDepth.valueOf(getProperty(DATASET_TEMPLATE_OBJECT_TRAVERSING_DEPTH, TraverseDepth.DECLARED_CLASS.name()));
+        }
+
+        TemplateObjectDuplicateStrategy getTemplateObjectDuplicateStrategy() {
+            return TemplateObjectDuplicateStrategy.valueOf(getProperty(DATASET_TEMPLATE_OBJECT_DUPLICATE_STRATEGY, TemplateObjectDuplicateStrategy.STRICT.name()));
+        }
+
         String getProperty(String key) {
             return properties.getProperty(key);
         }
 
-        @SuppressWarnings("unused")
         String getProperty(String key, String defaultValue) {
             final String value = properties.getProperty(key, defaultValue);
             LOGGER.info("Property {}='{}'",key, value);

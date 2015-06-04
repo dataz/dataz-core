@@ -16,8 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
 package org.failearly.dataset.template;
 
+import java.lang.annotation.Annotation;
 import java.util.Objects;
 
 /**
@@ -25,15 +27,22 @@ import java.util.Objects;
  */
 public abstract class TemplateObjectBase implements TemplateObject {
 
+    protected static final Annotation NO_ANNOTATION=null;
+
+    private final Annotation annotation;
     private final String dataset;
     private final String name;
 
     protected TemplateObjectBase(String dataset, String name) {
+        this(NO_ANNOTATION, dataset, name);
+    }
+    protected TemplateObjectBase(Annotation annotation, String dataset, String name) {
         assert ! Objects.toString(name,"").isEmpty() : "name is empty or null";
         assert ! Objects.toString(dataset,"").isEmpty() : "dataset is empty or null";
 
         this.dataset = dataset;
         this.name = name;
+        this.annotation = annotation;
     }
 
     @Override
@@ -66,8 +75,20 @@ public abstract class TemplateObjectBase implements TemplateObject {
     }
 
     @Override
-    public final void __use_TemplateObjectBase__instead_of_implementing_TemplateObject() {
-        throw new UnsupportedOperationException("do not call __use_TemplateObjectBase__instead_of_implementing_TemplateObject()");
+    public final void __extend_TemplateObjectBase__instead_of_implementing_TemplateObject() {
+        throw new UnsupportedOperationException("do not call __extend_TemplateObjectBase__instead_of_implementing_TemplateObject()");
     }
 
+    protected final <T extends Annotation> T getAnnotation(Class<T> annotationClass) {
+        return annotationClass.cast(annotation);
+    }
+
+
+    @Override
+    public String toString() {
+        return Objects.toString(annotation, "TemplateObject{" +
+                "dataset='" + dataset + '\'' +
+                ", name='" + name + '\'' +
+                '}');
+    }
 }

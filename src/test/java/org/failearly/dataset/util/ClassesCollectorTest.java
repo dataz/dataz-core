@@ -32,8 +32,8 @@ import static org.hamcrest.Matchers.*;
  */
 public class ClassesCollectorTest {
 
-    private final ClassesCollector topDownCollector=new ClassesCollector(ClassesCollector.Order.TOP_DOWN, ClassesCollector.ENTIRE_HIERARCHY_DEPTH);
-    private final ClassesCollector bottomUpCollector=new ClassesCollector(ClassesCollector.Order.BOTTOM_UP, ClassesCollector.ENTIRE_HIERARCHY_DEPTH);
+    private final ClassesCollector topDownCollector=new ClassesCollector(ClassesCollector.Order.TOP_DOWN, ClassesCollector.CLASS_HIERARCHY_DEPTH);
+    private final ClassesCollector bottomUpCollector=new ClassesCollector(ClassesCollector.Order.BOTTOM_UP, ClassesCollector.CLASS_HIERARCHY_DEPTH);
 
     @Test
     public void collect_from_method__should_be_the_same_collecting_from_declaring_class() throws Exception {
@@ -81,7 +81,7 @@ public class ClassesCollectorTest {
         final Method method = TestUtils.resolveMethodFromClass("aMethod", DerivedFromBaseClass.class);
 
         // act / when
-        final ClassesCollector restrictedTopDownCollector=new ClassesCollector(ClassesCollector.Order.TOP_DOWN, ClassesCollector.ONLY_DECLARING_CLASS_DEPTH);
+        final ClassesCollector restrictedTopDownCollector=new ClassesCollector(ClassesCollector.Order.TOP_DOWN, ClassesCollector.ONLY_DECLARED_CLASS_DEPTH);
 
         // assert / then
         assertThat("Just the declaring class (TOP DOWN)?",                         //
@@ -96,7 +96,7 @@ public class ClassesCollectorTest {
         final Method method = TestUtils.resolveMethodFromClass("aMethod", DerivedFromBaseClass.class);
 
         // act / when
-        final ClassesCollector restrictedBottomUpCollector=new ClassesCollector(ClassesCollector.Order.BOTTOM_UP, ClassesCollector.ONLY_DECLARING_CLASS_DEPTH);
+        final ClassesCollector restrictedBottomUpCollector=new ClassesCollector(ClassesCollector.Order.BOTTOM_UP, ClassesCollector.ONLY_DECLARED_CLASS_DEPTH);
 
         // assert / then
         assertThat("Just the declaring class (BOTTOM UP)?",                         //

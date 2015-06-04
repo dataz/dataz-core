@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
 package org.failearly.dataset.internal.template.velocity;
 
 import org.failearly.dataset.generator.ConstantGenerator;
@@ -80,21 +81,6 @@ public class VelocityTemplateEngineTest extends TemplateEngineTestBase {
 
         // assert / then
         assertThat("Use both generators?", TestUtils.fileToString(generatedFile), Matchers.is("unlimited constant\nlimited constant\n"));
-    }
-
-
-    @Test
-    public void multiple_generators_with_same_name__should_win_the_last_one() throws Exception {
-        // act / when
-        final File generatedFile = templateEngine.generate(
-                        templateInputStream(),
-                        ANY_TEMPLATE_RESOURCE_NAME,
-                        resolveTemplateObjects(MyClass.class).filterByDataSet(SHARED_DATA_SET)
-                );
-
-
-        // assert / then
-        assertThat("Use overridden generators?", TestUtils.fileToString(generatedFile), Matchers.is("unlimited constant\noverride limited\n"));
     }
 
 

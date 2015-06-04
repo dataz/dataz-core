@@ -34,7 +34,7 @@ public class MetaAnnotation_TopDown_DeclaredClass_TraversersTest extends Annotat
     private final AnnotationTraverser<Annotation> topDownDeclaringClassTraverser = AnnotationTraversers.createMetaAnnotationTraverser(
             MetaAnnotation.class,
             TraverseStrategy.TOP_DOWN,
-            TraverseDepth.DECLARING_CLASS  // << ONLY METHOD AND DECLARED/TOP LEVEL CLASSES
+            TraverseDepth.DECLARED_CLASS  // << ONLY METHOD AND DECLARED/TOP LEVEL CLASSES
     );
 
     @Test

@@ -22,6 +22,7 @@ package org.failearly.dataset.internal.generator.decorator;
 import org.failearly.dataset.generator.support.LimitedGeneratorBase;
 import org.failearly.dataset.generator.support.UnlimitedGeneratorBase;
 
+import java.lang.annotation.Annotation;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;

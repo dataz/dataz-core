@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
 package org.failearly.dataset.internal.generator.standard;
 
 import org.failearly.dataset.generator.support.LimitedGeneratorBase;
@@ -23,6 +24,7 @@ import org.failearly.dataset.generator.ListGenerator;
 import org.failearly.dataset.generator.support.GeneratorFactoryBase;
 import org.failearly.dataset.template.TemplateObject;
 
+import java.lang.annotation.Annotation;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -43,7 +45,7 @@ public final class ListGeneratorFactory extends GeneratorFactoryBase<String,List
 
     @Override
     protected ListGeneratorImpl doCreateLimitedGenerator(ListGenerator generatorAnnotation, Integer limitValue) {
-        return new ListGeneratorImpl(generatorAnnotation.dataset(), generatorAnnotation.name(), generatorAnnotation.values());
+        return new ListGeneratorImpl(generatorAnnotation, generatorAnnotation.dataset(), generatorAnnotation.name(), generatorAnnotation.values());
     }
 
     @Override
@@ -56,8 +58,8 @@ public final class ListGeneratorFactory extends GeneratorFactoryBase<String,List
     public static class ListGeneratorImpl extends LimitedGeneratorBase<String> {
         private final List<String> values;
 
-        ListGeneratorImpl(String dataset, String name, String[] values) {
-            super(dataset, name);
+        ListGeneratorImpl(Annotation annotation, String dataset, String name, String[] values) {
+            super(annotation, dataset, name);
             this.values = Arrays.asList(values);
         }
 

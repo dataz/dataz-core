@@ -98,7 +98,7 @@ public class UnlimitedGeneratorDecoratorTest {
     private static class LimitedGenerator extends GeneratorBase<String> {
 
         LimitedGenerator() {
-            super("DATASET", "NAME");
+            super(NO_ANNOTATION, "DATASET", "NAME");
         }
 
         @Override
