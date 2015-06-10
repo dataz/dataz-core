@@ -16,8 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
 package org.failearly.dataset.generator;
 
+import org.failearly.dataset.config.Constants;
 import org.failearly.dataset.template.TemplateObjectFactoryDefinition;
 import org.failearly.dataset.internal.generator.standard.RandomBooleanGeneratorFactory;
 
@@ -43,7 +45,7 @@ public @interface RandomBooleanGenerator {
      *
      * @see org.failearly.dataset.DataSet#name()
      */
-    String dataset() default "dataset";
+    String dataset() default Constants.DATASET_DEFAULT_NAME;;
 
     /**
      * @return the percentage ({@code >0} and {@code < 100}) of {@code true} values.

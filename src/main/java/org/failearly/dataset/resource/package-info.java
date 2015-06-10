@@ -1,7 +1,7 @@
 /*
  * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2015 marko (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@
  * {@code DataResourcesFactory} will be used by the meta annotations {@link org.failearly.dataset.annotations.DataSetupResourceFactoryDefinition} and
  * {@link org.failearly.dataset.annotations.DataCleanupResourceFactoryDefinition}.
  *
- * @see org.failearly.dataset.internal.resource.factory.dataset.SetupResourcesFactory
- * @see org.failearly.dataset.internal.resource.factory.dataset.CleanupResourcesFactory
+ * @see org.failearly.dataset.internal.resource.factory.dataset.DataSetSetupResourcesFactory
+ * @see org.failearly.dataset.internal.resource.factory.dataset.DataSetCleanupResourcesFactory
  */
 package org.failearly.dataset.resource;

@@ -34,25 +34,25 @@ import java.util.List;
  */
 public abstract class DataResourceAnnotationHandlerBase<T extends Annotation> extends AnnotationHandlerBase<Annotation> {
     private final List<DataResource> dataResourceList;
-    private final TemplateObjects generatorCreators;
+    private final TemplateObjects templateObjects;
     private final Class<T> metaAnnotationClass;
 
-    protected DataResourceAnnotationHandlerBase(Class<T> metaAnnotationClass, TemplateObjects generatorCreators, List<DataResource> dataResourceList) {
+    protected DataResourceAnnotationHandlerBase(Class<T> metaAnnotationClass, TemplateObjects templateObjects, List<DataResource> dataResourceList) {
         this.metaAnnotationClass = metaAnnotationClass;
-        this.generatorCreators = generatorCreators;
+        this.templateObjects = templateObjects;
         this.dataResourceList = dataResourceList;
     }
 
     @Override
     public final void handleClassAnnotation(Class<?> clazz, Annotation annotation) {
         final DataResourcesFactory dataResourcesFactory = getDataResourceFactory(annotation);
-        dataResourceList.addAll(dataResourcesFactory.createDataResources(clazz, annotation, generatorCreators));
+        dataResourceList.addAll(dataResourcesFactory.createDataResources(clazz, annotation, templateObjects));
     }
 
     @Override
     public final void handleMethodAnnotation(Method method, Annotation annotation) {
         final DataResourcesFactory dataResourcesFactory = getDataResourceFactory(annotation);
-        dataResourceList.addAll(dataResourcesFactory.createDataResources(method, annotation, generatorCreators));
+        dataResourceList.addAll(dataResourcesFactory.createDataResources(method, annotation, templateObjects));
     }
 
     private DataResourcesFactory getDataResourceFactory(Annotation annotation) {

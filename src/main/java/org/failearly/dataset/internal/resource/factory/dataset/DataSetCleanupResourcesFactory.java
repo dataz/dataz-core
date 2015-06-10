@@ -22,17 +22,15 @@ import org.failearly.dataset.DataSet;
 import org.failearly.dataset.internal.resource.ResourceType;
 
 /**
- * DataSetSetupResourceFactory creates Setup DataResource from annotation {@link DataSet}.
+ * DataSetCleanupResourcesFactory creates Cleanup DataResource from annotation {@link DataSet}.
  */
-public final class SetupResourcesFactory extends ResourcesFactoryBase {
-    public SetupResourcesFactory() {
-        super(ResourceType.SETUP);
+public final class DataSetCleanupResourcesFactory extends ResourcesFactoryBase {
+    public DataSetCleanupResourcesFactory() {
+        super(ResourceType.CLEANUP);
     }
-
 
     @Override
     protected String[] getResourceNamesFromAnnotation(DataSet annotation) {
-        return annotation.setup();
+        return annotation.cleanup();
     }
-
 }

@@ -17,14 +17,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package org.failearly.dataset.internal.template;
+package org.failearly.dataset.internal.resource.factory.dataset;
+
+import org.failearly.dataset.DataSet;
+import org.failearly.dataset.internal.resource.ResourceType;
 
 /**
- * TemplateObjectsTestHelper is responsible for ...
+ * DataSetSetupResourceFactory creates Setup DataResource from annotation {@link DataSet}.
  */
-public final class TemplateObjectsTestHelper {
-
-    public static TemplateObjects noTemplateObjects() {
-        return TemplateObjects.empty();
+public final class DataSetSetupResourcesFactory extends ResourcesFactoryBase {
+    public DataSetSetupResourcesFactory() {
+        super(ResourceType.SETUP);
     }
+
+    @Override
+    protected String[] getResourceNamesFromAnnotation(DataSet annotation) {
+        return annotation.setup();
+    }
+
 }

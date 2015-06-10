@@ -31,10 +31,10 @@ import java.util.List;
  * DataSetupResourceAnnotationHandler creates an DataResourceFactory from meta annotation
  * {@link DataCleanupResourceFactoryDefinition}.
  */
-    final class DataCleanupResourceAnnotationHandler extends DataResourceAnnotationHandlerBase<DataCleanupResourceFactoryDefinition> {
+public final class DataCleanupResourceAnnotationHandler extends DataResourceAnnotationHandlerBase<DataCleanupResourceFactoryDefinition> {
 
-    DataCleanupResourceAnnotationHandler(List<DataResource> dataResourceList, TemplateObjects generatorCreators) {
-        super(DataCleanupResourceFactoryDefinition.class, generatorCreators, dataResourceList);
+    public DataCleanupResourceAnnotationHandler(List<DataResource> dataResourceList, TemplateObjects templateObjects) {
+        super(DataCleanupResourceFactoryDefinition.class, templateObjects, dataResourceList);
     }
 
     @Override

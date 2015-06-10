@@ -41,6 +41,11 @@ public abstract class TypedDataResourcesFactory<T extends Annotation> implements
         return doCreateDataResourcesFromTestClass(annotatedClass, annotationClass.cast(annotation), templateObjects);
     }
 
+    @Override
+    public final List<DataResource> createDataResources(Method annotatedMethod, Annotation annotation, TemplateObjects templateObjects) {
+        return doCreateDataResourcesFromTestMethod(annotatedMethod, annotationClass.cast(annotation), templateObjects);
+    }
+
     /**
      * Do create {@link DataResource}s from test class and annotation.
      *
@@ -49,11 +54,8 @@ public abstract class TypedDataResourcesFactory<T extends Annotation> implements
      * @param templateObjects   all template objects.
      * @return a list with all DataResource
      */
-    protected abstract List<DataResource> doCreateDataResourcesFromTestClass(Class<?> testClass, T annotation, TemplateObjects templateObjects);
-
-    @Override
-    public final List<DataResource> createDataResources(Method annotatedMethod, Annotation annotation, TemplateObjects templateObjects) {
-        return doCreateDataResourcesFromTestMethod(annotatedMethod, annotationClass.cast(annotation), templateObjects);
+    protected List<DataResource> doCreateDataResourcesFromTestClass(Class<?> testClass, T annotation, TemplateObjects templateObjects) {
+        return doCreateDataResources(annotation, templateObjects);
     }
 
     /**
@@ -64,5 +66,19 @@ public abstract class TypedDataResourcesFactory<T extends Annotation> implements
      * @param templateObjects   all template objects.
      * @return a list with all DataResource
      */
-    protected abstract List<DataResource> doCreateDataResourcesFromTestMethod(Method testMethod, T annotation, TemplateObjects templateObjects);
+    protected List<DataResource> doCreateDataResourcesFromTestMethod(Method testMethod, T annotation, TemplateObjects templateObjects)  {
+        return doCreateDataResources(annotation, templateObjects);
+    }
+
+    /**
+     * Do create {@link DataResource}s from annotation.
+     *
+     * @param annotation        the annotation
+     * @param templateObjects   all template objects.
+     * @return a list with all DataResource
+     */
+    protected List<DataResource> doCreateDataResources(T annotation, TemplateObjects templateObjects) {
+        throw new UnsupportedOperationException("Please implement doCreateDataResources(), doCreateDataResourcesFromTestClass() or doCreateDataResourcesFromTestMethod()");
+    }
+
 }

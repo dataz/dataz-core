@@ -19,6 +19,7 @@
 
 package org.failearly.dataset.generator;
 
+import org.failearly.dataset.config.Constants;
 import org.failearly.dataset.template.TemplateObjectFactoryDefinition;
 import org.failearly.dataset.internal.generator.standard.LoopGeneratorFactory;
 
@@ -46,7 +47,7 @@ public @interface LoopGenerator {
      *
      * @see org.failearly.dataset.DataSet#name()
      */
-    String dataset() default "dataset";
+    String dataset() default Constants.DATASET_DEFAULT_NAME;;
 
     /**
      * The loop's size. The last value generated will be {@code size}.

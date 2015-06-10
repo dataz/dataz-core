@@ -1,8 +1,20 @@
 /*
- * Copyright (c) 2009.
+ * dataSet - Test Support For Data Stores.
  *
- * Date: 10.05.15
- * 
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 package org.failearly.dataset.test;
 
@@ -24,7 +36,7 @@ public final class AnnotationInstanceResolver<T extends Annotation> extends Buil
     }
 
     public static <T extends Annotation> AnnotationInstanceResolver<T> annotationResolver(Class<T> annotationClass) {
-        return new AnnotationInstanceResolver<T>(annotationClass);
+        return new AnnotationInstanceResolver<>(annotationClass);
     }
 
     public AnnotationInstanceResolver<T> fromClass(Class<?> testClass) {
@@ -39,7 +51,7 @@ public final class AnnotationInstanceResolver<T extends Annotation> extends Buil
 
     @Override
     protected T doBuild() throws RuntimeException {
-        T annotation = null;
+        T annotation;
         try {
             if (methodName == null) {
                 annotation = testClass.getAnnotation(annotationClass);

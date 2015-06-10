@@ -19,6 +19,7 @@
 
 package org.failearly.dataset.generator;
 
+import org.failearly.dataset.config.Constants;
 import org.failearly.dataset.template.TemplateObjectFactoryDefinition;
 import org.failearly.dataset.internal.generator.standard.RangeGeneratorFactory;
 
@@ -44,7 +45,7 @@ public @interface RangeGenerator {
      *
      * @see org.failearly.dataset.DataSet#name()
      */
-    String dataset() default "dataset";
+    String dataset() default Constants.DATASET_DEFAULT_NAME;;
 
     /**
      * The Limit type. Limited by {@code end-start+1}.

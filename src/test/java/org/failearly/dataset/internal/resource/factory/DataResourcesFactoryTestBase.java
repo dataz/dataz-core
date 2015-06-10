@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
 package org.failearly.dataset.internal.resource.factory;
 
 import org.failearly.dataset.config.Constants;
@@ -23,9 +24,10 @@ import org.failearly.dataset.internal.model.TestMethodImplSetupHandlerTest;
 import org.failearly.dataset.internal.template.TemplateObjectsTestHelper;
 import org.failearly.dataset.resource.DataResource;
 import org.failearly.dataset.resource.DataResourcesFactory;
-import org.failearly.dataset.resource.GenericDataResourcesFactory;
+import org.failearly.dataset.resource.TypedDataResourcesFactory;
 import org.failearly.dataset.test.FakeDataStoreRule;
 import org.failearly.dataset.test.TestUtils;
+import org.hamcrest.Matcher;
 import org.junit.ClassRule;
 import org.junit.rules.TestRule;
 
@@ -34,12 +36,15 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import static org.failearly.dataset.test.AnnotationInstanceResolver.annotationResolver;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.contains;
+import static org.junit.Assert.assertThat;
 
 /**
  * DataResourcesFactoryTestBase provides support functionality for {@link org.failearly.dataset.resource.GenericDataResourcesFactory} based
  * implementations of {@link DataResourcesFactory}.
  */
-public class DataResourcesFactoryTestBase<T extends Annotation, R extends GenericDataResourcesFactory<T>> {
+public abstract class DataResourcesFactoryTestBase<T extends Annotation, R extends TypedDataResourcesFactory<T>> {
     public static final String OTHER_DATASTORE_ID = "OTHER-DATASTORE";
 
     @ClassRule
@@ -64,13 +69,26 @@ public class DataResourcesFactoryTestBase<T extends Annotation, R extends Generi
 
     private T resolveAnnotation(String methodName) {
         return annotationResolver(annotationClass) //
-                    .fromClass(testSubjectClass)
-                    .fromMethodName(methodName)
-                    .build();
+                .fromClass(testSubjectClass)   //
+                .fromMethodName(methodName)    //
+                .build();
 
     }
 
     protected List<DataResource> createDataResourcesFromMethod(String methodName) throws NoSuchMethodException {
-        return dataResourcesFactory.createDataResources(resolveMethod(methodName), resolveAnnotation(methodName), TemplateObjectsTestHelper.noTemplateObjects());
+        return dataResourcesFactory.createDataResources(
+                resolveMethod(methodName),
+                resolveAnnotation(methodName),
+                TemplateObjectsTestHelper.noTemplateObjects()
+        );
+    }
+
+    @SafeVarargs
+    protected static void assertResolvedDataResources(List<DataResource> dataResources, Matcher<DataResource>... expectedResources) {
+        assertThat("Data Resources matches and in correct order?", dataResources, contains(expectedResources));
+    }
+
+    protected static void assertDataResourcesContent(DataResource dataResource, String expectedContent) {
+        assertThat("Data Resource expected content?", TestUtils.inputStreamToString(dataResource.open()), is(expectedContent));
     }
 }

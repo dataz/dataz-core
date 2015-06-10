@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
 package org.failearly.dataset.internal.model;
 
 import org.failearly.dataset.SuppressCleanup;
@@ -74,7 +75,8 @@ final class TestMethodImpl implements TestMethod {
     private void resolveSetupDataResources(Method testMethod, TemplateObjects templateObjects) {
         final AnnotationTraverser<Annotation> resourcesTraverser = AnnotationTraversers.createMetaAnnotationTraverser(
                 DataSetupResourceFactoryDefinition.class,
-                TraverseStrategy.BOTTOM_UP, TraverseDepth.CLASS_HIERARCHY
+                TraverseStrategy.BOTTOM_UP,
+                TraverseDepth.CLASS_HIERARCHY
         );
         resourcesTraverser.traverse(testMethod, new DataSetupResourceAnnotationHandler(setupResources, templateObjects));
     }
@@ -82,7 +84,8 @@ final class TestMethodImpl implements TestMethod {
     private void resolveCleanupDataResources(Method testMethod, TemplateObjects templateObjects) {
         final AnnotationTraverser<Annotation> resourcesTraverser = AnnotationTraversers.createMetaAnnotationTraverser(
                 DataCleanupResourceFactoryDefinition.class,
-                TraverseStrategy.BOTTOM_UP, TraverseDepth.CLASS_HIERARCHY
+                TraverseStrategy.BOTTOM_UP,
+                TraverseDepth.CLASS_HIERARCHY
         );
         resourcesTraverser.traverse(testMethod, new DataCleanupResourceAnnotationHandler(cleanupResources, templateObjects));
         Collections.reverse(cleanupResources);

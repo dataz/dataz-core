@@ -19,6 +19,7 @@
 
 package org.failearly.dataset.test;
 
+import org.failearly.dataset.config.Constants;
 import org.failearly.dataset.template.TemplateObjectFactoryDefinition;
 
 import java.lang.annotation.*;
@@ -42,7 +43,7 @@ public @interface MyTemplateObjectAnnotation {
      *
      * @see org.failearly.dataset.DataSet#name()
      */
-    String dataset() default "dataset";
+    String dataset() default Constants.DATASET_DEFAULT_NAME;;
 
     /**
      * The description.

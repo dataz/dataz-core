@@ -17,9 +17,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package org.failearly.dataset.internal.resource.factory;
+package org.failearly.dataset.internal.resource.factory.dataset;
 
-import org.failearly.dataset.DataSetup;
+import org.failearly.dataset.DataSet;
+import org.failearly.dataset.internal.resource.factory.DataResourcesFactoryTestBase;
 import org.failearly.dataset.resource.DataResource;
 import org.junit.Test;
 
@@ -27,16 +28,14 @@ import java.util.List;
 
 import static org.failearly.dataset.test.DataResourceMatchers.isDataResource;
 import static org.failearly.dataset.test.DataResourceMatchers.isDefaultDataResource;
-import static org.hamcrest.Matchers.contains;
-import static org.junit.Assert.assertThat;
 
 /**
- * DataSetupResourcesFactoryTest contains tests for {@link DataSetup} and {@link DataSetupResourcesFactory}.
+ * SetupResourcesFactoryTest contains tests for {@link DataSet#cleanup()} and {@link DataSetSetupResourcesFactory}.
  */
-public class DataSetupResourcesFactoryTest extends DataResourcesFactoryTestBase<DataSetup, DataSetupResourcesFactory> {
+public class DataSetCleanupResourcesFactoryTest extends DataResourcesFactoryTestBase<DataSet, DataSetCleanupResourcesFactory> {
 
-    public DataSetupResourcesFactoryTest() {
-        super(DataSetup.class, new DataSetupResourcesFactory(), AnyClass.class);
+    public DataSetCleanupResourcesFactoryTest() {
+        super(DataSet.class, new DataSetCleanupResourcesFactory(), AnyClass.class);
     }
 
     @Test
@@ -45,7 +44,9 @@ public class DataSetupResourcesFactoryTest extends DataResourcesFactoryTestBase<
         final List<DataResource> dataResources = createDataResourcesFromMethod("defaultSettings");
 
         // assert / then
-        assertResolvedDataResources(dataResources, isDefaultDataResource("/org/failearly/dataset/internal/resource/factory/AnyClass-defaultSettings.setup"));                                                                                               //
+        assertResolvedDataResources(dataResources,
+                isDefaultDataResource("/org/failearly/dataset/internal/resource/factory/dataset/AnyClass-defaultSettings.cleanup")//
+        );
     }
 
     @Test
@@ -54,7 +55,9 @@ public class DataSetupResourcesFactoryTest extends DataResourcesFactoryTestBase<
         final List<DataResource> dataResources = createDataResourcesFromMethod("noneDefaultSettings");
 
         // assert / then
-        assertResolvedDataResources(dataResources, isDataResource(OTHER_DATASTORE_ID, OTHER_DATA_SET_NAME, "/any-resource.setup", false, false));
+        assertResolvedDataResources(dataResources,                                                                   //
+                isDataResource(OTHER_DATASTORE_ID, OTHER_DATA_SET_NAME, "/any-resource.cleanup", false, false)       //
+        );
     }
 
     @Test
@@ -64,22 +67,22 @@ public class DataSetupResourcesFactoryTest extends DataResourcesFactoryTestBase<
         final List<DataResource> dataResources = createDataResourcesFromMethod("multipleResources");
 
         // assert / then
-        assertResolvedDataResources(dataResources,                        //
-                    isDefaultDataResource("/first-resource.setup"),       //
-                    isDefaultDataResource("/second-resource.setup")       //
+        assertResolvedDataResources(dataResources,                            //
+                isDefaultDataResource("/first-resource.cleanup"),     //
+                isDefaultDataResource("/second-resource.cleanup")     //
         );
     }
 
     private static class AnyClass {
-        @DataSetup
+        @DataSet
         public void defaultSettings() {
         }
 
-        @DataSetup(datastore = OTHER_DATASTORE_ID, name = OTHER_DATA_SET_NAME, value = "/any-resource.setup", transactional = false, failOnError = false)
+        @DataSet(datastore = OTHER_DATASTORE_ID, name = OTHER_DATA_SET_NAME, cleanup = "/any-resource.cleanup", transactional = false, failOnError = false)
         public void noneDefaultSettings() {
         }
 
-        @DataSetup({"/first-resource.setup","/second-resource.setup"})
+        @DataSet(cleanup = {"/first-resource.cleanup", "/second-resource.cleanup"})
         public void multipleResources() {
         }
     }

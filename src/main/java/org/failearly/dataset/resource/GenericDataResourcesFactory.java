@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
 package org.failearly.dataset.resource;
 
 import org.failearly.dataset.DataSet;
@@ -48,17 +49,17 @@ public abstract class GenericDataResourcesFactory<T extends Annotation> extends 
     }
 
     @Override
-    protected final List<DataResource> doCreateDataResourcesFromTestClass(Class<?> testClass, T annotation, TemplateObjects generatorCreators) {
+    protected final List<DataResource> doCreateDataResourcesFromTestClass(Class<?> testClass, T annotation, TemplateObjects templateObjects) {
         final List<DataResource> dataResources = new LinkedList<>();
         if (userHasProvidedResourceNames(annotation)) {
-            dataResources.addAll(doResolveDataResourcesFromResourceNames(annotation, testClass, generatorCreators));
+            dataResources.addAll(doResolveDataResourcesFromResourceNames(annotation, testClass, templateObjects));
         } else {
             dataResources.add(
                     createDataResourceFromAnnotation( //
                             annotation,                                                                                                     //
                             testClass,                                                                                                      //
                             createDefaultResourceNameFromTestClass(testClass, getDataStoreIdFromAnnotation(annotation), this.resourceType), //
-                            generatorCreators                                                                                               //
+                            templateObjects                                                                                               //
                     )
             );
         }
@@ -66,18 +67,18 @@ public abstract class GenericDataResourcesFactory<T extends Annotation> extends 
     }
 
     @Override
-    protected final List<DataResource> doCreateDataResourcesFromTestMethod(Method testMethod, T annotation, TemplateObjects generatorCreators) {
+    protected final List<DataResource> doCreateDataResourcesFromTestMethod(Method testMethod, T annotation, TemplateObjects templateObjects) {
         final Class<?> testClass = testMethod.getDeclaringClass();
         final List<DataResource> dataResources = new LinkedList<>();
         if (userHasProvidedResourceNames(annotation)) {
-            dataResources.addAll(doResolveDataResourcesFromResourceNames(annotation, testClass, generatorCreators));
+            dataResources.addAll(doResolveDataResourcesFromResourceNames(annotation, testClass, templateObjects));
         } else {
             dataResources.add(
                     createDataResourceFromAnnotation( //
                             annotation,                                                                                                     //
                             testClass,                                                                                                      //
                             createDefaultResourceNameFromTestMethod(testMethod, getDataStoreIdFromAnnotation(annotation), this.resourceType), //
-                            generatorCreators                                                                                               //
+                            templateObjects                                                                                               //
                     )
             );
         }
@@ -91,12 +92,12 @@ public abstract class GenericDataResourcesFactory<T extends Annotation> extends 
     private List<DataResource> doResolveDataResourcesFromResourceNames(    //
                                                                            T annotation,            //
                                                                            Class<?> testClass,      //
-                                                                           TemplateObjects generatorCreators  //
+                                                                           TemplateObjects templateObjects  //
     ) {
         final String[] resourceNames = getResourceNamesFromAnnotation(annotation);
         final List<DataResource> dataResources = new ArrayList<>();
         for (String resourceName : resourceNames) {
-            dataResources.add(createDataResourceFromAnnotation(annotation, testClass, resourceName, generatorCreators));
+            dataResources.add(createDataResourceFromAnnotation(annotation, testClass, resourceName, templateObjects));
         }
 
         return dataResources;
@@ -126,9 +127,9 @@ public abstract class GenericDataResourcesFactory<T extends Annotation> extends 
      * @param annotation        the annotation
      * @param testClass         the test class
      * @param resourceName      the resource name
-     * @param generatorCreators the generators
+     * @param templateObjects the generators
      * @return the data resource object.
      */
-    protected abstract DataResource createDataResourceFromAnnotation(T annotation, Class<?> testClass, String resourceName, TemplateObjects generatorCreators);
+    protected abstract DataResource createDataResourceFromAnnotation(T annotation, Class<?> testClass, String resourceName, TemplateObjects templateObjects);
 
 }

@@ -48,12 +48,12 @@ public final class TemplateObjects {
         this.templateObjectCreatorListOrder = templateObjectCreatorListOrder;
     }
 
-    TemplateObjects() {
-        this(TemplateObjectDuplicateStrategy.STRICT);
-    }
-
     private TemplateObjects(TemplateObjectDuplicateStrategy templateObjectDuplicateStrategy) {
         this(templateObjectDuplicateStrategy, templateObjectDuplicateStrategy);
+    }
+
+    public static TemplateObjects empty() {
+        return new TemplateObjects(TemplateObjectDuplicateStrategy.STRICT);
     }
 
     /**
@@ -122,4 +122,5 @@ public final class TemplateObjects {
                     .filter((templateObjectCreator -> dataSetName.equals(templateObjectCreator.getDataSetName()))) //
                     .collect(Collectors.toList());
     }
+
 }

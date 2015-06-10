@@ -16,13 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
 package org.failearly.dataset;
 
 import org.failearly.dataset.annotations.DataCleanupResourceFactoryDefinition;
 import org.failearly.dataset.annotations.DataSetupResourceFactoryDefinition;
 import org.failearly.dataset.config.Constants;
-import org.failearly.dataset.internal.resource.factory.dataset.CleanupResourcesFactory;
-import org.failearly.dataset.internal.resource.factory.dataset.SetupResourcesFactory;
+import org.failearly.dataset.internal.resource.factory.dataset.DataSetCleanupResourcesFactory;
+import org.failearly.dataset.internal.resource.factory.dataset.DataSetSetupResourcesFactory;
 import org.failearly.dataset.resource.DataResource;
 
 import java.lang.annotation.*;
@@ -53,8 +54,8 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Repeatable(DataSet.DataSets.class)
-@DataSetupResourceFactoryDefinition(factory = SetupResourcesFactory.class)
-@DataCleanupResourceFactoryDefinition(factory = CleanupResourcesFactory.class)
+@DataSetupResourceFactoryDefinition(factory = DataSetSetupResourcesFactory.class)
+@DataCleanupResourceFactoryDefinition(factory = DataSetCleanupResourcesFactory.class)
 public @interface DataSet {
 
     /**
