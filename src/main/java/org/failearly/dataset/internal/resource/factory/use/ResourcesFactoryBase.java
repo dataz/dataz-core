@@ -40,7 +40,7 @@ import static org.failearly.dataset.internal.template.TemplateObjectsResolver.re
  */
 abstract class ResourcesFactoryBase<T extends Annotation> extends TypedDataResourcesFactory<Use> {
 
-    private static final ThreadLocal<Integer> nestedUse = new ThreadLocal<Integer>() {
+    private static final ThreadLocal<Integer> nestedUseCounter = new ThreadLocal<Integer>() {
         @Override
         protected Integer initialValue() {
             return 0;
@@ -66,8 +66,8 @@ abstract class ResourcesFactoryBase<T extends Annotation> extends TypedDataResou
         return doChangeOrder(dataResources);
     }
 
-    private boolean isNestedUse() {
-        return nestedUse.get() > 0;
+    private static boolean isNestedUse() {
+        return nestedUseCounter.get() > 0;
     }
 
     private void doResolveDataResourcesFromAllReusableDataSets(List<Class<? extends ReusableDataSet>> reusableDataSetClasses, List<DataResource> dataResources) {
@@ -82,8 +82,8 @@ abstract class ResourcesFactoryBase<T extends Annotation> extends TypedDataResou
         }
     }
 
-    private void nestedUse(int value) {
-        nestedUse.set(nestedUse.get() + value);
+    private static void nestedUse(int value) {
+        nestedUseCounter.set(nestedUseCounter.get() + value);
     }
 
     protected List<DataResource> doChangeOrder(List<DataResource> dataResources) {
