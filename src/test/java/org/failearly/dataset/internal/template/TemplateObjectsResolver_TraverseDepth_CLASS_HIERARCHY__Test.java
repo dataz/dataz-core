@@ -44,6 +44,7 @@ public class TemplateObjectsResolver_TraverseDepth_CLASS_HIERARCHY__Test extends
 
         // assert / then
         assertTemplateObjects(templateObjects,
+                "@org.failearly.dataset.test.MyTemplateObjectAnnotation(description=(0) on class AClass, dataset=<don't care>, name=GLOBAL)",
                 "@org.failearly.dataset.test.MyTemplateObjectAnnotation(description=(1) on class AClass, dataset=D1, name=G1)",
                 "@org.failearly.dataset.test.MyTemplateObjectAnnotation(description=(2) on class AClass, dataset=D2, name=G2)",
                 "@org.failearly.dataset.test.MyTemplateObjectAnnotation(description=(0) on class BaseClass, dataset=D0, name=G1)"
@@ -60,6 +61,7 @@ public class TemplateObjectsResolver_TraverseDepth_CLASS_HIERARCHY__Test extends
 
         // assert / then
         assertTemplateObjects(templateObjects,
+                "@org.failearly.dataset.test.MyTemplateObjectAnnotation(description=(0) on class AClass, dataset=<don't care>, name=GLOBAL)",
                 "@org.failearly.dataset.test.MyTemplateObjectAnnotation(description=(1) on class AClass, dataset=D1, name=G1)",
                 "@org.failearly.dataset.test.MyTemplateObjectAnnotation(description=(2) on class AClass, dataset=D2, name=G2)",
                 "@org.failearly.dataset.test.MyTemplateObjectAnnotation(description=(0) on class BaseClass, dataset=D0, name=G1)",
@@ -78,6 +80,7 @@ public class TemplateObjectsResolver_TraverseDepth_CLASS_HIERARCHY__Test extends
 
         // assert / then
         assertTemplateObjects(templateObjects,
+                "@org.failearly.dataset.test.MyTemplateObjectAnnotation(description=(0) on class AClass, dataset=<don't care>, name=GLOBAL)",
                 "@org.failearly.dataset.test.MyTemplateObjectAnnotation(description=(1) on class AClass, dataset=D1, name=G1)",
                 "@org.failearly.dataset.test.MyTemplateObjectAnnotation(description=(2) on class AClass, dataset=D2, name=G2)",
                 "@org.failearly.dataset.test.MyTemplateObjectAnnotation(description=(0) on class BaseClass, dataset=D0, name=G1)"

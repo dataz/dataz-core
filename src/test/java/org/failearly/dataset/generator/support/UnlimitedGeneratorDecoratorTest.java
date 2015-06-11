@@ -20,6 +20,7 @@
 package org.failearly.dataset.generator.support;
 
 import org.failearly.dataset.internal.generator.decorator.GeneratorDecorators;
+import org.failearly.dataset.template.Scope;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
@@ -98,7 +99,7 @@ public class UnlimitedGeneratorDecoratorTest {
     private static class LimitedGenerator extends GeneratorBase<String> {
 
         LimitedGenerator() {
-            super(NO_ANNOTATION, "DATASET", "NAME");
+            super("DATASET", "NAME", Scope.DEFAULT);
         }
 
         @Override

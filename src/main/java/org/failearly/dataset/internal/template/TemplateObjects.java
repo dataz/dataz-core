@@ -19,13 +19,17 @@
 
 package org.failearly.dataset.internal.template;
 
+import org.failearly.dataset.template.Scope;
 import org.failearly.dataset.template.TemplateObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.annotation.Annotation;
-import java.util.*;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -43,7 +47,7 @@ public final class TemplateObjects {
     }
 
     private TemplateObjects(List<TemplateObjectCreator> templateObjectCreators, DuplicateHandler duplicateHandler, TemplateObjectCreatorListOrder templateObjectCreatorListOrder) {
-        this.templateObjectCreators=templateObjectCreators;
+        this.templateObjectCreators = templateObjectCreators;
         this.duplicateHandler = duplicateHandler;
         this.templateObjectCreatorListOrder = templateObjectCreatorListOrder;
     }
@@ -86,6 +90,7 @@ public final class TemplateObjects {
 
     /**
      * Filter the template objects which belongs to given data set.
+     *
      * @param dataSetName the name of the data set.
      * @return filtered instance of template objects.
      */
@@ -94,22 +99,41 @@ public final class TemplateObjects {
     }
 
     /**
+     * Return all template objects with {@link Scope#GLOBAL}.
+     *
+     * @return new template objects instance.
+     */
+    public TemplateObjects filterGlobalScope() {
+        return new TemplateObjects(doFilterByGlobalScope(), duplicateHandler, templateObjectCreatorListOrder);
+    }
+
+
+    /**
+     * Merge two template objects.
+     *
+     * @param templateObjects the other template objects instance.
+     * @return a new instance.
+     */
+    public TemplateObjects merge(TemplateObjects templateObjects) {
+        return new TemplateObjects(doMerge(templateObjects), duplicateHandler, templateObjectCreatorListOrder);
+    }
+
+
+    /**
      * Applies all (newly created) template objects and send them to {@code templateObjectConsumer}. If two template objects have the same {@code name},
      * the second will be ignored.
      *
      * @param templateObjectConsumer a consumer function
-     *
      * @see TemplateObject#name()
      */
     public void apply(Consumer<TemplateObject> templateObjectConsumer) {
-        final Set<String> templateObjectNames=new HashSet<>();
+        final Set<String> templateObjectNames = new HashSet<>();
         for (TemplateObjectCreator templateObjectCreator : templateObjectCreatorListOrder.order(templateObjectCreators)) {
             final TemplateObject templateObject = templateObjectCreator.createTemplateObjectInstance();
-            if( templateObjectNames.add(templateObject.name()) ) {
+            if (templateObjectNames.add(templateObject.name())) {
                 LOGGER.debug("Use template object '{}' (annotation={})", templateObject.name(), templateObjectCreator.getAnnotation());
                 templateObjectConsumer.accept(templateObject);
-            }
-            else {
+            } else {
                 duplicateHandler.handleDuplicate(templateObject);
                 LOGGER.warn("Template object '{}' already defined (annotation={}). Ignored!", templateObject.name(), templateObjectCreator.getAnnotation());
             }
@@ -119,8 +143,35 @@ public final class TemplateObjects {
 
     private List<TemplateObjectCreator> doFilterByDataSetName(String dataSetName) {
         return templateObjectCreators.stream()  //
-                    .filter((templateObjectCreator -> dataSetName.equals(templateObjectCreator.getDataSetName()))) //
-                    .collect(Collectors.toList());
+                .filter(
+                        hasGlobalScope().or(
+                                hasLocalScope().and(hasDataSetName(dataSetName)))
+                )
+                .collect(Collectors.toList());
     }
 
+    private static Predicate<TemplateObjectCreator> hasLocalScope() {
+        return toc -> toc.hasScope(Scope.LOCAL);
+    }
+
+    private static Predicate<TemplateObjectCreator> hasGlobalScope() {
+        return toc -> toc.hasScope(Scope.GLOBAL);
+    }
+
+    private static Predicate<TemplateObjectCreator> hasDataSetName(String dataSetName) {
+        return toc -> dataSetName.equals(toc.getDataSetName());
+    }
+
+    private List<TemplateObjectCreator> doMerge(TemplateObjects templateObjects) {
+        final LinkedList<TemplateObjectCreator> templateObjectCreators = new LinkedList<>(this.templateObjectCreators);
+        templateObjectCreators.addAll(templateObjects.templateObjectCreators);
+        return templateObjectCreators;
+
+    }
+
+    private List<TemplateObjectCreator> doFilterByGlobalScope() {
+        return templateObjectCreators.stream()  //
+                .filter(hasGlobalScope())
+                .collect(Collectors.toList());
+    }
 }

@@ -35,7 +35,7 @@ public class TemplateObjects_filterByDataset_Test extends TemplateObjectsTestBas
     }
 
     @Test
-    public void should_remove_template_objects_which_does_not_belong_to_the_dataset() throws Exception {
+    public void should_remove_template_objects_which_does_not_belong_to_the_dataset__and__keep_those_with_global_scope() throws Exception {
         // arrange / given
         final TemplateObjects originTemplateObjects = buildTemplateObjectsResolver().resolveFromTestMethod0(withTemplateObjects());
 
@@ -44,11 +44,13 @@ public class TemplateObjects_filterByDataset_Test extends TemplateObjectsTestBas
 
         // assert / then
         assertThat("All", extractDataSetNames(originTemplateObjects), containsInAnyOrder(
+                GLOBAL_TEMPLATE_OBJECT_DATA_SET, // GLOBAL to be kept
                 "D3", // to be kept
                 "D2", // to be removed
                 "D1"  // to be removed
         ));
         assertThat("Filtered", extractDataSetNames(filteredTemplateObjects), containsInAnyOrder(
+                GLOBAL_TEMPLATE_OBJECT_DATA_SET,
                 "D3"
         ));
     }

@@ -47,6 +47,7 @@ public class TemplateObjectsResolver_TraverseDepth_DECLARD_CLASS__Test extends T
 
         // assert / then
         assertTemplateObjects(templateObjects,
+                "@org.failearly.dataset.test.MyTemplateObjectAnnotation(description=(0) on class AClass, dataset=<don't care>, name=GLOBAL)",
                 "@org.failearly.dataset.test.MyTemplateObjectAnnotation(description=(1) on class AClass, dataset=D1, name=G1)",
                 "@org.failearly.dataset.test.MyTemplateObjectAnnotation(description=(2) on class AClass, dataset=D2, name=G2)"
          );
@@ -62,6 +63,7 @@ public class TemplateObjectsResolver_TraverseDepth_DECLARD_CLASS__Test extends T
 
         // assert / then
         assertTemplateObjects(templateObjects,
+                "@org.failearly.dataset.test.MyTemplateObjectAnnotation(description=(0) on class AClass, dataset=<don't care>, name=GLOBAL)",
                 "@org.failearly.dataset.test.MyTemplateObjectAnnotation(description=(1) on class AClass, dataset=D1, name=G1)",
                 "@org.failearly.dataset.test.MyTemplateObjectAnnotation(description=(2) on class AClass, dataset=D2, name=G2)",
                 "@org.failearly.dataset.test.MyTemplateObjectAnnotation(description=(3) On method withTemplateObjects, dataset=D3, name=G2)",
@@ -79,6 +81,7 @@ public class TemplateObjectsResolver_TraverseDepth_DECLARD_CLASS__Test extends T
 
         // assert / then
         assertTemplateObjects(templateObjects,
+                "@org.failearly.dataset.test.MyTemplateObjectAnnotation(description=(0) on class AClass, dataset=<don't care>, name=GLOBAL)",
                 "@org.failearly.dataset.test.MyTemplateObjectAnnotation(description=(1) on class AClass, dataset=D1, name=G1)",
                 "@org.failearly.dataset.test.MyTemplateObjectAnnotation(description=(2) on class AClass, dataset=D2, name=G2)"
         );

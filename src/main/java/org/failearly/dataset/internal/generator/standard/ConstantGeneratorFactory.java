@@ -22,9 +22,9 @@ package org.failearly.dataset.internal.generator.standard;
 import org.failearly.dataset.generator.ConstantGenerator;
 import org.failearly.dataset.generator.support.GeneratorFactoryBase;
 import org.failearly.dataset.generator.support.UnlimitedGeneratorBase;
+import org.failearly.dataset.template.Scope;
 import org.failearly.dataset.template.TemplateObject;
 
-import java.lang.annotation.Annotation;
 import java.util.Iterator;
 
 /**
@@ -43,7 +43,7 @@ public final class ConstantGeneratorFactory extends GeneratorFactoryBase<String,
 
     @Override
     protected UnlimitedGeneratorBase<String> doCreateUnlimitedGenerator(ConstantGenerator generatorAnnotation, Integer limitValue) {
-        return new ConstantGeneratorImpl(generatorAnnotation, generatorAnnotation.name(), generatorAnnotation.dataset(), generatorAnnotation.constant());
+        return new ConstantGeneratorImpl(generatorAnnotation);
     }
 
     @Override
@@ -51,13 +51,19 @@ public final class ConstantGeneratorFactory extends GeneratorFactoryBase<String,
         return annotation.dataset();
     }
 
+
+    @Override
+    protected Scope doResolveScope(ConstantGenerator annotation) {
+        return annotation.scope();
+    }
+
     // Must be public for Velocity!
     public static class ConstantGeneratorImpl extends UnlimitedGeneratorBase<String> {
         private final String constant;
 
-        ConstantGeneratorImpl(Annotation annotation, String name, String dataset, String constant) {
-            super(annotation, dataset, name);
-            this.constant = constant;
+        ConstantGeneratorImpl(ConstantGenerator annotation) {
+            super(annotation, annotation.dataset(), annotation.name(), annotation.scope());
+            this.constant = annotation.constant();
         }
 
         @Override

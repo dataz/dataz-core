@@ -22,6 +22,7 @@ package org.failearly.dataset.internal.generator.standard;
 import org.failearly.dataset.generator.support.LimitedGeneratorBase;
 import org.failearly.dataset.generator.LoopGenerator;
 import org.failearly.dataset.generator.RangeGenerator;
+import org.failearly.dataset.template.Scope;
 
 import java.lang.annotation.Annotation;
 import java.util.Iterator;
@@ -37,15 +38,15 @@ public final class RangeGeneratorImpl extends LimitedGeneratorBase<Integer> {
     private final int end;
 
     RangeGeneratorImpl(RangeGenerator rangeGenerator) {
-        this(rangeGenerator, rangeGenerator.dataset(), rangeGenerator.name(), rangeGenerator.start(), rangeGenerator.end());
+        this(rangeGenerator, rangeGenerator.dataset(), rangeGenerator.name(), rangeGenerator.scope(), rangeGenerator.start(), rangeGenerator.end());
     }
 
     RangeGeneratorImpl(LoopGenerator loopGenerator) {
-        this(loopGenerator, loopGenerator.dataset(), loopGenerator.name(), 1, loopGenerator.size());
+        this(loopGenerator, loopGenerator.dataset(), loopGenerator.name(), loopGenerator.scope(), 1, loopGenerator.size());
     }
 
-    private RangeGeneratorImpl(Annotation annotation, String dataset, String name, int start, int end) {
-        super(annotation, dataset, name);
+    private RangeGeneratorImpl(Annotation annotation, String dataset, String name, Scope scope, int start, int end) {
+        super(annotation, dataset, name, scope);
 
         this.start = start;
         this.end = end;

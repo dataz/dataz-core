@@ -16,9 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
 package org.failearly.dataset.internal.template;
 
 
+import org.failearly.dataset.template.Scope;
 import org.failearly.dataset.template.TemplateObject;
 import org.failearly.dataset.template.TemplateObjectFactory;
 
@@ -47,5 +49,9 @@ final class TemplateObjectCreator {
 
     TemplateObject createTemplateObjectInstance() {
         return factory.create(getAnnotation());
+    }
+
+    boolean hasScope(Scope scope) {
+        return factory.resolveScope(annotation)==scope;
     }
 }

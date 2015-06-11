@@ -21,6 +21,7 @@ package org.failearly.dataset.internal.resource.factory;
 
 import org.failearly.dataset.config.Constants;
 import org.failearly.dataset.internal.model.TestMethodImplSetupHandlerTest;
+import org.failearly.dataset.internal.template.TemplateObjectsResolver;
 import org.failearly.dataset.internal.template.TemplateObjectsTestHelper;
 import org.failearly.dataset.resource.DataResource;
 import org.failearly.dataset.resource.DataResourcesFactory;
@@ -76,10 +77,11 @@ public abstract class DataResourcesFactoryTestBase<T extends Annotation, R exten
     }
 
     protected List<DataResource> createDataResourcesFromMethod(String methodName) throws NoSuchMethodException {
+        final Method testMethod = resolveMethod(methodName);
         return dataResourcesFactory.createDataResources(
-                resolveMethod(methodName),
+                testMethod,
                 resolveAnnotation(methodName),
-                TemplateObjectsTestHelper.noTemplateObjects()
+                TemplateObjectsResolver.resolveFromTestMethod(testMethod)
         );
     }
 

@@ -16,10 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
 package org.failearly.dataset.internal.generator.standard;
 
 import org.failearly.dataset.generator.RangeGenerator;
 import org.failearly.dataset.generator.support.GeneratorFactoryBase;
+import org.failearly.dataset.template.Scope;
 import org.failearly.dataset.template.TemplateObject;
 
 /**
@@ -46,4 +48,8 @@ public final class RangeGeneratorFactory extends GeneratorFactoryBase<Integer, R
         return annotation.dataset();
     }
 
+    @Override
+    protected Scope doResolveScope(RangeGenerator annotation) {
+        return annotation.scope();
+    }
 }

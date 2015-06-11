@@ -45,4 +45,10 @@ import java.lang.annotation.*;
 @DataCleanupResourceFactoryDefinition(factory = UseCleanupResourcesFactory.class)
 public @interface Use {
     Class<? extends ReusableDataSet>[] value();
+
+    /**
+     * ReusableDataSet is a marker interface for {@link @Use}. It provides no functionality.
+     */
+    interface ReusableDataSet {
+    }
 }

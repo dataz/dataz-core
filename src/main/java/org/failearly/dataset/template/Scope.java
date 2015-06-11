@@ -17,10 +17,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package org.failearly.dataset;
+package org.failearly.dataset.template;
 
 /**
- * ReusableDataSet is a marker interface for {@link @Use}. It provides no functionality.
+ * The scope of {@link TemplateObject}.
  */
-public interface ReusableDataSet {
+public enum Scope {
+    /**
+     * Use {@link TemplateObject#dataset()}. Not be used inherited by {@link org.failearly.dataset.Use}.
+     */
+    LOCAL,
+    /**
+     * Independent from {@link TemplateObject#dataset()}. Will be used by all template based data resources.
+     */
+    GLOBAL,
+    /**
+     * The default scope is <i>LOCAL</i>.
+     */
+    DEFAULT {
+        @Override
+        public Scope getScopeValue() {
+            return LOCAL;
+        }
+    };
+
+    public Scope getScopeValue() {
+        return this;
+    }
 }

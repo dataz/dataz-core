@@ -60,6 +60,20 @@ public abstract class TemplateObjectFactoryBase<T extends Annotation> implements
      */
     protected abstract String doResolveDataSetName(T annotation);
 
+
+    @Override
+    public final Scope resolveScope(Annotation annotation) {
+        final Scope scope = doResolveScope(annotationClass.cast(annotation));
+        return scope.getScopeValue();
+    }
+
+    /**
+     * Type safe alternative for {@link #resolveScope(Annotation)}.
+     * @param annotation the annotation.
+     * @return the scope.
+     */
+    protected abstract Scope doResolveScope(T annotation);
+
     @Override
     public final void __extend_TemplateObjectFactoryBase__instead_of_implementing_TemplateObjectFactory() {
         throw new UnsupportedOperationException("__extend_TemplateObjectFactoryBase__instead_of_implementing_TemplateObjectFactory should not be called");

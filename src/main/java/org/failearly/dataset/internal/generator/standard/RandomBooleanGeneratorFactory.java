@@ -23,6 +23,7 @@ import org.failearly.dataset.generator.Limit;
 import org.failearly.dataset.generator.support.UnlimitedGeneratorBase;
 import org.failearly.dataset.generator.support.GeneratorFactoryBase;
 import org.failearly.dataset.generator.RandomBooleanGenerator;
+import org.failearly.dataset.template.Scope;
 import org.failearly.dataset.template.TemplateObject;
 
 import java.util.HashSet;
@@ -53,6 +54,11 @@ public final class RandomBooleanGeneratorFactory extends GeneratorFactoryBase<Bo
         return annotation.dataset();
     }
 
+    @Override
+    protected Scope doResolveScope(RandomBooleanGenerator annotation) {
+        return annotation.scope();
+    }
+
     private static class RandomBooleanGeneratorImpl extends UnlimitedGeneratorBase<Boolean> {
 
         private static final int BOUND = 1_000;
@@ -60,7 +66,7 @@ public final class RandomBooleanGeneratorFactory extends GeneratorFactoryBase<Bo
         private final Set<Integer> trueIntValues;
 
         private RandomBooleanGeneratorImpl(RandomBooleanGenerator generatorAnnotation) {
-            super(generatorAnnotation, generatorAnnotation.dataset(), generatorAnnotation.name());
+            super(generatorAnnotation, generatorAnnotation.dataset(), generatorAnnotation.name(), generatorAnnotation.scope());
 
             final int percentAsIntValue = (int)(generatorAnnotation.percent() * (BOUND/100));
 

@@ -91,6 +91,14 @@ public interface TemplateObjectFactory {
      */
     String resolveDataSetName(Annotation annotation);
 
+    /**
+     * Resolves the scope from
+     * @param annotation
+     * @return
+     */
+    Scope resolveScope(Annotation annotation);
+
     @SuppressWarnings("unused")
     void __extend_TemplateObjectFactoryBase__instead_of_implementing_TemplateObjectFactory();
+
 }

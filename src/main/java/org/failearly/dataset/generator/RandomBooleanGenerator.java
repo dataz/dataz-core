@@ -20,6 +20,7 @@
 package org.failearly.dataset.generator;
 
 import org.failearly.dataset.config.Constants;
+import org.failearly.dataset.template.Scope;
 import org.failearly.dataset.template.TemplateObjectFactoryDefinition;
 import org.failearly.dataset.internal.generator.standard.RandomBooleanGeneratorFactory;
 
@@ -45,7 +46,13 @@ public @interface RandomBooleanGenerator {
      *
      * @see org.failearly.dataset.DataSet#name()
      */
-    String dataset() default Constants.DATASET_DEFAULT_NAME;;
+    String dataset() default Constants.DATASET_DEFAULT_NAME;
+
+    /**
+     * @return The scope of the template object (either {@link Scope#LOCAL} or {@link Scope#GLOBAL}.
+     */
+    Scope scope() default Scope.DEFAULT;
+
 
     /**
      * @return the percentage ({@code >0} and {@code < 100}) of {@code true} values.

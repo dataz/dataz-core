@@ -20,6 +20,7 @@
 package org.failearly.dataset.internal.template;
 
 import org.failearly.dataset.internal.annotation.TraverseDepth;
+import org.failearly.dataset.template.Scope;
 import org.failearly.dataset.template.TemplateObject;
 import org.failearly.dataset.test.MyTemplateObjectAnnotation;
 import org.failearly.dataset.test.TestUtils;
@@ -39,6 +40,8 @@ import static org.junit.Assert.assertThat;
  * TemplateObjectsTestBase is base class for all {@link TemplateObjects} or {@link TemplateObjectsResolver} related tests.
  */
 abstract class TemplateObjectsTestBase {
+    static final String GLOBAL_TEMPLATE_OBJECT_DATA_SET = "<don't care>";
+
     private TemplateObjectsResolver.Builder templateObjectsResolverBuilder;
 
     @Before
@@ -107,6 +110,7 @@ abstract class TemplateObjectsTestBase {
     }
 
     @SuppressWarnings("UnusedDeclaration")
+    @MyTemplateObjectAnnotation(name = "GLOBAL", dataset = GLOBAL_TEMPLATE_OBJECT_DATA_SET, description = "(0) on class AClass", scope = Scope.GLOBAL)
     @MyTemplateObjectAnnotation(name = "G1", dataset = "D1", description = "(1) on class AClass")
     @MyTemplateObjectAnnotation(name = "G2", dataset = "D2", description = "(2) on class AClass")
     static class AClass extends BaseClass {

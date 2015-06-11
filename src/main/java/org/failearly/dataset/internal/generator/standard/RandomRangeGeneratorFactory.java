@@ -22,6 +22,7 @@ package org.failearly.dataset.internal.generator.standard;
 import org.failearly.dataset.generator.RandomRangeGenerator;
 import org.failearly.dataset.generator.support.GeneratorFactoryBase;
 import org.failearly.dataset.generator.support.UnlimitedGeneratorBase;
+import org.failearly.dataset.template.Scope;
 import org.failearly.dataset.template.TemplateObject;
 
 import java.util.Iterator;
@@ -67,6 +68,11 @@ public final class RandomRangeGeneratorFactory extends GeneratorFactoryBase<Inte
         return annotation.dataset();
     }
 
+    @Override
+    protected Scope doResolveScope(RandomRangeGenerator annotation) {
+        return annotation.scope();
+    }
+
     /**
      * Implementation for {@link org.failearly.dataset.generator.RandomRangeGenerator}.
      */
@@ -78,7 +84,7 @@ public final class RandomRangeGeneratorFactory extends GeneratorFactoryBase<Inte
 
 
         private RandomRangeGeneratorImpl(RandomRangeGenerator annotation) {
-            super(annotation, annotation.dataset(), annotation.name());
+            super(annotation, annotation.dataset(), annotation.name(), annotation.scope());
 
             this.start = annotation.start();
             this.end = annotation.end();

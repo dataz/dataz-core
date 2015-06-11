@@ -19,6 +19,7 @@
 
 package org.failearly.dataset.test;
 
+import org.failearly.dataset.template.Scope;
 import org.failearly.dataset.template.TemplateObject;
 import org.failearly.dataset.template.TemplateObjectBase;
 import org.failearly.dataset.template.TemplateObjectFactoryBase;
@@ -42,12 +43,17 @@ public final class MyTemplateObjectFactory extends TemplateObjectFactoryBase<MyT
         return annotation.dataset();
     }
 
+    @Override
+    protected Scope doResolveScope(MyTemplateObjectAnnotation annotation) {
+        return annotation.scope();
+    }
+
     public final class MyTemplateObject extends TemplateObjectBase {
 
         private final String description;
 
         public MyTemplateObject(MyTemplateObjectAnnotation annotation) {
-            super(annotation, annotation.dataset(), annotation.name() );
+            super(annotation, annotation.dataset(), annotation.name(), annotation.scope() );
             this.description = annotation.description();
         }
 

@@ -1,3 +1,7 @@
-#* @vtlvariable name="to" type="org.failearly.dataset.test.MyTemplateObjectFactory.MyTemplateObject" *#
+##* @vtlvariable name="to" type="org.failearly.dataset.test.MyTemplateObjectFactory.MyTemplateObject" *#
+##* @vtlvariable name="global" type="org.failearly.dataset.test.MyTemplateObjectFactory.MyTemplateObject" *#
+##* @vtlvariable name="to-be-ignored" type="org.failearly.dataset.test.MyTemplateObjectFactory.MyTemplateObject" *#
 ## Just a simple template using TemplateObjectAnnotation. ##
 $to.description
+$global.description
+$to-be-ignored.description

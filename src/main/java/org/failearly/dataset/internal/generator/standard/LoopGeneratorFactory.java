@@ -16,13 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
 package org.failearly.dataset.internal.generator.standard;
 
 import org.failearly.dataset.generator.Limit;
 import org.failearly.dataset.generator.LoopGenerator;
 import org.failearly.dataset.generator.support.GeneratorFactoryBase;
 import org.failearly.dataset.generator.support.LimitedGeneratorBase;
+import org.failearly.dataset.template.Scope;
 import org.failearly.dataset.template.TemplateObject;
+
+import java.lang.annotation.Annotation;
 
 /**
  * LoopGeneratorFactory is responsible for creating instances of {@link org.failearly.dataset.generator.LoopGenerator}.
@@ -35,6 +39,11 @@ public final class LoopGeneratorFactory extends GeneratorFactoryBase<Integer, Lo
     @Override
     protected String doResolveDataSetName(LoopGenerator annotation) {
         return annotation.dataset();
+    }
+
+    @Override
+    protected Scope doResolveScope(LoopGenerator annotation) {
+        return annotation.scope();
     }
 
     @Override

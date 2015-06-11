@@ -20,7 +20,6 @@
 package org.failearly.dataset.internal.resource.factory.use;
 
 import org.failearly.dataset.DataSet;
-import org.failearly.dataset.ReusableDataSet;
 import org.failearly.dataset.Use;
 import org.failearly.dataset.internal.annotation.*;
 import org.failearly.dataset.internal.template.TemplateObjects;
@@ -52,10 +51,10 @@ abstract class ResourcesFactoryBase<T extends Annotation> extends TypedDataResou
     }
 
     @Override
-    protected List<DataResource> doCreateDataResources(Use annotation, TemplateObjects ignored) {
+    protected List<DataResource> doCreateDataResources(Use annotation, TemplateObjects templateObjects) {
         final List<DataResource> dataResources = new LinkedList<>();
-        final List<Class<? extends ReusableDataSet>> reusableDataSetClasses = filterDuplicatedReusableDataSetClasses(annotation);
-        doResolveDataResourcesFromAllReusableDataSets(reusableDataSetClasses, dataResources);
+        final List<Class<? extends Use.ReusableDataSet>> reusableDataSetClasses = filterDuplicatedReusableDataSetClasses(annotation);
+        doResolveDataResourcesFromAllReusableDataSets(reusableDataSetClasses, dataResources, templateObjects.filterGlobalScope());
         return changeOrder(dataResources);
     }
 
@@ -70,11 +69,14 @@ abstract class ResourcesFactoryBase<T extends Annotation> extends TypedDataResou
         return nestedUseCounter.get() > 0;
     }
 
-    private void doResolveDataResourcesFromAllReusableDataSets(List<Class<? extends ReusableDataSet>> reusableDataSetClasses, List<DataResource> dataResources) {
+    private void doResolveDataResourcesFromAllReusableDataSets(
+            List<Class<? extends Use.ReusableDataSet>> reusableDataSetClasses,
+            List<DataResource> dataResources,
+            TemplateObjects globalTemplateObjects) {
         try {
             nestedUse(1);
-            for (Class<? extends ReusableDataSet> reusableDataSetClass : reusableDataSetClasses) {
-                doCreateDataResourcesFromSingleReusableDataSet(reusableDataSetClass, dataResources);
+            for (Class<? extends Use.ReusableDataSet> reusableDataSetClass : reusableDataSetClasses) {
+                doCreateDataResourcesFromSingleReusableDataSet(reusableDataSetClass, dataResources, globalTemplateObjects);
             }
         }
         finally {
@@ -91,7 +93,7 @@ abstract class ResourcesFactoryBase<T extends Annotation> extends TypedDataResou
     }
 
 
-    private void doCreateDataResourcesFromSingleReusableDataSet(Class<?> reusableDataSetClass, List<DataResource> dataResources) {
+    private void doCreateDataResourcesFromSingleReusableDataSet(Class<?> reusableDataSetClass, List<DataResource> dataResources, TemplateObjects globalTemplateObjects) {
         final AnnotationTraverser<Annotation> resourcesTraverser = AnnotationTraversers.createMetaAnnotationTraverser(
                 annotationClass(),
                 TraverseStrategy.BOTTOM_UP,
@@ -99,7 +101,7 @@ abstract class ResourcesFactoryBase<T extends Annotation> extends TypedDataResou
         );
         resourcesTraverser.traverse(                                                               //
                 reusableDataSetClass,                                                              //
-                annotationHandler(dataResources, resolveFromTestClass(reusableDataSetClass))       //
+                annotationHandler(dataResources, globalTemplateObjects.merge(resolveFromTestClass(reusableDataSetClass)))       //
         );
     }
 
@@ -107,10 +109,10 @@ abstract class ResourcesFactoryBase<T extends Annotation> extends TypedDataResou
 
     protected abstract AnnotationHandler<Annotation> annotationHandler(List<DataResource> dataResources, TemplateObjects templateObjects);
 
-    private List<Class<? extends ReusableDataSet>> filterDuplicatedReusableDataSetClasses(Use annotation) {
-        final List<Class<? extends ReusableDataSet>> filteredDataSetClasses=new LinkedList<>();
-        final Set<Class<? extends ReusableDataSet>> uniqueReusableDataSets=new HashSet<>();
-        for (Class<? extends ReusableDataSet> reusableDataSet : annotation.value()) {
+    private List<Class<? extends Use.ReusableDataSet>> filterDuplicatedReusableDataSetClasses(Use annotation) {
+        final List<Class<? extends Use.ReusableDataSet>> filteredDataSetClasses=new LinkedList<>();
+        final Set<Class<? extends Use.ReusableDataSet>> uniqueReusableDataSets=new HashSet<>();
+        for (Class<? extends Use.ReusableDataSet> reusableDataSet : annotation.value()) {
             if( uniqueReusableDataSets.add(reusableDataSet) ) {
                 filteredDataSetClasses.add(reusableDataSet);
             }

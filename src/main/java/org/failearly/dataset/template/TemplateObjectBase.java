@@ -32,17 +32,21 @@ public abstract class TemplateObjectBase implements TemplateObject {
     private final Annotation annotation;
     private final String dataset;
     private final String name;
+    private final Scope scope;
 
-    protected TemplateObjectBase(String dataset, String name) {
-        this(NO_ANNOTATION, dataset, name);
+    protected TemplateObjectBase(String dataset, String name, Scope scope) {
+        this(NO_ANNOTATION, dataset, name, scope);
     }
-    protected TemplateObjectBase(Annotation annotation, String dataset, String name) {
+
+    protected TemplateObjectBase(Annotation annotation, String dataset, String name, Scope scope) {
         assert ! Objects.toString(name,"").isEmpty() : "name is empty or null";
         assert ! Objects.toString(dataset,"").isEmpty() : "dataset is empty or null";
+        assert scope!=null : "scope is null";
 
         this.dataset = dataset;
         this.name = name;
         this.annotation = annotation;
+        this.scope = scope;
     }
 
     @Override
@@ -58,6 +62,11 @@ public abstract class TemplateObjectBase implements TemplateObject {
     @Override
     public final String dataset() {
         return dataset;
+    }
+
+    @Override
+    public final Scope scope() {
+        return scope.getScopeValue();
     }
 
     @Override
@@ -89,6 +98,7 @@ public abstract class TemplateObjectBase implements TemplateObject {
         return Objects.toString(annotation, "TemplateObject{" +
                 "dataset='" + dataset + '\'' +
                 ", name='" + name + '\'' +
+                ", scope='" + scope + '\'' +
                 '}');
     }
 }

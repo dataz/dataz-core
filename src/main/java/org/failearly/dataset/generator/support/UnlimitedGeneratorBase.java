@@ -20,6 +20,7 @@
 package org.failearly.dataset.generator.support;
 
 import org.failearly.dataset.generator.GeneratorConstants;
+import org.failearly.dataset.template.Scope;
 
 import java.lang.annotation.Annotation;
 import java.util.Iterator;
@@ -29,12 +30,12 @@ import java.util.Random;
  * UnlimitedGeneratorBase - the base implementation for unlimited generators.
  */
 public abstract class UnlimitedGeneratorBase<T> extends GeneratorBase<T> implements UnlimitedGenerator<T> {
-    protected UnlimitedGeneratorBase(String dataset, String name) {
-        super(dataset, name);
+    protected UnlimitedGeneratorBase(String dataset, String name, Scope scope) {
+        super(dataset, name, scope);
     }
 
-    protected UnlimitedGeneratorBase(Annotation annotation, String dataset, String name) {
-        super(annotation, dataset, name);
+    protected UnlimitedGeneratorBase(Annotation annotation, String dataset, String name, Scope scope) {
+        super(annotation, dataset, name, scope);
     }
 
     /**

@@ -36,7 +36,7 @@ final class UniqueGeneratorDecorator<T> extends LimitedGeneratorBase<T> {
     private final int limit;
 
     UniqueGeneratorDecorator(UnlimitedGeneratorBase<T> generator, int limit) {
-        super(generator.dataset(), generator.name());
+        super(generator.dataset(), generator.name(), generator.scope());
 
         this.generator = generator;
         this.limit = limit;

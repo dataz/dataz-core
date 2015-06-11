@@ -21,10 +21,12 @@ package org.failearly.dataset.template;
 
 /**
  * TemplateObject is a named object which could be used in {@link org.failearly.dataset.resource.DataResource} templates. The template object
- * could be used within any {@link org.failearly.dataset.resource.DataResource} with the same dataset name.
+ * could be used within any {@link org.failearly.dataset.resource.DataResource} with the same dataset name or if the {@link #scope()} of the template object
+ * is {@link Scope#GLOBAL}.
  *
  * @see TemplateEngine
  * @see org.failearly.dataset.resource.DataResource
+ * @see Scope
  */
 public interface TemplateObject {
     /**
@@ -43,8 +45,13 @@ public interface TemplateObject {
     /**
      * The name of the (associated dataset).
      *
-     * <b>Remark</b>: If there is no dataset with given (i.e.) {@link org.failearly.dataset.DataSet#name()},
-     * the template object will not be used, even when the name has been used within the Velocity template.
+     * <b>Remarks</b>:<br><br>
+     * <ul>
+     *    <li>If there is no dataset with given (i.e.) {@link org.failearly.dataset.DataSet#name()},
+     *        the template object will not be used, even when the name has been used within the Velocity template.</li>
+     *    <li>Used only if the {@link #scope()} is {@link Scope#LOCAL}. Otherwise ignored.</li>
+     * </ul>
+     *
      *
      * @return the name of the (associated dataset).
      *
@@ -53,6 +60,13 @@ public interface TemplateObject {
      * @see org.failearly.dataset.DataCleanup#name()
      */
     String dataset();
+
+    /**
+     * @return The scope of a template object.
+     *
+     * @see Scope
+     */
+    Scope scope();
 
     @SuppressWarnings("unused")
     void __extend_TemplateObjectBase__instead_of_implementing_TemplateObject();

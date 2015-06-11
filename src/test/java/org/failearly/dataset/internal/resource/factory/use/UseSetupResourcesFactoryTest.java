@@ -20,10 +20,10 @@
 package org.failearly.dataset.internal.resource.factory.use;
 
 import org.failearly.dataset.DataSet;
-import org.failearly.dataset.ReusableDataSet;
 import org.failearly.dataset.Use;
 import org.failearly.dataset.internal.resource.factory.DataResourcesFactoryTestBase;
 import org.failearly.dataset.resource.DataResource;
+import org.failearly.dataset.template.Scope;
 import org.failearly.dataset.test.MyTemplateObjectAnnotation;
 import org.junit.Test;
 
@@ -37,8 +37,10 @@ import static org.failearly.dataset.test.DataResourceMatchers.isDefaultDataResou
 @SuppressWarnings("unchecked")
 public final class UseSetupResourcesFactoryTest extends DataResourcesFactoryTestBase<Use, UseSetupResourcesFactory> {
 
-    private static final String TEMPLATE_OBJECT_CONTENT = "Uses template objects!";
-    private static final String EXPECTED_TEMPLATE_OBJECT_CONTENT = "\n" + TEMPLATE_OBJECT_CONTENT + "\n";
+    private static final String LOCAL_TEMPLATE_OBJECT_CONTENT = "Uses local template objects!";
+    private static final String GLOBAL_TEMPLATE_OBJECT_CONTENT = "Uses global template objects!";
+    private static final String TO_BE_IGNORED = "$to-be-ignored.description\n";
+    private static final String EXPECTED_TEMPLATE_OBJECT_CONTENT = LOCAL_TEMPLATE_OBJECT_CONTENT + "\n" + GLOBAL_TEMPLATE_OBJECT_CONTENT + "\n" + TO_BE_IGNORED;
 
     public UseSetupResourcesFactoryTest() {
         super(Use.class, new UseSetupResourcesFactory(), AnyClass.class);
@@ -62,7 +64,7 @@ public final class UseSetupResourcesFactoryTest extends DataResourcesFactoryTest
 
 
     /**
-     * Test for {@link ReusableDataSet}s which uses {@link Use} itself.
+     * Test for {@link Use.ReusableDataSet}s which uses {@link Use} itself.
      */
     @Test
     public void reusable_dataset_interface_with_double_use__should_resolve_the_resources_in_correct_order() throws Exception {
@@ -110,6 +112,8 @@ public final class UseSetupResourcesFactoryTest extends DataResourcesFactoryTest
         public void reusableDatasetClassHierarchy() {
         }
 
+        @MyTemplateObjectAnnotation(scope = Scope.GLOBAL, dataset = "<don't care>", name = "global", description = GLOBAL_TEMPLATE_OBJECT_CONTENT)
+        @MyTemplateObjectAnnotation(scope = Scope.LOCAL, name = "to-be-ignored", description = "<to be ignored>")
         @Use(ReusableTemplateDataSet.class)
         public void reuseWithTemplateObjects() {
         }
@@ -117,20 +121,20 @@ public final class UseSetupResourcesFactoryTest extends DataResourcesFactoryTest
     }
 
     @DataSet
-    private interface UseDefaultDataSet extends ReusableDataSet {
+    private interface UseDefaultDataSet extends Use.ReusableDataSet {
     }
 
     @DataSet(setup = "/any-existing-resource.setup")
-    private interface UsesExplicitResource extends ReusableDataSet {
+    private interface UsesExplicitResource extends Use.ReusableDataSet {
     }
 
     @Use({UseDefaultDataSet.class,UsesExplicitResource.class})
-    private interface ReusableDataSetUsingUse extends ReusableDataSet {
+    private interface ReusableDataSetUsingUse extends Use.ReusableDataSet {
     }
 
 
     @DataSet
-    private static class ReusableBaseClass implements ReusableDataSet {
+    private static class ReusableBaseClass implements Use.ReusableDataSet {
     }
 
     @DataSet
@@ -138,7 +142,7 @@ public final class UseSetupResourcesFactoryTest extends DataResourcesFactoryTest
     }
 
     @DataSet(setup = "template.vm")
-    @MyTemplateObjectAnnotation(name = "to", description = TEMPLATE_OBJECT_CONTENT)
-    private interface ReusableTemplateDataSet extends ReusableDataSet {
+    @MyTemplateObjectAnnotation(name = "to", description = LOCAL_TEMPLATE_OBJECT_CONTENT)
+    private interface ReusableTemplateDataSet extends Use.ReusableDataSet {
     }
 }

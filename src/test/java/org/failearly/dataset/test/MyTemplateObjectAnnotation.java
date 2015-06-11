@@ -20,6 +20,7 @@
 package org.failearly.dataset.test;
 
 import org.failearly.dataset.config.Constants;
+import org.failearly.dataset.template.Scope;
 import org.failearly.dataset.template.TemplateObjectFactoryDefinition;
 
 import java.lang.annotation.*;
@@ -43,7 +44,12 @@ public @interface MyTemplateObjectAnnotation {
      *
      * @see org.failearly.dataset.DataSet#name()
      */
-    String dataset() default Constants.DATASET_DEFAULT_NAME;;
+    String dataset() default Constants.DATASET_DEFAULT_NAME;
+
+    /**
+     * @return The scope of the template object (either {@link Scope#LOCAL} or {@link Scope#GLOBAL}.
+     */
+    Scope scope() default Scope.DEFAULT;
 
     /**
      * The description.

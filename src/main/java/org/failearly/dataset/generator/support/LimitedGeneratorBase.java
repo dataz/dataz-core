@@ -19,6 +19,8 @@
 
 package org.failearly.dataset.generator.support;
 
+import org.failearly.dataset.template.Scope;
+
 import java.lang.annotation.Annotation;
 
 /**
@@ -26,12 +28,13 @@ import java.lang.annotation.Annotation;
  */
 public abstract class LimitedGeneratorBase<T> extends GeneratorBase<T> implements LimitedGenerator<T> {
 
-    protected LimitedGeneratorBase(String dataset, String name) {
-        super(dataset, name);
+    protected LimitedGeneratorBase(String dataset, String name, Scope scope) {
+        super(dataset, name, scope);
     }
 
-    protected LimitedGeneratorBase(Annotation annotation, String dataset, String name) {
-        super(annotation, dataset, name);
+    protected LimitedGeneratorBase(Annotation annotation, String dataset, String name, Scope scope) {
+        super(annotation, dataset, name, scope);
     }
+
 
 }
