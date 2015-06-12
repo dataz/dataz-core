@@ -16,15 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
 package org.failearly.dataset;
 
 import org.failearly.dataset.config.Constants;
 import org.failearly.dataset.config.DataSetProperties;
 import org.failearly.dataset.datastore.*;
 import org.failearly.dataset.datastore.support.SimpleFileTransactionalSupportDataStoreBase;
-import org.failearly.dataset.generator.ConstantGenerator;
-import org.failearly.dataset.generator.ListGenerator;
-import org.failearly.dataset.generator.RandomRangeGenerator;
+import org.failearly.dataset.template.generator.ConstantGenerator;
+import org.failearly.dataset.template.generator.ListGenerator;
+import org.failearly.dataset.template.generator.RandomRangeGenerator;
 import org.failearly.dataset.internal.model.TestMethod;
 import org.failearly.dataset.junit4.DataSetDriver;
 import org.failearly.dataset.resource.DataResource;

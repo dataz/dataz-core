@@ -16,15 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
 package org.failearly.dataset.template;
 
 import org.failearly.dataset.config.Constants;
 import org.failearly.dataset.config.DataSetProperties;
-import org.failearly.dataset.generator.Limit;
-import org.failearly.dataset.generator.ConstantGenerator;
+import org.failearly.dataset.template.generator.Limit;
+import org.failearly.dataset.template.generator.ConstantGenerator;
 import org.failearly.dataset.internal.template.TemplateEngines;
 import org.failearly.dataset.internal.template.TemplateObjects;
-import org.failearly.dataset.internal.template.velocity.VelocityTemplateEngine;
+import org.failearly.dataset.internal.template.engine.velocity.VelocityTemplateEngine;
 import org.failearly.dataset.test.TestUtils;
 import org.junit.After;
 import org.junit.Before;

@@ -19,9 +19,9 @@
 
 package org.failearly.dataset.internal.template;
 
-import org.failearly.dataset.generator.ConstantGenerator;
-import org.failearly.dataset.generator.Limit;
-import org.failearly.dataset.internal.generator.standard.ConstantGeneratorFactory;
+import org.failearly.dataset.template.generator.ConstantGenerator;
+import org.failearly.dataset.template.generator.Limit;
+import org.failearly.dataset.internal.template.generator.standard.ConstantGeneratorFactory;
 import org.failearly.dataset.template.TemplateObject;
 import org.junit.Test;
 

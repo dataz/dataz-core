@@ -19,6 +19,8 @@
 
 package org.failearly.dataset.template;
 
+import org.failearly.dataset.config.Constants;
+
 import java.lang.annotation.Annotation;
 import java.util.Objects;
 
@@ -33,6 +35,13 @@ public abstract class TemplateObjectBase implements TemplateObject {
     private final String dataset;
     private final String name;
     private final Scope scope;
+
+    /**
+     * For protype based implementations like {@link org.failearly.dataset.internal.template.simple.Adhoc}.
+     */
+    protected TemplateObjectBase() {
+        this(NO_ANNOTATION, Constants.DATASET_DEFAULT_NAME, "<no name>", Scope.DEFAULT);
+    }
 
     protected TemplateObjectBase(String dataset, String name, Scope scope) {
         this(NO_ANNOTATION, dataset, name, scope);

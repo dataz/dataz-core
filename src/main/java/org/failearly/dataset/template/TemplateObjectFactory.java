@@ -31,7 +31,7 @@ import java.lang.annotation.Annotation;
  * <pre>
  *    {@literal @}Target({ElementType.METHOD, ElementType.TYPE})
  *    {@literal @}Retention(RetentionPolicy.RUNTIME)
- *    {@literal @}TemplateObjectFactoryDefinition(factory = <b>MyTemplateObjectFactory.class</b>) // <<<<<< Assign the factory
+ *    {@literal @}TemplateObjectFactoryDefinition(factory = <b>MyTemplateObjectFactory.class</b>) // Assign the factory
  *     public @interface MyTemplateObjectAnnotation {
  *        // Mandatory attributes
  *        String name();
@@ -75,26 +75,26 @@ import java.lang.annotation.Annotation;
  */
 public interface TemplateObjectFactory {
     /**
-     * Create an instance of the generator using the annotation.
+     * Create an instance of the template object using the annotation.
      *
      * @param annotation the annotation instance.
      *
-     * @return an instance of current generator.
+     * @return a new instance of template object.
      */
     TemplateObject create(Annotation annotation);
 
     /**
-     * Resolves the data set name of the generator annotation.
+     * Resolves the data set name of the template object annotation.
      *
-     * @param annotation the annotation;
+     * @param annotation the annotation
      * @return the data set name of the generator annotation.
      */
     String resolveDataSetName(Annotation annotation);
 
     /**
-     * Resolves the scope from
-     * @param annotation
-     * @return
+     * Resolves the scope from the template object annotation.
+     * @param annotation the annotation
+     * @return the {@link Scope} of the template object.
      */
     Scope resolveScope(Annotation annotation);
 

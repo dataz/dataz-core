@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,8 +20,8 @@ package org.failearly.dataset.datastore;
 
 import org.failearly.dataset.DataStoreDefinition;
 import org.failearly.dataset.DataStoreSetup;
-import org.failearly.dataset.generator.ListGenerator;
-import org.failearly.dataset.generator.RandomRangeGenerator;
+import org.failearly.dataset.template.generator.ListGenerator;
+import org.failearly.dataset.template.generator.RandomRangeGenerator;
 import org.failearly.dataset.resource.DataResource;
 import org.failearly.dataset.test.DataResourceMatchers;
 import org.failearly.dataset.test.TestUtils;

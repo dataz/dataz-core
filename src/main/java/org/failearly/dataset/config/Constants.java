@@ -138,7 +138,7 @@ public interface Constants {
 
     /**
      * The full qualified class name of the template engine factory.
-     * The default is {@link org.failearly.dataset.internal.template.velocity.VelocityTemplateEngineFactory}.
+     * The default is {@link org.failearly.dataset.internal.template.engine.velocity.VelocityTemplateEngineFactory}.
      */
     String DATASET_PROPERTY_TEMPLATE_ENGINE_FACTORY = "dataset.template.engine.factory";
 

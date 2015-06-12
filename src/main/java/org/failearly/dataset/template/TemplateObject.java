@@ -31,6 +31,7 @@ package org.failearly.dataset.template;
 public interface TemplateObject {
     /**
      * The id is {@literal <dataset>-<name>}.
+     * @return the id
      */
     String id();
 

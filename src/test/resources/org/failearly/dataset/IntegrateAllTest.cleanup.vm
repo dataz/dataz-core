@@ -1,7 +1,7 @@
-#*  @vtlvariable name="dbtype" type="org.failearly.dataset.generator.support.Generator" *#
-#*  @vtlvariable name="firstnames" type="org.failearly.dataset.generator.support.Generator" *#
-#*  @vtlvariable name="lastnames" type="org.failearly.dataset.generator.support.Generator" *#
-#*  @vtlvariable name="ids" type="org.failearly.dataset.generator.support.Generator" *#
+#*  @vtlvariable name="dbtype" type="org.failearly.dataset.template.generator.support.Generator" *#
+#*  @vtlvariable name="firstnames" type="org.failearly.dataset.template.generator.support.Generator" *#
+#*  @vtlvariable name="lastnames" type="org.failearly.dataset.template.generator.support.Generator" *#
+#*  @vtlvariable name="ids" type="org.failearly.dataset.template.generator.support.Generator" *#
 ## Should newInstance an SQL OUTPUT
 DELETE FROM DBTYPES WHERE DBTYPE = '$dbtype.next()';
 ## Users
