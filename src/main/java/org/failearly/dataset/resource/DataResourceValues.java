@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
 package org.failearly.dataset.resource;
 
 import org.failearly.dataset.config.DataSetProperties;
@@ -116,13 +117,13 @@ public final class DataResourceValues {
      * @param <T> the expected type.
      * @return the additional value or {@code defaultValue}.
      */
+    @SuppressWarnings("unchecked")
     public <T> T getAdditionalValue(String key, T defaultValue) {
         final Object value=additionalValues.get(key);
         if( null==value ) {
             return defaultValue;
         }
 
-        //noinspection unchecked
         return (T)value;
     }
 
@@ -154,13 +155,14 @@ public final class DataResourceValues {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof DataResourceValues)) return false;
+        if (o instanceof DataResourceValues) {
+            final DataResourceValues that = (DataResourceValues) o;
 
-        DataResourceValues that = (DataResourceValues) o;
-
-        if (!dataSetName.equals(that.dataSetName)) return false;
-        if (!dataStoreId.equals(that.dataStoreId)) return false;
-        return resource.equals(that.resource);
+            return dataSetName.equals(that.dataSetName)       //
+                    && dataStoreId.equals(that.dataStoreId)   //
+                    && resource.equals(that.resource);
+        }
+        return false;
 
     }
 
