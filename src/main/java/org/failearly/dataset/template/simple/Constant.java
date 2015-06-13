@@ -34,9 +34,8 @@ import java.lang.annotation.*;
 @Documented
 @Repeatable(Constant.Constants.class)
 public @interface Constant {
-
     /**
-     * @return The name of the generator. Could be used in Velocity templates by {@code $<name>}.
+     * @return The name of the template object. Could be used in Velocity templates by {@code $<name>}.
      */
     String name();
 

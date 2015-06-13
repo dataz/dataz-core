@@ -37,7 +37,7 @@ import java.lang.annotation.*;
 @Repeatable(RandomBooleanGenerator.RandomBooleanGenerators.class)
 public @interface RandomBooleanGenerator {
     /**
-     * @return The name of the generator. Could be used in Velocity templates by {@code $<name>}.
+     * @return The name of the template object. Could be used in Velocity templates by {@code $<name>}.
      */
     String name();
 

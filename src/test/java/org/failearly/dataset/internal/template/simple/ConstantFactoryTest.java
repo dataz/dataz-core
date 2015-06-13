@@ -20,38 +20,50 @@
 package org.failearly.dataset.internal.template.simple;
 
 import org.failearly.dataset.template.Scope;
+import org.failearly.dataset.template.TemplateObject;
 import org.failearly.dataset.template.simple.Constant;
 import org.failearly.dataset.test.AnnotationHelper;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.failearly.dataset.test.TemplateObjectMatchers.isTemplateObjectAttributes;
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
+/**
+ * ConstantFactoryTest contains tests for {@link ConstantFactory} and {@link Constant}.
+ */
 public class ConstantFactoryTest {
 
-    private static final String VALUE = "Any constant value";
     private static final String DATASET = "DS";
     private static final String NAME = "TO-NAME";
 
-    private AnnotationHelper<Constant> constantAnnotationHelper;
+    private static final String VALUE = "Any constant value";
+
+    private AnnotationHelper<Constant> annotationHelper;
 
     @Before
     public void setUp() throws Exception {
-        constantAnnotationHelper = AnnotationHelper.createAnnotationHelper(Constant.class)
+        annotationHelper = AnnotationHelper.createAnnotationHelper(Constant.class)
                 .withFixtureClass(TestFixture.class);
     }
 
     @Test
-    public void created_template_object__should_set_all_element_values_of_the_annotation() throws Exception {
+    public void should_set_standard_element_values() throws Exception {
+        // arrange / given
+        final TemplateObject templateObject = createTemplateObjectByUsingConstantFactory();
+
+        // assert / then
+        assertThat("Standard element attributes?", templateObject, isTemplateObjectAttributes(NAME, DATASET, Scope.GLOBAL));
+    }
+
+    @Test
+    public void should_set_none_standard_attributes() throws Exception {
         // arrange / given
         final ConstantFactory.ConstantImpl templateObject = createTemplateObjectByUsingConstantFactory();
 
         // assert / then
-        Assert.assertThat("Data Set?", templateObject.dataset(), is(DATASET));
-        Assert.assertThat("Name?", templateObject.name(), is(NAME));
-        Assert.assertThat("Scope?", templateObject.scope(), is(Scope.GLOBAL));
-        Assert.assertThat("Value?", templateObject.getValue(), is(VALUE));
+        assertThat("attribute value?", templateObject.getValue(), is(VALUE));
     }
 
     @Test
@@ -60,15 +72,14 @@ public class ConstantFactoryTest {
         final ConstantFactory.ConstantImpl templateObject = createTemplateObjectByUsingConstantFactory();
 
         // assert / then
-        Assert.assertThat("toString()==getValue()?", templateObject.toString(), is(templateObject.getValue()));
+        assertThat("toString()==getValue()?", templateObject.toString(), is(templateObject.getValue()));
     }
 
     private ConstantFactory.ConstantImpl createTemplateObjectByUsingConstantFactory() {
         return (ConstantFactory.ConstantImpl)new ConstantFactory()
-                    .create(constantAnnotationHelper.getAnnotation(0));
+                    .create(annotationHelper.getAnnotation(0));
     }
 
     @Constant(name = NAME, dataset = DATASET, value = VALUE, scope = Scope.GLOBAL)
-    private static class TestFixture {
-    }
+    private static class TestFixture {}
 }
