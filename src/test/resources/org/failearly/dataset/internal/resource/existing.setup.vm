@@ -1,4 +1,4 @@
-#* @vtlvariable name="const" type="org.failearly.dataset.test.MyTemplateObjectFactory.MyTemplateObject" *#
+##* @vtlvariable name="const" type="org.failearly.dataset.test.MyTemplateObjectFactory.MyTemplateObject" *#
 Hello to 'existing.setup.vm'
 ## Velocity comment
 Hello '$const.description'
