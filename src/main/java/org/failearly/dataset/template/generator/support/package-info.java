@@ -28,7 +28,7 @@
  * <br><br>
  * Steps to create your own Generator:
  * <ol>
- *    <li>Creating a generator annotation. (For example: Take a look at {@link org.failearly.dataset.template.generator.ConstantGenerator}.)</li>
+ *    <li>Creating a generator annotation. (For example: Take a look at {@link org.failearly.dataset.template.simple.Constant}.)</li>
  *    <li>Override {@link org.failearly.dataset.template.generator.support.GeneratorFactoryBase}.</li>
  *    <li>And last but not at least a {@link org.failearly.dataset.template.generator.support.GeneratorBase} implementation.</li>
  * </ol>

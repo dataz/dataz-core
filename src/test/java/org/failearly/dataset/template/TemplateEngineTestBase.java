@@ -21,11 +21,10 @@ package org.failearly.dataset.template;
 
 import org.failearly.dataset.config.Constants;
 import org.failearly.dataset.config.DataSetProperties;
-import org.failearly.dataset.template.generator.Limit;
-import org.failearly.dataset.template.generator.ConstantGenerator;
 import org.failearly.dataset.internal.template.TemplateEngines;
 import org.failearly.dataset.internal.template.TemplateObjects;
 import org.failearly.dataset.internal.template.engine.velocity.VelocityTemplateEngine;
+import org.failearly.dataset.test.MyTemplateObjectAnnotation;
 import org.failearly.dataset.test.TestUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -36,11 +35,12 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 
 /**
- * TemplateEngineBaseTest is responsible for ...
+ * TemplateEngineBaseTest is base class for tests of {@link TemplateEngines}
  */
 public abstract class TemplateEngineTestBase {
-    protected static final String UNLIMITED_DATA_SET = "UNLIMITED_DS";
-    public static final String SHARED_DATA_SET = "SHARED_DS";
+    protected static final String DATA_SET = "dataset";
+    protected static final String TEMPLATE_OBJECT_NAME_1 = "to1";
+    protected static final String TEMPLATE_OBJECT_NAME_2 = "to2";
 
     protected static TemplateObjects resolveTemplateObjects(Class<?> aClass) throws NoSuchMethodException {
         return TestUtils.resolveTemplateObjects("anyTestMethod", aClass);
@@ -66,18 +66,11 @@ public abstract class TemplateEngineTestBase {
         DataSetProperties.reload();
     }
 
-    @SuppressWarnings("UnusedDeclaration")
-    @ConstantGenerator(name = "unlimited", dataset = UNLIMITED_DATA_SET, constant = "unlimited constant", limit = Limit.UNLIMITED)
-    @ConstantGenerator(name = "limited", dataset = "LIMITED_DS", constant = "limited constant", limit = Limit.LIMITED)
-    protected static class GeneratorDifferentDataSets {
-        public void anyTestMethod() {
-        }
-    }
 
     @SuppressWarnings("UnusedDeclaration")
-    @ConstantGenerator(name = "unlimited", dataset = "SHARED_DS", constant = "unlimited constant", limit = Limit.UNLIMITED)
-    @ConstantGenerator(name = "limited", dataset = "SHARED_DS", constant = "limited constant", limit = Limit.LIMITED)
-    protected static class GeneratorsSharedDataSet {
+    @MyTemplateObjectAnnotation(name = TEMPLATE_OBJECT_NAME_1, dataset = DATA_SET, description = DATA_SET + "/" + TEMPLATE_OBJECT_NAME_1)
+    @MyTemplateObjectAnnotation(name = TEMPLATE_OBJECT_NAME_2, dataset = DATA_SET, description = DATA_SET + "/" + TEMPLATE_OBJECT_NAME_2)
+    protected static class TestFixture {
         public void anyTestMethod() {
         }
     }

@@ -23,13 +23,13 @@ import org.failearly.dataset.config.Constants;
 import org.failearly.dataset.config.DataSetProperties;
 import org.failearly.dataset.datastore.*;
 import org.failearly.dataset.datastore.support.SimpleFileTransactionalSupportDataStoreBase;
-import org.failearly.dataset.template.generator.ConstantGenerator;
 import org.failearly.dataset.template.generator.ListGenerator;
 import org.failearly.dataset.template.generator.RandomRangeGenerator;
 import org.failearly.dataset.internal.model.TestMethod;
 import org.failearly.dataset.junit4.DataSetDriver;
 import org.failearly.dataset.resource.DataResource;
 import org.failearly.dataset.simplefile.SimpleFileStatement;
+import org.failearly.dataset.template.simple.Constant;
 import org.junit.*;
 import org.junit.rules.TestRule;
 import org.junit.runners.MethodSorters;
@@ -58,7 +58,7 @@ import static org.mockito.Mockito.times;
 
 // The default data set
 @DataSet(datastore = "db2", name = "DS1") // This associates DS1 to db2
-@ConstantGenerator(dataset = "DS1", name = "dbtype", constant = "DB2")
+@Constant(dataset = "DS1", name = "dbtype", value = "DB2")
 @ListGenerator(dataset = "DS1", name = "firstnames", values = {"Marko", "Jana", "Emma", "Femke"})
 @ListGenerator(dataset = "DS1", name = "lastnames", values = {"U.", "S."})
 @RandomRangeGenerator(dataset = "DS1", name = "ids", start = 1, end = 1000, seed = 1)
@@ -109,7 +109,7 @@ public class IntegrateAllTest {
 
     @Test
     @DataSet(datastore = "oracle", name = "DS1", setup = "IntegrateAllTest.setup.vm")
-    @ConstantGenerator(dataset = "DS1", name = "dbtype", constant = "ORACLE")
+    @Constant(dataset = "DS1", name = "dbtype", value = "ORACLE")
     @ListGenerator(dataset = "DS1", name = "firstnames", values = {"Kai", "Tanja", "Lorenz"})
     @ListGenerator(dataset = "DS1", name = "lastnames", values = {"S.", "U."})
     public void testOnOracle() throws Exception {
@@ -131,7 +131,7 @@ public class IntegrateAllTest {
 
     @Test
     @DataSet(datastore = "h2", name = "DS1", setup = "IntegrateAllTest.setup.vm")
-    @ConstantGenerator(dataset = "DS1", name = "dbtype", constant = "H2")
+    @Constant(dataset = "DS1", name = "dbtype", value = "H2")
     public void testOnH2() throws Exception {
         assertAppliedStatements("h2",
                 "INSERT INTO DBTYPES (DBTYPE) VALUES ('H2')"

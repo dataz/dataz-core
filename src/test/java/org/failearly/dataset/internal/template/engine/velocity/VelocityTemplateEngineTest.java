@@ -19,8 +19,6 @@
 
 package org.failearly.dataset.internal.template.engine.velocity;
 
-import org.failearly.dataset.template.generator.ConstantGenerator;
-import org.failearly.dataset.template.generator.Limit;
 import org.failearly.dataset.internal.template.TemplateEngines;
 import org.failearly.dataset.template.TemplateEngine;
 import org.failearly.dataset.template.TemplateEngineTestBase;
@@ -42,7 +40,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
  */
 public class VelocityTemplateEngineTest extends TemplateEngineTestBase {
 
-    private static final String TEMPLATE = "$unlimited.next()\n$limited.next()\n";
+    private static final String TEMPLATE = "$to1.description\n$to2.description\n$unknown";
 
     private static final String ANY_TEMPLATE_RESOURCE_NAME = "/any/path/to/dataset-resource.suffix.vm";
 
@@ -58,36 +56,15 @@ public class VelocityTemplateEngineTest extends TemplateEngineTestBase {
     }
 
     @Test
-    public void mergeMultipleGenerators_different_datasets() throws Exception {
-        // act / when
-        final File generatedFile = templateEngine.generate(
-                    templateInputStream(),
-                    ANY_TEMPLATE_RESOURCE_NAME,
-                    resolveTemplateObjects(GeneratorDifferentDataSets.class).filterByDataSet(UNLIMITED_DATA_SET)
-            );
-
-        // assert / then
-        assertThat("Use only UNLIMITED_DS dataset?", TestUtils.fileToString(generatedFile), is("unlimited constant\n$limited.next()\n"));
-    }
-
-    @Test
-    public void mergeMultipleGenerators_shared_dataset() throws Exception {
+    public void apply_template_engine__should_use_known_template_objects__and__leave_unknown_unchanged() throws Exception {
         // act / when
         final File generatedFile = templateEngine.generate(
                 templateInputStream(),
                 ANY_TEMPLATE_RESOURCE_NAME,
-                resolveTemplateObjects(GeneratorsSharedDataSet.class).filterByDataSet(SHARED_DATA_SET)
+                resolveTemplateObjects(TestFixture.class).filterByDataSet(DATA_SET)
         );
 
         // assert / then
-        assertThat("Use both generators?", TestUtils.fileToString(generatedFile), Matchers.is("unlimited constant\nlimited constant\n"));
-    }
-
-
-    private static class MyClass extends GeneratorsSharedDataSet {
-        @ConstantGenerator(name = "unlimited", dataset = UNLIMITED_DATA_SET, constant = "override unlimited", limit = Limit.UNLIMITED)
-        @ConstantGenerator(name = "limited", dataset = SHARED_DATA_SET, constant = "override limited", limit = Limit.LIMITED)
-        public void anyTestMethod() {
-        }
+        assertThat("Content of generated file?", TestUtils.fileToString(generatedFile), is("dataset/to1\ndataset/to2\n$unknown\n"));
     }
 }

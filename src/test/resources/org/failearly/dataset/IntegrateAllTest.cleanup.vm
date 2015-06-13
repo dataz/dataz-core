@@ -3,7 +3,7 @@
 #*  @vtlvariable name="lastnames" type="org.failearly.dataset.template.generator.support.Generator" *#
 #*  @vtlvariable name="ids" type="org.failearly.dataset.template.generator.support.Generator" *#
 ## Should newInstance an SQL OUTPUT
-DELETE FROM DBTYPES WHERE DBTYPE = '$dbtype.next()';
+DELETE FROM DBTYPES WHERE DBTYPE = '$dbtype';
 ## Users
 #foreach( $firstname in $firstnames)
     #foreach( $lastname in $lastnames )

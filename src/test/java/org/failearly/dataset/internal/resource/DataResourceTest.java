@@ -20,9 +20,10 @@
 package org.failearly.dataset.internal.resource;
 import org.failearly.dataset.DataSet;
 import org.failearly.dataset.template.generator.Limit;
-import org.failearly.dataset.template.generator.ConstantGenerator;
+import org.failearly.dataset.template.simple.Constant;
 import org.failearly.dataset.resource.DataResource;
 import org.failearly.dataset.resource.DataResourceBuilder;
+import org.failearly.dataset.test.MyTemplateObjectAnnotation;
 import org.failearly.dataset.test.TestUtils;
 import org.junit.Test;
 
@@ -79,7 +80,7 @@ public class DataResourceTest {
         // assert / then
         assertThat("Resource Name?", dataResource.getResource(), is("/org/failearly/dataset/internal/resource/existing.setup.vm"));
         assertThat("Generated Content?",
-                        inputStreamToString(dataResource.open()), is("Hello to 'existing.setup.vm'\nHello 'a constant value'\nHello 'a constant value'\n"));
+                        inputStreamToString(dataResource.open()), is("Hello to 'existing.setup.vm'\nHello 'a constant value'\n"));
     }
 
     private static DataResource createMandatoryDataResource(String methodName, String resourceName) throws NoSuchMethodException {
@@ -121,8 +122,8 @@ public class DataResourceTest {
         public void testMethodWithExistingResource() {
         }
         @DataSet(name="DS3", setup = "existing.setup.vm")
-        @ConstantGenerator(name="const", dataset = "DS3", constant = "a constant value", count = 2, limit = Limit.LIMITED)
-        @ConstantGenerator(name="const", dataset = "DS2", constant = "not used otherwise exception", limit = Limit.UNLIMITED)
+        @MyTemplateObjectAnnotation(name="const", dataset = "DS3", description = "a constant value")
+        @MyTemplateObjectAnnotation(name="const", dataset = "DS2", description = "not used otherwise exception")
         public void testMethodWithTemplate() {
         }
     }

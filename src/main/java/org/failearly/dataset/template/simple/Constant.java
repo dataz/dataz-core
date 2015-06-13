@@ -17,24 +17,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package org.failearly.dataset.template.generator;
+package org.failearly.dataset.template.simple;
 
-import org.failearly.dataset.config.Constants;
+import org.failearly.dataset.internal.template.simple.ConstantFactory;
 import org.failearly.dataset.template.Scope;
 import org.failearly.dataset.template.TemplateObjectFactoryDefinition;
-import org.failearly.dataset.internal.template.generator.standard.ConstantGeneratorFactory;
 
 import java.lang.annotation.*;
 
 /**
- * "Generates" a single {@link #constant} value.
+ * "Generates" a single {@link #value} value.
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@TemplateObjectFactoryDefinition(factory = ConstantGeneratorFactory.class)
+@TemplateObjectFactoryDefinition(factory = ConstantFactory.class)
 @Documented
-@Repeatable(ConstantGenerator.ConstantGenerators.class)
-public @interface ConstantGenerator {
+@Repeatable(Constant.Constants.class)
+public @interface Constant {
 
     /**
      * @return The name of the generator. Could be used in Velocity templates by {@code $<name>}.
@@ -46,32 +45,19 @@ public @interface ConstantGenerator {
      *
      * @see org.failearly.dataset.DataSet#name()
      */
-    String dataset() default Constants.DATASET_DEFAULT_NAME;;
+    String dataset() default org.failearly.dataset.config.Constants.DATASET_DEFAULT_NAME;
 
     /**
-     * @return Limit type.
-     *
-     * @see org.failearly.dataset.template.generator.Limit#LIMITED
-     * @see org.failearly.dataset.template.generator.Limit#UNLIMITED
+     * @return The scope of the template object (either {@link Scope#LOCAL} or {@link Scope#GLOBAL}.
      */
-    Limit limit() default Limit.UNLIMITED;
-
-    /**
-     * @return the count, if the generator used as {@link #limit()} = Limit.LIMITED.
-     */
-    int count() default 1;
+    Scope scope() default Scope.DEFAULT;
 
     /**
      * Constant value ({@code null} is permitted).
      *
      * @return any constant value as String.
      */
-    String constant();
-
-    /**
-     * @return The scope of the template object (either {@link Scope#LOCAL} or {@link Scope#GLOBAL}.
-     */
-    Scope scope() default Scope.DEFAULT;
+    String value();
 
     /**
      * Containing Annotation Type.
@@ -83,7 +69,7 @@ public @interface ConstantGenerator {
     @Target({ElementType.METHOD, ElementType.TYPE})
     @Retention(RetentionPolicy.RUNTIME)
     @Documented
-    @interface ConstantGenerators {
-        ConstantGenerator[] value();
+    @interface Constants {
+        Constant[] value();
     }
 }

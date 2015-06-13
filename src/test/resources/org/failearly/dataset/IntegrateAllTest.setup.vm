@@ -3,7 +3,7 @@
 #*  @vtlvariable name="lastnames" type="org.failearly.dataset.template.generator.support.Generator" *#
 #*  @vtlvariable name="ids" type="org.failearly.dataset.template.generator.support.Generator" *#
 ## Should newInstance an SQL OUTPUT
-INSERT INTO DBTYPES (DBTYPE) VALUES ('$dbtype.next()');
+INSERT INTO DBTYPES (DBTYPE) VALUES ('$dbtype');
 ## Users
 #foreach( $firstname in $firstnames)
     #foreach( $lastname in $lastnames )

@@ -1,5 +1,4 @@
+#* @vtlvariable name="const" type="org.failearly.dataset.test.MyTemplateObjectFactory.MyTemplateObject" *#
 Hello to 'existing.setup.vm'
 ## Velocity comment
-#foreach( $v in $const )
-Hello '$v'
-#end
+Hello '$const.description'

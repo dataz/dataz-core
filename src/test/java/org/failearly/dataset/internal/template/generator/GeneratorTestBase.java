@@ -24,6 +24,7 @@ import org.failearly.dataset.template.generator.support.Generator;
 import org.failearly.dataset.template.generator.support.GeneratorFactoryBase;
 import org.failearly.dataset.template.TemplateObjectFactoryDefinition;
 import org.failearly.dataset.template.generator.support.UnlimitedGenerator;
+import org.failearly.dataset.test.AnnotationHelper;
 import org.failearly.dataset.test.TestUtils;
 import org.junit.Test;
 
@@ -34,6 +35,7 @@ import java.util.List;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 /**
  * GeneratorTestBase provides some basic tests for any generator implementation and some utility methods.
@@ -45,12 +47,14 @@ import static org.junit.Assert.assertThat;
 public abstract class GeneratorTestBase<T, GA extends Annotation, GF extends GeneratorFactoryBase<T, GA>> {
     private final Class<GF> generatorFactoryClass;
     private final Class<GA> generatorAnnotationClass;
-    private GA annotationInstance;
+    private final AnnotationHelper<GA> annotationHelper;
+    private int lastIndex = -1;
 
 
     protected GeneratorTestBase(Class<GF> generatorFactoryClass, Class<GA> generatorAnnotationClass) {
         this.generatorFactoryClass = generatorFactoryClass;
         this.generatorAnnotationClass = generatorAnnotationClass;
+        this.annotationHelper = AnnotationHelper.createAnnotationHelper(generatorAnnotationClass);
     }
 
     @Test
@@ -60,10 +64,13 @@ public abstract class GeneratorTestBase<T, GA extends Annotation, GF extends Gen
         assertThat("generator dataset?", generator.dataset(), is(expectedDataSetName()));
     }
 
-    @SuppressWarnings("ConstantConditions")
     @Test
-    public void testGeneratorDefinition() throws Exception {
-        assertThat("Annotation class has correct Meta Annotation?", generatorAnnotationClass.isAnnotationPresent(TemplateObjectFactoryDefinition.class), is(true));
+    public void annotation_class__should_have_correct_meta_annotation() throws Exception {
+        assertTrue("Annotation class has correct Meta Annotation?", generatorAnnotationClass.isAnnotationPresent(TemplateObjectFactoryDefinition.class));
+    }
+
+    @Test
+    public void annotation_class__should_be_associated_with_expected_factory_class() throws Exception {
         assertThat("Annotation class has correct GeneratorFactoryDefinition#factory?",
                 generatorAnnotationClass.getDeclaredAnnotation(TemplateObjectFactoryDefinition.class).factory().getName(), is(generatorFactoryClass.getName()));
     }
@@ -93,21 +100,22 @@ public abstract class GeneratorTestBase<T, GA extends Annotation, GF extends Gen
      * Returns the actually annotation (at index) from the {@code testFixtureClass}.
      */
     private GA resolveDeclaredAnnotations(Class<?> testFixtureClass, int index) {
-        annotationInstance = testFixtureClass.getAnnotationsByType(generatorAnnotationClass)[index];
-        return annotationInstance;
+        this.lastIndex = index;
+        return annotationHelper.withFixtureClass(testFixtureClass).getAnnotation(index);
     }
 
 
-    private String expectedDataSetName() throws Exception {
-        return String.valueOf(resolveAnnotationValue("dataset"));
+    private String expectedDataSetName() {
+        return resolveAnnotationElementValue("dataset");
     }
 
-    private String expectedGeneratorName() throws Exception {
-        return String.valueOf(resolveAnnotationValue("name"));
+    private String expectedGeneratorName() {
+        return resolveAnnotationElementValue("name");
     }
 
-    private Object resolveAnnotationValue(String methodName) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-        return generatorAnnotationClass.getMethod(methodName).invoke(annotationInstance);
+    private String resolveAnnotationElementValue(String element) {
+        assert lastIndex>=0 : "Please call first createGenerator()";
+        return annotationHelper.resolveElementValue(this.lastIndex, element);
     }
 
 
