@@ -57,7 +57,6 @@ public final class MyTemplateObjectFactory extends TemplateObjectFactoryBase<MyT
             this.description = annotation.description();
         }
 
-        @SuppressWarnings("unused")
         public String getDescription() {
             return description;
         }

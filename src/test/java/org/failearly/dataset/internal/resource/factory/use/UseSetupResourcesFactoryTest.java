@@ -99,6 +99,7 @@ public final class UseSetupResourcesFactoryTest extends DataResourcesFactoryTest
         assertDataResourcesContent(dataResources.get(0), EXPECTED_TEMPLATE_OBJECT_CONTENT);
     }
 
+// Test Fixture classes
     private static class AnyClass {
         @Use({UseDefaultDataSet.class, UsesExplicitResource.class})
         public void staticDataSets() {
@@ -117,8 +118,8 @@ public final class UseSetupResourcesFactoryTest extends DataResourcesFactoryTest
         @Use(ReusableTemplateDataSet.class)
         public void reuseWithTemplateObjects() {
         }
-
     }
+
 
     @DataSet
     private interface UseDefaultDataSet extends Use.ReusableDataSet {
