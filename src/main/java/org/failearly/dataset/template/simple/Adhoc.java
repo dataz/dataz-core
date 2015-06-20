@@ -21,7 +21,7 @@ package org.failearly.dataset.template.simple;
 
 import org.failearly.dataset.config.Constants;
 import org.failearly.dataset.internal.template.simple.AdhocFactory;
-import org.failearly.dataset.internal.template.simple.ConstantFactory;
+import org.failearly.dataset.template.Property;
 import org.failearly.dataset.template.Scope;
 import org.failearly.dataset.template.TemplateObject;
 import org.failearly.dataset.template.TemplateObjectFactoryDefinition;
@@ -62,9 +62,15 @@ public @interface Adhoc {
 
     /**
      * Optional arguments for the {@link org.failearly.dataset.template.simple.Adhoc.AdhocTemplateObject}.
-     * @return a argument list.
+     * @return an argument list.
      */
     String[] args() default {};
+
+    /**
+     * Optional properties or named arguments (key value pairs).
+     * @return an array of {@link Property}.
+     */
+    Property[] properties() default {};
 
     /**
      * Containing Annotation Type.
@@ -80,8 +86,20 @@ public @interface Adhoc {
         Adhoc[] value();
     }
 
+    /**
+     * The Adhoc Template Object to be created.
+     *
+     * @see Adhoc#value()
+     */
     interface AdhocTemplateObject extends TemplateObject {
+
+        /**
+         * The factory method for creating a {@link TemplateObject} from the {@link Adhoc} annotation.
+         * @param annotation the Adhoc annotation
+         * @return the actually template object
+         */
         AdhocTemplateObject create(Adhoc annotation);
+
         void ___extend_AdhocTemplateObjectBase__instead_of_implementing_AdhocTemplateObject();
     }
 }

@@ -19,22 +19,19 @@
 
 package org.failearly.dataset.internal.template.simple;
 
+import org.failearly.dataset.template.Property;
 import org.failearly.dataset.template.Scope;
-import org.failearly.dataset.template.TemplateObjectBase;
 import org.failearly.dataset.template.simple.Adhoc;
 import org.failearly.dataset.template.simple.support.AdhocTemplateObjectBase;
 import org.failearly.dataset.test.AnnotationHelper;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
+import static org.failearly.dataset.test.AssertException.assertException;
 import static org.failearly.dataset.test.TemplateObjectMatchers.isTemplateObjectAttributes;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.contains;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 /**
  * AdhocFactoryTest contains tests for {@link Adhoc} and {@link AdhocFactory}.
@@ -62,27 +59,48 @@ public class AdhocFactoryTest {
     }
 
     @Test
-    public void should_set_none_standard_attributes() throws Exception {
+    public void should_set_arguments() throws Exception {
         // arrange / given
         final CustomAdhocImplementation templateObject = createAdhocTemplateObject();
 
         // assert / then
-        assertThat("none standard elements (here args)?", templateObject.getArguments(), contains("argument 0","argument 1"));
+        assertThat("args?", templateObject.getArguments(), contains("argument 0", "argument 1"));
+    }
+
+    @Test
+    public void should_set_properties() throws Exception {
+        // arrange / given
+        final CustomAdhocImplementation templateObject = createAdhocTemplateObject();
+
+        // assert / then
+        assertThat("Key1?", templateObject.getProperties().getStringValue("key1"), is("value1"));
+        assertThat("Key2?", templateObject.getProperties().getStringValue("key2"), is("value2"));
+        assertException(IllegalArgumentException.class, () -> templateObject.getProperties().getStringValue("unknown key"));
     }
 
     private CustomAdhocImplementation createAdhocTemplateObject() {
-        return (CustomAdhocImplementation)new AdhocFactory().create(annotationHelper.getAnnotation(0));
+        return (CustomAdhocImplementation) new AdhocFactory().create(annotationHelper.getAnnotation(0));
     }
 
 
-    @Adhoc(name = NAME, dataset = DATASET, scope = Scope.GLOBAL, value = CustomAdhocImplementation.class, args={"argument 0","argument 1"})
-    private static class TestFixture {}
+    @Adhoc(
+            name = NAME,
+            dataset = DATASET,
+            scope = Scope.GLOBAL,
+            value = CustomAdhocImplementation.class, // <<<<<<<<< Here comes the customized Adhoc implementation.
+            args = {"argument 0", "argument 1"},
+            properties = {@Property(k = "key1", v = "value1"), @Property(k = "key2", v = "value2")}
+    )
+    private static class TestFixture {
+    }
 
     /**
-     * The actually implementation of {@link Adhoc.AdhocTemplateObject}.
+     * An implementation of {@link Adhoc.AdhocTemplateObject}.
      */
+    @SuppressWarnings("unused")
     public static final class CustomAdhocImplementation extends AdhocTemplateObjectBase {
-        public CustomAdhocImplementation() {}
+        public CustomAdhocImplementation() {
+        }
 
         private CustomAdhocImplementation(Adhoc annotation) {
             super(annotation);

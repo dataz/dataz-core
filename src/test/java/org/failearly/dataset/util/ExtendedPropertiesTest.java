@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,11 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 package org.failearly.dataset.util;
-import org.failearly.dataset.test.TestUtils;
-import org.hamcrest.Matchers;
 import org.junit.Test;
 
-import static org.failearly.dataset.test.TestUtils.assertException;
+import static org.failearly.dataset.test.AssertException.assertException;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.*;

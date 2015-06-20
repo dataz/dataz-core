@@ -25,7 +25,7 @@ import java.lang.annotation.Annotation;
 import java.util.Objects;
 
 /**
- * TemplateObjectBase is responsible for ...
+ * TemplateObjectBase should be the base class for {@link TemplateObjectBase} implementations.
  */
 public abstract class TemplateObjectBase implements TemplateObject {
 
@@ -37,7 +37,7 @@ public abstract class TemplateObjectBase implements TemplateObject {
     private final Scope scope;
 
     /**
-     * For protype based implementations like {@link org.failearly.dataset.internal.template.simple.Adhoc}.
+     * For prototype based implementations like {@link org.failearly.dataset.template.simple.Adhoc}.
      */
     protected TemplateObjectBase() {
         this(NO_ANNOTATION, Constants.DATASET_DEFAULT_NAME, "<no name>", Scope.DEFAULT);

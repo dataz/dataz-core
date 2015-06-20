@@ -19,11 +19,11 @@
 
 package org.failearly.dataset.util;
 
-import org.failearly.dataset.test.TestUtils;
 import org.junit.Test;
 
 import java.lang.reflect.Method;
 
+import static org.failearly.dataset.test.CoreTestUtils.resolveMethodFromClass;
 import static org.junit.Assert.*;
 import static org.hamcrest.Matchers.*;
 
@@ -38,7 +38,7 @@ public class ClassesCollectorTest {
     @Test
     public void collect_from_method__should_be_the_same_collecting_from_declaring_class() throws Exception {
         // arrange / given
-        final Method method = TestUtils.resolveMethodFromClass("aMethod", DerivedFromBaseClass.class);
+        final Method method = resolveMethodFromClass("aMethod", DerivedFromBaseClass.class);
         final Class<?> declaringClass = method.getDeclaringClass();
 
         // assert / then
@@ -50,7 +50,7 @@ public class ClassesCollectorTest {
 
     @Test
     public void collect_from_method_in_base_class() throws Exception {
-        final Method method = TestUtils.resolveMethodFromClass("aMethod", BaseClass.class);
+        final Method method = resolveMethodFromClass("aMethod", BaseClass.class);
         assertThat("SuperClasses in correct order?",                                   //
                 topDownCollector.collect(method),                                      //
                 contains(BaseClass.class)                                              //
@@ -59,7 +59,7 @@ public class ClassesCollectorTest {
 
     @Test
     public void collect_from_method_in_derived_class_top_down() throws Exception {
-        final Method method = TestUtils.resolveMethodFromClass("aMethod", DerivedFromBaseClass.class);
+        final Method method = resolveMethodFromClass("aMethod", DerivedFromBaseClass.class);
         assertThat("SuperClasses in correct order?",                                    //
                 topDownCollector.collect(method),                                       //
                 contains(DerivedFromBaseClass.class, BaseClass.class)                   //
@@ -68,7 +68,7 @@ public class ClassesCollectorTest {
 
     @Test
     public void collect_from_method_in_derived_class_bottom_up() throws Exception {
-        final Method method = TestUtils.resolveMethodFromClass("aMethod", DerivedFromBaseClass.class);
+        final Method method = resolveMethodFromClass("aMethod", DerivedFromBaseClass.class);
         assertThat("SuperClasses in correct (reverted) order?",                          //
                 bottomUpCollector.collect(method),                                       //
                 contains(BaseClass.class, DerivedFromBaseClass.class)                    //
@@ -78,7 +78,7 @@ public class ClassesCollectorTest {
     @Test
     public void collect_only_declaring_class_from_method_top_down() throws Exception {
         // arrange / given
-        final Method method = TestUtils.resolveMethodFromClass("aMethod", DerivedFromBaseClass.class);
+        final Method method = resolveMethodFromClass("aMethod", DerivedFromBaseClass.class);
 
         // act / when
         final ClassesCollector restrictedTopDownCollector=new ClassesCollector(ClassesCollector.Order.TOP_DOWN, ClassesCollector.ONLY_DECLARED_CLASS_DEPTH);
@@ -93,7 +93,7 @@ public class ClassesCollectorTest {
     @Test
     public void collect_only_declaring_class_from_method_bottom_up() throws Exception {
         // arrange / given
-        final Method method = TestUtils.resolveMethodFromClass("aMethod", DerivedFromBaseClass.class);
+        final Method method = resolveMethodFromClass("aMethod", DerivedFromBaseClass.class);
 
         // act / when
         final ClassesCollector restrictedBottomUpCollector=new ClassesCollector(ClassesCollector.Order.BOTTOM_UP, ClassesCollector.ONLY_DECLARED_CLASS_DEPTH);

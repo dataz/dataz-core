@@ -72,7 +72,7 @@ public class ConstantFactoryTest {
         final ConstantFactory.ConstantImpl templateObject = createTemplateObjectByUsingConstantFactory();
 
         // assert / then
-        assertThat("toString()==getValue()?", templateObject.toString(), is(templateObject.getValue()));
+        assertThat("toString()==getStringValue()?", templateObject.toString(), is(templateObject.getValue()));
     }
 
     private ConstantFactory.ConstantImpl createTemplateObjectByUsingConstantFactory() {

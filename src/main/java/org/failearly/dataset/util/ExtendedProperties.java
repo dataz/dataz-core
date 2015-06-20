@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -211,11 +211,6 @@ public class ExtendedProperties extends Properties {
 
     private static String referencedPropertyKey(Matcher matcher) {
         return matcher.group(1);
-    }
-
-
-    private boolean hasReference(String inputValue) {
-        return matcher(inputValue)!=null;
     }
 
     private Matcher matcher(String inputValue) {

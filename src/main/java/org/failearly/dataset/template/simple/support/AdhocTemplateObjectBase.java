@@ -19,33 +19,44 @@
 
 package org.failearly.dataset.template.simple.support;
 
+import org.failearly.dataset.template.PropertiesHelperFactory;
 import org.failearly.dataset.template.TemplateObjectBase;
 import org.failearly.dataset.template.simple.Adhoc;
+import org.failearly.dataset.util.PropertiesHelper;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * AdhocTemplateObjectBase is the base class for all {@link org.failearly.dataset.template.simple.Adhoc.AdhocTemplateObject} implementations.
  */
 public abstract class AdhocTemplateObjectBase extends TemplateObjectBase implements Adhoc.AdhocTemplateObject {
-    private List<String> arguments= Collections.emptyList();
+    private List<String> arguments = Collections.emptyList();
+    private PropertiesHelper propertiesHelper;
 
     protected AdhocTemplateObjectBase() {}
 
     protected AdhocTemplateObjectBase(Adhoc annotation) {
         super(annotation, annotation.dataset(), annotation.name(), annotation.scope());
         this.arguments = Arrays.asList(annotation.args());
+        this.propertiesHelper = PropertiesHelperFactory.createFromPropertyList(annotation.properties());
     }
 
     @Override
-    public void ___extend_AdhocTemplateObjectBase__instead_of_implementing_AdhocTemplateObject() {
+    public final void ___extend_AdhocTemplateObjectBase__instead_of_implementing_AdhocTemplateObject() {
         throw new UnsupportedOperationException("___extend_AdhocTemplateObjectBase__instead_of_implementing_AdhocTemplateObject must not be called");
     }
 
+    /**
+     * @return the entire {@link Adhoc#args()}.
+     */
     public final List<String> getArguments() {
         return new ArrayList<>(arguments);
+    }
+
+    /**
+     * @return the entire {@link Adhoc#properties()} as {@link PropertiesHelper} instance.
+     */
+    public final PropertiesHelper getProperties() {
+        return propertiesHelper;
     }
 }
