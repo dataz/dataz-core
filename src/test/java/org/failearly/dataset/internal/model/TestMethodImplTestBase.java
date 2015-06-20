@@ -1,7 +1,7 @@
 /*
  * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2015 marko (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,7 +26,6 @@ import org.failearly.dataset.config.Constants;
 import org.failearly.dataset.internal.resource.DataResourceHandler;
 import org.failearly.dataset.resource.DataResource;
 import org.failearly.dataset.test.FakeDataStoreRule;
-import org.failearly.dataset.test.TestUtils;
 import org.hamcrest.Matcher;
 import org.junit.ClassRule;
 import org.junit.Test;
@@ -37,6 +36,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import static org.failearly.dataset.test.CoreTestUtils.resolveMethodFromClass;
 import static org.hamcrest.Matchers.contains;
 import static org.junit.Assert.assertThat;
 
@@ -56,7 +56,7 @@ public abstract class TestMethodImplTestBase {
             .addDataStore(OTHER_DATASTORE_ID);
 
     protected static TestMethod createTestMethod(String methodName, Class<?> testClass) throws NoSuchMethodException {
-        return TestMethodImpl.createTestMethod(TestUtils.resolveMethodFromClass(methodName, testClass), testClass);
+        return TestMethodImpl.createTestMethod(resolveMethodFromClass(methodName, testClass), testClass);
     }
 
     private DataResourceHandler createDefaultResourceHandler() {

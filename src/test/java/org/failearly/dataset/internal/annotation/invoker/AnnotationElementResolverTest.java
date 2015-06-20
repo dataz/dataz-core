@@ -21,7 +21,7 @@ package org.failearly.dataset.internal.annotation.invoker;
 
 import org.failearly.dataset.internal.annotation.meta.UsingMetaAnnotation;
 import org.failearly.dataset.internal.annotation.AnyOtherAnnotation;
-import org.failearly.dataset.test.TestUtils;
+import org.failearly.dataset.test.AssertException;
 import org.junit.Test;
 
 import java.lang.annotation.*;
@@ -48,9 +48,9 @@ public class AnnotationElementResolverTest {
         assertThat("OtherAnnotation.name() exists?", resolver.hasElement(getAnnotation(AnyOtherAnnotation.class)), is(true));
         assertThat("OtherAnnotation.name() returns?", resolver.resolveElementValue(getAnnotation(AnyOtherAnnotation.class)), is("Other"));
         assertThat("NameArrayAnnotation.name() has wrong type?", resolver.hasElement(getAnnotation(NameArrayAnnotation.class)), is(false));
-        TestUtils.assertException(RuntimeException.class,
+        AssertException.assertException(RuntimeException.class,
                 "Invoke name() failed",
-                ()->resolver.resolveElementValue(getAnnotation(NameArrayAnnotation.class)));
+                () -> resolver.resolveElementValue(getAnnotation(NameArrayAnnotation.class)));
     }
 
     @Test
@@ -61,7 +61,7 @@ public class AnnotationElementResolverTest {
 
         // assert / then
         assertThat("NameArrayAnnotation.name() correct?", resolver.hasElement(getAnnotation(NameArrayAnnotation.class)), is(true));
-        TestUtils.assertException(ClassCastException.class,
+        AssertException.assertException(ClassCastException.class,
                 "Cannot cast [Ljava.lang.String; to java.lang.String",
                 () -> resolver.resolveElementValue(getAnnotation(NameArrayAnnotation.class)));
     }

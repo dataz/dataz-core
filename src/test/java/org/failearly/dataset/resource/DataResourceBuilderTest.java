@@ -22,7 +22,7 @@ package org.failearly.dataset.resource;
 import org.failearly.dataset.config.Constants;
 import org.failearly.dataset.internal.template.TemplateObjects;
 import org.failearly.dataset.internal.template.TemplateObjectsTestHelper;
-import org.failearly.dataset.test.TestUtils;
+import org.failearly.dataset.test.AssertException;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.is;
@@ -115,23 +115,23 @@ public class DataResourceBuilderTest {
     @Test
     public void any_mandatory_field_missing__should_throw_exception() throws Exception {
         // assert / then
-        TestUtils.assertException( //
+        AssertException.assertException( //
                 IllegalStateException.class, //
                 "DataResourceBuilder: Mandatory field 'mandatory/optional' missing (must not be null)!", //
                 () -> DataResourceBuilder.createBuilder(ATestClass.class).build() //
         );
-        TestUtils.assertException( //
+        AssertException.assertException( //
                 IllegalStateException.class, //
                 "DataResourceBuilder: Mandatory field 'templateObjects' missing (must not be null)!", //
                 () -> DataResourceBuilder.createBuilder(ATestClass.class).optional().build() //
         );
-        TestUtils.assertException( //
+        AssertException.assertException( //
                 IllegalStateException.class, //
                 "DataResourceBuilder: Mandatory field 'templateObjects' missing (must not be null)!", //
                 () -> DataResourceBuilder.createBuilder(ATestClass.class).mandatory().build() //
         );
 
-        TestUtils.assertException( //
+        AssertException.assertException( //
                 IllegalStateException.class, //
                 "Builder: Mandatory field 'dataSetName' missing (must not be null)!", //
                 () -> DataResourceBuilder.createBuilder(ATestClass.class)  //
@@ -139,7 +139,7 @@ public class DataResourceBuilderTest {
                         .withTemplateObjects(NO_TEMPLATE_OBJECTS)           //
                         .build() //
         );
-        TestUtils.assertException( //
+        AssertException.assertException( //
                 IllegalStateException.class, //
                 "Builder: Mandatory field 'dataStoreId' missing (must not be null)!", //
                 () -> DataResourceBuilder.createBuilder(ATestClass.class)  //
@@ -148,7 +148,7 @@ public class DataResourceBuilderTest {
                         .withDataSetName("DS")                       //
                         .build() //
         );
-        TestUtils.assertException( //
+        AssertException.assertException( //
                 IllegalStateException.class, //
                 "Builder: Mandatory field 'resourceName' missing (must not be null)!", //
                 () -> DataResourceBuilder.createBuilder(ATestClass.class)  //

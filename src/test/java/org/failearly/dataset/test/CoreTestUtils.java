@@ -19,27 +19,15 @@
 
 package org.failearly.dataset.test;
 
-import org.failearly.dataset.internal.template.TemplateObjectsResolver;
 import org.failearly.dataset.internal.template.TemplateObjects;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.failearly.dataset.internal.template.TemplateObjectsResolver;
 
 import java.io.*;
 import java.lang.reflect.Method;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
-
-public final class TestUtils {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TestUtils.class);
-
-    private TestUtils() {
-    }
-
+public class CoreTestUtils {
     /**
-     * Resolve {@link java.lang.reflect.Method} instance from class with given methodName.
+     * Resolve {@link Method} instance from class with given methodName.
      *
      * @param methodName the method's name
      * @param clazz      the class
@@ -64,6 +52,7 @@ public final class TestUtils {
 
     /**
      * Reads the entire file content.
+     *
      * @param file the file
      * @return the content of the file
      * @throws FileNotFoundException thrown file does not exists
@@ -91,29 +80,5 @@ public final class TestUtils {
 
 
         return output.toString();
-    }
-
-
-    /**
-     * Assert an exception of type {@code exceptionClass} and given {@code expectedMessage}.
-     *
-     * @param exceptionClass  the expected exception class.
-     * @param expectedMessage the expected {@link Throwable#getMessage()} or null.
-     * @param action          the action to execute.
-     */
-    public static void assertException(Class<? extends Throwable> exceptionClass, String expectedMessage, TestAction action) {
-        boolean exception = false;
-        try {
-            action.run();
-        } catch (Throwable ex) {
-            LOGGER.info("Caught exception", ex);
-            exception = true;
-            assertThat("Exception type?", ex, instanceOf(exceptionClass));
-            if (null != expectedMessage)
-                assertThat("Exception message?", ex.getMessage(), is(expectedMessage));
-        }
-        if (!exception) {
-            fail("No exception caught. Expected exception type: " + exceptionClass.getSimpleName() + "!");
-        }
     }
 }

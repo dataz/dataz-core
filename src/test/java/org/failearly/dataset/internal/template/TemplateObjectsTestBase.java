@@ -22,8 +22,8 @@ package org.failearly.dataset.internal.template;
 import org.failearly.dataset.internal.annotation.TraverseDepth;
 import org.failearly.dataset.template.Scope;
 import org.failearly.dataset.template.TemplateObject;
+import org.failearly.dataset.test.CoreTestUtils;
 import org.failearly.dataset.test.MyTemplateObjectAnnotation;
-import org.failearly.dataset.test.TestUtils;
 import org.junit.Before;
 
 import java.lang.reflect.Method;
@@ -50,7 +50,7 @@ abstract class TemplateObjectsTestBase {
     }
 
     protected static Method getTestMethod(String name) throws NoSuchMethodException {
-        return TestUtils.resolveMethodFromClass(name, AClass.class);
+        return CoreTestUtils.resolveMethodFromClass(name, AClass.class);
     }
 
     protected static List<String> extractTemplateObjectInstances(TemplateObjects templateObjects) {

@@ -22,7 +22,7 @@ package org.failearly.dataset.internal.annotation.standard;
 import org.failearly.dataset.internal.annotation.*;
 import org.junit.Test;
 
-import static org.failearly.dataset.test.TestUtils.resolveMethodFromClass;
+import static org.failearly.dataset.test.CoreTestUtils.resolveMethodFromClass;
 
 /**
  * StandardAnnotationTopDownDeclaredClassTraversersTest contains tests for

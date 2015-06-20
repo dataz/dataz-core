@@ -22,8 +22,6 @@ package org.failearly.dataset.internal.template.engine.velocity;
 import org.failearly.dataset.internal.template.TemplateEngines;
 import org.failearly.dataset.template.TemplateEngine;
 import org.failearly.dataset.template.TemplateEngineTestBase;
-import org.failearly.dataset.test.TestUtils;
-import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -31,6 +29,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
 
+import static org.failearly.dataset.test.CoreTestUtils.fileToString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -65,6 +64,6 @@ public class VelocityTemplateEngineTest extends TemplateEngineTestBase {
         );
 
         // assert / then
-        assertThat("Content of generated file?", TestUtils.fileToString(generatedFile), is("dataset/to1\ndataset/to2\n$unknown\n"));
+        assertThat("Content of generated file?", fileToString(generatedFile), is("dataset/to1\ndataset/to2\n$unknown\n"));
     }
 }

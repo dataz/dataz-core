@@ -19,17 +19,16 @@
 
 package org.failearly.dataset.internal.resource;
 import org.failearly.dataset.DataSet;
-import org.failearly.dataset.template.generator.Limit;
-import org.failearly.dataset.template.simple.Constant;
 import org.failearly.dataset.resource.DataResource;
 import org.failearly.dataset.resource.DataResourceBuilder;
+import org.failearly.dataset.test.CoreTestUtils;
+import org.failearly.dataset.test.AssertException;
 import org.failearly.dataset.test.MyTemplateObjectAnnotation;
-import org.failearly.dataset.test.TestUtils;
 import org.junit.Test;
 
 import java.lang.reflect.Method;
 
-import static org.failearly.dataset.test.TestUtils.inputStreamToString;
+import static org.failearly.dataset.test.CoreTestUtils.inputStreamToString;
 import static org.junit.Assert.*;
 import static org.hamcrest.Matchers.*;
 
@@ -45,11 +44,11 @@ public class DataResourceTest {
 
         // assert / then
         assertThat("Resource?", dataResource.getResource(), is("/org/failearly/dataset/internal/resource/noneExisting.setup"));
-        TestUtils.assertException(
+        AssertException.assertException(
                 MissingDataResourceException.class,
                 "Can't open resource '/org/failearly/dataset/internal/resource/noneExisting.setup'. Did you create the resource within classpath?",
                 dataResource::open
-            );
+        );
     }
 
     @Test
@@ -59,7 +58,7 @@ public class DataResourceTest {
 
         // assert / then
         assertThat("Resource Name?", dataResource.getResource(), is("/org/failearly/dataset/internal/resource/noneExisting.setup"));
-        assertThat("Empty Content?", inputStreamToString(dataResource.open()), is(""));
+        assertThat("Empty Content?", CoreTestUtils.inputStreamToString(dataResource.open()), is(""));
     }
 
     @Test
@@ -90,7 +89,7 @@ public class DataResourceTest {
                 .withDataSetName(dataSet.name())
                 .withDataStoreId(dataSet.datastore())
                 .withResourceName(resourceName)
-                .withTemplateObjects(TestUtils.resolveTemplateObjects(methodName, TestClass.class))
+                .withTemplateObjects(CoreTestUtils.resolveTemplateObjects(methodName, TestClass.class))
                 .build();
     }
 
@@ -101,7 +100,7 @@ public class DataResourceTest {
                 .withDataSetName(dataSet.name())
                 .withDataStoreId(dataSet.datastore())
                 .withResourceName(resourceName)
-                .withTemplateObjects(TestUtils.resolveTemplateObjects(methodName, TestClass.class))
+                .withTemplateObjects(CoreTestUtils.resolveTemplateObjects(methodName, TestClass.class))
                 .build();
     }
 

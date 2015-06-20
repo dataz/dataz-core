@@ -25,11 +25,10 @@ import org.failearly.dataset.template.generator.support.GeneratorFactoryBase;
 import org.failearly.dataset.template.TemplateObjectFactoryDefinition;
 import org.failearly.dataset.template.generator.support.UnlimitedGenerator;
 import org.failearly.dataset.test.AnnotationHelper;
-import org.failearly.dataset.test.TestUtils;
+import org.failearly.dataset.test.AssertException;
 import org.junit.Test;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import static org.hamcrest.Matchers.instanceOf;
@@ -125,7 +124,7 @@ public abstract class GeneratorTestBase<T, GA extends Annotation, GF extends Gen
     }
 
     protected void assertUnsupportedIterator(Generator<T> generator) {
-        TestUtils.assertException(
+        AssertException.assertException(
                 UnsupportedOperationException.class,
                 "Don't use iterator() for unlimited generators! Use next() instead.",
                 generator::iterator

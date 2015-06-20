@@ -24,8 +24,8 @@ import org.failearly.dataset.config.DataSetProperties;
 import org.failearly.dataset.internal.template.TemplateEngines;
 import org.failearly.dataset.internal.template.TemplateObjects;
 import org.failearly.dataset.internal.template.engine.velocity.VelocityTemplateEngine;
+import org.failearly.dataset.test.CoreTestUtils;
 import org.failearly.dataset.test.MyTemplateObjectAnnotation;
-import org.failearly.dataset.test.TestUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,7 +43,7 @@ public abstract class TemplateEngineTestBase {
     protected static final String TEMPLATE_OBJECT_NAME_2 = "to2";
 
     protected static TemplateObjects resolveTemplateObjects(Class<?> aClass) throws NoSuchMethodException {
-        return TestUtils.resolveTemplateObjects("anyTestMethod", aClass);
+        return CoreTestUtils.resolveTemplateObjects("anyTestMethod", aClass);
     }
 
     @Before

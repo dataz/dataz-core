@@ -24,7 +24,7 @@ import org.junit.Test;
 
 import java.lang.annotation.Annotation;
 
-import static org.failearly.dataset.test.TestUtils.resolveMethodFromClass;
+import static org.failearly.dataset.test.CoreTestUtils.resolveMethodFromClass;
 
 /**
  * Contains tests for {@link AnnotationTraversers#createMetaAnnotationTraverser(Class, TraverseStrategy, TraverseDepth)}.

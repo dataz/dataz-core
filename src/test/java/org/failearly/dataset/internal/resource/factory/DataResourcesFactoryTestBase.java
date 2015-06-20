@@ -22,12 +22,11 @@ package org.failearly.dataset.internal.resource.factory;
 import org.failearly.dataset.config.Constants;
 import org.failearly.dataset.internal.model.TestMethodImplSetupHandlerTest;
 import org.failearly.dataset.internal.template.TemplateObjectsResolver;
-import org.failearly.dataset.internal.template.TemplateObjectsTestHelper;
 import org.failearly.dataset.resource.DataResource;
 import org.failearly.dataset.resource.DataResourcesFactory;
 import org.failearly.dataset.resource.TypedDataResourcesFactory;
+import org.failearly.dataset.test.CoreTestUtils;
 import org.failearly.dataset.test.FakeDataStoreRule;
-import org.failearly.dataset.test.TestUtils;
 import org.hamcrest.Matcher;
 import org.junit.ClassRule;
 import org.junit.rules.TestRule;
@@ -65,7 +64,7 @@ public abstract class DataResourcesFactoryTestBase<T extends Annotation, R exten
     }
 
     private Method resolveMethod(String methodName) throws NoSuchMethodException {
-        return TestUtils.resolveMethodFromClass(methodName, testSubjectClass);
+        return CoreTestUtils.resolveMethodFromClass(methodName, testSubjectClass);
     }
 
     private T resolveAnnotation(String methodName) {
@@ -91,6 +90,6 @@ public abstract class DataResourcesFactoryTestBase<T extends Annotation, R exten
     }
 
     protected static void assertDataResourcesContent(DataResource dataResource, String expectedContent) {
-        assertThat("Data Resource expected content?", TestUtils.inputStreamToString(dataResource.open()), is(expectedContent));
+        assertThat("Data Resource expected content?", CoreTestUtils.inputStreamToString(dataResource.open()), is(expectedContent));
     }
 }

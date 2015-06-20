@@ -16,15 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
 package org.failearly.dataset.datastore;
 
 import org.failearly.dataset.DataStoreDefinition;
 import org.failearly.dataset.DataStoreSetup;
+import org.failearly.dataset.resource.DataResource;
 import org.failearly.dataset.template.generator.ListGenerator;
 import org.failearly.dataset.template.generator.RandomRangeGenerator;
-import org.failearly.dataset.resource.DataResource;
+import org.failearly.dataset.test.CoreTestUtils;
 import org.failearly.dataset.test.DataResourceMatchers;
-import org.failearly.dataset.test.TestUtils;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.junit.After;
@@ -35,7 +36,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.failearly.dataset.test.DataResourceMatchers.isDataResource;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -292,7 +292,7 @@ public class DataStoreSetupTest {
         List<String> dataSetResourceContent() {
             return dataResources.stream()
                     .map(DataResource::open)
-                    .map(TestUtils::inputStreamToString)
+                    .map(CoreTestUtils::inputStreamToString)
                     .collect(Collectors.toList());
         }
     }

@@ -22,7 +22,7 @@ package org.failearly.dataset.internal.model;
 import org.failearly.dataset.config.Constants;
 import org.failearly.dataset.internal.resource.DataResourceHandler;
 import org.failearly.dataset.test.DataResourceMatchers;
-import org.failearly.dataset.test.TestUtils;
+import org.failearly.dataset.test.AssertException;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -125,7 +125,7 @@ public class TestMethodImplCleanupHandlerTest extends TestMethodImplTestBase {
         assertThat("Suppressed?", suppressCleanup.isSuppressCleanup(), is(true));
 
         // check that handleCleanupResource must not be called, if @SuppressCleanup is active.
-        TestUtils.assertException(AssertionError.class,                                             //
+        AssertException.assertException(AssertionError.class,                                             //
                 "handleCleanupResource() must not be called if @SuppressCleanup is active.",        //
                 () -> suppressCleanup.handleCleanupResource(Constants.DATASET_DEFAULT_DATASTORE_ID, defaultResourceHandler)
         );
