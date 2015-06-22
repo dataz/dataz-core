@@ -51,10 +51,10 @@ import static org.mockito.Mockito.times;
  */
 @SuppressWarnings("SpellCheckingInspection")
 // The DataStoreDefinition should be ussually in a base class.
-@DataStoreDefinition(id = "h2", type = IntegrateAllTest.TestDataStoreType.class)
-@DataStoreDefinition(id = "oracle", type = IntegrateAllTest.TestDataStoreType.class)
-@DataStoreDefinition(id = "db2", type = IntegrateAllTest.TestDataStoreType.class)
-@DataStoreDefinition(id = "db2" /* ignored */)
+@AdhocDataStore(id = "h2", type = IntegrateAllTest.TestDataStoreType.class)
+@AdhocDataStore(id = "oracle", type = IntegrateAllTest.TestDataStoreType.class)
+@AdhocDataStore(id = "db2", type = IntegrateAllTest.TestDataStoreType.class)
+@AdhocDataStore(id = "db2" /* ignored */)
 
 // The default data set
 @DataSet(datastore = "db2", name = "DS1") // This associates DS1 to db2
@@ -206,7 +206,7 @@ public class IntegrateAllTest {
 
     public static class TestDataStoreType implements DataStoreType {
         @Override
-        public DataStore createDataStore(DataStoreDefinition annotation, Object context) {
+        public DataStore createDataStore(AdhocDataStore annotation, Object context) {
             return Mockito.spy(new TestDataStore(annotation.id(), annotation.config()));
         }
     }

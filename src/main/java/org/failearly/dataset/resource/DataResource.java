@@ -16,8 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
 package org.failearly.dataset.resource;
 
+import org.failearly.dataset.AdhocDataStore;
 import org.failearly.dataset.exception.DataSetException;
 import org.failearly.dataset.internal.resource.DataResourceProcessingException;
 import org.failearly.dataset.internal.template.TemplateObjects;
@@ -42,7 +44,7 @@ public interface DataResource {
     /**
      * @return The data store id.
      * @see org.failearly.dataset.DataSet#datastore()
-     * @see org.failearly.dataset.DataStoreDefinition#id()
+     * @see AdhocDataStore#id()
      */
     String getDataStoreId();
 

@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
  */
 package org.failearly.dataset.internal.model;
 
+import org.failearly.dataset.AdhocDataStore;
 import org.failearly.dataset.internal.resource.DataResourceHandler;
 
 /**
@@ -41,7 +42,7 @@ public interface TestMethod {
      * @param dataResourceHandler the setup data set resource handler
      *
      * @see org.failearly.dataset.datastore.DataStore#getId
-     * @see org.failearly.dataset.DataStoreDefinition#id
+     * @see AdhocDataStore#id
      */
     void handleSetupResource(String dataStoreId, DataResourceHandler dataResourceHandler);
 

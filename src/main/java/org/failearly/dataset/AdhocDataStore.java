@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,15 +27,27 @@ import org.failearly.dataset.datastore.NullDataStoreType;
 import java.lang.annotation.*;
 
 /**
- * DataStoreDefinition must be used if you are using multiple {@link org.failearly.dataset.datastore.DataStore} either homogeneous or not.
- * For a simple setup (only one database used), just add {@code /datastore.properties} to your classpath.
+ * AdhocDataStore could be used for fast and easy DataStoreDefinitions without the need to define a specific
+ * DataStore annotation. The only thing you have to provide is a implementation of {@link DataStoreType}.
+ * <br><br>
+ * <b>Remark</b>: Usually you should use real DataStore annotations provided by DataStore implementations.
+ * <br><br>
+ * Currently known Datastore annotations are
+ * <br><br>
+ * <ul>
+ * <li>{@literal @SqlDataStore} from datastore-sql module</li>
+ * <li>{@literal @Neo4JDataStore} from datastore-neo4j module</li>
+ * <li>more to come</li>
+ * </ul>
+ *
+ * @see DataStoreType
  */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Repeatable(DataStoreDefinition.DataStoreDefinitions.class)
-@DataStoreFactoryDefinition(dataStoreFactory = DefaultDataStoreFactory.class)
-public @interface DataStoreDefinition {
+@Repeatable(AdhocDataStore.AdhocDataStores.class)
+@DataStoreFactoryDefinition(factory = DefaultDataStoreFactory.class)
+public @interface AdhocDataStore {
     /**
      * If your tests uses multiple data stores, you must identify each data store.
      *
@@ -59,7 +71,6 @@ public @interface DataStoreDefinition {
      * {@link Constants#DATASET_DATASTORE_PROPERTY_FILE} of each module.
      *
      * @return the {@link org.failearly.dataset.datastore.DataStoreType} class.
-     *
      * @see org.failearly.dataset.datastore.DefaultDataStoreFactory
      */
     Class<? extends DataStoreType> type() default NullDataStoreType.class;
@@ -95,13 +106,14 @@ public @interface DataStoreDefinition {
     /**
      * Analog to {@link #setupSuffix()}. If not specified, the value of {@link Constants#DATASET_PROPERTY_DEFAULT_CLEANUP_SUFFIX}
      * will be used.
+     *
      * @return suffix to be used for {@link DataSet#cleanup()} (if no cleanup resource is specified).
      */
     String cleanupSuffix() default Constants.DATASET_USE_DEFAULT_SUFFIX;
 
     /**
      * Containing Annotation Type.
-     *
+     * <p>
      * Remark: This will be used by Java8 compiler.
      *
      * @see java.lang.annotation.Repeatable
@@ -109,7 +121,7 @@ public @interface DataStoreDefinition {
     @Target({ElementType.TYPE})
     @Retention(RetentionPolicy.RUNTIME)
     @Documented
-    @interface DataStoreDefinitions {
-        DataStoreDefinition[] value();
+    @interface AdhocDataStores {
+        AdhocDataStore[] value();
     }
 }

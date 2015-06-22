@@ -19,7 +19,7 @@
 
 package org.failearly.dataset.datastore;
 
-import org.failearly.dataset.DataStoreDefinition;
+import org.failearly.dataset.AdhocDataStore;
 import org.failearly.dataset.DataStoreSetup;
 import org.failearly.dataset.resource.DataResource;
 import org.failearly.dataset.template.generator.ListGenerator;
@@ -216,21 +216,21 @@ public class DataStoreSetupTest {
         return dataStore;
     }
 
-    @DataStoreDefinition(id = "master", type = TestDataStoreType.class)
-    @DataStoreDefinition(id = "slave", type = TestDataStoreType.class)
+    @AdhocDataStore(id = "master", type = TestDataStoreType.class)
+    @AdhocDataStore(id = "slave", type = TestDataStoreType.class)
     @DataStoreSetup(name = "master", datastore = "master", setup = {"/master-schema.sql", "master-common.sql"}, cleanup = {"/drop-master-schema.sql", "cleanup-master-common.sql"})
     @DataStoreSetup(name = "slave", datastore = "slave", setup = "/slave-schema.sql")
     private static class MyTestClass {
     }
 
-    @DataStoreDefinition(id = "master", type = TestDataStoreType.class)
-    @DataStoreDefinition(id = "slave", type = TestDataStoreType.class)
+    @AdhocDataStore(id = "master", type = TestDataStoreType.class)
+    @AdhocDataStore(id = "slave", type = TestDataStoreType.class)
     @DataStoreSetup(datastore = "master", setup = {"/other-master-schema.sql"})
     @DataStoreSetup(datastore = "slave", setup = "/other-slave-schema.sql")
     private static class DataStoreSetupWithOmmitedName {
     }
 
-    @DataStoreDefinition(id = "master", type = TestDataStoreType.class)
+    @AdhocDataStore(id = "master", type = TestDataStoreType.class)
     @DataStoreSetup(name = "master", datastore = "master", setup = {"/master-schema.sql", "master-common.sql"}, cleanup = {"/drop-master-schema.sql", "cleanup-master-common.sql"})
     private static class TestBaseClass {
     }
@@ -239,12 +239,12 @@ public class DataStoreSetupTest {
     private static class DerivedTestClass extends TestBaseClass {
     }
 
-    @DataStoreDefinition(id = "master", type = TestDataStoreType.class)
+    @AdhocDataStore(id = "master", type = TestDataStoreType.class)
     @DataStoreSetup(name = "master", datastore = "master", setup = {"/master-schema.sql"}, cleanup = {"/drop-master-schema.sql"})
     private static class ClassWithExistingResources {
     }
 
-    @DataStoreDefinition(id = "master", type = TestDataStoreType.class)
+    @AdhocDataStore(id = "master", type = TestDataStoreType.class)
     @DataStoreSetup(name = "master", datastore = "master", setup = {"/master-common-setup.sql.vm"}, cleanup = {"/master-common-cleanup.sql.vm"})
     @ListGenerator(dataset = "master", name = "users", values = {"Frank K.", "Marko U."})
     @RandomRangeGenerator(dataset = "master", name = "ids", seed = 1)
@@ -254,7 +254,7 @@ public class DataStoreSetupTest {
 
     public static class TestDataStoreType implements DataStoreType {
         @Override
-        public DataStore createDataStore(DataStoreDefinition annotation, Object context) {
+        public DataStore createDataStore(AdhocDataStore annotation, Object context) {
             return new TestDataStore(annotation.id(), annotation.config());
         }
     }

@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,14 +18,14 @@
  */
 package org.failearly.dataset.datastore;
 
-import org.failearly.dataset.DataStoreDefinition;
+import org.failearly.dataset.AdhocDataStore;
 
 /**
  * DataStoreType represents the type of an DataStore and is also the factory for a {@link org.failearly.dataset.datastore.DataStore}.
  *
- * Used by {@link org.failearly.dataset.DataStoreDefinition#type()}.
+ * Used by {@link AdhocDataStore#type()}.
  *
  * @see org.failearly.dataset.datastore.DefaultDataStoreFactory
  */
-public interface DataStoreType extends DataStoreFactory<DataStoreDefinition> {
+public interface DataStoreType extends DataStoreFactory<AdhocDataStore> {
 }

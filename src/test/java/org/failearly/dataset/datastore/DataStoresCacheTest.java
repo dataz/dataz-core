@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 
 package org.failearly.dataset.datastore;
 
-import org.failearly.dataset.DataStoreDefinition;
+import org.failearly.dataset.AdhocDataStore;
 import org.failearly.dataset.config.DataSetProperties;
 import org.failearly.dataset.internal.model.TestMethod;
 import org.failearly.dataset.resource.DataResource;
@@ -103,22 +103,22 @@ public class DataStoresCacheTest {
         verify(dataStore2).initialize();
     }
 
-    @DataStoreDefinition(id = "DB", config = "/my-config.props", type = AnyDataStoreTypeImpl.class)
+    @AdhocDataStore(id = "DB", config = "/my-config.props", type = AnyDataStoreTypeImpl.class)
     private static class TestClass1 {
     }
 
-    @DataStoreDefinition(id = "DB", config = "/my-other-config.props")
+    @AdhocDataStore(id = "DB", config = "/my-other-config.props")
     private static class TestClass2 {
     }
 
-    @DataStoreDefinition(id = "OTHER-ID", config = "/my-other-config.props", type = AnyDataStoreTypeImpl.class)
+    @AdhocDataStore(id = "OTHER-ID", config = "/my-other-config.props", type = AnyDataStoreTypeImpl.class)
     private static class TestClass3 {
     }
 
 
     public static class AnyDataStoreTypeImpl implements DataStoreType {
         @Override
-        public DataStore createDataStore(DataStoreDefinition annotation, Object context) {
+        public DataStore createDataStore(AdhocDataStore annotation, Object context) {
             return spy(new AnyDataStoreImpl(annotation.config(), annotation.id()));
         }
     }

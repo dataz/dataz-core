@@ -19,6 +19,7 @@
 
 package org.failearly.dataset.config;
 
+import org.failearly.dataset.AdhocDataStore;
 import org.failearly.dataset.DataSet;
 import org.failearly.dataset.internal.annotation.TraverseDepth;
 import org.failearly.dataset.internal.annotation.TraverseStrategy;
@@ -143,7 +144,7 @@ public interface Constants {
     String DATASET_PROPERTY_TEMPLATE_ENGINE_FACTORY = "dataset.template.engine.factory";
 
     /**
-     * The default datastore id used for {@link org.failearly.dataset.DataSet#datastore()} and {@link org.failearly.dataset.DataStoreDefinition#id()}.
+     * The default datastore id used for {@link org.failearly.dataset.DataSet#datastore()} and {@link AdhocDataStore#id()}.
      */
     String DATASET_DEFAULT_DATASTORE_ID = "<master>";
 
@@ -155,7 +156,7 @@ public interface Constants {
      * almost a single database type will be used.
      *
      * @see org.failearly.dataset.datastore.DefaultDataStoreFactory
-     * @see org.failearly.dataset.DataStoreDefinition
+     * @see AdhocDataStore
      */
     String DATASET_PROPERTY_DATASTORE_TYPE_CLASS_NAME = "dataset.default.datastore.type.class";
 
@@ -187,7 +188,7 @@ public interface Constants {
     String DATASET_TEMPLATE_OBJECT_DUPLICATE_STRATEGY = "dataset.template.object.duplicate.strategy";
 
     /**
-     * Used by {@link org.failearly.dataset.DataStoreDefinition#setupSuffix()} and
+     * Used by {@link AdhocDataStore#setupSuffix()} and
      */
     String DATASET_USE_DEFAULT_SUFFIX = "<use_default>";
 

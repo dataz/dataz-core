@@ -1,5 +1,5 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
  * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
@@ -69,7 +69,7 @@
  * <br><br>
  * <ol>
  *    <li>a {@link org.failearly.dataset.datastore.DataStore} configuration file (/datastore.config) in your classpath.
- *          (see {@link org.failearly.dataset.DataStoreDefinition#config()}). This file should contain all necessary configuration for your
+ *          (see {@link org.failearly.dataset.AdhocDataStore#config()}). This file should contain all necessary configuration for your
  *          chosen {@code DataStore} implementation.</li>
  *    <li>a (mandatory) setup file named {@code "/com/company/project/module/MyClass.setup"} in your classpath. If omitted the test will fail.</li>
  *    <li>a (optional) cleanup file named {@code "/com/company/project/module/MyClass.cleanup"} in your classpath.</li>
@@ -92,6 +92,6 @@
  *
  * @see org.failearly.dataset.junit4.DataSetDriver
  * @see org.failearly.dataset.DataSet
- * @see org.failearly.dataset.DataStoreDefinition
+ * @see org.failearly.dataset.AdhocDataStore
  */
 package org.failearly.dataset;

@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,14 +18,15 @@
  */
 package org.failearly.dataset.datastore;
 
+import org.failearly.dataset.AdhocDataStore;
 import org.failearly.dataset.config.Constants;
 
 import java.lang.annotation.*;
 
 /**
- * DataStoreMetaDefinition is the meta annotation marking an annotation as DataStore annotations.
+ * DataStoreFactoryDefinition is the meta annotation marking an annotation as DataStore annotation and providing the {@link DataStoreFactory}.
  * <br><br>
- * Any annotation using this meta annotation ...
+ * Any annotation using this annotation ...
  * <ul>
  *      <li>must have an id element returning a String: {@code String id()}.</li>
  *      <li>should have a configuration part: {@code String config()}.</li>
@@ -35,7 +36,7 @@ import java.lang.annotation.*;
  * <pre>
  *    {@literal @Target({ElementType.TYPE})}
  *    {@literal @Retention(RetentionPolicy.RUNTIME)}
- *    {@literal @DataStoreFactoryDefinition(dataStoreFactory = MyDataStoreFactory.class)}
+ *    {@literal @DataStoreFactoryDefinition(factory = MyDataStoreFactory.class)}
  *    {@literal @}{@link java.lang.annotation.Repeatable}(MyDataStore.MyDataStores.class)
  *    public {@literal @}interface MyDataStore {
  *        String id() default {@link Constants#DATASET_DEFAULT_DATASTORE_ID};
@@ -54,10 +55,10 @@ import java.lang.annotation.*;
  *
  *
  * @see org.failearly.dataset.datastore.DataStoreFactory
- * @see org.failearly.dataset.DataStoreDefinition
+ * @see AdhocDataStore
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.ANNOTATION_TYPE)
 public @interface DataStoreFactoryDefinition {
-    Class<? extends DataStoreFactory> dataStoreFactory();
+    Class<? extends DataStoreFactory> factory();
 }

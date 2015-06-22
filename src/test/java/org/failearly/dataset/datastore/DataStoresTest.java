@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 
 package org.failearly.dataset.datastore;
 
-import org.failearly.dataset.DataStoreDefinition;
+import org.failearly.dataset.AdhocDataStore;
 import org.failearly.dataset.config.Constants;
 import org.failearly.dataset.config.DataSetProperties;
 import org.failearly.dataset.internal.model.TestMethod;
@@ -121,35 +121,35 @@ public class DataStoresTest {
     private static class TestClass {
     }
 
-    @DataStoreDefinition()
+    @AdhocDataStore()
     private static class TestClassWithOneDefinition {
     }
 
-    @DataStoreDefinition(id = "MASTER", config = "/master.properties")
-    @DataStoreDefinition(id = "CUSTOM1", config = "/custom1.properties")
-    @DataStoreDefinition(id = "CUSTOM2", config = "/custom2.properties")
-    @DataStoreDefinition(id = "CUSTOM2", config = "/never-loaded.properties")
+    @AdhocDataStore(id = "MASTER", config = "/master.properties")
+    @AdhocDataStore(id = "CUSTOM1", config = "/custom1.properties")
+    @AdhocDataStore(id = "CUSTOM2", config = "/custom2.properties")
+    @AdhocDataStore(id = "CUSTOM2", config = "/never-loaded.properties")
     private static class TestClassWithMultiDefinitions {
     }
 
-    @DataStoreDefinition(id = "MASTER", config = "/master.properties")
+    @AdhocDataStore(id = "MASTER", config = "/master.properties")
     private static class BaseClass {
     }
 
-    @DataStoreDefinition(id = "MASTER", config = "/never-loaded.properties")
-    @DataStoreDefinition(id = "CUSTOM1", config = "/custom1.properties")
-    @DataStoreDefinition(id = "CUSTOM2", config = "/custom2.properties")
+    @AdhocDataStore(id = "MASTER", config = "/never-loaded.properties")
+    @AdhocDataStore(id = "CUSTOM1", config = "/custom1.properties")
+    @AdhocDataStore(id = "CUSTOM2", config = "/custom2.properties")
     private static class SubClass extends BaseClass {
     }
 
-    @DataStoreDefinition(id = "DB", config = "/my-config.props", type = AnyDataStoreTypeImpl.class)
+    @AdhocDataStore(id = "DB", config = "/my-config.props", type = AnyDataStoreTypeImpl.class)
     private static class TestClassWithExplicitDataStoreType {
     }
 
 
     public static class AnyDataStoreTypeImpl implements DataStoreType {
         @Override
-        public DataStore createDataStore(DataStoreDefinition annotation, Object context) {
+        public DataStore createDataStore(AdhocDataStore annotation, Object context) {
             return spy(new AnyDataStoreImpl(annotation.config(), annotation.id()));
         }
     }

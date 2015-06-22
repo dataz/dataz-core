@@ -54,7 +54,7 @@ public @interface DataStoreSetup {
      * The associated DataStore. If the DataStore does not exists, the Initial DataSet resources will be ignored.
      *
      * @return the ID of an associated DataStore.
-     * @see org.failearly.dataset.DataStoreDefinition#id()
+     * @see AdhocDataStore#id()
      * @see org.failearly.dataset.datastore.DataStore#getId()
      */
     String datastore() default Constants.DATASET_DEFAULT_DATASTORE_ID;

@@ -16,9 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
 package org.failearly.dataset.datastore;
 
-import org.failearly.dataset.DataStoreDefinition;
+import org.failearly.dataset.AdhocDataStore;
 import org.failearly.dataset.config.DataSetProperties;
 import org.failearly.dataset.util.ObjectCreator;
 import org.slf4j.Logger;
@@ -27,7 +28,7 @@ import org.slf4j.LoggerFactory;
 /**
  * DefaultDataStoreFactory uses default datastore type property for creating instances of {@link org.failearly.dataset.datastore.DataStore}.
  */
-public final class DefaultDataStoreFactory implements DataStoreFactory<DataStoreDefinition> {
+public final class DefaultDataStoreFactory implements DataStoreFactory<AdhocDataStore> {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultDataStoreFactory.class);
 
     private final DataStoreType dataStoreType;
@@ -37,14 +38,14 @@ public final class DefaultDataStoreFactory implements DataStoreFactory<DataStore
     }
 
     @Override
-    public DataStore createDataStore(DataStoreDefinition annotation, Object context) {
+    public DataStore createDataStore(AdhocDataStore annotation, Object context) {
         if( annotation.type().equals(NullDataStoreType.class) )
             return dataStoreType.createDataStore(annotation, null);
 
         return createDataStoreType(annotation).createDataStore(annotation, null);
     }
 
-    private static DataStoreType createDataStoreType(DataStoreDefinition generatorDefinition) {
+    private static DataStoreType createDataStoreType(AdhocDataStore generatorDefinition) {
         final Class<? extends DataStoreType> dataStoreType = generatorDefinition.type();
         try {
             return dataStoreType.newInstance();

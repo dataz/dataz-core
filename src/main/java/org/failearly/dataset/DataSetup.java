@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
 package org.failearly.dataset;
 
 import org.failearly.dataset.annotations.DataSetupResourceFactoryDefinition;
@@ -69,7 +70,7 @@ public @interface DataSetup {
      * The associated DataStore. If the DataStore does not exists, the DataSet resources will be ignored.
      *
      * @return the ID of an associated DataStore.
-     * @see DataStoreDefinition#id()
+     * @see AdhocDataStore#id()
      * @see org.failearly.dataset.datastore.DataStore#getId()
      */
     String datastore() default Constants.DATASET_DEFAULT_DATASTORE_ID;
@@ -101,7 +102,7 @@ public @interface DataSetup {
      *
      * @return The name(s) of the setup resource(s) or empty.
      * @see org.failearly.dataset.datastore.DataStore#getSetupSuffix()
-     * @see DataStoreDefinition#setupSuffix()
+     * @see AdhocDataStore#setupSuffix()
      * @see Constants#DATASET_PROPERTY_DEFAULT_SETUP_SUFFIX
      */
     String[] value() default {};

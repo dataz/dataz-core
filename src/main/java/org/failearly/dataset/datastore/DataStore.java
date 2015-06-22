@@ -16,8 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
 package org.failearly.dataset.datastore;
 
+import org.failearly.dataset.AdhocDataStore;
 import org.failearly.dataset.internal.model.TestMethod;
 import org.failearly.dataset.internal.template.TemplateObjects;
 import org.failearly.dataset.resource.DataResource;
@@ -30,13 +32,13 @@ import java.util.List;
 public interface DataStore {
     /**
      * @return the id of the data store.
-     * @see org.failearly.dataset.DataStoreDefinition#id()
+     * @see AdhocDataStore#id()
      */
     String getId();
 
     /**
      * @return the configuration file of the data store.
-     * @see org.failearly.dataset.DataStoreDefinition#config()
+     * @see AdhocDataStore#config()
      */
     String getConfig();
 
@@ -44,7 +46,7 @@ public interface DataStore {
      * The default suffix used for searching <b>setup</b> resource files.
      *
      * @return suffix to be used for {@link org.failearly.dataset.DataSet#setup()} (if no setup resource is specified).
-     * @see org.failearly.dataset.DataStoreDefinition#setupSuffix()
+     * @see AdhocDataStore#setupSuffix()
      * @see org.failearly.dataset.config.DataSetProperties#getDefaultSetupSuffix()
      */
     String getSetupSuffix();
@@ -53,7 +55,7 @@ public interface DataStore {
      * The default suffix used for searching <b>cleanup</b> resource files.
      *
      * @return suffix to be used for {@link org.failearly.dataset.DataSet#cleanup()} (if no setup resource is specified).
-     * @see org.failearly.dataset.DataStoreDefinition#cleanupSuffix()
+     * @see AdhocDataStore#cleanupSuffix()
      * @see org.failearly.dataset.config.DataSetProperties#getDefaultCleanupSuffix()
      */
     String getCleanupSuffix();

@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,14 +19,14 @@
 
 package org.failearly.dataset.datastore;
 
-import org.failearly.dataset.DataStoreDefinition;
+import org.failearly.dataset.AdhocDataStore;
 
 /**
  * DefaultDataStoreFactory uses default datastore factory property for creating instances of {@link DataStore}.
  */
 public final class NullDataStoreType implements DataStoreType {
     @Override
-    public DataStore createDataStore(DataStoreDefinition annotation, Object context) {
+    public DataStore createDataStore(AdhocDataStore annotation, Object context) {
         return new NullDataStore(annotation.id(), annotation.config());
     }
 }

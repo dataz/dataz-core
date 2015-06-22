@@ -19,7 +19,7 @@
 
 package org.failearly.dataset.datastore;
 
-import org.failearly.dataset.DataStoreDefinition;
+import org.failearly.dataset.AdhocDataStore;
 import org.failearly.dataset.DataStoreSetup;
 import org.failearly.dataset.config.Constants;
 import org.failearly.dataset.internal.annotation.*;
@@ -52,7 +52,7 @@ public final class DataStores {
         Runtime.getRuntime().addShutdownHook(new Thread(DataStores::shutdown));
     }
 
-    private static final Annotation DEFAULT_DATA_STORE_ANNOTATION = DefaultDataStoreDefinition.class.getAnnotation(DataStoreDefinition.class);
+    private static final Annotation DEFAULT_DATA_STORE_ANNOTATION = DefaultDataStoreDefinition.class.getAnnotation(AdhocDataStore.class);
 
     private final Map<String, DataStore> dataStoreById = new ConcurrentHashMap<>();
     private final Map<Class<?>, DataStore> dataStoreByTestClass = new ConcurrentHashMap<>();
@@ -301,7 +301,7 @@ public final class DataStores {
     @SuppressWarnings("unchecked")
     private DataStore createDataStoreFromAnnotation(Annotation annotation, List<DataStoreSetupInstance> dataStoreSetupAnnotations, TemplateObjects templateObjects) {
         final DataStoreFactoryDefinition dataStoreFactoryDefinition = AnnotationUtils.getMetaAnnotation(DataStoreFactoryDefinition.class, annotation);
-        final Class<? extends DataStoreFactory> dataStoreFactoryClass = dataStoreFactoryDefinition.dataStoreFactory();
+        final Class<? extends DataStoreFactory> dataStoreFactoryClass = dataStoreFactoryDefinition.factory();
         final DataStore dataStore = ObjectCreator.createInstance(dataStoreFactoryClass).createDataStore(annotation, null);
 
         dataStore.initialize();
@@ -350,7 +350,7 @@ public final class DataStores {
         return dataStore;
     }
 
-    @DataStoreDefinition
+    @AdhocDataStore
     private static class DefaultDataStoreDefinition {
     }
 }

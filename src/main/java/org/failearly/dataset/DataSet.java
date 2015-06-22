@@ -74,7 +74,7 @@ public @interface DataSet {
      * The associated DataStore. If the DataStore does not exists, the DataSet resources will be ignored.
      *
      * @return the ID of an associated DataStore.
-     * @see DataStoreDefinition#id()
+     * @see AdhocDataStore#id()
      * @see org.failearly.dataset.datastore.DataStore#getId()
      */
     String datastore() default Constants.DATASET_DEFAULT_DATASTORE_ID;
@@ -106,7 +106,7 @@ public @interface DataSet {
      *
      * @return The name(s) of the setup resource(s) or empty.
      * @see org.failearly.dataset.datastore.DataStore#getSetupSuffix()
-     * @see DataStoreDefinition#setupSuffix()
+     * @see AdhocDataStore#setupSuffix()
      * @see Constants#DATASET_PROPERTY_DEFAULT_SETUP_SUFFIX
      */
     String[] setup() default {};
@@ -138,7 +138,7 @@ public @interface DataSet {
      *
      * @return The name(s) of the cleanup resource(s) or empty.
      * @see org.failearly.dataset.datastore.DataStore#getCleanupSuffix()
-     * @see DataStoreDefinition#cleanupSuffix()
+     * @see AdhocDataStore#cleanupSuffix()
      * @see Constants#DATASET_PROPERTY_DEFAULT_CLEANUP_SUFFIX
      */
     String[] cleanup() default {};
