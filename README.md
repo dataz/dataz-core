@@ -3,9 +3,7 @@ dataSet
 
 _dataSet_ provides testing support for Datastores.
 
-A typical datastore is a database, either SQL or NoSql. But a datastore could be more then a database. It could be any (remote) synchronous system.
-
->A __Datastore__ is any remote synchronous system, which responses to a request.
+A typical datastore is a database, either SQL or NoSql.
 
 If you have to test a module which is using a datastore(s), you have are facing some more or less typical issues:
 
@@ -17,23 +15,14 @@ If you have to test a module which is using a datastore(s), you have are facing 
 * You have different types of datastores. For example: MySql and memcache.
 * You are making a product which is based on JPA, but every test should run also on any supported database.
 * Performance tests with the productive database.
-* A custom remote system.
-* ...
 
 _dataSet_ is an attempt to provide solutions for these issues.
 
 
-Why not DbUnit?
-===============
+Documentation
+=============
 
-But there is [DbUnit](http://dbunit.sourceforge.net/). We are using DbUnit. Why should we switch to _dataSet_?
-
-There is no need, because the sql module is build on top of DbUnit. But you will also be able to use native DDL and DML (SQL). So _dataSet_ provides
-a better way to use DbUnit.
-
-So the question is not: Use DbUnit or _dataSet_?
-
-**The actually question is: Why not using DbUnit with dataStore?**
+The documentation could be found [here](dataset-doc.readthedocs.org).
 
 How to install/clone all projects?
 ==================================
@@ -60,59 +49,45 @@ Example
     // JUnit imports omitted for brevity
 
 
-    @DataSet
+    @DataSet // <<<<<< Expects data (setup) resource /com/company/module/my/MyTest.setup >>>>>>
     public class MyTest {
-        @Rule
-        public final TestRule dataSetDriver = DataSetDriver.createDataSetDriver(this);
+        @Rule public final TestRule dataSetDriver = DataSetDriver.createDataSetDriver(this); // <<<< This driver which applies the data resources on a datastores
 
         @Test
         public void testUsingClassDataSet() {
-            // 1. Before the test: dataSetDriver will look for a setup resource /com/company/module/my/MyTest.setup and apply it on the default DataStore.
-            // If you don't define any datastore, the default will be used.
-
-            .... your test ...
-
-            // 2. After the test: dataSetDriver will look for a cleanup resource /com/company/module/my/MyTest.cleanup and if exists, then it will be applied.
+            // Running your test against data resource /com/company/module/my/MyTest.setup
         }
 
-        @Test @DataSet
-        public void testUsingAdditionalDataSet() {
-            // 1. Before: dataSetDriver will look for a setup resource /com/company/module/my/MyTest.setup and apply it on the default DataStore
-            // 2. And it will look for a setup resource /com/company/module/my/MyTest-testUsingAdditionalDataSet.setup
-            //    and apply it on the default DataStore
-
-            .... your test ...
-
-            // 3. After: dataSetDriver will look for a cleanup resource /com/company/module/my/MyTest.cleanup and if exists, then it will be applied.
-            // 4. And dataSetDriver will look for a cleanup resource /com/company/module/my/MyTesttestUsingAdditionalDataSet.cleanup and if exists,
-            //    then it will be applied.
+        @Test @DataSet // <<<<<< Expects data (setup) resource /com/company/module/my/MyTest-testUsingMethodDataSet.setup >>>>>>
+        public void testUsingMethodDataSet() {
+            // Running your test against data resources 
+			//            /com/company/module/my/MyTest.setup 
+			//    and(!!) /com/company/module/my/MyTest-testUsingMethodDataSet.setup
         }
     }
 
-So the actually test class look like this:
+Another possibility is to use the JUnit base class (_AbstractDataSetTest_) provided by dataSet.
 
-    package com.company.module.my;
+	package com.company.module.my;
 
-    import org.failearly.dataset.junit4.DataSetDriver;
-    import org.failearly.dataset.DataSet;
+	import org.failearly.dataset.junit4.AbstractDataSetTest;
+	import org.failearly.dataset.DataSet;
 
-    // JUnit imports omitted for brevity
+	// JUnit imports omitted for brevity
 
-    @DataSet
-    public class MyTest {
-        @Rule
-        public final TestRule dataSetDriver = DataSetDriver.createDataSetDriver(this);
+	@DataSet
+	public class MyTest extends AbstractDataSetTest /* <<< Use this instead of TestRule >>>> */ {
+	    @Test
+	    public void testUsingClassDataSet() {
+	        // ...
+	    }
 
-        @Test
-        public void testUsingClassDataSet() {
-            .... your test ...
-        }
+	    @Test @DataSet
+	    public void testUsingMethodDataSet() {
+	        // ...
+	    }
+	}
 
-        @Test @DataSet
-        public void testUsingAdditionalDataSet() {
-            .... your test ...
-        }
-    }
 
 Issues
 ======
