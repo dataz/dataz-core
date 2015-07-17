@@ -20,7 +20,7 @@
 package org.failearly.dataset.internal.template;
 
 import org.failearly.dataset.exception.DataSetException;
-import org.failearly.dataset.template.TemplateObject;
+import org.failearly.dataset.template.common.TemplateObject;
 
 /**
  * DuplicateTemplateObjectException used by {@link TemplateObjectDuplicateStrategy#STRICT}.

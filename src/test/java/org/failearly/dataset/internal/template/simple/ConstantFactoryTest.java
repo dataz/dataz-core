@@ -19,10 +19,10 @@
 
 package org.failearly.dataset.internal.template.simple;
 
-import org.failearly.dataset.template.Scope;
-import org.failearly.dataset.template.TemplateObject;
+import org.failearly.dataset.template.common.Scope;
+import org.failearly.dataset.template.common.TemplateObject;
 import org.failearly.dataset.template.simple.Constant;
-import org.failearly.dataset.test.AnnotationHelper;
+import org.failearly.dataset.template.support.test.AnnotationHelper;
 import org.junit.Before;
 import org.junit.Test;
 

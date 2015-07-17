@@ -19,8 +19,8 @@
 
 package org.failearly.dataset.internal.template.engine.velocity;
 
-import org.failearly.dataset.template.TemplateEngine;
-import org.failearly.dataset.template.TemplateEngineFactory;
+import org.failearly.dataset.template.engine.TemplateEngine;
+import org.failearly.dataset.template.engine.TemplateEngineFactory;
 
 /**
  * VelocityTemplateEngineFactory creates instances of {@link VelocityTemplateEngine}.

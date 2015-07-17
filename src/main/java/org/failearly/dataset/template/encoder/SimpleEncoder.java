@@ -17,46 +17,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package org.failearly.dataset.template.simple;
+package org.failearly.dataset.template.encoder;
 
-import org.failearly.dataset.internal.template.simple.ConstantFactory;
-import org.failearly.dataset.template.common.Scope;
+import org.failearly.dataset.internal.template.encoder.SimpleEncoderFactory;
 import org.failearly.dataset.template.common.TemplateObjectFactoryDefinition;
 
 import java.lang.annotation.*;
 
 /**
- * "Generates" a single {@link #value} value.
+ * SimpleEncoder is responsible for ...
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@TemplateObjectFactoryDefinition(factory = ConstantFactory.class)
+@TemplateObjectFactoryDefinition(factory = SimpleEncoderFactory.class)
 @Documented
-@Repeatable(Constant.Constants.class)
-public @interface Constant {
-    /**
-     * @return The name of the template object. Could be used in Velocity templates by {@code $<name>}.
-     */
-    String name();
+@Repeatable(SimpleEncoder.SimpleEncoders.class)
+public @interface SimpleEncoder {
 
-    /**
-     * @return The name of the associated dataset.
-     *
-     * @see org.failearly.dataset.DataSet#name()
-     */
-    String dataset() default org.failearly.dataset.config.Constants.DATASET_DEFAULT_NAME;
-
-    /**
-     * @return The scope of the template object (either {@link Scope#LOCAL} or {@link Scope#GLOBAL}.
-     */
-    Scope scope() default Scope.DEFAULT;
-
-    /**
-     * Constant value ({@code null} is permitted).
-     *
-     * @return any constant value as String.
-     */
-    String value();
 
     /**
      * Containing Annotation Type.
@@ -68,7 +45,7 @@ public @interface Constant {
     @Target({ElementType.METHOD, ElementType.TYPE})
     @Retention(RetentionPolicy.RUNTIME)
     @Documented
-    @interface Constants {
-        Constant[] value();
+    @interface SimpleEncoders {
+        SimpleEncoder[] value();
     }
 }

@@ -19,10 +19,10 @@
 
 package org.failearly.dataset.test;
 
-import org.failearly.dataset.template.Scope;
-import org.failearly.dataset.template.TemplateObject;
-import org.failearly.dataset.template.TemplateObjectBase;
-import org.failearly.dataset.template.TemplateObjectFactoryBase;
+import org.failearly.dataset.template.common.Scope;
+import org.failearly.dataset.template.common.TemplateObject;
+import org.failearly.dataset.template.common.TemplateObjectBase;
+import org.failearly.dataset.template.common.TemplateObjectFactoryBase;
 
 /**
  * TemplateObjectAnnotationFactory is the factory for making from the annotation {@link MyTemplateObjectAnnotation} a

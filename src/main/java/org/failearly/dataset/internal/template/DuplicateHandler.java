@@ -19,9 +19,7 @@
 
 package org.failearly.dataset.internal.template;
 
-import org.failearly.dataset.template.TemplateObject;
-
-import java.util.List;
+import org.failearly.dataset.template.common.TemplateObject;
 
 /**
  * DuplicateStrategy defines the methods to be used, for handling duplicate names.

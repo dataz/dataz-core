@@ -16,12 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
 package org.failearly.dataset.internal.template;
 
 import org.failearly.dataset.config.DataSetProperties;
 import org.failearly.dataset.util.ObjectCreator;
-import org.failearly.dataset.template.TemplateEngine;
-import org.failearly.dataset.template.TemplateEngineFactory;
+import org.failearly.dataset.template.engine.TemplateEngine;
+import org.failearly.dataset.template.engine.TemplateEngineFactory;
 
 /**
  * TemplateEngines provides a single factory method for TemplateEngines.

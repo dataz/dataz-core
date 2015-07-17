@@ -20,8 +20,6 @@
 package org.failearly.dataset.util;
 
 import org.apache.commons.lang.BooleanUtils;
-import org.apache.commons.lang.ObjectUtils;
-import org.failearly.dataset.template.Property;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

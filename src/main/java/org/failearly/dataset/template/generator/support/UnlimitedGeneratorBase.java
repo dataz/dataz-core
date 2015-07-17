@@ -20,7 +20,7 @@
 package org.failearly.dataset.template.generator.support;
 
 import org.failearly.dataset.template.generator.GeneratorConstants;
-import org.failearly.dataset.template.Scope;
+import org.failearly.dataset.template.common.Scope;
 
 import java.lang.annotation.Annotation;
 import java.util.Iterator;
@@ -39,33 +39,50 @@ public abstract class UnlimitedGeneratorBase<T> extends GeneratorBase<T> impleme
     }
 
     /**
-     * Creates a random value generator with or without seed.
+     * Creates a random value generator.
      *
-     * @param seed seed value or {@link GeneratorConstants#NO_SEED}.
+     * @param seed seed value or {@link GeneratorConstants#DEFAULT_SEED}.
      *
      * @return the random instance.
      */
     protected static Random random(int seed) {
-        if( seed == GeneratorConstants.NO_SEED ) {
-            return new Random();
-        }
-
         return new Random(seed);
     }
 
-
     @Override
     public final T next() {
-        if( ! iterator.hasNext() ) {
-            iterator = this.createIterator();
+        if( ! internalIterator().hasNext() ) {
+            resetInternalIterator();
         }
 
-        return iterator.next();
+        return setLastValue(internalIterator().next());
     }
+
+    @Override
+    public final void reset() {
+        doReset();
+    }
+
+
+    /**
+     * Do the actually reset.
+     */
+    protected abstract void doReset();
+
 
     @Override
     public final Iterator<T> iterator() {
         throw new UnsupportedOperationException("Don't use iterator() for unlimited generators! Use next() instead.");
     }
 
+    @Override
+    public final void __extend_UnlimitedGeneratorBase__instead_of_implementing_UnlimitedGenerator() {
+        throw new UnsupportedOperationException("__extend_UnlimitedGeneratorBase__instead_of_implementing_UnlimitedGenerator must not be called");
+    }
+
+    @Override
+    public final void __do_not_implement_Generator() {
+        throw new UnsupportedOperationException("__do_not_implement_Generator must not be called");
+
+    }
 }

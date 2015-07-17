@@ -17,32 +17,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package org.failearly.dataset.template;
-
-import org.failearly.dataset.util.PropertiesHelper;
-
-import java.util.HashMap;
-import java.util.Map;
+package org.failearly.dataset.template.common;
 
 /**
- * PropertiesHelperFactory provides a factory method for creating a {@link PropertiesHelper} instance from {@link Property} array.
+ * The scope of {@link TemplateObject}.
  */
-public final class PropertiesHelperFactory {
-
-    private PropertiesHelperFactory() {
-    }
-
-    public static PropertiesHelper createFromPropertyList(Property[] propertyList) {
-        return new PropertiesHelper(toMap(propertyList));
-    }
-
-    private static Map<String,String> toMap(Property[] propertyList) {
-        final Map<String,String> map=new HashMap<>();
-        for (Property property : propertyList) {
-            map.put(property.k(), property.v());
+public enum Scope {
+    /**
+     * Use {@link TemplateObject#dataset()}. Not be used inherited by {@link org.failearly.dataset.Use}.
+     */
+    LOCAL,
+    /**
+     * Independent from {@link TemplateObject#dataset()}. Will be used by all template based data resources.
+     */
+    GLOBAL,
+    /**
+     * The default scope is <i>LOCAL</i>.
+     */
+    DEFAULT {
+        @Override
+        public Scope getScopeValue() {
+            return LOCAL;
         }
+    };
 
-        return map;
+    public Scope getScopeValue() {
+        return this;
     }
-
 }

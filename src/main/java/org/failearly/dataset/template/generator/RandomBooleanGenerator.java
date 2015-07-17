@@ -20,9 +20,9 @@
 package org.failearly.dataset.template.generator;
 
 import org.failearly.dataset.config.Constants;
-import org.failearly.dataset.template.Scope;
-import org.failearly.dataset.template.TemplateObjectFactoryDefinition;
-import org.failearly.dataset.internal.template.generator.standard.RandomBooleanGeneratorFactory;
+import org.failearly.dataset.template.common.Scope;
+import org.failearly.dataset.template.common.TemplateObjectFactoryDefinition;
+import org.failearly.dataset.internal.template.generator.RandomBooleanGeneratorFactory;
 
 import java.lang.annotation.*;
 
@@ -53,22 +53,20 @@ public @interface RandomBooleanGenerator {
      */
     Scope scope() default Scope.DEFAULT;
 
-
     /**
      * @return the percentage ({@code >0} and {@code < 100}) of {@code true} values.
      */
     float percent();
 
     /**
-     * Seed value for {@link java.util.Random}. ({@value GeneratorConstants#NO_SEED} means dynamic
-     * or no seed value).
+     * Seed value for {@link java.util.Random}.
      *
-     * @return the seed value or {@link org.failearly.dataset.template.generator.GeneratorConstants#NO_SEED}.
+     * @return the seed value or {@link org.failearly.dataset.template.generator.GeneratorConstants#DEFAULT_SEED}.
      *
-     * @see GeneratorConstants#NO_SEED
+     * @see GeneratorConstants#DEFAULT_SEED
      * @see java.util.Random#seed
      */
-    int seed() default GeneratorConstants.NO_SEED;
+    int seed() default GeneratorConstants.DEFAULT_SEED;
 
     /**
      * Containing Annotation Type.

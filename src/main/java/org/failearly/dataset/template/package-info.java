@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
  */
 
 /**
- * Interface and base classes for {@link org.failearly.dataset.template.TemplateEngine} implementations.
+ * Interface and base classes for {@link org.failearly.dataset.template.engine.TemplateEngine} implementations.
  *
  * Currently there is only a Velocity implementation.
  *

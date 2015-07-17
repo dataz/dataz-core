@@ -20,9 +20,9 @@
 package org.failearly.dataset.template.generator;
 
 import org.failearly.dataset.config.Constants;
-import org.failearly.dataset.template.Scope;
-import org.failearly.dataset.template.TemplateObjectFactoryDefinition;
-import org.failearly.dataset.internal.template.generator.standard.RangeGeneratorFactory;
+import org.failearly.dataset.template.common.Scope;
+import org.failearly.dataset.template.common.TemplateObjectFactoryDefinition;
+import org.failearly.dataset.internal.template.generator.RangeGeneratorFactory;
 
 import java.lang.annotation.*;
 

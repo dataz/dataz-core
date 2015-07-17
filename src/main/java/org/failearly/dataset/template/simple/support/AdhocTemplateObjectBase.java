@@ -19,8 +19,8 @@
 
 package org.failearly.dataset.template.simple.support;
 
-import org.failearly.dataset.template.PropertiesHelperFactory;
-import org.failearly.dataset.template.TemplateObjectBase;
+import org.failearly.dataset.template.support.PropertiesHelperFactory;
+import org.failearly.dataset.template.common.TemplateObjectBase;
 import org.failearly.dataset.template.simple.Adhoc;
 import org.failearly.dataset.util.PropertiesHelper;
 
@@ -41,11 +41,6 @@ public abstract class AdhocTemplateObjectBase extends TemplateObjectBase impleme
         this.propertiesHelper = PropertiesHelperFactory.createFromPropertyList(annotation.properties());
     }
 
-    @Override
-    public final void ___extend_AdhocTemplateObjectBase__instead_of_implementing_AdhocTemplateObject() {
-        throw new UnsupportedOperationException("___extend_AdhocTemplateObjectBase__instead_of_implementing_AdhocTemplateObject must not be called");
-    }
-
     /**
      * @return the entire {@link Adhoc#args()}.
      */
@@ -58,5 +53,10 @@ public abstract class AdhocTemplateObjectBase extends TemplateObjectBase impleme
      */
     public final PropertiesHelper getProperties() {
         return propertiesHelper;
+    }
+
+    @Override
+    public final void ___extend_AdhocTemplateObjectBase__instead_of_implementing_AdhocTemplateObject() {
+        throw new UnsupportedOperationException("___extend_AdhocTemplateObjectBase__instead_of_implementing_AdhocTemplateObject must not be called");
     }
 }

@@ -19,9 +19,9 @@
 
 package org.failearly.dataset.internal.template.simple;
 
-import org.failearly.dataset.template.Scope;
-import org.failearly.dataset.template.TemplateObject;
-import org.failearly.dataset.template.TemplateObjectFactoryBase;
+import org.failearly.dataset.template.common.Scope;
+import org.failearly.dataset.template.common.TemplateObject;
+import org.failearly.dataset.template.common.TemplateObjectFactoryBase;
 import org.failearly.dataset.template.simple.Adhoc;
 import org.failearly.dataset.util.ObjectCreator;
 

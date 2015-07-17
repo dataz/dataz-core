@@ -23,6 +23,7 @@ import org.failearly.dataset.annotations.DataSetupResourceFactoryDefinition;
 import org.failearly.dataset.config.Constants;
 import org.failearly.dataset.internal.resource.factory.DataSetupResourcesFactory;
 import org.failearly.dataset.resource.DataResource;
+import org.failearly.dataset.template.common.TemplateObject;
 
 import java.lang.annotation.*;
 
@@ -56,7 +57,7 @@ public @interface DataSetup {
 
     /**
      * The DataSet's name. Multiple DataSets with the same name will be executed.
-     * The name becomes necessary if you are using {@link org.failearly.dataset.template.TemplateObject}.
+     * The name becomes necessary if you are using {@link TemplateObject}.
      * <p>
      * <br><br>
      * <p>
@@ -70,9 +71,13 @@ public @interface DataSetup {
      * The associated DataStore. If the DataStore does not exists, the DataSet resources will be ignored.
      *
      * @return the ID of an associated DataStore.
+     *
      * @see AdhocDataStore#id()
      * @see org.failearly.dataset.datastore.DataStore#getId()
+     *
+     * @deprecated Will replaced in Release 0.6 (with new element datastores)
      */
+    @Deprecated
     String datastore() default Constants.DATASET_DEFAULT_DATASTORE_ID;
 
     /**

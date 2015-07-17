@@ -18,10 +18,10 @@
  */
 
 /**
- * This package contains some standard {@link org.failearly.dataset.template.generator.support.Generator} annotations.
+ * This package contains some standard {@link org.failearly.dataset.template.generator.Generator} annotations.
  * <br><br>
  * A {@code Generator} could be used with a {@link org.failearly.dataset.DataSet#setup()} or {@link org.failearly.dataset.DataSet#cleanup()}
- * resource template. A resource template will be identified by the file names suffix
+ * resource template. A resource template will be identified by the file names suffix.
  * ({@link org.failearly.dataset.config.Constants#DATASET_PROPERTY_TEMPLATE_SUFFIX}. If the resource is not a template your specified
  * generator won't have any effect.
  * <br><br>
@@ -48,8 +48,10 @@
  * It's possible to
  * <a href="{@docRoot}/org/failearly/dataset/generator/resource/package-summary.html#package_description">newInstance your own customized generator</a>.
  *
- * @see org.failearly.dataset.template.TemplateEngine
+ * @see org.failearly.dataset.template.engine.TemplateEngine
  * @see org.failearly.dataset.DataSet
+ * @see org.failearly.dataset.DataSetup
+ * @see org.failearly.dataset.DataCleanup
  * @see <a href="{@docRoot}/org/failearly/dataset/generator/resource/package-summary.html#package_description">generator resource</a>
  * @see <a href="http://velocity.apache.org/engine/releases/velocity-1.7/">Velocity 1.7</a>
  */

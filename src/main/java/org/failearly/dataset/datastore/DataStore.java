@@ -23,6 +23,7 @@ import org.failearly.dataset.AdhocDataStore;
 import org.failearly.dataset.internal.model.TestMethod;
 import org.failearly.dataset.internal.template.TemplateObjects;
 import org.failearly.dataset.resource.DataResource;
+import org.failearly.dataset.template.common.TemplateObject;
 
 import java.util.List;
 
@@ -71,7 +72,7 @@ public interface DataStore {
      * After initialization, the DataStore needs sometimes special setup (like creating a schema).
      *
      * @param dataStoreSetups   all declared {@link org.failearly.dataset.DataStoreSetup} annotations available.
-     * @param templateObjects a list of {@link org.failearly.dataset.template.TemplateObject}s, which represents
+     * @param templateObjects a list of {@link TemplateObject}s, which represents
      *                          all template object annotations.
      * @throws org.failearly.dataset.datastore.DataStoreException in case of any exception while setup the Datastore.
      * @see org.failearly.dataset.DataStoreSetup

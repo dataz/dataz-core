@@ -21,6 +21,7 @@ package org.failearly.dataset;
 
 import org.failearly.dataset.config.Constants;
 import org.failearly.dataset.resource.DataResource;
+import org.failearly.dataset.template.common.TemplateObject;
 
 import java.lang.annotation.*;
 
@@ -35,16 +36,19 @@ import java.lang.annotation.*;
  *
  * @see org.failearly.dataset.datastore.DataStore#setupDataStore(java.util.List, org.failearly.dataset.internal.template.TemplateObjects)
  * @see org.failearly.dataset.datastore.DataStore#cleanupDataStore()
+ *
+ * @deprecated Will replaced in Release 0.6
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Repeatable(DataStoreSetup.DataStoreSetups.class)
+@Deprecated
 public @interface DataStoreSetup {
     /**
      * The initializer's name. If omitted, use {@link #datastore()}.
      * <p>
-     * The name becomes necessary if you are using {@link org.failearly.dataset.template.TemplateObject}.
+     * The name becomes necessary if you are using {@link TemplateObject}.
      *
      * @return The initializer's name or {@link #datastore()}
      */

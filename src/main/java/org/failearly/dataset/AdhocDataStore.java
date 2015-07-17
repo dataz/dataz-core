@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
 package org.failearly.dataset;
 
 import org.failearly.dataset.config.Constants;
@@ -52,7 +53,10 @@ public @interface AdhocDataStore {
      * If your tests uses multiple data stores, you must identify each data store.
      *
      * @return the (unique) data store id.
+     *
+     * @deprecated Will removed in Release 0.6
      */
+    @Deprecated
     String id() default Constants.DATASET_DEFAULT_DATASTORE_ID;
 
     /**

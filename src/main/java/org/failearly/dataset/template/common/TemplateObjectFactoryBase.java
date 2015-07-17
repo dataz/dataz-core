@@ -17,13 +17,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package org.failearly.dataset.template;
+package org.failearly.dataset.template.common;
 
 import java.lang.annotation.Annotation;
+import java.util.Objects;
 
 /**
  * TemplateObjectFactoryBase is the base class for implementing {@link TemplateObjectFactory}. It also cast to the actually expected annotation
- * and provides to type safe methods.
+ * and provides type safe methods.
  *
  * @see #doCreate(Annotation)
  * @see #doResolveDataSetName(Annotation)
@@ -32,11 +33,13 @@ public abstract class TemplateObjectFactoryBase<T extends Annotation> implements
     private final Class<T> annotationClass;
 
     protected TemplateObjectFactoryBase(Class<T> annotationClass) {
+        Objects.requireNonNull(annotationClass,"Missing annotation class.");
         this.annotationClass = annotationClass;
     }
 
     @Override
     public final TemplateObject create(Annotation annotation) {
+        Objects.requireNonNull(annotation,"Missing annotation of type " + annotationClass.getName());
         return doCreate(annotationClass.cast(annotation));
     }
 

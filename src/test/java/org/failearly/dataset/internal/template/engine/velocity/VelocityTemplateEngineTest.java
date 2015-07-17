@@ -19,8 +19,6 @@
 
 package org.failearly.dataset.internal.template.engine.velocity;
 
-import org.failearly.dataset.internal.template.TemplateEngines;
-import org.failearly.dataset.template.TemplateEngine;
 import org.failearly.dataset.template.TemplateEngineTestBase;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,7 +41,7 @@ public class VelocityTemplateEngineTest extends TemplateEngineTestBase {
 
     private static final String ANY_TEMPLATE_RESOURCE_NAME = "/any/path/to/dataset-resource.suffix.vm";
 
-    private TemplateEngine templateEngine;
+    private VelocityTemplateEngine templateEngine;
 
     private static InputStream templateInputStream() {
         return new ByteArrayInputStream(TEMPLATE.getBytes());
@@ -51,11 +49,11 @@ public class VelocityTemplateEngineTest extends TemplateEngineTestBase {
 
     @Before
     public void setUp() throws Exception {
-        templateEngine = TemplateEngines.createTemplateEngine();
+        templateEngine = new VelocityTemplateEngine();
     }
 
     @Test
-    public void apply_template_engine__should_use_known_template_objects__and__leave_unknown_unchanged() throws Exception {
+    public void generate_from_file__should_use_known_template_objects__and__leave_unknown_unchanged() throws Exception {
         // act / when
         final File generatedFile = templateEngine.generate(
                 templateInputStream(),

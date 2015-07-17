@@ -25,11 +25,10 @@ package org.failearly.dataset.template.generator;
  */
 public interface GeneratorConstants {
     /**
-     * No seed for Random based {@link org.failearly.dataset.template.TemplateObject}. So
-     * {@link java.util.Random} the random instance will be created with no seed value.
+     * The default seed value.
      *
      * @see org.failearly.dataset.template.generator.RandomRangeGenerator#seed()
      * @see org.failearly.dataset.template.generator.RandomBooleanGenerator#seed()
      */
-    int NO_SEED=0;
+    int DEFAULT_SEED = 0;
 }

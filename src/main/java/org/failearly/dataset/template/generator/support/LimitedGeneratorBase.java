@@ -19,7 +19,7 @@
 
 package org.failearly.dataset.template.generator.support;
 
-import org.failearly.dataset.template.Scope;
+import org.failearly.dataset.template.common.Scope;
 
 import java.lang.annotation.Annotation;
 
@@ -36,5 +36,13 @@ public abstract class LimitedGeneratorBase<T> extends GeneratorBase<T> implement
         super(annotation, dataset, name, scope);
     }
 
+    @Override
+    public final void __extend_LimitedGeneratorBase__instead_of_implementing_LimitedGenerator() {
+        throw new UnsupportedOperationException("__extend_LimitedGeneratorBase__instead_of_implementing_LimitedGenerator must not be called");
+    }
 
+    @Override
+    public final void __do_not_implement_Generator() {
+        throw new UnsupportedOperationException("__do_not_implement_Generator must not be called");
+    }
 }

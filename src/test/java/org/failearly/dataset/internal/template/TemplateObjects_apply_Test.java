@@ -19,7 +19,7 @@
 
 package org.failearly.dataset.internal.template;
 
-import org.failearly.dataset.template.TemplateObject;
+import org.failearly.dataset.template.common.TemplateObject;
 import org.failearly.dataset.test.AssertException;
 import org.junit.Test;
 

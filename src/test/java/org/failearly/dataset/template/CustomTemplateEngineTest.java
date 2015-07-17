@@ -23,6 +23,8 @@ import org.failearly.dataset.config.Constants;
 import org.failearly.dataset.config.DataSetProperties;
 import org.failearly.dataset.internal.template.TemplateEngines;
 import org.failearly.dataset.internal.template.TemplateObjects;
+import org.failearly.dataset.template.engine.TemplateEngine;
+import org.failearly.dataset.template.engine.TemplateEngineFactory;
 import org.junit.Test;
 
 import java.io.File;

@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package org.failearly.dataset.template;
+package org.failearly.dataset.template.common;
 
 import java.lang.annotation.Annotation;
 

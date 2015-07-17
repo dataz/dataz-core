@@ -17,15 +17,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package org.failearly.dataset.template;
-
-import org.failearly.dataset.template.simple.support.AdhocTemplateObjectBase;
+package org.failearly.dataset;
 
 /**
- * KeyValue Pair for Adhoc Template objects.
+ * Property for properties element in annotations (i.e. {@link org.failearly.dataset.template.simple.Adhoc}).
  *
  * @see org.failearly.dataset.template.simple.Adhoc
- * @see AdhocTemplateObjectBase#getProperties()
+ * @see org.failearly.dataset.template.simple.support.AdhocTemplateObjectBase#getProperties()
  */
 public @interface Property {
     /**

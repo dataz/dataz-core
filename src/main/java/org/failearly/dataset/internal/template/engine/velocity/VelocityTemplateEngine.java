@@ -23,15 +23,17 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.failearly.dataset.internal.template.TemplateObjects;
 import org.failearly.dataset.internal.util.ResourceNameUtils;
-import org.failearly.dataset.template.TemplateEngineBase;
+import org.failearly.dataset.template.engine.TemplateEngine;
+import org.failearly.dataset.template.engine.TemplateEngineBase;
+import org.failearly.dataset.template.engine.TemplateEngineFactory;
 
 import java.io.*;
 
 /**
- * VelocityTemplateEngine is the default implementation for {@link org.failearly.dataset.template.TemplateEngine}.
+ * VelocityTemplateEngine is the default implementation for {@link TemplateEngine}.
  * <br><br>
  * Remark: Overwrite property {@value org.failearly.dataset.config.DataSetProperties#DATASET_PROPERTY_TEMPLATE_ENGINE_FACTORY} and provide your own
- *     {@link org.failearly.dataset.template.TemplateEngineFactory}.
+ *     {@link TemplateEngineFactory}.
  */
 public final class VelocityTemplateEngine extends TemplateEngineBase {
     private final VelocityEngine engine;
@@ -43,9 +45,9 @@ public final class VelocityTemplateEngine extends TemplateEngineBase {
     }
 
     @Override
-    public File generate(InputStream templateStream, String resource, TemplateObjects templateObjects) throws IOException {
-        final File targetFile = createTargetFile(resource);
-        doMerge(templateStream, targetFile, createVelocityContext(templateObjects));
+    public File generate(InputStream templateStream, String templateResource, TemplateObjects templateObjects) throws IOException {
+        final File targetFile = createTargetFile(templateResource);
+        doMerge(templateStream, templateResource, targetFile, createVelocityContext(templateObjects));
         return targetFile;
     }
 
@@ -56,9 +58,9 @@ public final class VelocityTemplateEngine extends TemplateEngineBase {
         return createTempFile(resourceName, resourceSuffix, resourcePath);
     }
 
-    private void doMerge(InputStream inputStream, File targetFile, VelocityContext context) throws IOException {
+    private void doMerge(InputStream templateStream, String templateResource, File targetFile, VelocityContext context) throws IOException {
         try(final FileWriter fileWriter = new FileWriter(targetFile)) {
-            engine.evaluate(context, fileWriter, "name of resource", new InputStreamReader(inputStream));
+            engine.evaluate(context, fileWriter, "<template=" + templateResource + ">", new InputStreamReader(templateStream));
         }
     }
 
@@ -70,6 +72,4 @@ public final class VelocityTemplateEngine extends TemplateEngineBase {
         });
         return context;
     }
-
-
 }

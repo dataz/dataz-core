@@ -17,9 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package org.failearly.dataset.template;
-
-import org.failearly.dataset.template.TemplateObjectFactory;
+package org.failearly.dataset.template.common;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -27,7 +25,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * TemplateObjectFactoryDefinition is a meta annotation used for {@link org.failearly.dataset.template.TemplateObject} annotations.
+ * TemplateObjectFactoryDefinition is a meta annotation used for {@link TemplateObject} annotations.
  * <br><br>
  * Example:<br><br>
  * <pre>

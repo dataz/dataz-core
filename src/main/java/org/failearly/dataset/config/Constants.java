@@ -23,6 +23,7 @@ import org.failearly.dataset.AdhocDataStore;
 import org.failearly.dataset.DataSet;
 import org.failearly.dataset.internal.annotation.TraverseDepth;
 import org.failearly.dataset.internal.annotation.TraverseStrategy;
+import org.failearly.dataset.template.common.TemplateObject;
 
 /**
  * DataSetConstants contains the name and position of property files and the property keys used by DataSet.
@@ -161,7 +162,7 @@ public interface Constants {
     String DATASET_PROPERTY_DATASTORE_TYPE_CLASS_NAME = "dataset.default.datastore.type.class";
 
     /**
-     * Defines the used depth for resolving {@link org.failearly.dataset.template.TemplateObject} annotations. Currently possible values are:<br><br>
+     * Defines the used depth for resolving {@link TemplateObject} annotations. Currently possible values are:<br><br>
      * <ul>
      * <li>{@link org.failearly.dataset.internal.annotation.TraverseDepth#CLASS_HIERARCHY}</li>
      * <li>{@link org.failearly.dataset.internal.annotation.TraverseDepth#DECLARED_CLASS} (default)</li>
@@ -174,7 +175,7 @@ public interface Constants {
     String DATASET_TEMPLATE_OBJECT_TRAVERSING_DEPTH = "dataset.template.object.traversing.depth";
 
     /**
-     * Defines the used strategy for handling duplicate {@link org.failearly.dataset.template.TemplateObject}s. A template object should be unique
+     * Defines the used strategy for handling duplicate {@link TemplateObject}s. A template object should be unique
      * with it's name within the same dataset, otherwise the {@link org.failearly.dataset.internal.template.TemplateObjectDuplicateStrategy} will be used.
      * <br><br>
      * Currently possible values are:<br><br>

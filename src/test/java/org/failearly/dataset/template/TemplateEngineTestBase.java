@@ -24,6 +24,7 @@ import org.failearly.dataset.config.DataSetProperties;
 import org.failearly.dataset.internal.template.TemplateEngines;
 import org.failearly.dataset.internal.template.TemplateObjects;
 import org.failearly.dataset.internal.template.engine.velocity.VelocityTemplateEngine;
+import org.failearly.dataset.template.engine.TemplateEngine;
 import org.failearly.dataset.test.CoreTestUtils;
 import org.failearly.dataset.test.MyTemplateObjectAnnotation;
 import org.junit.After;
