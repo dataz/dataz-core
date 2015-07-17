@@ -17,38 +17,35 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package org.failearly.dataset.internal.template.generator.standard;
+package org.failearly.dataset.template.generator;
 
-import org.failearly.dataset.template.generator.Limit;
-import org.failearly.dataset.template.generator.RangeGenerator;
-import org.failearly.dataset.template.generator.support.Generator;
-import org.failearly.dataset.internal.template.generator.GeneratorTestBase;
+import org.failearly.dataset.internal.template.generator.RangeGeneratorFactory;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.contains;
 import static org.junit.Assert.assertThat;
 
-public class RangeGeneratorFactoryTest extends GeneratorTestBase<Integer, RangeGenerator, RangeGeneratorFactory> {
+public class RangeGeneratorTest extends DeprecatedGeneratorTestBase<Integer, RangeGenerator, RangeGeneratorFactory> {
 
-    public RangeGeneratorFactoryTest() {
+    public RangeGeneratorTest() {
         super(RangeGeneratorFactory.class, RangeGenerator.class);
     }
 
     @Test
     public void rangeGenerator() throws Exception {
-        final Generator<Integer> generator=defaultGenerator();
+        final Generator<Integer> generator = defaultGenerator();
         assertThat("Expected values?", generator, contains(0, 1, 2, 3, 4));
     }
 
     @Test
     public void singleValueRangeGenerator() throws Exception {
-        final Generator<Integer> generator=createGenerator(TestFixture.class, 1);
+        final Generator<Integer> generator = createGenerator(TestFixture.class, 1);
         assertThat("Expected values?", generator, contains(0));
     }
 
     @Test
     public void unlimitedRange() throws Exception {
-        final Generator<Integer> generator=createGenerator(TestFixture.class, 2);
+        final Generator<Integer> generator = createGenerator(TestFixture.class, 2);
         assertUnlimitedGenerator(generator);
     }
 
@@ -58,8 +55,9 @@ public class RangeGeneratorFactoryTest extends GeneratorTestBase<Integer, RangeG
     }
 
 
-    @RangeGenerator(name="RG", dataset = "DS", start = 0, end = 4)
-    @RangeGenerator(name="RG", dataset = "DS", start = 0, end = 0)
-    @RangeGenerator(name="RG", dataset = "DS", start = 0, end = 4, limit = Limit.UNLIMITED)
-    private static class TestFixture {}
+    @RangeGenerator(name = "RG", dataset = "DS", start = 0, end = 4)
+    @RangeGenerator(name = "RG", dataset = "DS", start = 0, end = 0)
+    @RangeGenerator(name = "RG", dataset = "DS", start = 0, end = 4, limit = Limit.UNLIMITED)
+    private static class TestFixture {
+    }
 }

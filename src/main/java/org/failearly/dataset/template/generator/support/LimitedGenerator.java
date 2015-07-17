@@ -19,8 +19,13 @@
 
 package org.failearly.dataset.template.generator.support;
 
+import org.failearly.dataset.template.generator.Generator;
+
 /**
- * LimitedGenerator is the base interface for limited generators.
+ * LimitedGenerator support both iterator types: internal and external.
  */
 public interface LimitedGenerator<T> extends Generator<T> {
+    @SuppressWarnings("unused")
+    void __extend_LimitedGeneratorBase__instead_of_implementing_LimitedGenerator();
+
 }

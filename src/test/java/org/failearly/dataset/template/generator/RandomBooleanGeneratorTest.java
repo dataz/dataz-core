@@ -16,21 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
-package org.failearly.dataset.internal.template.generator.standard;
 
-import org.failearly.dataset.template.generator.support.Generator;
-import org.failearly.dataset.template.generator.RandomBooleanGenerator;
-import org.failearly.dataset.internal.template.generator.GeneratorTestBase;
+package org.failearly.dataset.template.generator;
+
+import org.failearly.dataset.internal.template.generator.RandomBooleanGeneratorFactory;
 import org.junit.Test;
-import static org.junit.Assert.*;
-import static org.hamcrest.Matchers.*;
+
+import static org.hamcrest.Matchers.closeTo;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
 /**
  * RandomBooleanGeneratorFactoryTest contains tests for RandomBooleanGeneratorFactory
  */
-public class RandomBooleanGeneratorFactoryTest extends GeneratorTestBase<Boolean,RandomBooleanGenerator,RandomBooleanGeneratorFactory> {
+public class RandomBooleanGeneratorTest extends DeprecatedGeneratorTestBase<Boolean, RandomBooleanGenerator, RandomBooleanGeneratorFactory> {
 
-    public RandomBooleanGeneratorFactoryTest() {
+    public RandomBooleanGeneratorTest() {
         super(RandomBooleanGeneratorFactory.class, RandomBooleanGenerator.class);
     }
 
@@ -71,15 +72,15 @@ public class RandomBooleanGeneratorFactoryTest extends GeneratorTestBase<Boolean
     }
 
     private double percentageTrues(Generator<Boolean> generator, int numIterations) {
-        int numberOfTrues=0;
+        int numberOfTrues = 0;
 
         // act / when
         for (int i = 0; i < numIterations; i++) {
-            if( generator.next() ) {
+            if (generator.next()) {
                 numberOfTrues++;
             }
         }
-        return (numberOfTrues*100d)/numIterations;
+        return (numberOfTrues * 100d) / numIterations;
     }
 
     @Override
@@ -87,7 +88,8 @@ public class RandomBooleanGeneratorFactoryTest extends GeneratorTestBase<Boolean
         return createGenerator(TestFixture.class);
     }
 
-    @RandomBooleanGenerator(dataset="DS", name="20%", percent=20)
-    @RandomBooleanGenerator(dataset="DS", name="30%", percent=30, seed=1)
-    private static class TestFixture {}
+    @RandomBooleanGenerator(dataset = "DS", name = "20%", percent = 20)
+    @RandomBooleanGenerator(dataset = "DS", name = "30%", percent = 30, seed = 1)
+    private static class TestFixture {
+    }
 }

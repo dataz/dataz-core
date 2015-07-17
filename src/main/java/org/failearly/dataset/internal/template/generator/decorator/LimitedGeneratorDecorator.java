@@ -41,36 +41,35 @@ final class LimitedGeneratorDecorator<T> extends LimitedGeneratorBase<T> {
 
     @Override
     public Iterator<T> createIterator() {
-        return new Iterator<T>() {
-            private int counter = 0;
-            private final Iterator<T> iterator=generator.createIterator();
-
-            @Override
-            public boolean hasNext() {
-                return counter < limit;
-            }
-
-            @Override
-            public T next() {
-                try {
-                    if (hasNext() && iterator.hasNext()) {
-                        return iterator.next();
-                    }
-                    return null;
-                }
-                finally {
-                    counter++;
-                }
-            }
-        };
+        return new LimitedIterator();
     }
+
 
     @Override
     public String toString() {
-        return "LimitedGeneratorDecorator(" +
-                    "generator=" + generator +
-                    ", limit=" + limit +
-                ')';
+        return generator.toString();
     }
 
+    private class LimitedIterator implements Iterator<T> {
+        private int counter = 0;
+        private final Iterator<T> iterator=generator.createIterator();
+
+        @Override
+        public boolean hasNext() {
+            return counter < limit;
+        }
+
+        @Override
+        public T next() {
+            try {
+                if (hasNext() && iterator.hasNext()) {
+                    return iterator.next();
+                }
+                return null;
+            }
+            finally {
+                counter++;
+            }
+        }
+    }
 }

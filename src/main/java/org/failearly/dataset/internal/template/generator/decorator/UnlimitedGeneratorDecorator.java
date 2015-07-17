@@ -44,8 +44,11 @@ final class UnlimitedGeneratorDecorator<T> extends UnlimitedGeneratorBase<T> {
 
     @Override
     public String toString() {
-        return "UnlimitedGeneratorDecorator(" +
-                    "generator=" + generator +
-                ')';
+        return generator.toString();
+    }
+
+    @Override
+    protected void doReset() {
+        generator.reset();
     }
 }

@@ -18,7 +18,7 @@
  */
 
 /**
- * Support classes for creating {@link org.failearly.dataset.template.generator.support.Generator} annotations.
+ * Support classes for creating {@link org.failearly.dataset.template.generator.Generator} annotations.
  * <br><br>
  * Any generator annotation must define two elements:<br>
  * <ul>
@@ -45,7 +45,7 @@
  *    {@link org.failearly.dataset.template.generator.Limit#UNLIMITED} type.</li>
  * </ul>
  *
- * @see org.failearly.dataset.template.generator.support.Generator
+ * @see org.failearly.dataset.template.generator.Generator
  * @see org.failearly.dataset.template.generator.support.GeneratorFactoryBase
  */
 package org.failearly.dataset.template.generator.support;

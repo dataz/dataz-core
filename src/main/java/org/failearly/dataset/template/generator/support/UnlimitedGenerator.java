@@ -19,21 +19,34 @@
 
 package org.failearly.dataset.template.generator.support;
 
+import org.failearly.dataset.template.generator.Generator;
+
 import java.util.Iterator;
 
 /**
- * UnlimitedGenerator is the base interface for unlimited generators.
+ * UnlimitedGenerator supports only the internal generator. Please extend {@link UnlimitedGeneratorBase} instead
+ * implementing this interface.
  */
 public interface UnlimitedGenerator<T> extends Generator<T> {
     /**
-     * Any unlimited iterator makes no sense, so it will throw an {@link java.lang.UnsupportedOperationException}.
+     * Any unlimited iterator makes no sense, because {@link Iterator#hasNext()} will return always true and so
+     * the loop will never stop.
+     *
+     * @throws UnsupportedOperationException will be always thrown by any UnlimitedGenerator.
      */
     @Override
-    Iterator<T> iterator();
+    default Iterator<T> iterator() throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("Not supported for UnlimitedGenerator.");
+    }
 
     /**
+     * UnlimitedGenerator supports only the internal iterator.
+     *
      * @return never returns {@code null}.
      */
     @Override
     T next();
+
+    @SuppressWarnings("unused")
+    void __extend_UnlimitedGeneratorBase__instead_of_implementing_UnlimitedGenerator();
 }

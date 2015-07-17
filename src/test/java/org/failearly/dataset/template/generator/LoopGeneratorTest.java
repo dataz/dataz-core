@@ -17,34 +17,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package org.failearly.dataset.internal.template.generator.standard;
+package org.failearly.dataset.template.generator;
 
-import org.failearly.dataset.template.generator.support.Generator;
-import org.failearly.dataset.template.generator.LoopGenerator;
-import org.failearly.dataset.internal.template.generator.GeneratorTestBase;
+import org.failearly.dataset.internal.template.generator.LoopGeneratorFactory;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.contains;
+import static org.junit.Assert.assertThat;
 
 /**
  * LoopGeneratorFactoryTest contains tests for ... .
  */
-public class LoopGeneratorFactoryTest extends GeneratorTestBase<Integer, LoopGenerator, LoopGeneratorFactory> {
+public class LoopGeneratorTest extends DeprecatedGeneratorTestBase<Integer, LoopGenerator, LoopGeneratorFactory> {
 
-    public LoopGeneratorFactoryTest() {
+    public LoopGeneratorTest() {
         super(LoopGeneratorFactory.class, LoopGenerator.class);
     }
 
     @Test
     public void loopGenerator() throws Exception {
-        final Generator<Integer> generator=defaultGenerator();
+        final Generator<Integer> generator = defaultGenerator();
         assertThat("Expected values?", generator, contains(1, 2, 3, 4));
     }
 
     @Test
     public void loopGenerator_size_1() throws Exception {
-        final Generator<Integer> generator=createGenerator(TestFixture.class, 1);
+        final Generator<Integer> generator = createGenerator(TestFixture.class, 1);
         assertThat("Expected values?", generator, contains(1));
     }
 
@@ -54,7 +52,8 @@ public class LoopGeneratorFactoryTest extends GeneratorTestBase<Integer, LoopGen
     }
 
 
-    @LoopGenerator(name="LG", dataset = "DS", size = 4)
-    @LoopGenerator(name="LG", dataset = "DS", size = 1)
-    private static class TestFixture {}
+    @LoopGenerator(name = "LG", dataset = "DS", size = 4)
+    @LoopGenerator(name = "LG", dataset = "DS", size = 1)
+    private static class TestFixture {
+    }
 }

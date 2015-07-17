@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,11 +33,15 @@ import static org.hamcrest.Matchers.*;
 
 public class SimpleFileParserTest {
 
-    private static final String COMMENT =
+    private static final String DBL_DASH_COMMENT =
+            "\n" +
+                    "   --  Any comment line " +
+                    "\n";
+    private static final String DBL_HASH_COMMENT =
             "\n" +
             "   ##  Any comment line " +
             "\n";
-    private static final String NO_STMTS = COMMENT + " ;   \n    \n  " + COMMENT;
+    private static final String NO_STMTS = DBL_HASH_COMMENT + " ;   \n    \n  " + DBL_DASH_COMMENT;
     private static final String STMTS_SEPARATED_BY_SEMICOLON =
             "  Stmt1;   \n" +
             "        Stmt2;      " +
@@ -80,7 +84,7 @@ public class SimpleFileParserTest {
 + "## A double hash within a statement is not a comment\n"
 + "8. A statement with ## double hash                  \n"
 + "\n"
-+ "## Another comment                                  \n"
++ "-- Another comment                                  \n"
 + "9. Last statement";
 
 
@@ -89,7 +93,7 @@ public class SimpleFileParserTest {
         testSimpleFileParser(STMTS_SEPARATED_BY_SEMICOLON,
                 "Statement{no=1, line(s)=1, content='Stmt1'}",
                 "Statement{no=2, line(s)=2, content='Stmt2'}");
-        testSimpleFileParser(COMMENT+STMTS_SEPARATED_BY_SEMICOLON,
+        testSimpleFileParser(DBL_HASH_COMMENT +STMTS_SEPARATED_BY_SEMICOLON,
                 "Statement{no=1, line(s)=3, content='Stmt1'}",
                 "Statement{no=2, line(s)=4, content='Stmt2'}");
     }
@@ -100,7 +104,7 @@ public class SimpleFileParserTest {
                 "Statement{no=1, line(s)=1, content='Stmt1'}",
                 "Statement{no=2, line(s)=3, content='Stmt2'}"
         );
-        testSimpleFileParser(COMMENT+STMTS_SEPARATED_BY_EMPTY_LINE+COMMENT,
+        testSimpleFileParser(DBL_HASH_COMMENT +STMTS_SEPARATED_BY_EMPTY_LINE+ DBL_HASH_COMMENT,
                 "Statement{no=1, line(s)=3, content='Stmt1'}",
                 "Statement{no=2, line(s)=5, content='Stmt2'}"
         );
@@ -111,7 +115,7 @@ public class SimpleFileParserTest {
         testSimpleFileParser(MULTI_LINE_STMTS_SEPARATED_BY_EMPTY_LINE,
                 "Statement{no=1, line(s)=1-2, content='Stmt1.1 Stmt1.2'}",
                 "Statement{no=2, line(s)=4-5, content='Stmt2.1 Stmt2.2'}");
-        testSimpleFileParser(COMMENT+MULTI_LINE_STMTS_SEPARATED_BY_EMPTY_LINE+COMMENT,
+        testSimpleFileParser(DBL_HASH_COMMENT +MULTI_LINE_STMTS_SEPARATED_BY_EMPTY_LINE+ DBL_HASH_COMMENT,
                 "Statement{no=1, line(s)=3-4, content='Stmt1.1 Stmt1.2'}",
                 "Statement{no=2, line(s)=6-7, content='Stmt2.1 Stmt2.2'}");
     }

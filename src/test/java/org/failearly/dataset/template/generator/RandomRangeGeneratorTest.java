@@ -17,12 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package org.failearly.dataset.internal.template.generator.standard;
+package org.failearly.dataset.template.generator;
 
-import org.failearly.dataset.template.generator.Limit;
-import org.failearly.dataset.template.generator.RandomRangeGenerator;
-import org.failearly.dataset.internal.template.generator.GeneratorTestBase;
-import org.failearly.dataset.template.generator.support.Generator;
+import org.failearly.dataset.internal.template.generator.RandomRangeGeneratorFactory;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -32,12 +29,16 @@ import java.util.Set;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-public class RandomRangeGeneratorFactoryTest extends GeneratorTestBase<Integer,RandomRangeGenerator,RandomRangeGeneratorFactory> {
+public class RandomRangeGeneratorTest extends DeprecatedGeneratorTestBase<Integer, RandomRangeGenerator, RandomRangeGeneratorFactory> {
 
     private static final int LIMIT_VALUE = 5;
 
-    public RandomRangeGeneratorFactoryTest() {
+    public RandomRangeGeneratorTest() {
         super(RandomRangeGeneratorFactory.class, RandomRangeGenerator.class);
+    }
+
+    private static Set<Integer> expectedValues(Integer... values) {
+        return new HashSet<>(Arrays.asList(values));
     }
 
     @Test
@@ -76,7 +77,7 @@ public class RandomRangeGeneratorFactoryTest extends GeneratorTestBase<Integer,R
 
     private void unlimitedRandomGeneratorTest(int generatorNumber, int numIterations, Set<Integer> expectedValues) throws Exception {
         final Generator<Integer> generator = createGenerator(TestFixture.class, generatorNumber);
-        final Set<Integer> values=new HashSet<>();
+        final Set<Integer> values = new HashSet<>();
         for (int i = 0; i < numIterations; i++) {
             values.add(generator.next());
         }
@@ -87,8 +88,8 @@ public class RandomRangeGeneratorFactoryTest extends GeneratorTestBase<Integer,R
 
     private void limitedRandomGeneratorTest(int generatorNumber, int expectedIterations, Set<Integer> expectedValues) throws Exception {
         final Generator<Integer> generator = createGenerator(TestFixture.class, generatorNumber);
-        final Set<Integer> values=new HashSet<>();
-        int count=0;
+        final Set<Integer> values = new HashSet<>();
+        int count = 0;
         for (Integer value : generator) {
             values.add(value);
             count++;
@@ -103,16 +104,12 @@ public class RandomRangeGeneratorFactoryTest extends GeneratorTestBase<Integer,R
         return createGenerator(TestFixture.class);
     }
 
-    @RandomRangeGenerator(name="RG", dataset = "DS", start = 0, end = 4)
-    @RandomRangeGenerator(name="RG", dataset = "DS", seed=1)
-    @RandomRangeGenerator(name="RG", dataset = "DS", start = 0, end = 4, seed=1)
-    @RandomRangeGenerator(name="RG", dataset = "DS", start = 0, end = 4, seed=1, limit = Limit.LIMITED, count = LIMIT_VALUE)
-    @RandomRangeGenerator(name="RG", dataset = "DS", start = 0, end = 4, seed=1, limit = Limit.UNLIMITED /*ignored*/, unique = true)
-    @RandomRangeGenerator(name="RG", dataset = "DS", start = 0, end = 10, seed=1, limit = Limit.UNLIMITED /*ignored*/, unique = true, count=LIMIT_VALUE)
-    private static class TestFixture {}
-
-
-    private static Set<Integer> expectedValues(Integer... values) {
-        return new HashSet<>(Arrays.asList(values));
+    @RandomRangeGenerator(name = "RG", dataset = "DS", start = 0, end = 4)
+    @RandomRangeGenerator(name = "RG", dataset = "DS", seed = 1)
+    @RandomRangeGenerator(name = "RG", dataset = "DS", start = 0, end = 4, seed = 1)
+    @RandomRangeGenerator(name = "RG", dataset = "DS", start = 0, end = 4, seed = 1, limit = Limit.LIMITED, count = LIMIT_VALUE)
+    @RandomRangeGenerator(name = "RG", dataset = "DS", start = 0, end = 4, seed = 1, limit = Limit.UNLIMITED /*ignored*/, unique = true)
+    @RandomRangeGenerator(name = "RG", dataset = "DS", start = 0, end = 10, seed = 1, limit = Limit.UNLIMITED /*ignored*/, unique = true, count = LIMIT_VALUE)
+    private static class TestFixture {
     }
 }

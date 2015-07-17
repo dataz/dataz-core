@@ -17,41 +17,38 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package org.failearly.dataset.internal.template.generator.standard;
+package org.failearly.dataset.template.generator;
 
-import org.failearly.dataset.template.generator.Limit;
-import org.failearly.dataset.template.generator.ListGenerator;
-import org.failearly.dataset.template.generator.support.Generator;
-import org.failearly.dataset.internal.template.generator.GeneratorTestBase;
+import org.failearly.dataset.internal.template.generator.ListGeneratorFactory;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
 import static org.junit.Assert.assertThat;
 
-public class ListGeneratorFactoryTest extends GeneratorTestBase<String, ListGenerator, ListGeneratorFactory> {
+public class ListGeneratorTest extends DeprecatedGeneratorTestBase<String, ListGenerator, ListGeneratorFactory> {
 
     private static final String[] VALUES = new String[]{"v1", "v2", "v3"};
 
-    public ListGeneratorFactoryTest() {
+    public ListGeneratorTest() {
         super(ListGeneratorFactory.class, ListGenerator.class);
     }
 
     @Test
     public void noneEmptyList() throws Exception {
-        final Generator<String> generator=defaultGenerator();
+        final Generator<String> generator = defaultGenerator();
         assertThat("Expected values?", generator, contains(VALUES));
     }
 
     @Test
     public void emptyList() throws Exception {
-        final Generator<String> generator=createGenerator(TestFixture.class, 1);
+        final Generator<String> generator = createGenerator(TestFixture.class, 1);
         assertThat("No values?", asList(generator), hasSize(0));
     }
 
     @Test
     public void unlimitedList() throws Exception {
-        final Generator<String> generator=createGenerator(TestFixture.class, 2);
+        final Generator<String> generator = createGenerator(TestFixture.class, 2);
         assertUnlimitedGenerator(generator);
     }
 

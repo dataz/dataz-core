@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,14 +41,15 @@ public final class SimpleFileParser {
     private static final Logger LOGGER = LoggerFactory.getLogger(SimpleFileParser.class);
 
     private static final String STMT_SEP = ";";
-    private static final String COMMENT = "##";
+    private static final String HASH_COMMENT = "##";
+    private static final String DASH_COMMENT = "--";
 
     public SimpleFileParser() {
     }
 
     private static String chompAndDropCommentLines(String line) {
         line = chomp(line);
-        if (line.startsWith(COMMENT)) {
+        if (line.startsWith(HASH_COMMENT) || line.startsWith(DASH_COMMENT)) {
             line = "";
         }
         return line;

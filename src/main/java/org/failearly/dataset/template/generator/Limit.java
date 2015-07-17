@@ -30,7 +30,7 @@ public enum Limit {
     LIMITED(true),
     /**
      * The generator MUST NOT be used within Velocities foreach loop - causes an exception.
-     * Use {@link org.failearly.dataset.template.generator.support.Generator#next()} instead.
+     * Use {@link Generator#next()} instead.
      */
     UNLIMITED(false);
 
