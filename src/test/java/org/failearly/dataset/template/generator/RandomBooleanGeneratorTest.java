@@ -20,6 +20,7 @@
 package org.failearly.dataset.template.generator;
 
 import org.failearly.dataset.internal.template.generator.RandomBooleanGeneratorFactory;
+import org.failearly.dataset.template.generator.support.test.GeneratorTestBase;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.closeTo;
@@ -29,67 +30,86 @@ import static org.junit.Assert.assertThat;
 /**
  * RandomBooleanGeneratorFactoryTest contains tests for RandomBooleanGeneratorFactory
  */
-public class RandomBooleanGeneratorTest extends DeprecatedGeneratorTestBase<Boolean, RandomBooleanGenerator, RandomBooleanGeneratorFactory> {
+public class RandomBooleanGeneratorTest extends GeneratorTestBase<Boolean, RandomBooleanGenerator, RandomBooleanGeneratorFactory> {
+
+    private static final int TWENTY_PERCENT_WITH_SEED_42=0;
+    private static final int SEVENTY_PERCENT_WITH_SEED_1=1;
 
     public RandomBooleanGeneratorTest() {
-        super(RandomBooleanGeneratorFactory.class, RandomBooleanGenerator.class);
+        super(RandomBooleanGenerator.class, RandomBooleanGeneratorFactory.class, TestFixture.class);
     }
 
-    @Test
-    public void percentage20__100_iterations() throws Exception {
-        // arrange / given
-        final Generator<Boolean> generator = createGenerator(TestFixture.class, 0);
+    private static double percentageTrues(Generator<Boolean> generator, int numIterations) {
+        int numberOfTrues=0;
 
         // act / when
-        double percentageTrues = percentageTrues(generator, 100);
-
-        // assert / then
-        assertThat("percentage true?", percentageTrues, is(closeTo(20d, 15d)));
-    }
-
-    @Test
-    public void percentage20__1000_iterations() throws Exception {
-        // arrange / given
-        final Generator<Boolean> generator = createGenerator(TestFixture.class, 0);
-
-        // act / when
-        double percentageTrues = percentageTrues(generator, 1_000);
-
-        // assert / then
-        assertThat("percentage true?", percentageTrues, is(closeTo(20d, 5d)));
-    }
-
-    @Test
-    public void percentage30__1_000_000_iterations() throws Exception {
-        // arrange / given
-        final Generator<Boolean> generator = createGenerator(TestFixture.class, 1);
-
-        // act / when
-        double percentageTrues = percentageTrues(generator, 1_000_000);
-
-        // assert / then
-        assertThat("percentage true?", percentageTrues, is(closeTo(30d, 0.1d)));
-    }
-
-    private double percentageTrues(Generator<Boolean> generator, int numIterations) {
-        int numberOfTrues = 0;
-
-        // act / when
-        for (int i = 0; i < numIterations; i++) {
+        for (int i=0; i < numIterations; i++) {
             if (generator.next()) {
                 numberOfTrues++;
             }
         }
-        return (numberOfTrues * 100d) / numIterations;
+        return (numberOfTrues * 100d) / (double) numIterations;
     }
 
-    @Override
-    protected Generator<Boolean> defaultGenerator() throws Exception {
-        return createGenerator(TestFixture.class);
+    private void assertNumberOfGeneratedTrues(
+            int generatorAnnotationIdx,
+            int iterations,
+            double expectedPercent,
+            double expectedDeviation
+    ) throws Exception {
+        // arrange / given
+        final Generator<Boolean> generator=createGenerator(generatorAnnotationIdx);
+
+        // act / when
+        final double percentageTrues=percentageTrues(generator, iterations);
+
+        // assert / then
+        assertThat("Percentage with expected deviation?", percentageTrues, is(closeTo(expectedPercent, expectedDeviation)));
+
     }
 
-    @RandomBooleanGenerator(dataset = "DS", name = "20%", percent = 20)
-    @RandomBooleanGenerator(dataset = "DS", name = "30%", percent = 30, seed = 1)
+    @Test
+    public void _100_iterations__should_be_in_a_10_percent_range() throws Exception {
+        final int iterations=100;
+        final double expectedDeviation=10d;
+
+        assertNumberOfGeneratedTrues(TWENTY_PERCENT_WITH_SEED_42, iterations, 20d, expectedDeviation);
+        assertNumberOfGeneratedTrues(SEVENTY_PERCENT_WITH_SEED_1, iterations, 70d, expectedDeviation);
+    }
+
+    @Test
+    public void _1000_iterations__should_be_in_a_5_percent_range() throws Exception {
+        final int iterations=1_000;
+        final double expectedDeviation=5d;
+
+        assertNumberOfGeneratedTrues(TWENTY_PERCENT_WITH_SEED_42, iterations, 20d, expectedDeviation);
+        assertNumberOfGeneratedTrues(SEVENTY_PERCENT_WITH_SEED_1, iterations, 70d, expectedDeviation);
+    }
+
+    @Test
+    public void _1_000_000_iterations__should_be_in_a_1_per_mil_range() throws Exception {
+        final int iterations=1_000_000;
+        final double expectedDeviation=0.1d;
+
+        assertNumberOfGeneratedTrues(TWENTY_PERCENT_WITH_SEED_42, iterations, 20d, expectedDeviation);
+        assertNumberOfGeneratedTrues(SEVENTY_PERCENT_WITH_SEED_1, iterations, 70d, expectedDeviation);
+    }
+
+    @Test
+    public void use_within_template__should_be_usable_in_if_statements() throws Exception {
+        // arrange / given
+        // act / when
+        final String generated=generate(
+                template("#if( %var%.next() ) X#else -#end", 20),
+                createGenerator(SEVENTY_PERCENT_WITH_SEED_1)
+        );
+
+        // assert / then
+        assertThat(generated, is(" X X - X X - X X X - X X X X X X X X - -"));
+    }
+
+    @RandomBooleanGenerator(name=TEMPLATE_OBJECT_NAME, percent=20, seed=42)
+    @RandomBooleanGenerator(name=TEMPLATE_OBJECT_NAME, percent=70, seed=1)
     private static class TestFixture {
     }
 }

@@ -19,7 +19,7 @@
 
 package org.failearly.dataset.internal.template.engine.velocity;
 
-import org.failearly.dataset.template.TemplateEngineTestBase;
+import org.failearly.dataset.template.engine.TemplateEngineTestBase;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -28,8 +28,8 @@ import org.failearly.dataset.datastore.DataStores;
 import org.failearly.dataset.internal.model.TestMethod;
 import org.failearly.dataset.resource.DataResource;
 import org.failearly.dataset.test.DefaultFakeDataStore;
+import org.failearly.dataset.util.ExceptionVerifier;
 import org.failearly.dataset.test.FakeDataStoreRule;
-import org.failearly.dataset.test.AssertException;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Rule;
@@ -157,11 +157,7 @@ public class DataSetRuleTest {
         final Statement newStatement = applyDataSetRule();
 
         // assert / then
-        AssertException.assertException(
-                DataStoreException.class,
-                "Can't open resource '/org/failearly/dataset/junit4/unknown.setup'. Did you create the resource within classpath?",
-                newStatement::evaluate
-        );
+        ExceptionVerifier.on(newStatement::evaluate).expect(DataStoreException.class).expect("Can't open resource '/org/failearly/dataset/junit4/unknown.setup'. Did you create the resource within classpath?").verify();
     }
 
     @Test

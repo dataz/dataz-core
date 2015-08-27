@@ -21,7 +21,6 @@ package org.failearly.dataset.util;
 
 import org.junit.Test;
 
-import static org.failearly.dataset.test.AssertException.assertException;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 

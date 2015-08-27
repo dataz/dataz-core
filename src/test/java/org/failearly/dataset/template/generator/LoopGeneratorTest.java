@@ -20,40 +20,79 @@
 package org.failearly.dataset.template.generator;
 
 import org.failearly.dataset.internal.template.generator.LoopGeneratorFactory;
+import org.failearly.dataset.template.InvariantViolationException;
+import org.failearly.dataset.template.generator.support.test.GeneratorTestBase;
+import org.failearly.dataset.util.ExceptionVerifier;
 import org.junit.Test;
 
-import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * LoopGeneratorFactoryTest contains tests for ... .
+ * LoopGeneratorTest contains tests for {@link LoopGenerator}.
  */
-public class LoopGeneratorTest extends DeprecatedGeneratorTestBase<Integer, LoopGenerator, LoopGeneratorFactory> {
+public class LoopGeneratorTest extends GeneratorTestBase<Integer, LoopGenerator, LoopGeneratorFactory> {
+
+    private static final int FOUR_TIMES_LOOP=0;
+    private static final int ONE_TIME_LOOP=1;
+    private static final int NO_LOOP=2;
 
     public LoopGeneratorTest() {
-        super(LoopGeneratorFactory.class, LoopGenerator.class);
+        super(LoopGenerator.class, LoopGeneratorFactory.class, TestFixture.class);
     }
 
     @Test
-    public void loopGenerator() throws Exception {
-        final Generator<Integer> generator = defaultGenerator();
-        assertThat("Expected values?", generator, contains(1, 2, 3, 4));
+    public void external_iterator_on_loop_4__should_generate_1_to_4() throws Exception {
+        // act / when
+        final String generated=generate(
+                template(TEMPLATE_EXTERNAL_ITERATOR),
+                createGenerator(FOUR_TIMES_LOOP)
+        );
+
+        // assert / then
+        assertThat(generated, is("1;2;3;4;"));
     }
 
     @Test
-    public void loopGenerator_size_1() throws Exception {
-        final Generator<Integer> generator = createGenerator(TestFixture.class, 1);
-        assertThat("Expected values?", generator, contains(1));
+    public void internal_iterator_on_loop_4__should_generate_1_to_4() throws Exception {
+        // act / when
+        final String generated=generate(
+                template(TEMPLATE_INTERNAL_ITERATOR, 4),
+                createGenerator(FOUR_TIMES_LOOP)
+        );
+
+        // assert / then
+        assertThat(generated, is(
+                "(1) next=1,last=1/" +
+                        "(2) next=2,last=2/" +
+                        "(3) next=3,last=3/" +
+                        "(4) next=4,last=4/"
+        ));
     }
 
-    @Override
-    protected Generator<Integer> defaultGenerator() throws Exception {
-        return createGenerator(TestFixture.class);
+    @Test
+    public void loop_1__should_generate_only_1() throws Exception {
+        // act / when
+        final String generated=generate(
+                template(TEMPLATE_EXTERNAL_ITERATOR),
+                createGenerator(ONE_TIME_LOOP)
+        );
+
+        // assert / then
+        assertThat(generated, is("1;"));
     }
 
+    @Test
+    public void no_loop__should_throw_exception() throws Exception {
+        // act / when
+        ExceptionVerifier.on(() -> createGenerator(NO_LOOP)).expect(InvariantViolationException.class).expect("Invariant of LoopGenerator has been violated: size >= 1!" +
+                "\nCurrent annotation is " +
+                "'@org.failearly.dataset.template.generator.LoopGenerator(dataset=<dataset>, scope=DEFAULT, name=TO, size=0)'").verify();
+    }
 
-    @LoopGenerator(name = "LG", dataset = "DS", size = 4)
-    @LoopGenerator(name = "LG", dataset = "DS", size = 1)
+    @LoopGenerator(name=TEMPLATE_OBJECT_NAME, size=4)
+    @LoopGenerator(name=TEMPLATE_OBJECT_NAME, size=1)
+    @LoopGenerator(name=TEMPLATE_OBJECT_NAME, size=0)
     private static class TestFixture {
     }
 }

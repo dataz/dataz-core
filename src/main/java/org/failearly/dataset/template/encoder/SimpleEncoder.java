@@ -19,28 +19,43 @@
 
 package org.failearly.dataset.template.encoder;
 
+import org.failearly.dataset.config.Constants;
 import org.failearly.dataset.internal.template.encoder.SimpleEncoderFactory;
-import org.failearly.dataset.template.common.TemplateObjectFactoryDefinition;
+import org.failearly.dataset.template.Scope;
+import org.failearly.dataset.template.TemplateObjectFactoryDefinition;
+import org.failearly.dataset.template.support.test.NullTemplateObjectFactory;
 
 import java.lang.annotation.*;
 
 /**
- * SimpleEncoder is responsible for ...
+ * SimpleEncoder is a Template Object Annotation and is responsible for ... .
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@TemplateObjectFactoryDefinition(factory = SimpleEncoderFactory.class)
 @Documented
 @Repeatable(SimpleEncoder.SimpleEncoders.class)
+@TemplateObjectFactoryDefinition(factory = SimpleEncoderFactory.class)
 public @interface SimpleEncoder {
+    /**
+     * @return The name of the template object. Could be used in Velocity templates by {@code $<name>}.
+     */
+    String name();
+
+    /**
+     * @return The name of the associated dataset.
+     */
+    String dataset() default Constants.DATASET_DEFAULT_NAME;
+
+    /**
+     * @return The scope of the template object (either {@link Scope#LOCAL} or {@link Scope#GLOBAL}.
+     */
+    Scope scope() default Scope.DEFAULT;
+
+    // TODO: Add Template Object specific attributes
 
 
     /**
-     * Containing Annotation Type.
-     *
-     * Remark: This will be used by Java8 compiler.
-     *
-     * @see java.lang.annotation.Repeatable
+     * Used by @Repeatable.
      */
     @Target({ElementType.METHOD, ElementType.TYPE})
     @Retention(RetentionPolicy.RUNTIME)
@@ -49,3 +64,4 @@ public @interface SimpleEncoder {
         SimpleEncoder[] value();
     }
 }
+

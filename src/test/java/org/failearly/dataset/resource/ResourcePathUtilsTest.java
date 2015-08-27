@@ -22,8 +22,8 @@ package org.failearly.dataset.resource;
 import org.failearly.dataset.config.Constants;
 import org.failearly.dataset.internal.resource.InvalidResourcePathException;
 import org.failearly.dataset.internal.resource.ResourceType;
+import org.failearly.dataset.util.ExceptionVerifier;
 import org.failearly.dataset.test.FakeDataStoreRule;
-import org.failearly.dataset.test.AssertException;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
@@ -91,10 +91,8 @@ public class ResourcePathUtilsTest {
     }
 
     private static void assertInvalidResourcePathException(String resourceName) {
-        AssertException.assertException(
-                InvalidResourcePathException.class,
-                "Invalid resource path '" + resourceName + "'", () -> ResourcePathUtils.resourcePath(resourceName, MyTestClass.class)
-        );
+        ExceptionVerifier.TestAction action=() -> ResourcePathUtils.resourcePath(resourceName, MyTestClass.class);
+        ExceptionVerifier.on(action).expect(InvalidResourcePathException.class).expect("Invalid resource path '" + resourceName + "'").verify();
     }
 
     private static Method testMethod() throws NoSuchMethodException {

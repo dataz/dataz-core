@@ -19,8 +19,8 @@
 
 package org.failearly.dataset.internal.template;
 
-import org.failearly.dataset.template.common.TemplateObject;
-import org.failearly.dataset.test.AssertException;
+import org.failearly.dataset.template.TemplateObject;
+import org.failearly.dataset.util.ExceptionVerifier;
 import org.junit.Test;
 
 import java.util.LinkedList;
@@ -91,11 +91,8 @@ public class TemplateObjects_apply_Test extends TemplateObjectsTestBase {
         final TemplateObjects templateObjects = templateObjectsResolver.resolveFromTestMethod0(withDuplicatedTemplateObjects());
 
         // assert / then
-        AssertException.assertException(
-                DuplicateTemplateObjectException.class,
-                "Duplicate template object found: @org.failearly.dataset.test.MyTemplateObjectAnnotation(description=(6) On method withDuplicatedTemplateObjects, dataset=OTHER-DATASET, name=G0)",
-                () -> templateObjects.apply(collectAccepted())
-        );
+        ExceptionVerifier.TestAction action=() -> templateObjects.apply(collectAccepted());
+        ExceptionVerifier.on(action).expect(DuplicateTemplateObjectException.class).expect("Duplicate template object found: @org.failearly.dataset.test.MyTemplateObjectAnnotation(description=(6) On method withDuplicatedTemplateObjects, dataset=OTHER-DATASET, name=G0)").verify();
     }
 
 

@@ -20,44 +20,111 @@
 package org.failearly.dataset.template.generator;
 
 import org.failearly.dataset.internal.template.generator.RangeGeneratorFactory;
+import org.failearly.dataset.template.InvariantViolationException;
+import org.failearly.dataset.template.generator.support.test.GeneratorTestBase;
+import org.failearly.dataset.util.ExceptionVerifier;
 import org.junit.Test;
 
-import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-public class RangeGeneratorTest extends DeprecatedGeneratorTestBase<Integer, RangeGenerator, RangeGeneratorFactory> {
+/**
+ * RangeGeneratorTest contains tests for {@link RangeGenerator}.
+ */
+public class RangeGeneratorTest extends GeneratorTestBase<Integer, RangeGenerator, RangeGeneratorFactory> {
+
+    private static final int ZERO_TO_FOUR=0;
+    private static final int WITH_STEP=1;
+    private static final int FROM_EQUALS_TO=2;
+    private static final int INVALID_FROM_TO=3;
+    private static final int INVALID_STEP=4;
 
     public RangeGeneratorTest() {
-        super(RangeGeneratorFactory.class, RangeGenerator.class);
+        super(RangeGenerator.class, RangeGeneratorFactory.class, TestFixture.class);
     }
 
     @Test
-    public void rangeGenerator() throws Exception {
-        final Generator<Integer> generator = defaultGenerator();
-        assertThat("Expected values?", generator, contains(0, 1, 2, 3, 4));
+    public void external_iterator_on_range_0__4__should_generate_0_to_4() throws Exception {
+        // act / when
+        final String generated=generate(
+                template(TEMPLATE_EXTERNAL_ITERATOR),
+                createGenerator(ZERO_TO_FOUR)
+        );
+
+        // assert / then
+        assertThat(generated, is("0;1;2;3;4;"));
     }
 
     @Test
-    public void singleValueRangeGenerator() throws Exception {
-        final Generator<Integer> generator = createGenerator(TestFixture.class, 1);
-        assertThat("Expected values?", generator, contains(0));
+    public void internal_iterator_on_range_0__4__should_generate_0_to_4() throws Exception {
+        // act / when
+        final String generated=generate(
+                template(TEMPLATE_INTERNAL_ITERATOR, 5),
+                createGenerator(ZERO_TO_FOUR)
+        );
+
+        // assert / then
+        assertThat(generated, is(
+                "(1) next=0,last=0/" +
+                        "(2) next=1,last=1/" +
+                        "(3) next=2,last=2/" +
+                        "(4) next=3,last=3/" +
+                        "(5) next=4,last=4/"
+        ));
     }
 
     @Test
-    public void unlimitedRange() throws Exception {
-        final Generator<Integer> generator = createGenerator(TestFixture.class, 2);
-        assertUnlimitedGenerator(generator);
+    public void range_with_none_default_step__should_have_appropriate_value_gaps() throws Exception {
+        // act / when
+        final String generated=generate(
+                template(TEMPLATE_EXTERNAL_ITERATOR),
+                createGenerator(WITH_STEP)
+        );
+
+        // assert / then
+        assertThat(generated, is("1;4;7;10;"));
     }
 
-    @Override
-    protected Generator<Integer> defaultGenerator() throws Exception {
-        return createGenerator(TestFixture.class);
+    @Test
+    public void range_with_from_equals_to__should_generate_given_value() throws Exception {
+        // act / when
+        final String generated=generate(
+                template(TEMPLATE_EXTERNAL_ITERATOR),
+                createGenerator(FROM_EQUALS_TO)
+        );
+
+        // assert / then
+        assertThat(generated, is("7;"));
+    }
+
+    @Test
+    public void invalid_from_to__should_throw_exception() throws Exception {
+        // act / when
+        ExceptionVerifier.on(() -> createGenerator(INVALID_FROM_TO))
+                .expect(InvariantViolationException.class)
+                .expect(
+                        "Invariant of RangeGenerator has been violated: from <= to!" +
+                                "\nCurrent annotation is '" + getDeclaredAnnotation(INVALID_FROM_TO) + "'"
+                )
+                .verify();
+    }
+
+    @Test
+    public void invalid_step__should_throw_exception() throws Exception {
+        // act / when
+        ExceptionVerifier.on(() -> createGenerator(INVALID_STEP))
+                .expect(InvariantViolationException.class)
+                .expect("Invariant of RangeGenerator has been violated: step > 0!" +
+                        "\nCurrent annotation is '" + getDeclaredAnnotation(INVALID_STEP) + "'")
+                .verify();
     }
 
 
-    @RangeGenerator(name = "RG", dataset = "DS", start = 0, end = 4)
-    @RangeGenerator(name = "RG", dataset = "DS", start = 0, end = 0)
-    @RangeGenerator(name = "RG", dataset = "DS", start = 0, end = 4, limit = Limit.UNLIMITED)
+    @RangeGenerator(name=TEMPLATE_OBJECT_NAME, from=0, to=4)
+    @RangeGenerator(name=TEMPLATE_OBJECT_NAME, from=1, to=10, step=3)
+    @RangeGenerator(name=TEMPLATE_OBJECT_NAME, from=7, to=7)
+    @RangeGenerator(name=TEMPLATE_OBJECT_NAME, from=0, to=-1)
+    @RangeGenerator(name=TEMPLATE_OBJECT_NAME, from=0, to=4, step=0)
     private static class TestFixture {
     }
 }

@@ -19,6 +19,7 @@
 
 package org.failearly.dataset.internal.template.generator.decorator;
 
+import org.failearly.dataset.exception.DataSetException;
 import org.failearly.dataset.template.generator.support.LimitedGeneratorBase;
 import org.failearly.dataset.template.generator.support.UnlimitedGeneratorBase;
 
@@ -40,10 +41,15 @@ final class LimitedGeneratorDecorator<T> extends LimitedGeneratorBase<T> {
     }
 
     @Override
+    protected void doInit() throws DataSetException {
+        super.doInit();
+        generator.init();
+    }
+
+    @Override
     public Iterator<T> createIterator() {
         return new LimitedIterator();
     }
-
 
     @Override
     public String toString() {

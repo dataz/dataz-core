@@ -16,10 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
 package org.failearly.dataset.util;
 import org.junit.Test;
 
-import static org.failearly.dataset.test.AssertException.assertException;
+import static org.failearly.dataset.util.ExceptionVerifier.on;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.*;
@@ -199,14 +200,14 @@ public class ExtendedPropertiesTest {
         assertThat("Existing?", properties.getMandatoryProperty("existing-but-empty"), is(equalTo("")));
         assertThat("Existing?", properties.getMandatoryProperty("existing-but-blank"), is(equalTo("")));
         assertThat("Existing?", properties.getMandatoryProperty("existing-but-use-empty"), is(equalTo("")));
-        assertException(MissingPropertyException.class,
-                "Missing property 'existing-but-use-null'. The property is either missing or uses '(null)'.",
-                () -> properties.getMandatoryProperty("existing-but-use-null")
-        );
-        assertException(MissingPropertyException.class,
-                "Missing property 'unknown.property'. The property is either missing or uses '(null)'.",
-                () -> properties.getMandatoryProperty("unknown.property")
-        );
+        on(() -> properties.getMandatoryProperty("existing-but-use-null"))
+            .expect(MissingPropertyException.class)
+            .expect("Missing property 'existing-but-use-null'. The property is either missing or uses '(null)'.")
+            .verify();
+        on(() -> properties.getMandatoryProperty("unknown.property"))
+            .expect(MissingPropertyException.class)
+            .expect("Missing property 'unknown.property'. The property is either missing or uses '(null)'.")
+            .verify();
     }
 
     @Test

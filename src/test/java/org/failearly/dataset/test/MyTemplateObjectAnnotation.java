@@ -20,8 +20,8 @@
 package org.failearly.dataset.test;
 
 import org.failearly.dataset.config.Constants;
-import org.failearly.dataset.template.common.Scope;
-import org.failearly.dataset.template.common.TemplateObjectFactoryDefinition;
+import org.failearly.dataset.template.Scope;
+import org.failearly.dataset.template.TemplateObjectFactoryDefinition;
 
 import java.lang.annotation.*;
 

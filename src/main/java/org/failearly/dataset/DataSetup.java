@@ -23,7 +23,7 @@ import org.failearly.dataset.annotations.DataSetupResourceFactoryDefinition;
 import org.failearly.dataset.config.Constants;
 import org.failearly.dataset.internal.resource.factory.DataSetupResourcesFactory;
 import org.failearly.dataset.resource.DataResource;
-import org.failearly.dataset.template.common.TemplateObject;
+import org.failearly.dataset.template.TemplateObject;
 
 import java.lang.annotation.*;
 

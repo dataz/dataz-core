@@ -21,7 +21,7 @@ package org.failearly.dataset.util;
 
 import org.junit.Test;
 
-import static org.failearly.dataset.test.AssertException.assertException;
+import static org.failearly.dataset.util.ExceptionVerifier.on;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -40,38 +40,48 @@ public class PropertiesHelper_getXxxValue_Test extends PropertiesHelperTestBase 
 
     @Test
     public void on_unknown_key__should_throw_exception() throws Exception {
-        assertException(IllegalArgumentException.class, "Unknown key 'unknown' or value is <null>", () -> propertiesHelper.getStringValue("unknown"));
-        assertException(IllegalArgumentException.class, "Unknown key 'unknown' or value is <null>", () -> propertiesHelper.getIntValue("unknown"));
-        assertException(IllegalArgumentException.class, "Unknown key 'unknown' or value is <null>", () -> propertiesHelper.getBooleanValue("unknown"));
-        assertException(IllegalArgumentException.class, "Unknown key 'unknown' or value is <null>", () -> propertiesHelper.getEnumValue("unknown", AnyEnum.class));
-        assertException(IllegalArgumentException.class, "Unknown key 'unknown' or value is <null>", () -> propertiesHelper.getGenericValue("unknown", Float::valueOf));
+        on(() -> propertiesHelper.getStringValue("unknown"))
+            .expect(IllegalArgumentException.class).expect("Unknown key 'unknown' or value is <null>").verify();
+        on(() -> propertiesHelper.getIntValue("unknown"))
+            .expect(IllegalArgumentException.class).expect("Unknown key 'unknown' or value is <null>").verify();
+        on(() -> propertiesHelper.getBooleanValue("unknown"))
+            .expect(IllegalArgumentException.class).expect("Unknown key 'unknown' or value is <null>").verify();
+        on(() -> propertiesHelper.getEnumValue("unknown", AnyEnum.class))
+            .expect(IllegalArgumentException.class).expect("Unknown key 'unknown' or value is <null>").verify();
+        on(() -> propertiesHelper.getGenericValue("unknown", Float::valueOf))
+            .expect(IllegalArgumentException.class).expect("Unknown key 'unknown' or value is <null>").verify();
     }
 
     @Test
     public void on_null_value__should_throw_exception() throws Exception {
         // arrange / given
         final String key="key";
-        final PropertiesHelper propertiesHelper = new PropertiesHelper(map(key, null));
+        final PropertiesHelper propertiesHelper=new PropertiesHelper(map(key, null));
 
         // assert / then
-        assertException(IllegalArgumentException.class, "Unknown key 'key' or value is <null>", () -> propertiesHelper.getStringValue(key));
-        assertException(IllegalArgumentException.class, "Unknown key 'key' or value is <null>", () -> propertiesHelper.getIntValue(key));
-        assertException(IllegalArgumentException.class, "Unknown key 'key' or value is <null>", () -> propertiesHelper.getBooleanValue(key));
-        assertException(IllegalArgumentException.class, "Unknown key 'key' or value is <null>", () -> propertiesHelper.getEnumValue(key, AnyEnum.class));
-        assertException(IllegalArgumentException.class, "Unknown key 'key' or value is <null>", () -> propertiesHelper.getGenericValue(key, Float::valueOf));
+        on(() -> propertiesHelper.getStringValue(key))
+            .expect(IllegalArgumentException.class).expect("Unknown key 'key' or value is <null>").verify();
+        on(() -> propertiesHelper.getIntValue(key))
+            .expect(IllegalArgumentException.class).expect("Unknown key 'key' or value is <null>").verify();
+        on(() -> propertiesHelper.getBooleanValue(key))
+            .expect(IllegalArgumentException.class)
+            .expect("Unknown key 'key' or value is <null>").verify();
+        on(() -> propertiesHelper.getEnumValue(key, AnyEnum.class))
+            .expect(IllegalArgumentException.class).expect("Unknown key 'key' or value is <null>").verify();
+        on(() -> propertiesHelper.getGenericValue(key, Float::valueOf)).expect(IllegalArgumentException.class).expect("Unknown key 'key' or value is <null>").verify();
     }
 
     @Test
     public void on_invalid_value__should_throw_exception__but_not_for_for_getValue() throws Exception {
         // arrange / given
         final String key="key";
-        final PropertiesHelper propertiesHelper = new PropertiesHelper(map(key, "<invalid value>"));
+        final PropertiesHelper propertiesHelper=new PropertiesHelper(map(key, "<invalid value>"));
 
         // assert / then
-        assertException(NumberFormatException.class, () -> propertiesHelper.getIntValue(key));
-        assertException(IllegalArgumentException.class, "Unknown boolean value: <invalid value>", () -> propertiesHelper.getBooleanValue(key));
-        assertException(IllegalArgumentException.class, () -> propertiesHelper.getEnumValue(key, AnyEnum.class));
-        assertException(NumberFormatException.class, () -> propertiesHelper.getGenericValue(key, Float::valueOf));
+        on(() -> propertiesHelper.getIntValue(key)).expect(NumberFormatException.class).verify();
+        on(() -> propertiesHelper.getBooleanValue(key)).expect(IllegalArgumentException.class).expect("Unknown boolean value: <invalid value>").verify();
+        on(() -> propertiesHelper.getEnumValue(key, AnyEnum.class)).expect(IllegalArgumentException.class).verify();
+        on(() -> propertiesHelper.getGenericValue(key, Float::valueOf)).expect(NumberFormatException.class).verify();
         // but not ..
         assertThat(propertiesHelper.getStringValue(key), is("<invalid value>"));
     }

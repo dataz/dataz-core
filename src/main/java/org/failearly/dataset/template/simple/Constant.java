@@ -20,8 +20,8 @@
 package org.failearly.dataset.template.simple;
 
 import org.failearly.dataset.internal.template.simple.ConstantFactory;
-import org.failearly.dataset.template.common.Scope;
-import org.failearly.dataset.template.common.TemplateObjectFactoryDefinition;
+import org.failearly.dataset.template.Scope;
+import org.failearly.dataset.template.TemplateObjectFactoryDefinition;
 
 import java.lang.annotation.*;
 
@@ -30,7 +30,7 @@ import java.lang.annotation.*;
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@TemplateObjectFactoryDefinition(factory = ConstantFactory.class)
+@TemplateObjectFactoryDefinition(factory=ConstantFactory.class)
 @Documented
 @Repeatable(Constant.Constants.class)
 public @interface Constant {
@@ -60,7 +60,7 @@ public @interface Constant {
 
     /**
      * Containing Annotation Type.
-     *
+     * <p>
      * Remark: This will be used by Java8 compiler.
      *
      * @see java.lang.annotation.Repeatable

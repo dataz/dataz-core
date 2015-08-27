@@ -21,10 +21,9 @@ package org.failearly.dataset.template.generator.support;
 
 
 import org.failearly.dataset.exception.DataSetException;
-import org.failearly.dataset.template.common.Scope;
-import org.failearly.dataset.template.common.TemplateObjectBase;
+import org.failearly.dataset.template.Scope;
+import org.failearly.dataset.template.TemplateObjectBase;
 import org.failearly.dataset.template.generator.Generator;
-import org.failearly.dataset.template.generator.InternalIteratorExhaustedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,12 +31,10 @@ import java.lang.annotation.Annotation;
 import java.util.Iterator;
 
 /**
- * GeneratorBase is the base class for {@link Generator} implementations. Please extend {@link UnlimitedGeneratorBase} or
- * {@link LimitedGeneratorBase} instead exting this base class.
+ * GeneratorBase should be the base class for any {@link Generator} implementations. Please extend {@link
+ * UnlimitedGeneratorBase} or {@link LimitedGeneratorBase} instead extending this base class.
  */
 public abstract class GeneratorBase<T> extends TemplateObjectBase implements Generator<T> {
-
-    protected final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     private Iterator<T> internalIterator;
     private T lastValue;
@@ -53,17 +50,10 @@ public abstract class GeneratorBase<T> extends TemplateObjectBase implements Gen
 
     /**
      * Initialize current generator by creating the internal iterator (for {@link #next()}.
-     *
-     * @return itself
      */
-    public final GeneratorBase<T> init() throws DataSetException {
-        resetInternalIterator();
-        doInit();
-        return this;
-    }
-
-    protected void doInit() throws DataSetException {
-        // DO NOTHING
+    public final void init() throws DataSetException {
+        super.init();
+        this.internalIterator = createIterator();
     }
 
     protected final void resetInternalIterator() {
@@ -87,13 +77,18 @@ public abstract class GeneratorBase<T> extends TemplateObjectBase implements Gen
     }
 
     @Override
-    public T next() {
+    public final T next() {
+        return doNext();
+    }
+
+    protected T doNext() {
         if (internalIterator.hasNext())
             lastValue = internalIterator.next();
         else
             throw new InternalIteratorExhaustedException(this.name());
 
-        LOGGER.debug("Generator '{}' in dataset '{}': Next generated value is '{}'", name(), dataset(), lastValue);
+        // LOGGER.debug("Generator '{}' in dataset '{}': Generated value is '{}'", name(), dataset(), lastValue);
+
         return lastValue;
     }
 
@@ -102,9 +97,13 @@ public abstract class GeneratorBase<T> extends TemplateObjectBase implements Gen
         return next();
     }
 
-    public T lastValue() {
+    public final T lastValue() {
+        return doLastValue();
+    }
+
+    protected T doLastValue() {
         if( lastValue==null ) {
-            throw new IllegalStateException("Please first call next() on " + this.name() + " before accessing the lastValue!");
+            throw new IllegalStateException("Please first call next() on '" + this.name() + "' before accessing lastValue()!");
         }
         return lastValue;
     }
@@ -115,7 +114,11 @@ public abstract class GeneratorBase<T> extends TemplateObjectBase implements Gen
     }
 
     @Override
-    public void reset() {
+    public final void reset() {
+        doReset();
+    }
+
+    protected void doReset() {
         resetInternalIterator();
     }
 

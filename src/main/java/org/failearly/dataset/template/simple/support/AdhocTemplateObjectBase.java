@@ -20,7 +20,7 @@
 package org.failearly.dataset.template.simple.support;
 
 import org.failearly.dataset.template.support.PropertiesHelperFactory;
-import org.failearly.dataset.template.common.TemplateObjectBase;
+import org.failearly.dataset.template.TemplateObjectBase;
 import org.failearly.dataset.template.simple.Adhoc;
 import org.failearly.dataset.util.PropertiesHelper;
 

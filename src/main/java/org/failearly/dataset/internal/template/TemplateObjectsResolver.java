@@ -22,8 +22,8 @@ package org.failearly.dataset.internal.template;
 import org.failearly.dataset.config.DataSetProperties;
 import org.failearly.dataset.internal.annotation.*;
 import org.failearly.dataset.internal.util.BuilderBase;
-import org.failearly.dataset.template.common.TemplateObjectFactory;
-import org.failearly.dataset.template.common.TemplateObjectFactoryDefinition;
+import org.failearly.dataset.template.TemplateObjectFactory;
+import org.failearly.dataset.template.TemplateObjectFactoryDefinition;
 import org.failearly.dataset.util.ObjectCreator;
 
 import java.lang.annotation.Annotation;

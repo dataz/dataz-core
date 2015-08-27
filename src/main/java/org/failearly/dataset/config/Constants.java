@@ -23,7 +23,7 @@ import org.failearly.dataset.AdhocDataStore;
 import org.failearly.dataset.DataSet;
 import org.failearly.dataset.internal.annotation.TraverseDepth;
 import org.failearly.dataset.internal.annotation.TraverseStrategy;
-import org.failearly.dataset.template.common.TemplateObject;
+import org.failearly.dataset.template.TemplateObject;
 
 /**
  * DataSetConstants contains the name and position of property files and the property keys used by DataSet.

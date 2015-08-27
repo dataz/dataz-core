@@ -18,7 +18,7 @@
  */
 
 /**
- * This package contains some standard {@link org.failearly.dataset.template.generator.Generator} annotations.
+ * Off the shelf {@link org.failearly.dataset.template.generator.Generator} annotations.
  * <br><br>
  * A {@code Generator} could be used with a {@link org.failearly.dataset.DataSet#setup()} or {@link org.failearly.dataset.DataSet#cleanup()}
  * resource template. A resource template will be identified by the file names suffix.
@@ -27,15 +27,15 @@
  * <br><br>
  * An example:<br><br>
  * <pre>
- *    {@literal @DataSet}(name="DS", setup={"users.setup.vm", "none-template.setup"}
+ *    {@literal @DataSet}(name="DS1", setup={"users.setup.vm", "none-template.setup"})
  *    {@literal @}{@link org.failearly.dataset.template.generator.ListGenerator}(name="fname", dataset="DS1", values={"Smith","Miller","White","Heisenberg"})
  *    {@literal @}{@link org.failearly.dataset.template.generator.ListGenerator}(name="cname", dataset="DS1", values={"Frank","Walter","Skyla"})
- *    {@literal @}{@link org.failearly.dataset.template.generator.RandomRangeGenerator}(name="ids", dataset="DS1", unique=true, seed=1, end=100_000)
+ *    {@literal @}{@link org.failearly.dataset.template.generator.RandomRangeGenerator}(name="ids", dataset="DS1", unique=true, seed=1, to=12)
  *    public class MyTest {
  *        // ... omitted for brevity
  *    }
  * </pre>
- * and here the content of template file: {@code DS1.setup.vm}
+ * and here the content of template file: {@code users.setup.vm}
  * <pre>
  * #foreach( $fn in $fname )
  *    #foreach( $cn in $cname )
@@ -43,16 +43,14 @@
  *    #end
  * #end
  * </pre>
- * The generators {@code fname}, {@code cname} and {@code ids} will only applied on {@code DS1.setup.vm}, but not on {@code none-template.setup}.
+ * The generators {@code fname}, {@code cname} and {@code ids} will only applied on {@code users.setup.vm}, but not on {@code none-template.setup}.
  * <br><br>
- * It's possible to
- * <a href="{@docRoot}/org/failearly/dataset/generator/resource/package-summary.html#package_description">newInstance your own customized generator</a>.
+ * It's possible to create your own generators, like any template object.
  *
- * @see org.failearly.dataset.template.engine.TemplateEngine
  * @see org.failearly.dataset.DataSet
  * @see org.failearly.dataset.DataSetup
  * @see org.failearly.dataset.DataCleanup
- * @see <a href="{@docRoot}/org/failearly/dataset/generator/resource/package-summary.html#package_description">generator resource</a>
+ * @see <a href="{@docRoot}/org/failearly/dataset/template/generator/support/package-summary.html#package_description">generator support</a>
  * @see <a href="http://velocity.apache.org/engine/releases/velocity-1.7/">Velocity 1.7</a>
  */
 package org.failearly.dataset.template.generator;

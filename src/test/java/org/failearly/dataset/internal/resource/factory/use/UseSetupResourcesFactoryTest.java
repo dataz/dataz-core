@@ -23,7 +23,7 @@ import org.failearly.dataset.DataSet;
 import org.failearly.dataset.Use;
 import org.failearly.dataset.internal.resource.factory.DataResourcesFactoryTestBase;
 import org.failearly.dataset.resource.DataResource;
-import org.failearly.dataset.template.common.Scope;
+import org.failearly.dataset.template.Scope;
 import org.failearly.dataset.test.MyTemplateObjectAnnotation;
 import org.junit.Test;
 

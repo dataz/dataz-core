@@ -19,22 +19,46 @@
 
 package org.failearly.dataset.template.generator;
 
+import org.failearly.dataset.DataSet;
 import org.failearly.dataset.config.Constants;
-import org.failearly.dataset.template.common.Scope;
-import org.failearly.dataset.template.common.TemplateObjectFactoryDefinition;
+import org.failearly.dataset.template.Scope;
+import org.failearly.dataset.template.TemplateObjectFactoryDefinition;
 import org.failearly.dataset.internal.template.generator.RandomBooleanGeneratorFactory;
 
 import java.lang.annotation.*;
 
 /**
- * RandomBooleanGenerator generates a random sequence of {@code true} and {@code false}. It's only available as
- * {@link org.failearly.dataset.template.generator.Limit#UNLIMITED}  generator.
+ * RandomBooleanGenerator generates a random stream of {@code true} and {@code false}. It's only available as
+ * {@link org.failearly.dataset.template.generator.Limit#UNLIMITED} generator.
+ * Usage Example:<br><br>
+ * <pre>
+ *   {@literal @Test}
+ *   {@literal @}{@link DataSet}(dataset="d1", setup="t1.vm") // content see below
+ *   {@literal @}{@link DataSet}(dataset="d2", setup="t2.vm") // content see below
+ *   {@literal @}RandomBooleanGenerator(name="ten", dataset="d1", percent=10, seed=314)
+ *   {@literal @}RandomBooleanGenerator(name="eighty", dataset="d2", percent=80, seed=42)
+ *    public void my_test() {
+ *        // The 'ten' with template t1.vm generates:
+ *        // 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0,
+ *
+ *        // The 'eighty' with template t2.vm generates:
+ *        // true, true, true, false, true, true, true, true, false, true,
+ *    }
+ * </pre>
+ * Content of the templates:<br><br>
+ * <pre>
+ *    // Content of t1.vm
+ *    #foreach( $i in [1 .. 20] )if(${ten.next()}) 1,#else 0,#end#end
+ *
+ *    // Content of t2.vm
+ *    #foreach( $i in [1 .. 10] )${eighty.next()}#end
+ * </pre>
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@TemplateObjectFactoryDefinition(factory = RandomBooleanGeneratorFactory.class)
 @Documented
 @Repeatable(RandomBooleanGenerator.RandomBooleanGenerators.class)
+@TemplateObjectFactoryDefinition(factory = RandomBooleanGeneratorFactory.class)
 public @interface RandomBooleanGenerator {
     /**
      * @return The name of the template object. Could be used in Velocity templates by {@code $<name>}.
@@ -44,7 +68,7 @@ public @interface RandomBooleanGenerator {
     /**
      * @return The name of the associated dataset.
      *
-     * @see org.failearly.dataset.DataSet#name()
+     * @see DataSet#name()
      */
     String dataset() default Constants.DATASET_DEFAULT_NAME;
 

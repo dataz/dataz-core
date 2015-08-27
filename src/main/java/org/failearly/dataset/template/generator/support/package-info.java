@@ -20,15 +20,16 @@
 /**
  * Support classes for creating {@link org.failearly.dataset.template.generator.Generator} annotations.
  * <br><br>
- * Any generator annotation must define two elements:<br>
+ * Any generator annotation must define following attributes:<br>
  * <ul>
  *    <li>{@code name()}: The name of the generator. Use this to access the generator within your template.</li>
  *    <li>{@code dataset()}: A generator must be associated to a specific {@link org.failearly.dataset.DataSet#name()}.</li>
+ *    <li>{@code scope()}: A generator has .</li>
  * </ul>
  * <br><br>
  * Steps to create your own Generator:
  * <ol>
- *    <li>Creating a generator annotation. (For example: Take a look at {@link org.failearly.dataset.template.simple.Constant}.)</li>
+ *    <li>Creating a generator annotation. (For example: Take a look at {@link org.failearly.dataset.template.generator.ListGenerator}.)</li>
  *    <li>Override {@link org.failearly.dataset.template.generator.support.GeneratorFactoryBase}.</li>
  *    <li>And last but not at least a {@link org.failearly.dataset.template.generator.support.GeneratorBase} implementation.</li>
  * </ol>

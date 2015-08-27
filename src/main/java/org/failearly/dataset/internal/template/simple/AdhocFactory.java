@@ -19,9 +19,9 @@
 
 package org.failearly.dataset.internal.template.simple;
 
-import org.failearly.dataset.template.common.Scope;
-import org.failearly.dataset.template.common.TemplateObject;
-import org.failearly.dataset.template.common.TemplateObjectFactoryBase;
+import org.failearly.dataset.template.Scope;
+import org.failearly.dataset.template.TemplateObject;
+import org.failearly.dataset.template.TemplateObjectFactoryBase;
 import org.failearly.dataset.template.simple.Adhoc;
 import org.failearly.dataset.util.ObjectCreator;
 
@@ -35,17 +35,34 @@ public final class AdhocFactory extends TemplateObjectFactoryBase<Adhoc> {
 
     @Override
     protected TemplateObject doCreate(Adhoc annotation) {
-        final Adhoc.AdhocTemplateObject templateObjectPrototype = ObjectCreator.createInstance(annotation.value());
-        return templateObjectPrototype.create(annotation);
+        return null;
     }
 
     @Override
     protected String doResolveDataSetName(Adhoc annotation) {
-        return annotation.dataset();
+        return null;
     }
 
     @Override
     protected Scope doResolveScope(Adhoc annotation) {
-        return annotation.scope();
+        return null;
     }
+
+//    @Override
+//    protected TemplateObject doCreate(Adhoc annotation) {
+//        final Adhoc.AdhocTemplateObject templateObjectPrototype = ObjectCreator.createInstance(annotation.value());
+//        return templateObjectPrototype.create(annotation);
+//    }
+//
+//    @Override
+//    protected String doResolveDataSetName(Adhoc annotation) {
+//        return annotation.dataset();
+//    }
+//
+//    @Override
+//    protected Scope doResolveScope(Adhoc annotation) {
+//        return annotation.scope();
+//    }
+
 }
+

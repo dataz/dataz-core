@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -46,7 +46,7 @@
  *    <li>one or more comment lines, </li>
  *    <li>one or more empty lines or</li>
  *    <li>{@code ';'} (a semicolon) on the last line (of the current statement) or</li>
- *    <li>the end of file.</li>
+ *    <li>the to of file.</li>
  * </ul>
  * <br>
  * 4. Any statement separator will be discarded. So if your DataStore needs a semicolon the DataStore implementation has to add it or you use 2 semicolons.

@@ -21,7 +21,7 @@ package org.failearly.dataset;
 
 import org.failearly.dataset.config.Constants;
 import org.failearly.dataset.resource.DataResource;
-import org.failearly.dataset.template.common.TemplateObject;
+import org.failearly.dataset.template.TemplateObject;
 
 import java.lang.annotation.*;
 

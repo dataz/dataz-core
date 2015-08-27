@@ -20,31 +20,33 @@
 package org.failearly.dataset.template.generator.support;
 
 import org.failearly.dataset.internal.template.generator.decorator.GeneratorDecorators;
-import org.failearly.dataset.template.common.Scope;
+import org.failearly.dataset.template.Scope;
 import org.failearly.dataset.template.generator.Generator;
-import org.failearly.dataset.template.generator.InternalIteratorExhaustedException;
+import org.failearly.dataset.util.ExceptionVerifier;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+import org.mockito.Mockito;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
-import static org.failearly.dataset.test.AssertException.assertException;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
 @FixMethodOrder(MethodSorters.JVM)
 public class UnlimitedGeneratorDecoratorTest {
 
-    private static final String[] ANY_CONSTANT_ARRAY = new String[] {"v1", "v2"};
-    private static final List<String> ANY_CONSTANT_LIST = Arrays.asList(ANY_CONSTANT_ARRAY);
+    private static final String[] ANY_CONSTANT_ARRAY = new String[] {"A", "B","C"};
 
 
-    private final GeneratorBase<String> limitedGenerator = new LimitedGenerator().init();
-    private final Generator<String> unlimitedGenerator = GeneratorDecorators.makeUnlimited(limitedGenerator).init();
+    private final GeneratorBase<String> limitedGenerator = Mockito.spy(new LimitedGenerator());
+    private final Generator<String> unlimitedGenerator = doInit(GeneratorDecorators.makeUnlimited(limitedGenerator));
+
+
+    private static <T extends GeneratorBase<?>> T doInit(T generator) {
+        generator.init();
+        return generator;
+    }
 
     @Test
     public void assume_limited_generator__working_like_expected() throws Exception {
@@ -61,7 +63,7 @@ public class UnlimitedGeneratorDecoratorTest {
     public void assume_on_limited_generator__exhausting_internal_iterator__should_cause_an_exception() throws Exception {
         consumeAllValues(limitedGenerator);
 
-        assertException(InternalIteratorExhaustedException.class, limitedGenerator::next);
+        ExceptionVerifier.on(limitedGenerator::next).expect(InternalIteratorExhaustedException.class).verify();
     }
 
     private static void consumeAllValues(Generator<String> generator) {
@@ -86,22 +88,48 @@ public class UnlimitedGeneratorDecoratorTest {
             values.add(unlimitedGenerator.next());
         }
 
-        final List<String> expectedValues = new ArrayList<>(ANY_CONSTANT_LIST);
-        expectedValues.addAll(ANY_CONSTANT_LIST);
+        assertThat(values, is(expectedValues()));
+    }
 
-        assertThat(values, is(expectedValues));
+    private List<String> expectedValues() {
+        final List<String> expectedValues = new ArrayList<>();
+        expectedValues.addAll(Arrays.asList(ANY_CONSTANT_ARRAY));
+        expectedValues.addAll(Arrays.asList(ANY_CONSTANT_ARRAY));
+        return expectedValues;
     }
 
     @Test
     public void unlimited_generator__should_not_support_external_iterator() throws Exception {
-        assertException(
-                UnsupportedOperationException.class,
-                "Don't use iterator() for unlimited generators! Use next() instead.",
-                unlimitedGenerator::iterator
-        );
+        ExceptionVerifier.on(unlimitedGenerator::iterator).expect(UnsupportedOperationException.class).expect("Don't use iterator() for unlimited generators! Use next() instead.").verify();
     }
 
-    private static class LimitedGenerator extends GeneratorBase<String> {
+    @Test
+    public void unlimited_generator__should_delegate_to_limited_reset() throws Exception {
+        // act / when
+        unlimitedGenerator.reset();
+
+        // assert / then
+        Mockito.verify(limitedGenerator).reset();
+    }
+
+    @Test
+    public void unlimited_generator_calling_reset__should_repeat_the_first_value() throws Exception {
+        // arrange / given
+        final List<String> values=new ArrayList<>();
+
+        // act / when
+        values.add(unlimitedGenerator.next());
+        unlimitedGenerator.reset();
+
+        values.add(unlimitedGenerator.next());
+        unlimitedGenerator.reset();
+
+
+        // assert / then
+        assertThat(values, contains("A","A"));
+    }
+
+    private static class LimitedGenerator extends LimitedGeneratorBase<String> {
 
         LimitedGenerator() {
             super("DATASET", "NAME", Scope.DEFAULT);
@@ -109,17 +137,12 @@ public class UnlimitedGeneratorDecoratorTest {
 
         @Override
         public Iterator<String> createIterator() {
-            return ANY_CONSTANT_LIST.iterator();
+            return Arrays.asList(ANY_CONSTANT_ARRAY).iterator();
         }
 
         @Override
         public String toString() {
             return this.getClass().getSimpleName();
-        }
-
-        @Override
-        public void __do_not_implement_Generator() {
-            throw new UnsupportedOperationException("__do_not_implement_Generator not yet implemented");
         }
     }
 

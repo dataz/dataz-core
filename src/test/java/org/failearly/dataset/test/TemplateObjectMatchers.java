@@ -19,8 +19,8 @@
 
 package org.failearly.dataset.test;
 
-import org.failearly.dataset.template.common.Scope;
-import org.failearly.dataset.template.common.TemplateObject;
+import org.failearly.dataset.template.Scope;
+import org.failearly.dataset.template.TemplateObject;
 import org.hamcrest.Matcher;
 
 import static org.hamcrest.CoreMatchers.allOf;

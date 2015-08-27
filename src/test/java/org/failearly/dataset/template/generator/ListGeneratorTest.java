@@ -20,46 +20,82 @@
 package org.failearly.dataset.template.generator;
 
 import org.failearly.dataset.internal.template.generator.ListGeneratorFactory;
+import org.failearly.dataset.template.generator.support.InternalIteratorExhaustedException;
+import org.failearly.dataset.template.generator.support.test.GeneratorTestBase;
+import org.failearly.dataset.util.ExceptionVerifier;
 import org.junit.Test;
 
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-public class ListGeneratorTest extends DeprecatedGeneratorTestBase<String, ListGenerator, ListGeneratorFactory> {
-
-    private static final String[] VALUES = new String[]{"v1", "v2", "v3"};
+/**
+ * ListGeneratorTest contains tests for {@link ListGenerator}.
+ */
+public class ListGeneratorTest extends GeneratorTestBase<String, ListGenerator, ListGeneratorFactory> {
+    private static final int LIST_WITH_VALUES=0;
+    private static final int EMPTY_LIST=1;
 
     public ListGeneratorTest() {
-        super(ListGeneratorFactory.class, ListGenerator.class);
+        super(ListGenerator.class, ListGeneratorFactory.class, TestFixture.class);
     }
 
     @Test
-    public void noneEmptyList() throws Exception {
-        final Generator<String> generator = defaultGenerator();
-        assertThat("Expected values?", generator, contains(VALUES));
+    public void external_iterator__should_generate_all_values() throws Exception {
+        // act / when
+        final String generated=generate(
+                template(TEMPLATE_EXTERNAL_ITERATOR),
+                createGenerator(LIST_WITH_VALUES)
+        );
+
+        // assert / then
+        assertThat(generated, is("A;B;C;"));
     }
 
     @Test
-    public void emptyList() throws Exception {
-        final Generator<String> generator = createGenerator(TestFixture.class, 1);
-        assertThat("No values?", asList(generator), hasSize(0));
+    public void internal_iterator__should_generate_all_values() throws Exception {
+        // act / when
+        final String generated=generate(
+                template(TEMPLATE_INTERNAL_ITERATOR, 3),
+                createGenerator(LIST_WITH_VALUES)
+        );
+
+        // assert / then
+        assertThat(generated, is(
+                "(1) next=A,last=A/" +
+                        "(2) next=B,last=B/" +
+                        "(3) next=C,last=C/"
+        ));
     }
 
     @Test
-    public void unlimitedList() throws Exception {
-        final Generator<String> generator = createGenerator(TestFixture.class, 2);
-        assertUnlimitedGenerator(generator);
+    public void internal_iterator_on_empty_list__should_throw_exception() throws Exception {
+        // assert / then
+        ExceptionVerifier.on(                                   //
+                () -> generate(                                 //
+                        template(TEMPLATE_INTERNAL_ITERATOR),   //
+                        createGenerator(EMPTY_LIST)             //
+                )                                               //
+        )                                                       //
+                .expectRootCause(InternalIteratorExhaustedException.class)
+                .expectRootCause("Internal iterator of generator TO is exhausted!")
+                .verify();
     }
 
-    @Override
-    protected Generator<String> defaultGenerator() throws Exception {
-        return createGenerator(TestFixture.class);
+    @Test
+    public void external_iterator_on_empty_list__should_generate_empty_string() throws Exception {
+        // act / when
+        final String generated=generate(
+                template(TEMPLATE_EXTERNAL_ITERATOR),
+                createGenerator(EMPTY_LIST)
+        );
+
+        // assert / then
+        assertThat(generated, is(""));
     }
 
-    @ListGenerator(name = "LG", dataset = "DS", values = {"v1", "v2", "v3"})
-    @ListGenerator(name = "LG", dataset = "DS", values = {})
-    @ListGenerator(name = "LG", dataset = "DS", values = {"v1", "v2", "v3"}, limit = Limit.UNLIMITED)
+
+    @ListGenerator(name=TEMPLATE_OBJECT_NAME, values={"A", "B", "C"})
+    @ListGenerator(name=TEMPLATE_OBJECT_NAME, values={})
     private static class TestFixture {
     }
 

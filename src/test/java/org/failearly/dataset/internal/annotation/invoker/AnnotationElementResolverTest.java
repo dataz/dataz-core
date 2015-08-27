@@ -19,16 +19,16 @@
 
 package org.failearly.dataset.internal.annotation.invoker;
 
-import org.failearly.dataset.test.AssertException;
 import org.junit.Test;
 
 import java.lang.annotation.*;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
-import static org.failearly.dataset.test.AssertException.assertException;
-import static org.junit.Assert.*;
-import static org.hamcrest.Matchers.*;
+import static org.failearly.dataset.util.ExceptionVerifier.on;
+import static org.hamcrest.Matchers.arrayContaining;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
 /**
  * AnnotationElementResolverTest contains tests for ... .
@@ -38,8 +38,8 @@ public class AnnotationElementResolverTest {
     @Test
     public void correct_element_type__should_return_true_and_the_expected_value() throws Exception {
         // arrange / given
-        final AnnotationElementResolver<String> resolver = AnnotationElementResolvers.createResolver(
-                                String.class, "name");
+        final AnnotationElementResolver<String> resolver=AnnotationElementResolvers.createResolver(
+            String.class, "name");
 
         // assert / then
         assertThat("name() exists?", resolver.hasElement(getAnnotation(SimpleNamedAnnotation.class)), is(true));
@@ -49,47 +49,50 @@ public class AnnotationElementResolverTest {
     @Test
     public void not_existing_element__should_return_false_and_throw_an_exception() throws Exception {
         // arrange / given
-        final AnnotationElementResolver<String> resolver = AnnotationElementResolvers.createResolver(
-                String.class, "not_existing_element");
+        final AnnotationElementResolver<String> resolver=AnnotationElementResolvers.createResolver(
+            String.class, "not_existing_element");
 
         // assert / then
         assertThat("not_existing_element() does not exist?", resolver.hasElement(getAnnotation(SimpleNamedAnnotation.class)), is(false));
-        assertException(RuntimeException.class,
-                "Invoke not_existing_element() failed",
-                () -> resolver.resolveElementValue(getAnnotation(SimpleNamedAnnotation.class)));
+        on(() -> resolver.resolveElementValue(getAnnotation(SimpleNamedAnnotation.class)))
+            .expect(RuntimeException.class)
+            .expect("Invoke not_existing_element() failed")
+            .verify();
     }
 
     @Test
     public void incorrect_element_type__should_return_false_and_throw_an_exception() throws Exception {
         // arrange / given
-        final AnnotationElementResolver<String> resolver = AnnotationElementResolvers.createResolver(
-                                String.class, "name");
+        final AnnotationElementResolver<String> resolver=AnnotationElementResolvers.createResolver(
+            String.class, "name");
 
         // assert / then
         assertThat("name() does not exist?", resolver.hasElement(getAnnotation(NameArrayAnnotation.class)), is(false));
-        assertException(RuntimeException.class,
-                "Invoke name() failed",
-                () -> resolver.resolveElementValue(getAnnotation(NameArrayAnnotation.class)));
+        on(() -> resolver.resolveElementValue(getAnnotation(NameArrayAnnotation.class)))
+            .expect(RuntimeException.class)
+            .expect("Invoke name() failed")
+            .verify();
     }
 
     @Test
     public void weak_method_predicate__will_result_in_casting_exception() throws Exception {
         // arrange / given
-        final AnnotationElementResolver<String> resolver = AnnotationElementResolvers.createResolver(
-                                String.class, "name", (Method m) -> true);
+        final AnnotationElementResolver<String> resolver=AnnotationElementResolvers.createResolver(
+            String.class, "name", (Method m) -> true);
 
         // assert / then
         assertThat("name() exists, but ...", resolver.hasElement(getAnnotation(NameArrayAnnotation.class)), is(true));
-        assertException(ClassCastException.class,
-                "Cannot cast [Ljava.lang.String; to java.lang.String",
-                () -> resolver.resolveElementValue(getAnnotation(NameArrayAnnotation.class)));
+        on(() -> resolver.resolveElementValue(getAnnotation(NameArrayAnnotation.class)))
+            .expect(ClassCastException.class)
+            .expect("Cannot cast [Ljava.lang.String; to java.lang.String")
+            .verify();
     }
 
     @Test
     public void element_type_string_array__should_return_array() throws Exception {
         // arrange / given
-        final AnnotationElementResolver<String[]> resolver = AnnotationElementResolvers.createResolver(
-                                String[].class, "name");
+        final AnnotationElementResolver<String[]> resolver=AnnotationElementResolvers.createResolver(
+            String[].class, "name");
 
         // assert / then
         assertThat("name() exists?", resolver.hasElement(getAnnotation(NameArrayAnnotation.class)), is(true));
@@ -99,15 +102,15 @@ public class AnnotationElementResolverTest {
     @Test
     public void resolve_annotation_arrays__should_return_annotation_objects() throws Exception {
         // arrange / given
-        final AnnotationElementResolver<Annotation[]> resolver = AnnotationElementResolvers.createResolver(
-                                Annotation[].class, "value",
-                                (Method m) -> m.getReturnType().isArray() && m.getReturnType().getComponentType().isAnnotation()
-                    );
+        final AnnotationElementResolver<Annotation[]> resolver=AnnotationElementResolvers.createResolver(
+            Annotation[].class, "value",
+            (Method m) -> m.getReturnType().isArray() && m.getReturnType().getComponentType().isAnnotation()
+        );
 
         // assert / then
         assertThat("value() exists?", resolver.hasElement(getAnnotation(NameArrayAnnotations.class)), is(true));
         assertThat("value() returns Annotations?", Arrays.toString(resolver.resolveElementValue(getAnnotation(NameArrayAnnotations.class))),
-                is("[@org.failearly.dataset.internal.annotation.invoker.AnnotationElementResolverTest$NameArrayAnnotation(name=[via NameArrayAnnotations])]"));
+            is("[@org.failearly.dataset.internal.annotation.invoker.AnnotationElementResolverTest$NameArrayAnnotation(name=[via NameArrayAnnotations])]"));
     }
 
 

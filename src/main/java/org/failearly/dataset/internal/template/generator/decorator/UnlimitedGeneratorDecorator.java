@@ -19,6 +19,8 @@
 
 package org.failearly.dataset.internal.template.generator.decorator;
 
+import org.failearly.dataset.exception.DataSetException;
+import org.failearly.dataset.template.generator.support.InternalIteratorExhaustedException;
 import org.failearly.dataset.template.generator.support.GeneratorBase;
 import org.failearly.dataset.template.generator.support.UnlimitedGeneratorBase;
 
@@ -45,6 +47,28 @@ final class UnlimitedGeneratorDecorator<T> extends UnlimitedGeneratorBase<T> {
     @Override
     public String toString() {
         return generator.toString();
+    }
+
+    @Override
+    protected void doInit() throws DataSetException {
+        super.doInit();
+        generator.init();
+    }
+
+    @Override
+    protected T doNext() {
+        try {
+            return generator.next();
+        } catch (InternalIteratorExhaustedException e) {
+           reset();
+        }
+
+        return generator.next();
+    }
+
+    @Override
+    protected T doLastValue() {
+        return generator.lastValue();
     }
 
     @Override

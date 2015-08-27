@@ -20,14 +20,24 @@
 package org.failearly.dataset.template.generator;
 
 import org.failearly.dataset.config.Constants;
-import org.failearly.dataset.template.common.Scope;
-import org.failearly.dataset.template.common.TemplateObjectFactoryDefinition;
+import org.failearly.dataset.template.Scope;
+import org.failearly.dataset.template.TemplateObjectFactoryDefinition;
 import org.failearly.dataset.internal.template.generator.RangeGeneratorFactory;
 
 import java.lang.annotation.*;
 
 /**
- * Generates integer values from {@link #start()} to {@link #end()}.
+ * Generates integer values from {@link #from()} to {@link #to()} and step width {@link #step()}.
+ *
+ * <br>Usage Example:<br><br>
+ * <pre>
+ *   {@literal @Test}
+ *   {@literal @}RangeGenerator(name="range", from=4, to=12, step=2)
+ *    public void my_test() {
+ *        // The 'range' generator generates:
+ *        // 4, 6, 8, 10, 12
+ *    }
+ * </pre>
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
@@ -53,9 +63,8 @@ public @interface RangeGenerator {
      */
     Scope scope() default Scope.DEFAULT;
 
-
     /**
-     * The Limit type. Limited by {@code end-start+1}.
+     * The Limit type. Limited by {@code to-from+1}.
      *
      * @return Limit type.
      *
@@ -65,18 +74,24 @@ public @interface RangeGenerator {
     Limit limit() default Limit.LIMITED;
 
     /**
-     * The lower bound. All generated values will be in range {@code [start,end]}
+     * The lower bound. All generated values will be in range {@code [from,to]}
      *
      * @return the lower bound.
      */
-    int start() default 0;
+    int from() default 0;
 
     /**
-     * The upper bound. All generated values will be in range {@code [start,end]}
+     * The upper bound. All generated values will be in range {@code [from,to]}
      *
-     * @return the upper bound ({@code >=start}).
+     * @return the upper bound ({@code >= from}).
      */
-    int end() default Integer.MAX_VALUE-1;
+    int to() default Integer.MAX_VALUE-1;
+
+    /**
+     * The step width.
+     * @return the step width ({@code >= 1})
+     */
+    int step() default 1;
 
     /**
      * Containing Annotation Type.

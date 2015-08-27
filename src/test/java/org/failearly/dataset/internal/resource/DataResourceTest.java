@@ -22,7 +22,7 @@ import org.failearly.dataset.DataSet;
 import org.failearly.dataset.resource.DataResource;
 import org.failearly.dataset.resource.DataResourceBuilder;
 import org.failearly.dataset.test.CoreTestUtils;
-import org.failearly.dataset.test.AssertException;
+import org.failearly.dataset.util.ExceptionVerifier;
 import org.failearly.dataset.test.MyTemplateObjectAnnotation;
 import org.junit.Test;
 
@@ -44,11 +44,7 @@ public class DataResourceTest {
 
         // assert / then
         assertThat("Resource?", dataResource.getResource(), is("/org/failearly/dataset/internal/resource/noneExisting.setup"));
-        AssertException.assertException(
-                MissingDataResourceException.class,
-                "Can't open resource '/org/failearly/dataset/internal/resource/noneExisting.setup'. Did you create the resource within classpath?",
-                dataResource::open
-        );
+        ExceptionVerifier.on(dataResource::open).expect(MissingDataResourceException.class).expect("Can't open resource '/org/failearly/dataset/internal/resource/noneExisting.setup'. Did you create the resource within classpath?").verify();
     }
 
     @Test

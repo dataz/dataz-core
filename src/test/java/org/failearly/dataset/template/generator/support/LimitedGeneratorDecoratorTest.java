@@ -21,10 +21,9 @@ package org.failearly.dataset.template.generator.support;
 
 import org.apache.commons.lang.mutable.MutableInt;
 import org.failearly.dataset.internal.template.generator.decorator.GeneratorDecorators;
-import org.failearly.dataset.template.common.Scope;
+import org.failearly.dataset.template.Scope;
 import org.failearly.dataset.template.generator.Generator;
-import org.failearly.dataset.template.generator.InternalIteratorExhaustedException;
-import org.junit.Before;
+import org.failearly.dataset.util.ExceptionVerifier;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -32,7 +31,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.function.Consumer;
 
-import static org.failearly.dataset.test.AssertException.assertException;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
@@ -43,21 +41,16 @@ public class LimitedGeneratorDecoratorTest {
     private static final int LIMIT = 5;
 
     private final UnlimitedGeneratorBase<String> unlimitedGenerator = new UnlimitedGenerator();
-    private Generator<String> limitedGenerator;
+    private final Generator<String> limitedGenerator=doInit(GeneratorDecorators.makeLimited(unlimitedGenerator, LIMIT));
 
-    @Before
-    public void setUp() throws Exception {
-        unlimitedGenerator.init();
-        limitedGenerator = GeneratorDecorators.makeLimited(unlimitedGenerator, LIMIT).init();
+    private static <T extends GeneratorBase<?>> T doInit(T generator) {
+        generator.init();
+        return generator;
     }
 
     @Test
     public void assume_unlimited_generator__must_not_support_iterator() throws Exception {
-        assertException(                                                                     //
-                UnsupportedOperationException.class,                                         //
-                "Don't use iterator() for unlimited generators! Use next() instead.",        //
-                unlimitedGenerator::iterator                                                 //
-        );
+        ExceptionVerifier.on(unlimitedGenerator::iterator).expect(UnsupportedOperationException.class).expect("Don't use iterator() for unlimited generators! Use next() instead.").verify();
     }
 
     @Test
@@ -85,14 +78,18 @@ public class LimitedGeneratorDecoratorTest {
         }
 
         assertThat("#iterations?", count, is(LIMIT));
-        assertException(InternalIteratorExhaustedException.class, limitedGenerator::next);
+        ExceptionVerifier.on(limitedGenerator::next).expect(InternalIteratorExhaustedException.class).verify();
     }
 
     @Test
     public void limited_generator__could_be_exhausted() throws Exception {
-        consumeAllValues(limitedGenerator, (g)->{});
+        consumeAllValues(limitedGenerator);
 
-        assertException(InternalIteratorExhaustedException.class, limitedGenerator::next);
+        ExceptionVerifier.on(limitedGenerator::next).expect(InternalIteratorExhaustedException.class).verify();
+    }
+
+    private static void consumeAllValues(Generator<String> generator) {
+        consumeAllValues(generator, (g)->{});
     }
 
     private static void consumeAllValues(Generator<String> generator, Consumer<Generator<String>> consumer) {

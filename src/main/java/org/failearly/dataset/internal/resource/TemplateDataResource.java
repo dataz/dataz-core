@@ -25,7 +25,7 @@ import org.failearly.dataset.internal.template.TemplateObjects;
 import org.failearly.dataset.internal.util.IOUtils;
 import org.failearly.dataset.internal.util.ResourceUtils;
 import org.failearly.dataset.resource.DataResourceValues;
-import org.failearly.dataset.template.common.TemplateObject;
+import org.failearly.dataset.template.TemplateObject;
 import org.failearly.dataset.template.engine.TemplateEngine;
 
 import java.io.File;

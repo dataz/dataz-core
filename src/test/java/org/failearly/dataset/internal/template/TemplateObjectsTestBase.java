@@ -20,8 +20,8 @@
 package org.failearly.dataset.internal.template;
 
 import org.failearly.dataset.internal.annotation.TraverseDepth;
-import org.failearly.dataset.template.common.Scope;
-import org.failearly.dataset.template.common.TemplateObject;
+import org.failearly.dataset.template.Scope;
+import org.failearly.dataset.template.TemplateObject;
 import org.failearly.dataset.test.CoreTestUtils;
 import org.failearly.dataset.test.MyTemplateObjectAnnotation;
 import org.junit.Before;

@@ -25,7 +25,7 @@ import org.failearly.dataset.config.Constants;
 import org.failearly.dataset.internal.resource.factory.dataset.DataSetCleanupResourcesFactory;
 import org.failearly.dataset.internal.resource.factory.dataset.DataSetSetupResourcesFactory;
 import org.failearly.dataset.resource.DataResource;
-import org.failearly.dataset.template.common.TemplateObject;
+import org.failearly.dataset.template.TemplateObject;
 
 import java.lang.annotation.*;
 

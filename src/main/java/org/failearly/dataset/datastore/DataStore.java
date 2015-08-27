@@ -23,7 +23,7 @@ import org.failearly.dataset.AdhocDataStore;
 import org.failearly.dataset.internal.model.TestMethod;
 import org.failearly.dataset.internal.template.TemplateObjects;
 import org.failearly.dataset.resource.DataResource;
-import org.failearly.dataset.template.common.TemplateObject;
+import org.failearly.dataset.template.TemplateObject;
 
 import java.util.List;
 

@@ -20,23 +20,29 @@
 package org.failearly.dataset.template.generator;
 
 import org.failearly.dataset.config.Constants;
-import org.failearly.dataset.template.common.Scope;
-import org.failearly.dataset.template.common.TemplateObjectFactoryDefinition;
+import org.failearly.dataset.template.Scope;
+import org.failearly.dataset.template.TemplateObjectFactoryDefinition;
 import org.failearly.dataset.internal.template.generator.LoopGeneratorFactory;
 
 import java.lang.annotation.*;
 
 /**
  * LoopGenerator starts with {@code 1} and ends with {@link #size()}. Useful in conjunction with unlimited generators.
- *
- * @see org.failearly.dataset.template.generator.Limit
- * @see org.failearly.dataset.template.generator.RandomRangeGenerator
+ * <br>Usage Example:<br><br>
+ * <pre>
+ *   {@literal @Test}
+ *   {@literal @}LoopGenerator(name="loop", size=10)
+ *    public void my_test() {
+ *        // The 'loop' generator generates:
+ *        // 1, 2, ... , 10
+ *    }
+ * </pre>
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@TemplateObjectFactoryDefinition(factory = LoopGeneratorFactory.class)
 @Documented
 @Repeatable(LoopGenerator.LoopGenerators.class)
+@TemplateObjectFactoryDefinition(factory = LoopGeneratorFactory.class)
 public @interface LoopGenerator {
     /**
      * @return The name of the template object. Could be used in Velocity templates by {@code $<name>}.
@@ -55,9 +61,8 @@ public @interface LoopGenerator {
      */
     Scope scope() default Scope.DEFAULT;
 
-
     /**
-     * The loop's size. The last value generated will be {@code size}.
+     * The loop's size (at least 1). The last value generated will be {@code size}.
      * @return the loop's size.
      */
     int size();

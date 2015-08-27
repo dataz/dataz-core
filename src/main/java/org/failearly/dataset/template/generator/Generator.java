@@ -19,11 +19,8 @@
 
 package org.failearly.dataset.template.generator;
 
-import org.failearly.dataset.template.common.TemplateObject;
-import org.failearly.dataset.template.generator.support.LimitedGenerator;
-import org.failearly.dataset.template.generator.support.LimitedGeneratorBase;
-import org.failearly.dataset.template.generator.support.UnlimitedGenerator;
-import org.failearly.dataset.template.generator.support.UnlimitedGeneratorBase;
+import org.failearly.dataset.template.TemplateObject;
+import org.failearly.dataset.template.generator.support.*;
 
 /**
  * Any generator is a template object which provides two types of iterators:
@@ -100,5 +97,5 @@ public interface Generator<T> extends TemplateObject, Iterable<T> {
      * {@link LimitedGeneratorBase}.
      */
     @SuppressWarnings("unused")
-    void __do_not_implement_Generator();
+    void __do_not_implement_Generator__instead_extend_GeneratorBase();
 }

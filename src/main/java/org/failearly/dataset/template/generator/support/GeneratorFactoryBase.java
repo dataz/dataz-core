@@ -20,8 +20,8 @@
 package org.failearly.dataset.template.generator.support;
 
 import org.failearly.dataset.internal.template.generator.decorator.GeneratorDecorators;
-import org.failearly.dataset.template.common.TemplateObject;
-import org.failearly.dataset.template.common.TemplateObjectFactoryBase;
+import org.failearly.dataset.template.TemplateObject;
+import org.failearly.dataset.template.TemplateObjectFactoryBase;
 import org.failearly.dataset.template.generator.Generator;
 import org.failearly.dataset.template.generator.GeneratorConstants;
 import org.failearly.dataset.template.generator.Limit;
@@ -50,7 +50,6 @@ public abstract class GeneratorFactoryBase<T, A extends Annotation> extends Temp
      * @param generatorAnnotation the generatorAnnotation
      * @param limit               the limit type of the annotation.
      * @param limitValue          the limit value used in case of an UNLIMITED generator which could be make to a LIMITED one.
-     *
      * @return the created (limited or unlimited) generator.
      */
     protected final TemplateObject doCreateGenerator(A generatorAnnotation, Limit limit, Integer limitValue) {
@@ -61,7 +60,8 @@ public abstract class GeneratorFactoryBase<T, A extends Annotation> extends Temp
             generator = doCreateUnlimitedGenerator(generatorAnnotation, limitValue);
         }
 
-        return generator.init();
+        generator.init();
+        return generator;
     }
 
     /**
@@ -98,7 +98,8 @@ public abstract class GeneratorFactoryBase<T, A extends Annotation> extends Temp
                 limitValue
         );
 
-        return generator.init();
+        generator.init();
+        return generator;
     }
 
     /**
@@ -126,4 +127,5 @@ public abstract class GeneratorFactoryBase<T, A extends Annotation> extends Temp
     protected UnlimitedGeneratorBase<T> doCreateUnlimitedGenerator(A generatorAnnotation, Integer limitValue) {
         return GeneratorDecorators.makeUnlimited(doCreateLimitedGenerator(generatorAnnotation, limitValue));
     }
+
 }

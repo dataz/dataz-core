@@ -20,7 +20,7 @@
 package org.failearly.dataset.template.generator.support;
 
 import org.failearly.dataset.template.generator.GeneratorConstants;
-import org.failearly.dataset.template.common.Scope;
+import org.failearly.dataset.template.Scope;
 
 import java.lang.annotation.Annotation;
 import java.util.Iterator;
@@ -50,25 +50,13 @@ public abstract class UnlimitedGeneratorBase<T> extends GeneratorBase<T> impleme
     }
 
     @Override
-    public final T next() {
+    protected T doNext() {
         if( ! internalIterator().hasNext() ) {
             resetInternalIterator();
         }
 
         return setLastValue(internalIterator().next());
     }
-
-    @Override
-    public final void reset() {
-        doReset();
-    }
-
-
-    /**
-     * Do the actually reset.
-     */
-    protected abstract void doReset();
-
 
     @Override
     public final Iterator<T> iterator() {
@@ -81,7 +69,7 @@ public abstract class UnlimitedGeneratorBase<T> extends GeneratorBase<T> impleme
     }
 
     @Override
-    public final void __do_not_implement_Generator() {
+    public final void __do_not_implement_Generator__instead_extend_GeneratorBase() {
         throw new UnsupportedOperationException("__do_not_implement_Generator must not be called");
 
     }

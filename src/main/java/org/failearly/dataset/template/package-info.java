@@ -18,10 +18,18 @@
  */
 
 /**
- * Interface and base classes for {@link org.failearly.dataset.template.engine.TemplateEngine} implementations.
+ * Base classes/interfaces and necessary classes for Template Objects. A <i>Template Object</i> is an object which could
+ * be used in a template. The default template engine is Velocity.
+ * <br><br>
+ * Any full implementation of a template objects consists of <br><br>
+ * <ul>
+ *    <li>The implementation of {@link org.failearly.dataset.template.TemplateObject},</li>
+ *    <li>The factory implementation of {@link org.failearly.dataset.template.TemplateObjectFactory} and </li>
+ *    <li>the <i>template object annotation</i>. The template object annotation is the public interface of a template object.
+ *          This annotation must use {@link org.failearly.dataset.template.TemplateObjectFactoryDefinition#factory()} for
+ *          assigning the factory to the template object annotation.</li>
+ * </ul>
  *
- * Currently there is only a Velocity implementation.
- *
- * @see <a href="http://velocity.apache.org/engine/releases/velocity-1.7/">Velocity 1.7</a>
+ * @see org.failearly.dataset.template.TemplateObject
  */
 package org.failearly.dataset.template;

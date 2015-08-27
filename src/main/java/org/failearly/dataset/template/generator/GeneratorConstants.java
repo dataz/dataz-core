@@ -31,4 +31,9 @@ public interface GeneratorConstants {
      * @see org.failearly.dataset.template.generator.RandomBooleanGenerator#seed()
      */
     int DEFAULT_SEED = 0;
+
+    /**
+     * No or invalid count.
+     */
+    int INVALID_COUNT=-1;
 }

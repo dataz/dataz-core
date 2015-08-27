@@ -22,9 +22,9 @@ package org.failearly.dataset.template.simple;
 import org.failearly.dataset.config.Constants;
 import org.failearly.dataset.internal.template.simple.AdhocFactory;
 import org.failearly.dataset.Property;
-import org.failearly.dataset.template.common.Scope;
-import org.failearly.dataset.template.common.TemplateObject;
-import org.failearly.dataset.template.common.TemplateObjectFactoryDefinition;
+import org.failearly.dataset.template.Scope;
+import org.failearly.dataset.template.TemplateObject;
+import org.failearly.dataset.template.TemplateObjectFactoryDefinition;
 
 import java.lang.annotation.*;
 

@@ -22,7 +22,7 @@ package org.failearly.dataset.internal.annotation;
 import org.failearly.dataset.internal.annotation.filter.AnnotationFilters;
 import org.failearly.dataset.internal.annotation.resolver.AnnotationResolver;
 import org.failearly.dataset.internal.annotation.resolver.AnnotationResolvers;
-import org.failearly.dataset.template.common.TemplateObjectFactoryDefinition;
+import org.failearly.dataset.template.TemplateObjectFactoryDefinition;
 
 import java.lang.annotation.Annotation;
 import java.lang.annotation.Repeatable;

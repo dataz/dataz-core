@@ -20,20 +20,41 @@
 package org.failearly.dataset.template.generator;
 
 import org.failearly.dataset.config.Constants;
-import org.failearly.dataset.template.common.Scope;
-import org.failearly.dataset.template.common.TemplateObjectFactoryDefinition;
+import org.failearly.dataset.template.Scope;
+import org.failearly.dataset.template.TemplateObjectFactoryDefinition;
 import org.failearly.dataset.internal.template.generator.RandomRangeGeneratorFactory;
 
 import java.lang.annotation.*;
 
 /**
- * Generates random integer values from {@link #start()} to {@link #end()}.
+ * Generates random integer values from {@link #start()} to {@link #end()}. By default a {@code RandomRangeGenerator} is
+ * {@link Limit#UNLIMITED} generator. So if you need a limited one, make it either by setting {@link #limit}
+ * or {@link #unique()}{@code =true}.
+ * <br>
+ * Usage Example:<br><br>
+ * <pre>
+ *   {@literal @Test}
+ *   {@literal @}RandomRangeGenerator(name="range1", start=1, end=10, seed=42)
+ *   {@literal @}RandomRangeGenerator(name="range2", start=1, end=10, seed=314)
+ *   {@literal @}RandomRangeGenerator(name="ids", start=1, end=11, seed=42, unique=true, count=10)
+ *   {@literal @}RandomRangeGenerator(name="vals", start=1, end=5, seed=42, limit={@link Limit#LIMITED}, count=10)
+ *    public void my_test() {
+ *        // The 'range1' generates:
+ *        // 1, 4, 9, 5, 1, 6, ...
+ *        // The 'range2' generates:
+ *        // 2, 6, 4, 1, 3, 7, ...
+ *        // The 'ids' generates:
+ *        // 8, 5, 9, 6, 4, 2, 3, 11, 7, 1, 10
+ *        // The 'vals' generates:
+ *        // 1, 4, 4, 5, 1, 1, 1, 4, 5, 4
+ *    }
+ * </pre>
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@TemplateObjectFactoryDefinition(factory = RandomRangeGeneratorFactory.class)
 @Documented
 @Repeatable(RandomRangeGenerator.RandomRangeGenerators.class)
+@TemplateObjectFactoryDefinition(factory = RandomRangeGeneratorFactory.class)
 public @interface RandomRangeGenerator {
     /**
      * @return The name of the template object. Could be used in Velocity templates by {@code $<name>}.
@@ -52,7 +73,6 @@ public @interface RandomRangeGenerator {
      */
     Scope scope() default Scope.DEFAULT;
 
-
     /**
      * Define the Generator as limited or unlimited. Caution: If the generator should produce
      * unique values (see {@link #unique()}), the element will be ignored.
@@ -64,23 +84,26 @@ public @interface RandomRangeGenerator {
     Limit limit() default Limit.UNLIMITED;
 
     /**
-     * Set to a appropriate value in case of {@link Limit#LIMITED}. Otherwise no effect.
+     * Set to a appropriate value in case of {@link Limit#LIMITED} or {@link #unique()} generator.
+     * Otherwise no effect. If the value is {@literal < 1} count will be ignored and the range size will be used.
      *
-     * @return the limit counter
+     * @return the limit counter (or {@link GeneratorConstants#INVALID_COUNT})
      */
-    int count() default -1;
+    int count() default GeneratorConstants.INVALID_COUNT;
 
     /**
-     * The lower bound. All generated values will be in range {@code [start,end]}
+     * The start value or lower bound of the range. All generated values will be in range {@code [start,end]}.
+     * Default value is {@code 0}.
      *
-     * @return the lower bound.
+     * @return the lower bound (&lt;{@code end})
      */
     int start() default 0;
 
     /**
-     * The upper bound. All generated values will be in range {@code [start,end]}
+     * The end value or upper bound of the range. All generated values will be in range {@code [start,end]}.
+     * Default value is {@code Integer.MAX_VALUE-1}.
      *
-     * @return the upper bound ({@code >=start}).
+     * @return the upper bound (&gt;{@code start}).
      */
     int end() default Integer.MAX_VALUE-1;
 

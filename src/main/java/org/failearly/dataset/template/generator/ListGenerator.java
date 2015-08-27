@@ -20,20 +20,29 @@
 package org.failearly.dataset.template.generator;
 
 import org.failearly.dataset.config.Constants;
-import org.failearly.dataset.template.common.Scope;
-import org.failearly.dataset.template.common.TemplateObjectFactoryDefinition;
+import org.failearly.dataset.template.Scope;
+import org.failearly.dataset.template.TemplateObjectFactoryDefinition;
 import org.failearly.dataset.internal.template.generator.ListGeneratorFactory;
 
 import java.lang.annotation.*;
 
 /**
  * ListGenerator provides a list of constant {@link #values()}.
+ * <br>Usage Example:<br><br>
+ * <pre>
+ *   {@literal @Test}
+ *   {@literal @}ListGenerator(name="names", values={"Marko", "Adam", "Brian"})
+ *    public void my_test() {
+ *        // The 'names' generator generates:
+ *        // Marko, Adam, Brian
+ *    }
+ * </pre>
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@TemplateObjectFactoryDefinition(factory = ListGeneratorFactory.class)
 @Documented
 @Repeatable(ListGenerator.ListGenerators.class)
+@TemplateObjectFactoryDefinition(factory = ListGeneratorFactory.class)
 public @interface ListGenerator {
     /**
      * @return The name of the template object. Could be used in Velocity templates by {@code $<name>}.
