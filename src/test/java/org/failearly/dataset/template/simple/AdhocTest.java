@@ -80,7 +80,7 @@ public class AdhocTest extends TemplateObjectTestBase<Adhoc, AdhocFactory> {
      * An implementation of {@link Adhoc.AdhocTemplateObject}.
      */
     @SuppressWarnings("unused")
-    private static final class CustomAdhocImplementation extends AdhocTemplateObjectBase {
+    public static final class CustomAdhocImplementation extends AdhocTemplateObjectBase {
         public CustomAdhocImplementation() {
         }
 

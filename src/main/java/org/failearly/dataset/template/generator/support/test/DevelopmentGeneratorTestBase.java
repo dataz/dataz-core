@@ -29,7 +29,7 @@ import java.lang.annotation.Annotation;
  * DevelopmentGeneratorTestBase is the base test support class for all {@link Generator} and
  * {@link GeneratorFactoryBase} implementations. After finishing the development, you should
  * replace {@code DevelopmentGeneratorTestBase} with {@link GeneratorTestBase}.
- *
+ * <p>
  * <br><br>
  * Start with something like this:
  * <br><br>
@@ -44,7 +44,7 @@ import java.lang.annotation.Annotation;
  */
 @SuppressWarnings("unused")
 public abstract class DevelopmentGeneratorTestBase<T, GA extends Annotation, GF extends GeneratorFactoryBase>
-        extends DevelopmentTemplateObjectTestBase<GA, GF> implements GeneratorTemplates {
+    extends DevelopmentTemplateObjectTestBase<GA, GF> implements GeneratorTemplates {
 
     protected DevelopmentGeneratorTestBase() {
         super(null, null, null);
@@ -53,6 +53,22 @@ public abstract class DevelopmentGeneratorTestBase<T, GA extends Annotation, GF 
     protected DevelopmentGeneratorTestBase(Class<GA> generatorAnnotationClass, Class<GF> generatorFactoryClass, Class<?> testFixtureClass) {
         super(generatorAnnotationClass, generatorFactoryClass, testFixtureClass);
     }
+
+    @Override
+    protected String getTemplateObjectFactoryBaseClass() {
+        return GeneratorFactoryBase.class.getSimpleName();
+    }
+
+    @Override
+    protected String getTemplateObjectName() {
+        return "Generator";
+    }
+
+    @Override
+    protected String getTemplateObjectType() {
+        return Generator.class.getSimpleName();
+    }
+
 
     @SuppressWarnings("unchecked")
     protected Generator<T> createGenerator(int index) throws Exception {

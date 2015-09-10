@@ -61,9 +61,9 @@ public class ListGeneratorTest extends GeneratorTestBase<String, ListGenerator, 
 
         // assert / then
         assertThat(generated, is(
-                "(1) next=A,last=A/" +
-                        "(2) next=B,last=B/" +
-                        "(3) next=C,last=C/"
+            "(1) next=A,last=A/" +
+                "(2) next=B,last=B/" +
+                "(3) next=C,last=C/"
         ));
     }
 

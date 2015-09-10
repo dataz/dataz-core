@@ -58,6 +58,16 @@ public final class DevelopmentMessageBuilders {
      * @return new custom (TemplateObjectMessageBuilder) message builder
      */
     public static TemplateObjectMessageBuilder missingTestFixture(MessageBuilder mb) {
-        return null;
+        return new MissingTestFixtureMessageBuilder(mb);
     }
+
+    public static TemplateObjectMessageBuilder missingTemplateObject(MessageBuilder mb) {
+        return new MissingTemplateObject(mb);
+    }
+
+    public static TemplateObjectMessageBuilder missingTemplateObjectAnnotations(MessageBuilder mb) {
+        return new MissingTemplateObjectAnnotations(mb);
+    }
+
+
 }

@@ -53,8 +53,8 @@ public final class AnnotationHelper<T extends Annotation> {
         return this;
     }
 
-    public boolean hasNoAnnotations() {
-        return this.annotations.length == 0;
+    public boolean hasAnnotations() {
+        return this.annotations.length > 0;
     }
 
     public List<T> getAnnotations() {

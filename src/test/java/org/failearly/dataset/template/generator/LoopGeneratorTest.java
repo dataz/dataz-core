@@ -63,10 +63,10 @@ public class LoopGeneratorTest extends GeneratorTestBase<Integer, LoopGenerator,
 
         // assert / then
         assertThat(generated, is(
-                "(1) next=1,last=1/" +
-                        "(2) next=2,last=2/" +
-                        "(3) next=3,last=3/" +
-                        "(4) next=4,last=4/"
+            "(1) next=1,last=1/" +
+                "(2) next=2,last=2/" +
+                "(3) next=3,last=3/" +
+                "(4) next=4,last=4/"
         ));
     }
 

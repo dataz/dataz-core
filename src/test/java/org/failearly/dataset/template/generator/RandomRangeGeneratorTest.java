@@ -95,7 +95,7 @@ public class RandomRangeGeneratorTest extends GeneratorTestBase<Integer, RandomR
 
         // assert / then
         assertThat(generated, is(
-                "8;3;8;3;5;10;5;8;"
+            "8;3;8;3;5;10;5;8;"
         ));
     }
 
@@ -109,7 +109,7 @@ public class RandomRangeGeneratorTest extends GeneratorTestBase<Integer, RandomR
 
         // assert / then
         assertThat(generated, is(
-                "8;3;8;3;5;10;5;8;8;3;"
+            "8;3;8;3;5;10;5;8;8;3;"
         ));
     }
 
@@ -123,7 +123,7 @@ public class RandomRangeGeneratorTest extends GeneratorTestBase<Integer, RandomR
 
         // assert / then
         assertThat(generated, is(
-                "8;3;5;10;6;9;4;7;"
+            "8;3;5;10;6;9;4;7;"
         ));
     }
 
@@ -137,7 +137,7 @@ public class RandomRangeGeneratorTest extends GeneratorTestBase<Integer, RandomR
 
         // assert / then
         assertThat(generated, is(
-                "8;3;5;10;"
+            "8;3;5;10;"
         ));
     }
 
@@ -151,7 +151,7 @@ public class RandomRangeGeneratorTest extends GeneratorTestBase<Integer, RandomR
 
         // assert / then
         assertThat(generated, is(
-                "8;3;5;10;6;9;4;7;"
+            "8;3;5;10;6;9;4;7;"
         ));
     }
 

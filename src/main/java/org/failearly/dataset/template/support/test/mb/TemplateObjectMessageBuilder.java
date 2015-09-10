@@ -31,9 +31,10 @@ import java.lang.annotation.Annotation;
 public abstract class TemplateObjectMessageBuilder
     extends MessageBuilderDelegate<TemplateObjectMessageBuilder> {
 
-    private Class<?> testFixtureClass;
     private Class<? extends Annotation> templateObjectAnnotationClass;
     private Class<? extends TemplateObjectFactory> templateObjectFactoryClass;
+    private Class<?> testFixtureClass;
+
     private String templateObjectFactoryBaseClassName;
     private String testClassName;
     private String testClassBaseName;
@@ -41,6 +42,7 @@ public abstract class TemplateObjectMessageBuilder
     private String templateObjectType;
     private String missingVariable;
     private String additionalGenerics;
+
     private int actionNumber=0;
 
     TemplateObjectMessageBuilder(MessageBuilder messageBuilder) {
@@ -131,7 +133,7 @@ public abstract class TemplateObjectMessageBuilder
     }
 
     protected TemplateObjectMessageBuilder errorMessage() {
-        return this.firstLine("Missing parameter '__misvar__' or null.");
+        return this.firstLine("Missing parameter '__misvar__'.");
     }
 
     protected TemplateObjectMessageBuilder errorDescription() {

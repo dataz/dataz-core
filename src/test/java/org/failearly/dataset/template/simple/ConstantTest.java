@@ -20,7 +20,7 @@
 package org.failearly.dataset.template.simple;
 
 import org.failearly.dataset.internal.template.simple.ConstantFactory;
-import org.failearly.dataset.template.support.test.DevelopmentTemplateObjectTestBase;
+import org.failearly.dataset.template.support.test.TemplateObjectTestBase;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -29,7 +29,7 @@ import static org.junit.Assert.assertThat;
 /**
  * ConstantTest contains tests for {@link ConstantFactory} and {@link Constant}.
  */
-public class ConstantTest extends DevelopmentTemplateObjectTestBase<Constant, ConstantFactory> {
+public class ConstantTest extends TemplateObjectTestBase<Constant, ConstantFactory> {
 
     private static final int ANY_CONSTANT=0;
     private static final int OTHER_CONSTANT=1;

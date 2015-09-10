@@ -59,9 +59,9 @@ public class UnlimitedGeneratorBaseTest extends GeneratorTestBase<String, ListGe
 
         // assert / then
         assertThat(generated, is(
-                "(1) next=val1,last=val1/" +
-                        "(2) next=val2,last=val2/" +
-                        "(3) next=val3,last=val3/"
+            "(1) next=val1,last=val1/" +
+                "(2) next=val2,last=val2/" +
+                "(3) next=val3,last=val3/"
         ));
     }
 
@@ -75,10 +75,10 @@ public class UnlimitedGeneratorBaseTest extends GeneratorTestBase<String, ListGe
 
         // assert / then
         assertThat(generated, is(
-                "(1) next=val1/" +
-                        "(2) next=val1/" +
-                        "(3) next=val1/" +
-                        "(4) next=val1/"
+            "(1) next=val1/" +
+                "(2) next=val1/" +
+                "(3) next=val1/" +
+                "(4) next=val1/"
         ));
     }
 

@@ -17,26 +17,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package org.failearly.dataset.template.encoder;
-
-import org.failearly.dataset.internal.template.encoder.SimpleEncoderFactory;
-import org.failearly.dataset.template.encoder.support.test.DevelopmentEncoderTestBase;
-import org.junit.Ignore;
+package org.failearly.dataset.template.support.test;
 
 /**
- * SimpleEncoderTest contains tests for {@link SimpleEncoder} and  {@link SimpleEncoderFactory}.
+ * TemplateObjectTestSetupException thrown in case of any setup error.
  */
-@Ignore("Development in progress")
-public class SimpleEncoderTest extends DevelopmentEncoderTestBase<String,String,SimpleEncoder,SimpleEncoderFactory> {
-    public SimpleEncoderTest() {
-        super(
-            SimpleEncoder.class,
-            SimpleEncoderFactory.class,
-            TestFixture.class
-        );
+public class TemplateObjectTestSetupException extends RuntimeException {
+    public TemplateObjectTestSetupException(String message) {
+        super(message);
     }
-
-    @SimpleEncoder(name=TEMPLATE_OBJECT_NAME)
-    private static class TestFixture {}
 }
-

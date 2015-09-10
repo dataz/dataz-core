@@ -77,9 +77,9 @@ public class DateGeneratorTest extends GeneratorTestBase<String, DateGenerator, 
 
         // assert / then
         assertThat(generated, is(
-                "(1) next=2008-02-28,last=2008-02-28/" +
-                        "(2) next=2008-02-29,last=2008-02-29/" +
-                        "(3) next=2008-03-01,last=2008-03-01/"
+            "(1) next=2008-02-28,last=2008-02-28/" +
+                "(2) next=2008-02-29,last=2008-02-29/" +
+                "(3) next=2008-03-01,last=2008-03-01/"
         ));
     }
 
@@ -93,11 +93,11 @@ public class DateGeneratorTest extends GeneratorTestBase<String, DateGenerator, 
 
         // assert / then
         assertThat(generated, is(
-                "2015-07-26 00:00;" +
-                        "2015-07-26 02:00;" +
-                        "2015-07-26 04:00;" +
-                        "2015-07-26 06:00;" +
-                        "2015-07-26 08:00;"
+            "2015-07-26 00:00;" +
+                "2015-07-26 02:00;" +
+                "2015-07-26 04:00;" +
+                "2015-07-26 06:00;" +
+                "2015-07-26 08:00;"
         ));
     }
 

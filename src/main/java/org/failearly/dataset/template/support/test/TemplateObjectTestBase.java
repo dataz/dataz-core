@@ -24,10 +24,16 @@ import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.context.Context;
 import org.failearly.dataset.template.TemplateObject;
 import org.failearly.dataset.template.TemplateObjectFactory;
+import org.failearly.dataset.template.TemplateObjectFactoryBase;
+import org.failearly.dataset.template.support.test.mb.DevelopmentMessageBuilders;
+import org.failearly.dataset.template.support.test.mb.TemplateObjectMessageBuilder;
+import org.failearly.dataset.util.mb.MessageBuilders;
 import org.junit.Before;
 
 import java.io.StringWriter;
 import java.lang.annotation.Annotation;
+
+import static org.failearly.dataset.util.mb.MessageBuilders.createLazyMessage;
 
 /**
  * TemplateObjectTestBase is is a test support class for creating {@link TemplateObject} annotations and the
@@ -66,16 +72,19 @@ public abstract class TemplateObjectTestBase<A extends Annotation, TOF extends T
 
     @Before
     public void setup() {
-        checkConditions();
+        checkInitialSteps();
         this.annotationHelper=AnnotationHelper
             .createAnnotationHelper(templateObjectAnnotationClass)
             .withFixtureClass(testFixtureClass);
-        checkForAnnotations(testFixtureClass);
+        assertAtLeastOneTemplateObjectAnnotation(testFixtureClass);
         this.engine.init();
     }
 
-    protected void checkConditions() {
-        // do nothing.
+    /**
+     * Check initial steps. Overridden by {@link DevelopmentTemplateObjectTestBase#checkInitialSteps()}.
+     */
+    protected void checkInitialSteps() {
+        // nothing to do
     }
 
     /**
@@ -153,11 +162,19 @@ public abstract class TemplateObjectTestBase<A extends Annotation, TOF extends T
         return context;
     }
 
-    private void checkForAnnotations(Class<?> testFixtureClass) {
-        if (this.annotationHelper.hasNoAnnotations()) {
-            throw new IllegalArgumentException(
+    private void assertAtLeastOneTemplateObjectAnnotation(Class<?> testFixtureClass) {
+        assertCondition(
+            this.annotationHelper.hasAnnotations(),
+            createLazyMessage((mb) -> {
+                return initializeMessageBuilder(
+                    DevelopmentMessageBuilders.missingTemplateObjectAnnotations(mb)
+                );
+            })
+        );
+        if (! this.annotationHelper.hasAnnotations()) {
+            throw new TemplateObjectTestSetupException(
                 "The test fixture class " + testFixtureClass.getName()
-                    + " has no annotations of type " + templateObjectAnnotationClass
+                    + " has no annotations of type " + templateObjectAnnotationClass + "!"
             );
         }
     }
@@ -206,6 +223,46 @@ public abstract class TemplateObjectTestBase<A extends Annotation, TOF extends T
         return doCreateTemplateObjectFromAnnotation(getDeclaredAnnotation(annotationNumber));
     }
 
+    protected static void assertCondition(boolean condition, MessageBuilders.LazyMessage message) {
+        if (!condition) {
+            throw new TemplateObjectTestSetupException(message.build());
+        }
+    }
+
+
+    protected TemplateObjectMessageBuilder initializeMessageBuilder(TemplateObjectMessageBuilder messageBuilder) {
+        return messageBuilder
+                    .withTestClass(this.getClass())
+                    .withTemplateObjectAnnotationClass(this.templateObjectAnnotationClass)
+                    .withTemplateObjectFactoryClass(this.templateObjectFactoryClass)
+                    .withTemplateObjectFactoryBaseClassName(getTemplateObjectFactoryBaseClass())
+                    .withTestFixtureClass(this.testFixtureClass)
+                    .withTemplateObjectName(getTemplateObjectName())
+                    .withTemplateObjectType(getTemplateObjectType())
+                    .withTestClassAdditionalGenerics(getAdditionalGenerics());
+    }
+
+    protected String[] getAdditionalGenerics() {
+        return new String[0];
+    }
+
+    protected String getTemplateObjectName() {
+        return "Template Object";
+    }
+
+    protected String getTemplateObjectType() {
+        return TemplateObject.class.getSimpleName();
+    }
+
+    /**
+     * Should be overloaded by sub (development) class.
+     *
+     * @return the name of the Template Object Factory base class.
+     */
+    protected String getTemplateObjectFactoryBaseClass() {
+        return TemplateObjectFactoryBase.class.getSimpleName();
+    }
+
     private TemplateObject doCreateTemplateObjectFromAnnotation(A annotation) throws Exception {
         final TOF templateObjectFactory=templateObjectFactoryClass.newInstance();
 
@@ -215,4 +272,6 @@ public abstract class TemplateObjectTestBase<A extends Annotation, TOF extends T
     protected final A getDeclaredAnnotation(int index) {
         return annotationHelper.getAnnotation(index);
     }
+
+
 }

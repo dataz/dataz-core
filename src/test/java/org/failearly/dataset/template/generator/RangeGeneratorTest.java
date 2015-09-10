@@ -65,11 +65,11 @@ public class RangeGeneratorTest extends GeneratorTestBase<Integer, RangeGenerato
 
         // assert / then
         assertThat(generated, is(
-                "(1) next=0,last=0/" +
-                        "(2) next=1,last=1/" +
-                        "(3) next=2,last=2/" +
-                        "(4) next=3,last=3/" +
-                        "(5) next=4,last=4/"
+            "(1) next=0,last=0/" +
+                "(2) next=1,last=1/" +
+                "(3) next=2,last=2/" +
+                "(4) next=3,last=3/" +
+                "(5) next=4,last=4/"
         ));
     }
 

@@ -33,6 +33,8 @@ final class MissingTestFixtureMessageBuilder extends TemplateObjectMessageBuilde
     @Override
     protected TemplateObjectMessageBuilder errorDescription() {
          this.lines(
+                "A test fixture class has no other purpose then to hold the __ton__ Annotations (__toa__),",
+                "which should be used by your tests."
             );
 
         return this;
@@ -42,7 +44,24 @@ final class MissingTestFixtureMessageBuilder extends TemplateObjectMessageBuilde
     protected TemplateObjectMessageBuilder actions() {
         actionCreateTestFixture();
         actionUpdateTestClassConstructor();
+        actionAssignAnnotationToTestFixture();
         return this;
+    }
+
+    private void actionAssignAnnotationToTestFixture() {
+        this.nextAction("Assign an instance of __toa__ annotation to the __testfixture__")
+            .lines(
+                "The name 'TEMPLATE_OBJECT_NAME' is used by some of template(..) methods. ",
+                "You can use your own name, if necessary, but it's recommended to use this one. In case",
+                "you use a different name, use the appropriate template(..) methods.",
+                ""
+            )
+            .exampleStart()
+            .lines(
+                "@__toa__(name=TEMPLATE_OBJECT_NAME /* TODO: Add more attributes */)",
+                "private static class TestFixture {}"
+                )
+            .exampleEnd();
     }
 
     private void actionUpdateTestClassConstructor() {
@@ -53,52 +72,10 @@ final class MissingTestFixtureMessageBuilder extends TemplateObjectMessageBuilde
     }
 
     private MissingTestFixtureMessageBuilder actionCreateTestFixture() {
-         this.nextAction("Create the __ton__ Annotation")
-            .exampleStart("Your __ton__ Annotation (proposed name is __toa__):")
-                .lines(
-                    "/**",
-                    " * __toa__ is a __ton__ Annotation.",
-                    " */",
-                    "@Target({ElementType.METHOD, ElementType.TYPE})",
-                    "@Retention(RetentionPolicy.RUNTIME)",
-                    "@Documented",
-                    "@Repeatable(__toa__.__toa__s.class)",
-                    "// TODO @TemplateObjectFactoryDefinition(factory=__tof__.class)",
-                    "public @interface __toa__ {"
-                )
-                .sub()
-                    .lines(
-                        "/**",
-                        " * @return The name of the template object. Could be used in Velocity templates by {@code $<name>}.",
-                        " */",
-                        "String name();",
-                        "",
-                        "/**",
-                        " * @return The name of the associated dataset.",
-                        " */",
-                        "String dataset() default Constants.DATASET_DEFAULT_NAME;",
-                        "",
-                        "/**",
-                        " * @return The scope of the template object (either {@link Scope#LOCAL} or {@link Scope#GLOBAL}.",
-                        " */",
-                        "Scope scope() default Scope.DEFAULT;",
-                        "",
-                        "// TODO: Add Template Object specific attributes",
-                        "",
-                        "",
-                        "/**",
-                        " * Used by @Repeatable.",
-                        " */",
-                        "@Target({ElementType.METHOD, ElementType.TYPE})",
-                        "@Retention(RetentionPolicy.RUNTIME)",
-                        "@Documented",
-                        "@interface __toa__s {"
-                    )
-                        .indent("__toa__[] value();")
-                    .line("}")
-                .end()
-            .line("}")
-            .exampleEnd();
+         this.nextAction("Create a test fixture class")
+            .exampleStart("Add this as inner class to your test class (__testclass__)")
+                .line("private static class __testfixture__ {}")
+             .exampleEnd();
         return this;
     }
 
