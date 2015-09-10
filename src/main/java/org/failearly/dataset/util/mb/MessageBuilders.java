@@ -48,7 +48,12 @@ public final class MessageBuilders {
 
     /**
      * Create a (lazy) message. The message is going to be created when calling {@link
-     * LazyMessage#build()}. Then
+     * LazyMessage#build()}. Example:<br><br>
+     * <pre>
+     *    MessageBuilders.createLazyMessage((mb)-&gt;mb.firstLine("My lazy message"));
+     * </pre>
+     *
+     * @param lazyBuilder the lazy builder (a functional interface)
      *
      * @return new lazy message.
      */
@@ -64,7 +69,6 @@ public final class MessageBuilders {
          * @return a message builder.
          */
         MessageBuilder apply(MessageBuilder mb);
-
     }
 
     /**

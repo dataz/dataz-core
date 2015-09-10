@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
 package org.failearly.dataset.util.mb;
 
 /**
@@ -135,7 +136,7 @@ public interface MessageBuilder {
      * <br><br>
      * Example:<br><br>
      * <pre>
-     *    String message=mb.createIMessageBuilder<T>("public class __class__ {}")
+     *    String message=mb.create("public class __class__ {}")
      *      .argument("class","MyTestClass")
      *      .build();
      *    // --&gt; message == "public class MyTestClass {}";
@@ -158,8 +159,8 @@ public interface MessageBuilder {
      * <br><br>
      * Example:<br><br>
      * <pre>
-     *    String message=mb.createIMessageBuilder<T>("public class __class__ { }")
-     *      .argument("class",()->MyTestClass.class.getSimpleName())
+     *    String message=mb.create("public class __class__ { }")
+     *      .argument("class",()-&gt;MyTestClass.class.getSimpleName())
      *      .build();
      *    // --&gt; message == "public class MyTestClass {}";
      * </pre>
@@ -238,13 +239,13 @@ public interface MessageBuilder {
     MessageBuilder indent(String indentedLine);
 
     /**
-     * Insert start snippet symbol {@value #SNIPPET_START} on new line.
+     * Insert start snippet symbol {@link #SNIPPET_START} on new line.
      * @return the builder
      */
     MessageBuilder snippetStart();
 
     /**
-     * Insert end snippet symbol {@value #SNIPPET_END}.
+     * Insert end snippet symbol {@link #SNIPPET_END}.
      * @return the builder
      */
     MessageBuilder snippetEnd();
