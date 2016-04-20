@@ -20,10 +20,10 @@
 archivesBaseName='dataset-core'
 
 dependencies {
-	compile project(':common')
+	compile project(':dataset-common')
     compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.0'
     compile group: 'commons-codec', name: 'commons-codec', version: '1.10'
     compile group: 'org.apache.velocity', name : 'velocity', version: '1.7'
 
-	testCompile project(':common-test')
+	testCompile project(':dataset-common-test')
 }
