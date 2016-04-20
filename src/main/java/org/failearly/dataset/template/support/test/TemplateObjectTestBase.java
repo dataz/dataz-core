@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Data Stores.
+ * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2016 marko (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,6 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ *
  */
 
 package org.failearly.dataset.template.support.test;
@@ -27,13 +28,15 @@ import org.failearly.dataset.template.TemplateObjectFactory;
 import org.failearly.dataset.template.TemplateObjectFactoryBase;
 import org.failearly.dataset.template.support.test.mb.DevelopmentMessageBuilders;
 import org.failearly.dataset.template.support.test.mb.TemplateObjectMessageBuilder;
-import org.failearly.dataset.util.mb.MessageBuilders;
+import org.failearly.common.test.mb.MessageBuilders;
 import org.junit.Before;
 
 import java.io.StringWriter;
 import java.lang.annotation.Annotation;
+import java.util.ArrayList;
+import java.util.List;
 
-import static org.failearly.dataset.util.mb.MessageBuilders.createLazyMessage;
+import static org.failearly.common.test.mb.MessageBuilders.createLazyMessage;
 
 /**
  * TemplateObjectTestBase is is a test support class for creating {@link TemplateObject} annotations and the
@@ -236,15 +239,42 @@ public abstract class TemplateObjectTestBase<A extends Annotation, TOF extends T
                     .withTemplateObjectAnnotationClass(this.templateObjectAnnotationClass)
                     .withTemplateObjectFactoryClass(this.templateObjectFactoryClass)
                     .withTemplateObjectFactoryBaseClassName(getTemplateObjectFactoryBaseClass())
+                    .withTemplateObjectFactoryGenerics(getTemplateObjectFactoryGenerics())
                     .withTestFixtureClass(this.testFixtureClass)
                     .withTemplateObjectName(getTemplateObjectName())
                     .withTemplateObjectType(getTemplateObjectType())
                     .withTestClassAdditionalGenerics(getAdditionalGenerics());
     }
 
+    protected String[] getTemplateObjectFactoryGenerics() {
+        return new String[] { this.templateObjectAnnotationClass.getSimpleName() };
+    }
+
     protected String[] getAdditionalGenerics() {
         return new String[0];
     }
+
+    protected static String[] toTypeNames(Class... classes) {
+        final List<String> result=new ArrayList<>();
+        for (Class aClass : classes) {
+            result.add(toTypeName(aClass));
+        }
+        return result.toArray(new String[classes.length]);
+    }
+
+    protected static String toTypeName(Class clazz) {
+        return clazz.getSimpleName();
+    }
+
+    protected static String[] toStringArray(Object... objects) {
+        final List<String> result=new ArrayList<>();
+        for (Object obj : objects) {
+            result.add(obj.toString());
+        }
+        return result.toArray(new String[objects.length]);
+    }
+
+
 
     protected String getTemplateObjectName() {
         return "Template Object";

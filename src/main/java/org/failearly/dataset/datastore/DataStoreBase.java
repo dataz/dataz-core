@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Data Stores.
+ * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2016 marko (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,6 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ *
  */
 package org.failearly.dataset.datastore;
 
@@ -28,8 +29,9 @@ import org.failearly.dataset.internal.template.TemplateObjects;
 import org.failearly.dataset.internal.util.ResourceUtils;
 import org.failearly.dataset.resource.DataResource;
 import org.failearly.dataset.resource.DataResourceBuilder;
-import org.failearly.dataset.util.ExtendedProperties;
-import org.failearly.dataset.util.With;
+import org.failearly.common.test.ExtendedProperties;
+import org.failearly.common.test.With;
+import org.failearly.common.test.mb.MessageBuilders;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -41,48 +43,50 @@ import java.util.function.Consumer;
  * DataStoreBase is the base class for the actually DataStore implementation. There are some useful abstractions like:
  * <br><br>
  * <ul>
- * <li>{@link org.failearly.dataset.datastore.support.TransactionalSupportDataStoreBase}: provides an implementation for transactional behaviour.</li>
- * <li>{@link org.failearly.dataset.datastore.support.SimpleFileTransactionalSupportDataStoreBase}: extends the transactional resource and
+ * <li>{@link org.failearly.dataset.datastore.support.TransactionalSupportDataStoreBase}: provides an implementation for
+ * transactional behaviour.</li>
+ * <li>{@link org.failearly.dataset.datastore.support.SimpleFileTransactionalSupportDataStoreBase}: extends the
+ * transactional resource and
  * add {@link org.failearly.dataset.simplefile.SimpleFileParser} to it.
  * </li>
  * </ul>
  */
 public abstract class DataStoreBase extends AbstractDataStore {
-    protected static final With with = With.create((description, exception) -> {
-        throw new DataStoreException(description + " failed!", exception);
+    protected static final With with=With.create((description, exception) -> {
+        throw new DataStoreException(description, exception);
     }, "standard-datastore-exception");
 
-    private String id = "<unknown>";
-    private String config = "<unknown>";
+    private String id="<unknown>";
+    private String configFile="<unknown>";
 
-    private String setupSuffix = Constants.DATASET_USE_DEFAULT_SUFFIX;
-    private String cleanupSuffix = Constants.DATASET_USE_DEFAULT_SUFFIX;
+    private String setupSuffix=Constants.DATASET_USE_DEFAULT_SUFFIX;
+    private String cleanupSuffix=Constants.DATASET_USE_DEFAULT_SUFFIX;
 
     private ExtendedProperties properties;
-    private final List<DataResource> cleanupDataStoreResources = new LinkedList<>();
+    private final List<DataResource> cleanupDataStoreResources=new LinkedList<>();
 
     protected DataStoreBase() {
     }
 
-    protected DataStoreBase(String dataStoreId, String dataStoreConfig) {
-        this.config = dataStoreConfig;
-        this.id = dataStoreId;
+    protected DataStoreBase(String dataStoreId, String dataStoreConfigFile) {
+        this.configFile=dataStoreConfigFile;
+        this.id=dataStoreId;
     }
 
     public final void setId(String id) {
-        this.id = id;
+        this.id=id;
     }
 
-    public final void setConfig(String config) {
-        this.config = config;
+    public final void setConfigFile(String configFile) {
+        this.configFile=configFile;
     }
 
     public final void setSetupSuffix(String setupSuffix) {
-        this.setupSuffix = setupSuffix;
+        this.setupSuffix=setupSuffix;
     }
 
     public final void setCleanupSuffix(String cleanupSuffix) {
-        this.cleanupSuffix = cleanupSuffix;
+        this.cleanupSuffix=cleanupSuffix;
     }
 
 
@@ -92,12 +96,13 @@ public abstract class DataStoreBase extends AbstractDataStore {
     }
 
     @Override
-    public final String getConfig() {
-        return config;
+    public final String getConfigFile() {
+        return configFile;
     }
 
     /**
-     * The standard implementation returns {@link org.failearly.dataset.config.DataSetProperties#getDefaultSetupSuffix()}, if the value is
+     * The standard implementation returns {@link org.failearly.dataset.config.DataSetProperties#getDefaultSetupSuffix()},
+     * if the value is
      * {@link Constants#DATASET_USE_DEFAULT_SUFFIX}.
      *
      * @return the default setup suffix associated with current datastore.
@@ -110,7 +115,8 @@ public abstract class DataStoreBase extends AbstractDataStore {
     }
 
     /**
-     * The standard implementation returns {@link org.failearly.dataset.config.DataSetProperties#getDefaultCleanupSuffix()}, if the value is
+     * The standard implementation returns {@link org.failearly.dataset.config.DataSetProperties#getDefaultCleanupSuffix()},
+     * if the value is
      * {@link Constants#DATASET_USE_DEFAULT_SUFFIX}.
      *
      * @return the default cleanup suffix associated with current datastore.
@@ -131,15 +137,25 @@ public abstract class DataStoreBase extends AbstractDataStore {
         with.action("Initialize " + this.getClass().getSimpleName(), () -> {
             checkConfigurationFileForExistence();
             loadDataStoreConfiguration();
-            doInitialize(this.properties);
         });
+        with.action("Establish connection", establishingConnectionFailedMessage(), () -> {
+            doEstablishConnection(this.properties);
+        });
+    }
+
+    protected MessageBuilders.LazyMessage establishingConnectionFailedMessage() {
+        return MessageBuilders.createLazyMessage(mb -> {
+                return mb.argument("class", this.getClass().getSimpleName())
+                    .firstLine("(__class__) Establishing a connection failed!");
+            }
+        );
     }
 
     @Override
     public final void setupDataStore(List<DataStoreSetupInstance> dataStoreSetups, TemplateObjects templateObjects) throws DataStoreInitializationException {
         dataStoreSetups.stream()
-                .filter(this::belongsToThisDataStore)
-                .forEach((dataStoreSetup) -> doCreateDataSetResources(dataStoreSetup, templateObjects));
+            .filter(this::belongsToThisDataStore)
+            .forEach((dataStoreSetup) -> doCreateDataSetResources(dataStoreSetup, templateObjects));
         Collections.reverse(this.cleanupDataStoreResources);
     }
 
@@ -169,8 +185,8 @@ public abstract class DataStoreBase extends AbstractDataStore {
      *
      * @param properties the {@link #properties} instance.
      */
-    protected void doInitialize(ExtendedProperties properties) throws DataStoreException {
-        LOGGER.warn("doInitialize() should be implemented.");
+    protected void doEstablishConnection(ExtendedProperties properties) throws Exception {
+        LOGGER.warn("doEstablishConnection() should be implemented.");
     }
 
     /**
@@ -181,7 +197,7 @@ public abstract class DataStoreBase extends AbstractDataStore {
     protected abstract void doApplyResource(DataResource dataResource) throws DataStoreException;
 
     /**
-     * @return the loaded properties from {@link #getConfig()}.
+     * @return the loaded properties from {@link #getConfigFile()}.
      */
     protected final ExtendedProperties getProperties() {
         return properties;
@@ -199,18 +215,18 @@ public abstract class DataStoreBase extends AbstractDataStore {
 
     private void loadDataStoreConfiguration() {
         try {
-            this.properties = new ExtendedProperties(DataSetProperties.getProperties());
-            this.properties.load(ResourceUtils.openResource(DataStoreBase.class, config));
+            this.properties=new ExtendedProperties(DataSetProperties.getProperties());
+            this.properties.load(ResourceUtils.openResource(DataStoreBase.class, configFile));
             this.properties.resolveReferences();
         } catch (IOException e) {
-            throw new DataStoreInitializationException("Unexpected IO exception while loading configuration file " + config, e);
+            throw new DataStoreInitializationException("Unexpected IO exception while loading configuration file " + configFile, e);
         }
     }
 
     private void checkConfigurationFileForExistence() {
-        if (!ResourceUtils.resourceExistsInClassPath(DataStoreBase.class, config)) {
-            LOGGER.error("Missing configuration file '{}' for DataStore '{}'", config, id);
-            throw new DataStoreInitializationException("Missing configuration file " + config + " for DataStore " + id);
+        if (!ResourceUtils.resourceExistsInClassPath(DataStoreBase.class, configFile)) {
+            LOGGER.error("Missing configuration file '{}' for DataStore '{}'", configFile, id);
+            throw new DataStoreInitializationException("Missing configuration file " + configFile + " for DataStore " + id);
         }
     }
 
@@ -228,11 +244,11 @@ public abstract class DataStoreBase extends AbstractDataStore {
     }
 
     private static void doHandleDataStoreSetupResources(
-            ResourceType resourceType,
-            DataStoreSetupInstance dataStoreSetupInstance,
-            TemplateObjects templateObjects,
-            String[] resourceNames,
-            Consumer<DataResource> dataResourceConsumer) {
+        ResourceType resourceType,
+        DataStoreSetupInstance dataStoreSetupInstance,
+        TemplateObjects templateObjects,
+        String[] resourceNames,
+        Consumer<DataResource> dataResourceConsumer) {
         for (String resourceName : resourceNames) {
 
             dataResourceConsumer.accept(createDataResourceFromDataStoreSetup(resourceType, dataStoreSetupInstance, templateObjects, resourceName));
@@ -240,24 +256,24 @@ public abstract class DataStoreBase extends AbstractDataStore {
     }
 
     private static DataResource createDataResourceFromDataStoreSetup( //
-            ResourceType resourceType,                                //
-            DataStoreSetupInstance dataStoreSetupInstance,            //
-            TemplateObjects templateObjects,                 //
-            String resourceName) {
-        final DataStoreSetup dataStoreSetup = dataStoreSetupInstance.getAnnotation();
-        String dataSetName = dataStoreSetup.name();
-        if( StringUtils.isEmpty(dataStoreSetup.name()) )  {
-            dataSetName = dataStoreSetup.datastore();
+                                                                      ResourceType resourceType,                                //
+                                                                      DataStoreSetupInstance dataStoreSetupInstance,            //
+                                                                      TemplateObjects templateObjects,                 //
+                                                                      String resourceName) {
+        final DataStoreSetup dataStoreSetup=dataStoreSetupInstance.getAnnotation();
+        String dataSetName=dataStoreSetup.name();
+        if (StringUtils.isEmpty(dataStoreSetup.name())) {
+            dataSetName=dataStoreSetup.datastore();
         }
         return DataResourceBuilder.createBuilder(dataStoreSetupInstance.getAssociatedClass())  //
-                    .withResourceType(resourceType) //
-                    .withDataStoreId(dataStoreSetup.datastore())  //
-                    .withDataSetName(dataSetName) //
-                    .withResourceName(resourceName) //
-                    .withFailOnError(dataStoreSetup.failOnError()) //
-                    .withTransactional(dataStoreSetup.transactional()) //
-                    .withTemplateObjects(templateObjects) //
-                .build();
+            .withResourceType(resourceType) //
+            .withDataStoreId(dataStoreSetup.datastore())  //
+            .withDataSetName(dataSetName) //
+            .withResourceName(resourceName) //
+            .withFailOnError(dataStoreSetup.failOnError()) //
+            .withTransactional(dataStoreSetup.transactional()) //
+            .withTemplateObjects(templateObjects) //
+            .build();
     }
 
     private boolean belongsToThisDataStore(DataStoreSetupInstance dataStoreSetup) {

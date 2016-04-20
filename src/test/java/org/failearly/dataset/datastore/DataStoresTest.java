@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Data Stores.
+ * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2016 marko (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,6 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ *
  */
 
 package org.failearly.dataset.datastore;
@@ -55,7 +56,7 @@ public class DataStoresTest {
         // assert / then
         assertThat("DataStore type?", dataStore, instanceOf(NullDataStore.class));
         assertThat("DataStore ID?", dataStore.getId(), is(Constants.DATASET_DEFAULT_DATASTORE_ID));
-        assertThat("DataStore config?", dataStore.getConfig(), is("/datastore.properties"));
+        assertThat("DataStore config?", dataStore.getConfigFile(), is("/datastore.properties"));
     }
 
     @Test
@@ -66,7 +67,7 @@ public class DataStoresTest {
         // assert / then
         assertThat("DataStore type?", dataStore, instanceOf(NullDataStore.class));
         assertThat("DataStore ID?", dataStore.getId(), is(Constants.DATASET_DEFAULT_DATASTORE_ID));
-        assertThat("DataStore config?", dataStore.getConfig(), is("/datastore.properties"));
+        assertThat("DataStore config?", dataStore.getConfigFile(), is("/datastore.properties"));
     }
 
     @Test
@@ -77,7 +78,7 @@ public class DataStoresTest {
         // assert / then
         assertThat("DataStore type?", dataStore, instanceOf(DataStoreCollection.class));
         assertThat("DataStore ID?", dataStore.getId(), is("{MASTER,CUSTOM1,CUSTOM2}"));
-        assertThat("DataStore config?", dataStore.getConfig(), is("{/master.properties,/custom1.properties,/custom2.properties}"));
+        assertThat("DataStore config?", dataStore.getConfigFile(), is("{/master.properties,/custom1.properties,/custom2.properties}"));
     }
 
     @Test
@@ -88,7 +89,7 @@ public class DataStoresTest {
         // assert / then
         assertThat("DataStore type?", dataStore, instanceOf(DataStoreCollection.class));
         assertThat("DataStore ID?", dataStore.getId(), is("{MASTER,CUSTOM1,CUSTOM2}"));
-        assertThat("DataStore config?", dataStore.getConfig(), is("{/master.properties,/custom1.properties,/custom2.properties}"));
+        assertThat("DataStore config?", dataStore.getConfigFile(), is("{/master.properties,/custom1.properties,/custom2.properties}"));
     }
 
     @Test
@@ -99,7 +100,7 @@ public class DataStoresTest {
         // assert / then
         assertThat("DataStore type?", dataStore, instanceOf(AnyDataStoreImpl.class));
         assertThat("DataStore ID?", dataStore.getId(), is("DB"));
-        assertThat("DataStore config?", dataStore.getConfig(), is("/my-config.props"));
+        assertThat("DataStore config file?", dataStore.getConfigFile(), is("/my-config.props"));
     }
 
 
@@ -114,7 +115,7 @@ public class DataStoresTest {
         // assert / then
         assertThat("DataStore type?", dataStore, instanceOf(AnyDataStoreImpl.class));
         assertThat("DataStore ID?", dataStore.getId(), is(Constants.DATASET_DEFAULT_DATASTORE_ID));
-        assertThat("DataStore config?", dataStore.getConfig(), is("/datastore.properties"));
+        assertThat("DataStore config file?", dataStore.getConfigFile(), is("/datastore.properties"));
     }
 
 
@@ -150,13 +151,13 @@ public class DataStoresTest {
     public static class AnyDataStoreTypeImpl implements DataStoreType {
         @Override
         public DataStore createDataStore(AdhocDataStore annotation, Object context) {
-            return spy(new AnyDataStoreImpl(annotation.config(), annotation.id()));
+            return spy(new AnyDataStoreImpl(annotation.id(), annotation.config()));
         }
     }
 
     private static class AnyDataStoreImpl extends DataStoreBase {
-        AnyDataStoreImpl(String dataStoreConfig, String dataStoreId) {
-            super(dataStoreId, dataStoreConfig);
+        AnyDataStoreImpl(String dataStoreId, String dataStoreConfigFile) {
+            super(dataStoreId, dataStoreConfigFile);
         }
 
         @Override

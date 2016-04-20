@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Data Stores.
+ * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2016 marko (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,6 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ *
  */
 
 package org.failearly.dataset.template;
@@ -26,6 +27,8 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
 import java.util.Objects;
+
+import static org.failearly.common.annotation.utils.AnnotationUtils.resolveValueOfAnnotationAttribute;
 
 /**
  * TemplateObjectBase should be the base class for {@link TemplateObjectBase} implementations.
@@ -51,7 +54,15 @@ public abstract class TemplateObjectBase implements TemplateObject {
         this(NO_ANNOTATION, dataset, name, scope);
     }
 
-    protected TemplateObjectBase(Annotation annotation, String dataset, String name, Scope scope) {
+    protected TemplateObjectBase(Annotation annotation) {
+        this(annotation,
+                resolveValueOfAnnotationAttribute(annotation,"dataset",String.class),
+                resolveValueOfAnnotationAttribute(annotation,"name",String.class),
+                resolveValueOfAnnotationAttribute(annotation,"scope",Scope.class)
+            );
+    }
+
+    private TemplateObjectBase(Annotation annotation, String dataset, String name, Scope scope) {
         this.annotation = annotation;
         this.dataset = dataset;
         this.name = name;
@@ -59,9 +70,9 @@ public abstract class TemplateObjectBase implements TemplateObject {
     }
 
     public void init() throws DataSetException {
-        checkInvariant(notEmptyOrNull(name), "name must not be empty or null");
-        checkInvariant(notEmptyOrNull(dataset), "dataset must not be empty or null");
-        checkInvariant(scope != null, "scope must not be null");
+        checkInvariant(notEmptyOrNull(name), "name() must not be empty or null");
+        checkInvariant(notEmptyOrNull(dataset), "dataset() must not be empty or null");
+        checkInvariant(scope != null, "scope() must not be null");
         doInit();
     }
 

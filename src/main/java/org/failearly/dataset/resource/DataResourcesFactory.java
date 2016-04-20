@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Data Stores.
+ * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2016 marko (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@ import java.util.List;
  */
 public interface DataResourcesFactory {
     /**
-     * Create {@link org.failearly.dataset.resource.DataResource}s from the annotation and the templateObjectCreators.
+     * Create {@link DataResource}s from the annotation and the templateObjectCreators.
      *
      * @param annotatedClass    the annotated element (in this case the test class). Used for default resource name (if no resource has been set).
      * @param annotation        the actually annotation
@@ -49,7 +49,7 @@ public interface DataResourcesFactory {
     List<DataResource> createDataResources(Class<?> annotatedClass, Annotation annotation, TemplateObjects templateObjects);
 
     /**
-     * Create {@link org.failearly.dataset.resource.DataResource}s from the annotation and the templateObjectCreators.
+     * Create {@link DataResource}s from the annotation and the templateObjectCreators.
      *
      * @param annotatedMethod   the annotated element (in this case the test method). Used for default resource name (if no resource has been set).
      * @param annotation        the actually annotation

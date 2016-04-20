@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Data Stores.
+ * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2016 marko (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,15 +15,18 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ *
  */
 
 package org.failearly.dataset.internal.resource.factory;
 
+import org.failearly.common.test.utils.ReflectionUtils;
 import org.failearly.dataset.config.Constants;
 import org.failearly.dataset.internal.model.TestMethodImplSetupHandlerTest;
 import org.failearly.dataset.internal.template.TemplateObjectsResolver;
 import org.failearly.dataset.resource.DataResource;
 import org.failearly.dataset.resource.DataResourcesFactory;
+import org.failearly.dataset.resource.GenericDataResourcesFactory;
 import org.failearly.dataset.resource.TypedDataResourcesFactory;
 import org.failearly.dataset.test.CoreTestUtils;
 import org.failearly.dataset.test.FakeDataStoreRule;
@@ -41,7 +44,7 @@ import static org.hamcrest.Matchers.contains;
 import static org.junit.Assert.assertThat;
 
 /**
- * DataResourcesFactoryTestBase provides support functionality for {@link org.failearly.dataset.resource.GenericDataResourcesFactory} based
+ * DataResourcesFactoryTestBase provides support functionality for {@link GenericDataResourcesFactory} based
  * implementations of {@link DataResourcesFactory}.
  */
 public abstract class DataResourcesFactoryTestBase<T extends Annotation, R extends TypedDataResourcesFactory<T>> {
@@ -64,7 +67,7 @@ public abstract class DataResourcesFactoryTestBase<T extends Annotation, R exten
     }
 
     private Method resolveMethod(String methodName) throws NoSuchMethodException {
-        return CoreTestUtils.resolveMethodFromClass(methodName, testSubjectClass);
+        return ReflectionUtils.resolveMethodFromClass(methodName, testSubjectClass);
     }
 
     private T resolveAnnotation(String methodName) {

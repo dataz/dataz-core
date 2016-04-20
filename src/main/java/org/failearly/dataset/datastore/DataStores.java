@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Data Stores.
+ * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2016 marko (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,19 +15,21 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ *
  */
 
 package org.failearly.dataset.datastore;
 
+import org.failearly.common.annotation.utils.AnnotationUtils;
+import org.failearly.common.annotation.elementresolver.AnnotationElementResolver;
+import org.failearly.common.annotation.elementresolver.AnnotationElementResolvers;
+import org.failearly.common.annotation.traverser.*;
+import org.failearly.common.test.ObjectCreator;
 import org.failearly.dataset.AdhocDataStore;
 import org.failearly.dataset.DataStoreSetup;
 import org.failearly.dataset.config.Constants;
-import org.failearly.dataset.internal.annotation.*;
-import org.failearly.dataset.internal.annotation.invoker.AnnotationElementResolver;
-import org.failearly.dataset.internal.annotation.invoker.AnnotationElementResolvers;
 import org.failearly.dataset.internal.template.TemplateObjects;
 import org.failearly.dataset.internal.template.TemplateObjectsResolver;
-import org.failearly.dataset.util.ObjectCreator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,10 +59,10 @@ public final class DataStores {
     private final Map<String, DataStore> dataStoreById = new ConcurrentHashMap<>();
     private final Map<Class<?>, DataStore> dataStoreByTestClass = new ConcurrentHashMap<>();
 
-    private final AnnotationTraverser<DataStoreSetup> dataStoreSetupAnnotationTraverser = AnnotationTraversers.createAnnotationTraverser(
-            DataStoreSetup.class,
-            TraverseStrategy.BOTTOM_UP, TraverseDepth.CLASS_HIERARCHY
-    );
+    private final AnnotationTraverser<DataStoreSetup> dataStoreSetupAnnotationTraverser = AnnotationTraverserBuilder.annotationTraverser(DataStoreSetup.class)
+            .withTraverseStrategy(TraverseStrategy.BOTTOM_UP)
+            .withTraverseDepth(TraverseDepth.CLASS_HIERARCHY)
+            .build();
 
     private final AnnotationTraverser<Annotation> metaDataStoreFactoryAnnotationTraverser = AnnotationTraversers.createMetaAnnotationTraverser(
             DataStoreFactoryDefinition.class,

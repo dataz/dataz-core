@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Data Stores.
+ * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2016 marko (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,6 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ *
  */
 
 package org.failearly.dataset.template.simple.support;
@@ -22,7 +23,7 @@ package org.failearly.dataset.template.simple.support;
 import org.failearly.dataset.template.support.PropertiesHelperFactory;
 import org.failearly.dataset.template.TemplateObjectBase;
 import org.failearly.dataset.template.simple.Adhoc;
-import org.failearly.dataset.util.PropertiesHelper;
+import org.failearly.common.test.PropertiesHelper;
 
 import java.util.*;
 
@@ -36,7 +37,7 @@ public abstract class AdhocTemplateObjectBase extends TemplateObjectBase impleme
     protected AdhocTemplateObjectBase() {}
 
     protected AdhocTemplateObjectBase(Adhoc annotation) {
-        super(annotation, annotation.dataset(), annotation.name(), annotation.scope());
+        super(annotation);
         this.arguments = Arrays.asList(annotation.args());
         this.propertiesHelper = PropertiesHelperFactory.createFromPropertyList(annotation.properties());
     }

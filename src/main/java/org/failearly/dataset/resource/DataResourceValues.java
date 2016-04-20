@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Data Stores.
+ * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2016 marko (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,6 +19,7 @@
 
 package org.failearly.dataset.resource;
 
+import org.failearly.common.resource.ResourcePathUtils;
 import org.failearly.dataset.config.DataSetProperties;
 import org.failearly.dataset.internal.util.BuilderBase;
 
@@ -27,7 +28,7 @@ import java.util.*;
 /**
  * DataResourceValues is a parameter object containing the values of any dataSet annotation (like {@link org.failearly.dataset.DataSet}).
  *
- * It will be used for creating the actually {@link org.failearly.dataset.resource.DataResource} object.
+ * It will be used for creating the actually {@link DataResource} object.
  */
 public final class DataResourceValues {
 

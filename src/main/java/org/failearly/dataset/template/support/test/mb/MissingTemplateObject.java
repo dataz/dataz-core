@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Data Stores.
+ * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2016 marko (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,11 +15,12 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ *
  */
 
 package org.failearly.dataset.template.support.test.mb;
 
-import org.failearly.dataset.util.mb.MessageBuilder;
+import org.failearly.common.test.mb.MessageBuilder;
 
 /**
  * MissingTemplateObject is responsible for ...
@@ -46,6 +47,8 @@ final class MissingTemplateObject extends TemplateObjectMessageBuilder {
 
     @Override
     protected TemplateObjectMessageBuilder actions() {
+        // TODO: Implement MissingTemplateObject#actions
+        if(true) throw new UnsupportedOperationException("MissingTemplateObject.actions() not yet implemented");
         return this;
     }
 }

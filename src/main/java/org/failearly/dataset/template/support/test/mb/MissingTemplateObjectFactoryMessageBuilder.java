@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Data Stores.
+ * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2016 marko (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,11 +15,12 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ *
  */
 
 package org.failearly.dataset.template.support.test.mb;
 
-import org.failearly.dataset.util.mb.MessageBuilder;
+import org.failearly.common.test.mb.MessageBuilder;
 
 
 /**
@@ -45,32 +46,26 @@ final class MissingTemplateObjectFactoryMessageBuilder extends TemplateObjectMes
     protected TemplateObjectMessageBuilder actions() {
         actionCreateTemplateObjectFactory();
         actionAssignTemplateObjectFactoryToAnnotation();
-        actionUpdateTestClassGenerics();
-        actionUpdateTestClassConstructor();
+        actionUpdateTestClass();
         return this;
     }
 
-    private void actionUpdateTestClassConstructor() {
-        this.nextAction("Update the test class constructor of __testclass__")
-            .exampleStart()
-                .testClassConstructor("__toa__.class","__tof__.class","null")
-            .exampleEnd();
-    }
-
-    private void actionUpdateTestClassGenerics() {
-        this.nextAction("Update your test class's base class")
-            .exampleStart("Copy the generics part and replace if necessary the marked types")
-            .lines(
-                "public class __testclass__",
-                "\t\textends __testbase__<__testclassgenerics__> {",
-                "// Constructor omitted for brevity ...",
-                "}"
-            )
+    private void actionUpdateTestClass() {
+        this.nextAction("Update your test class")
+            .exampleStart("Replace __testclass__ with this code snippet.")
+                .lines(
+                    "public class __testclass__",
+                    "\t\textends __testbase__<__testclass_generics__> {"
+                )
+                .sub()
+                    .testClassConstructor("__toa__.class","__tof__.class","null")
+                .end()
+                .line("}")
             .exampleEnd();
     }
 
     private void actionAssignTemplateObjectFactoryToAnnotation() {
-        this.nextAction("Assign __tof__ to your __ton__ Annotation @__toa__.")
+        this.nextAction("Assign __tof__ to your __ton__ Annotation @__toa__")
             .sub()
                 .lines(
                     "a) Open your annotation (__toa__).",
@@ -87,7 +82,7 @@ final class MissingTemplateObjectFactoryMessageBuilder extends TemplateObjectMes
                     "/**",
                     " * __tof__ creates a {@link __tot__} from {@link __toa__} annotation.",
                     " */",
-                    "public class __tof__ extends __tofb__ {"
+                    "public class __tof__ extends __tofb__<__tofb_generics__> {"
                 )
                     .sub()
                         .line("public __tof__() {")

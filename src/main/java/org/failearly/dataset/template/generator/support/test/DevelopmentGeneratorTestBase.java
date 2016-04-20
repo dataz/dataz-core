@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Data Stores.
+ * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2016 marko (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,6 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ *
  */
 
 package org.failearly.dataset.template.generator.support.test;
@@ -22,6 +23,9 @@ package org.failearly.dataset.template.generator.support.test;
 import org.failearly.dataset.template.generator.Generator;
 import org.failearly.dataset.template.generator.support.GeneratorFactoryBase;
 import org.failearly.dataset.template.support.test.DevelopmentTemplateObjectTestBase;
+import org.failearly.dataset.template.support.test.mb.DevelopmentMessageBuilders;
+import org.failearly.dataset.template.support.test.mb.TemplateObjectMessageBuilder;
+import org.failearly.common.test.mb.MessageBuilder;
 
 import java.lang.annotation.Annotation;
 
@@ -56,7 +60,19 @@ public abstract class DevelopmentGeneratorTestBase<T, GA extends Annotation, GF 
 
     @Override
     protected String getTemplateObjectFactoryBaseClass() {
-        return GeneratorFactoryBase.class.getSimpleName();
+        return toTypeName(GeneratorFactoryBase.class);
+    }
+
+    protected String[] getTemplateObjectFactoryGenerics() {
+        return toStringArray(
+                "/*TODO replace*/" + toTypeName(Object.class),
+                toTypeName(this.templateObjectAnnotationClass)
+        );
+    }
+
+    @Override
+    protected String[] getAdditionalGenerics() {
+        return toTypeNames(Object.class);
     }
 
     @Override
@@ -69,6 +85,10 @@ public abstract class DevelopmentGeneratorTestBase<T, GA extends Annotation, GF 
         return Generator.class.getSimpleName();
     }
 
+    @Override
+    protected TemplateObjectMessageBuilder missingTemplateObjectMessage(MessageBuilder mb) {
+        return DevelopmentMessageBuilders.missingGeneratorMessage(mb);
+    }
 
     @SuppressWarnings("unchecked")
     protected Generator<T> createGenerator(int index) throws Exception {

@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Data Stores.
+ * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2016 marko (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,6 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ *
  */
 
 package org.failearly.dataset.template.generator;
@@ -23,7 +24,7 @@ import org.failearly.dataset.template.TemplateObject;
 import org.failearly.dataset.template.generator.support.*;
 
 /**
- * Any generator is a template object which provides two types of iterators:
+ * Any generator is a template object which provides two definition of iterators:
  * <br><br>
  * <ul>
  * <li>An <b>external iterator</b>. Each generator is also a {@link Iterable}, which could be used in foreach loops. This
@@ -32,7 +33,7 @@ import org.failearly.dataset.template.generator.support.*;
  * <li>An <b>internal iterator</b>. {@link #next()} builds the internal iterator.</li>
  * </ul>
  * <p>
- * There are two types of generators:<br><br>
+ * There are two definition of generators:<br><br>
  * <ul>
  * <li>{@link UnlimitedGenerator} which support <b>only the internal iterator</b>.</li>
  * <li>{@link LimitedGenerator} which supports both iterators.</li>

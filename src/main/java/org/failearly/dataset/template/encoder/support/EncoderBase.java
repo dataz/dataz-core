@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Data Stores.
+ * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2016 marko (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,6 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ *
  */
 
 package org.failearly.dataset.template.encoder.support;
@@ -29,12 +30,12 @@ import java.lang.annotation.Annotation;
  * EncoderBase should be the base class for all {@link Encoder} to prevent custom encoders from future interface
  * changes.
  */
-public abstract class EncoderBase<R,T> extends TemplateObjectBase implements Encoder<R,T> {
+public abstract class EncoderBase<T, R> extends TemplateObjectBase implements Encoder<T, R> {
     protected EncoderBase() {
     }
 
-    protected EncoderBase(Annotation annotation, String dataset, String name, Scope scope) {
-        super(annotation, dataset, name, scope);
+    protected EncoderBase(Annotation annotation) {
+        super(annotation);
     }
 
     protected EncoderBase(String dataset, String name, Scope scope) {
@@ -43,6 +44,8 @@ public abstract class EncoderBase<R,T> extends TemplateObjectBase implements Enc
 
     @Override
     public final void __extend_EncoderBase__instead_of_implementing_Encoder() {
-        throw new UnsupportedOperationException("__extend_EncoderBase__instead_of_implementing_Encoder not yet implemented");
+        throw new UnsupportedOperationException(
+            "__extend_EncoderBase__instead_of_implementing_Encoder must no be called"
+        );
     }
 }

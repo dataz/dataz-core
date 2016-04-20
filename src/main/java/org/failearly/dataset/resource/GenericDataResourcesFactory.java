@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Data Stores.
+ * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2016 marko (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,9 +28,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
-import static org.failearly.dataset.resource.ResourcePathUtils.createDefaultResourceNameFromTestClass;
-import static org.failearly.dataset.resource.ResourcePathUtils.createDefaultResourceNameFromTestMethod;
 
 /**
  * GenericResourcesFactory provides a generic/default implementation. Only some methods which base on the concrete knowledge of the annotation.
@@ -102,6 +99,51 @@ public abstract class GenericDataResourcesFactory<T extends Annotation> extends 
 
         return dataResources;
     }
+
+
+    /**
+     * Creates a default resource name from {@code testClass}.
+     * <br><br>
+     * Example: Given test class com.mycompany.project.module.MyTest
+     * <br><br>
+     * The result: MyTest.&lt;datastore-suffix&gt;}.
+     * The {@literal <datastore-suffix>} will be generated from {@code dataStoreId} and {@code resourceType}.
+     *
+     * @param testClass    the test class
+     * @param dataStoreId  the ID of an data store
+     * @param resourceType the resource type
+     * @return the default resource path
+     */
+    private static String createDefaultResourceNameFromTestClass(Class<?> testClass, String dataStoreId, ResourceType resourceType) {
+        return testClass.getSimpleName() + resolveDataStoreSuffix(dataStoreId, resourceType);
+    }
+
+    /**
+     * Creates a default resource name from {@code testMethod}.
+     * <br><br>
+     * Example: Given test method com.mycompany.project.module.MyTest#myTestMethod
+     * <br><br>
+     * The result: {@code MyTest-myTestMethod.&lt;datastore-suffix&gt;}.
+     * The {@literal <datastore-suffix>} will be generated from {@code dataStoreId} and {@code resourceType}.
+     *
+     * @param testMethod   the test method
+     * @param dataStoreId  the data store
+     * @param resourceType the resource type
+     * @return the default resource path
+     */
+    private static String createDefaultResourceNameFromTestMethod(Method testMethod, String dataStoreId, ResourceType resourceType) {
+        return testMethod.getDeclaringClass().getSimpleName() + "-" + testMethod.getName() + resolveDataStoreSuffix(dataStoreId, resourceType);
+    }
+
+    private static String resolveDataStoreSuffix(String dataStoreId, ResourceType resourceType) {
+        String suffix = resourceType.resolveDataStoreSuffix(dataStoreId);
+        if (!suffix.startsWith(".")) {
+            suffix = "." + suffix;
+        }
+        return suffix;
+    }
+
+
 
     /**
      * get the value for the data store id from annotation.

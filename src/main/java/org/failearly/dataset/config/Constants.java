@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Data Stores.
+ * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2016 marko (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,14 +15,16 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ *
  */
 
 package org.failearly.dataset.config;
 
+import org.failearly.common.annotation.traverser.AnnotationTraversers;
 import org.failearly.dataset.AdhocDataStore;
 import org.failearly.dataset.DataSet;
-import org.failearly.dataset.internal.annotation.TraverseDepth;
-import org.failearly.dataset.internal.annotation.TraverseStrategy;
+import org.failearly.common.annotation.traverser.TraverseDepth;
+import org.failearly.common.annotation.traverser.TraverseStrategy;
 import org.failearly.dataset.template.TemplateObject;
 
 /**
@@ -164,13 +166,13 @@ public interface Constants {
     /**
      * Defines the used depth for resolving {@link TemplateObject} annotations. Currently possible values are:<br><br>
      * <ul>
-     * <li>{@link org.failearly.dataset.internal.annotation.TraverseDepth#CLASS_HIERARCHY}</li>
-     * <li>{@link org.failearly.dataset.internal.annotation.TraverseDepth#DECLARED_CLASS} (default)</li>
-     * <li>{@link org.failearly.dataset.internal.annotation.TraverseDepth#METHOD_ONLY}</li>
+     * <li>{@link TraverseDepth#CLASS_HIERARCHY}</li>
+     * <li>{@link TraverseDepth#DECLARED_CLASS} (default)</li>
+     * <li>{@link TraverseDepth#METHOD_ONLY}</li>
      * </ul>
      *
-     * @see org.failearly.dataset.internal.annotation.TraverseDepth
-     * @see org.failearly.dataset.internal.annotation.AnnotationTraversers#createMetaAnnotationTraverser(Class, TraverseStrategy, TraverseDepth)
+     * @see TraverseDepth
+     * @see AnnotationTraversers#createMetaAnnotationTraverser(Class, TraverseStrategy, TraverseDepth)
      */
     String DATASET_TEMPLATE_OBJECT_TRAVERSING_DEPTH = "dataset.template.object.traversing.depth";
 

@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Data Stores.
+ * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2016 marko (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,12 +15,13 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ *
  */
 
 package org.failearly.dataset.internal.resource.factory.use;
 
 import org.failearly.dataset.annotations.DataCleanupResourceFactoryDefinition;
-import org.failearly.dataset.internal.annotation.AnnotationHandler;
+import org.failearly.common.annotation.traverser.AnnotationHandler;
 import org.failearly.dataset.internal.model.DataCleanupResourceAnnotationHandler;
 import org.failearly.dataset.internal.template.TemplateObjects;
 import org.failearly.dataset.resource.DataResource;
@@ -30,7 +31,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * UseCleanupResourcesFactory resolves and creates {@link org.failearly.dataset.resource.DataResource}s from {@link org.failearly.dataset.Use} annotation.
+ * UseCleanupResourcesFactory resolves and creates {@link DataResource}s from {@link org.failearly.dataset.Use} annotation.
  */
 public final class UseCleanupResourcesFactory extends ResourcesFactoryBase<DataCleanupResourceFactoryDefinition> {
 

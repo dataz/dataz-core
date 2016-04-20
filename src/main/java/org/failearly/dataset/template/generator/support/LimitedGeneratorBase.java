@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Data Stores.
+ * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2016 marko (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,6 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ *
  */
 
 package org.failearly.dataset.template.generator.support;
@@ -32,8 +33,8 @@ public abstract class LimitedGeneratorBase<T> extends GeneratorBase<T> implement
         super(dataset, name, scope);
     }
 
-    protected LimitedGeneratorBase(Annotation annotation, String dataset, String name, Scope scope) {
-        super(annotation, dataset, name, scope);
+    protected LimitedGeneratorBase(Annotation annotation) {
+        super(annotation);
     }
 
     @Override

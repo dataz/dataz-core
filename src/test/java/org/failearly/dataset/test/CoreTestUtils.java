@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Data Stores.
+ * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2016 marko (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,29 +15,18 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ *
  */
 
 package org.failearly.dataset.test;
 
+import org.failearly.common.test.utils.ReflectionUtils;
 import org.failearly.dataset.internal.template.TemplateObjects;
 import org.failearly.dataset.internal.template.TemplateObjectsResolver;
 
 import java.io.*;
-import java.lang.reflect.Method;
 
 public class CoreTestUtils {
-    /**
-     * Resolve {@link Method} instance from class with given methodName.
-     *
-     * @param methodName the method's name
-     * @param clazz      the class
-     * @return the method instance
-     * @throws NoSuchMethodException method has not been found
-     */
-    public static Method resolveMethodFromClass(String methodName, Class<?> clazz) throws NoSuchMethodException {
-        return clazz.getMethod(methodName);
-    }
-
     /**
      * Tiny wrapper around {@link TemplateObjectsResolver} to resolve {@link TemplateObjects}.
      *
@@ -47,7 +36,9 @@ public class CoreTestUtils {
      * @throws NoSuchMethodException method has not been found
      */
     public static TemplateObjects resolveTemplateObjects(String methodName, Class<?> clazz) throws NoSuchMethodException {
-        return TemplateObjectsResolver.resolveFromTestMethod(resolveMethodFromClass(methodName, clazz));
+        return TemplateObjectsResolver.resolveFromTestMethod(
+                ReflectionUtils.resolveMethodFromClass(methodName, clazz)
+        );
     }
 
     /**

@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Data Stores.
+ * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2016 marko (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@ package org.failearly.dataset.resource;
 import org.failearly.dataset.config.Constants;
 import org.failearly.dataset.internal.template.TemplateObjects;
 import org.failearly.dataset.internal.template.TemplateObjectsTestHelper;
-import org.failearly.dataset.util.ExceptionVerifier;
+import org.failearly.common.test.ExceptionVerifier;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.is;
@@ -30,7 +30,7 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 /**
- * DataResourceBuilderTest contains tests for {@link org.failearly.dataset.resource.DataResourceBuilder} .
+ * DataResourceBuilderTest contains tests for {@link DataResourceBuilder} .
  */
 public class DataResourceBuilderTest {
 

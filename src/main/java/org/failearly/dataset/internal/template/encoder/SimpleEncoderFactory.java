@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Data Stores.
+ * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2016 marko (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,16 +15,21 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ *
  */
 
 package org.failearly.dataset.internal.template.encoder;
 
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.binary.Hex;
 import org.failearly.dataset.template.Scope;
-import org.failearly.dataset.template.TemplateObject;
-import org.failearly.dataset.template.TemplateObjectFactoryBase;
 import org.failearly.dataset.template.encoder.Encoder;
 import org.failearly.dataset.template.encoder.SimpleEncoder;
+import org.failearly.dataset.template.encoder.support.EncoderBase;
 import org.failearly.dataset.template.encoder.support.EncoderFactoryBase;
+import org.failearly.dataset.template.encoder.support.StringEncoderBase;
+
+import static org.failearly.dataset.template.encoder.support.Encoders.*;
 
 /**
  * SimpleEncoderFactory is responsible for ...
@@ -36,7 +41,7 @@ public final class SimpleEncoderFactory extends EncoderFactoryBase<SimpleEncoder
 
     @Override
     protected Encoder doCreate(SimpleEncoder annotation) {
-        return null;
+        return new SimpleEncoderImpl(annotation);
     }
 
     @Override
@@ -48,4 +53,54 @@ public final class SimpleEncoderFactory extends EncoderFactoryBase<SimpleEncoder
     protected Scope doResolveScope(SimpleEncoder annotation) {
         return annotation.scope();
     }
+
+    public static final class SimpleEncoderImpl extends StringEncoderBase {
+
+        private final Encoder encoder;
+
+        private SimpleEncoderImpl(SimpleEncoder annotation) {
+            super(annotation, annotation.dataset(), annotation.name(), annotation.scope());
+            encoder=createEncoder(annotation);
+        }
+
+        private static Encoder createEncoder(SimpleEncoder annotation) {
+            switch (annotation.type()) {
+                case NONE:
+                    return identityEncoder();
+                case HEX:
+                    return chain(stringToByteArray(), toDataSetEncoder(new Hex()), charArrayToString());
+                case BASE64:
+                    return chain(stringToByteArray(), toDataSetEncoder(new Base64()), byteArrayToString());
+            }
+
+            throw new IllegalArgumentException("Unknown encoder type " + annotation.type());
+        }
+
+
+        @Override
+        @SuppressWarnings("unchecked")
+        public String encode(String value) throws Exception {
+            return (String) encoder.encode(value);
+        }
+    }
+
+    private static Encoder toDataSetEncoder(org.apache.commons.codec.Encoder encoder) {
+        return new ApacheCodecEncoderFacade(encoder);
+    }
+
+
+    private static final class ApacheCodecEncoderFacade extends EncoderBase<Object, Object> {
+        private final org.apache.commons.codec.Encoder encoder;
+
+        private ApacheCodecEncoderFacade(org.apache.commons.codec.Encoder encoder) {
+            this.encoder=encoder;
+        }
+
+        @Override
+        public Object encode(Object value) throws Exception {
+            return this.encoder.encode(value);
+        }
+    }
+
+
 }

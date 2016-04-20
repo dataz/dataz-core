@@ -1,7 +1,7 @@
 /*
- * dataSet - Test Support For Data Stores.
+ * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2015 Marko Umek (http://fail-early.com/contact)
+ * Copyright (C) 2014-2016 marko (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,19 +15,28 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ *
  */
 
 package org.failearly.dataset.template.encoder;
 
 import org.failearly.dataset.internal.template.encoder.SimpleEncoderFactory;
 import org.failearly.dataset.template.encoder.support.test.DevelopmentEncoderTestBase;
-import org.junit.Ignore;
+import org.junit.Test;
+
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
 /**
  * SimpleEncoderTest contains tests for {@link SimpleEncoder} and  {@link SimpleEncoderFactory}.
  */
-@Ignore("Development in progress")
-public class SimpleEncoderTest extends DevelopmentEncoderTestBase<String,String,SimpleEncoder,SimpleEncoderFactory> {
+public class SimpleEncoderTest extends DevelopmentEncoderTestBase<String, String, SimpleEncoder, SimpleEncoderFactory> {
+
+    private static final int NONE_ENCODER=0;
+    private static final int HEX_ENCODER=1;
+    private static final String HELLO_WORLD_TEMPLATE="%var%.encode('Hello world')";
+    private static final int BASE64_ENCODER=2;
+
     public SimpleEncoderTest() {
         super(
             SimpleEncoder.class,
@@ -36,7 +45,48 @@ public class SimpleEncoderTest extends DevelopmentEncoderTestBase<String,String,
         );
     }
 
-    @SimpleEncoder(name=TEMPLATE_OBJECT_NAME)
-    private static class TestFixture {}
+    @Test
+    public void none_encoder() throws Exception {
+        // act / when
+        final String generated=generate(
+            template(HELLO_WORLD_TEMPLATE),
+            createEncoder(NONE_ENCODER)
+        );
+
+        // assert / then
+        assertThat(generated, is("Hello world"));
+    }
+
+    @Test
+    public void hex_encoder() throws Exception {
+        // act / when
+        final String generated=generate(
+            template(HELLO_WORLD_TEMPLATE),
+            createEncoder(HEX_ENCODER)
+        );
+
+        // assert / then
+        assertThat(generated, is("48656c6c6f20776f726c64"));
+    }
+
+   @Test
+    public void base64_encoder() throws Exception {
+        // act / when
+        final String generated=generate(
+            template(HELLO_WORLD_TEMPLATE),
+            createEncoder(BASE64_ENCODER)
+        );
+
+        // assert / then
+        assertThat(generated, is("SGVsbG8gd29ybGQ="));
+    }
+
+
+
+    @SimpleEncoder(name=TEMPLATE_OBJECT_NAME, type = SimpleEncoder.Type.NONE)
+    @SimpleEncoder(name=TEMPLATE_OBJECT_NAME, type = SimpleEncoder.Type.HEX)
+    @SimpleEncoder(name=TEMPLATE_OBJECT_NAME, type = SimpleEncoder.Type.BASE64)
+    private static class TestFixture {
+    }
 }
 
