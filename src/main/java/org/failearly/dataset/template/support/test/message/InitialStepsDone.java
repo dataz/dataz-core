@@ -1,7 +1,7 @@
 /*
  * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2016 marko (http://fail-early.com)
+ * Copyright (C) 2014-2016 'Marko Umek' (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,20 +15,22 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
  */
 
-package org.failearly.dataset.template.support.test;
+package org.failearly.dataset.template.support.test.message;
 
-import org.failearly.dataset.template.TemplateObjectFactoryDefinition;
+import org.failearly.common.message.ClasspathMessageTemplate;
+import org.failearly.common.message.TemplateParameters;
 
-import java.lang.annotation.*;
+import static org.failearly.dataset.template.support.test.message.AbstractTemplateObjectMessage.*;
 
 /**
- * NullTemplateObjectAnnotation just there for {@link TemplateObjectTestBase}.
+ * MissingTemplateObjectAnnotation is responsible for ...
  */
-@Target({ElementType.METHOD, ElementType.TYPE})
-@Retention(RetentionPolicy.RUNTIME)
-@TemplateObjectFactoryDefinition(factory = NullTemplateObjectFactory.class)
-public @interface NullTemplateObjectAnnotation {
+@ClasspathMessageTemplate
+@TemplateParameters({ARG_TEMPLATE_OBJECT_ANNOTATION, ARG_TEMPLATE_OBJECT_FACTORY, ARG_TEST_FIXTURE, ARG_TEMPLATE_OBJECT})
+final class InitialStepsDone extends AbstractTemplateObjectMessage<InitialStepsDone> {
+    InitialStepsDone() {
+        super(InitialStepsDone.class);
+    }
 }

@@ -1,7 +1,7 @@
 /*
  * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2016 marko (http://fail-early.com)
+ * Copyright (C) 2014-2016 'Marko Umek' (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +15,6 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
  */
 
 package org.failearly.dataset.template.support.test;
@@ -24,49 +23,73 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toMap;
 
 /**
  * AnnotationHelper is responsible for ...
  */
 @SuppressWarnings("unused")
-public final class AnnotationHelper<T extends Annotation> {
+final class AnnotationHelper<T extends Annotation> {
     private final Class<T> annotationClass;
     private T[] annotations;
+    private Map<String, List<T>> methodAnnotationMap;
+    // private Map<String, Method> methods;
 
 
     private AnnotationHelper(Class<T> annotationClass) {
         this.annotationClass = annotationClass;
     }
 
-    public static <T extends Annotation> AnnotationHelper<T> createAnnotationHelper(Class<T> annotationClass) {
+    static <T extends Annotation> AnnotationHelper<T> createAnnotationHelper(Class<T> annotationClass) {
         return new AnnotationHelper<>(annotationClass);
     }
 
-    public AnnotationHelper<T> withFixtureClass(Class<?> aFixtureClass) {
+    AnnotationHelper<T> withFixtureClass(Class<?> aFixtureClass) {
         this.annotations = aFixtureClass.getAnnotationsByType(annotationClass);
+        methodAnnotationMap = Stream.of(aFixtureClass.getDeclaredMethods()).collect(
+                toMap(
+                        Method::getName,
+                        (Method method)->Arrays.asList(method.getAnnotationsByType(annotationClass))
+                )
+        );
         return this;
     }
 
-    public AnnotationHelper<T> withMethod(Method aTestMethod) {
-        this.annotations = aTestMethod.getAnnotationsByType(annotationClass);
-        return this;
-    }
-
-    public boolean hasAnnotations() {
+    boolean hasAnnotations() {
         return this.annotations.length > 0;
     }
 
-    public List<T> getAnnotations() {
+    List<T> getAnnotations() {
         return Arrays.asList(this.annotations);
     }
 
-    public T getAnnotation(int index) {
+    T getAnnotation(int index) {
+        if( ! (index < annotations.length) ) {
+            throw new IllegalArgumentException("index >= " + annotations.length);
+        }
         return annotations[index];
     }
 
-    public String resolveElementValue(int index, String element) {
+    T getAnnotationFromMethod(String methodName, int index) {
+        final List<T> ts = methodAnnotationMap.get(methodName);
+        if( ts==null  ) {
+            throw new IllegalArgumentException("Unknown method " + methodName);
+        }
+        if( ! (index < ts.size()) ) {
+            throw new IllegalArgumentException("index >= " + ts.size());
+        }
+        return ts.get(index);
+    }
+
+    T getFirstAnnotationFromMethod(String methodName) {
+        return getAnnotationFromMethod(methodName, 0);
+    }
+
+    String resolveElementValue(int index, String element) {
         return doResolveElementValue(getAnnotation(index), element);
     }
 
@@ -91,10 +114,8 @@ public final class AnnotationHelper<T extends Annotation> {
     }
 
     public <R> List<R> resolveElementValues(String element, Class<R> valueClass) {
-        return annotationsAsStream().map(annotation -> doResolveElementValue(annotation, element, valueClass)).collect(Collectors.toList());
+        return Arrays.stream(this.annotations)
+                .map(annotation -> doResolveElementValue(annotation, element, valueClass)).collect(Collectors.toList());
     }
 
-    private Stream<T> annotationsAsStream() {
-        return Arrays.stream(this.annotations);
-    }
 }

@@ -1,7 +1,7 @@
 /*
  * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2016 marko (http://fail-early.com)
+ * Copyright (C) 2014-2016 'Marko Umek' (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,14 +15,13 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
  */
 
 package org.failearly.dataset.test;
 
 import org.failearly.dataset.config.Constants;
 import org.failearly.dataset.template.Scope;
-import org.failearly.dataset.template.TemplateObjectFactoryDefinition;
+import org.failearly.dataset.template.TemplateObjectFactory;
 
 import java.lang.annotation.*;
 
@@ -31,8 +30,8 @@ import java.lang.annotation.*;
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@TemplateObjectFactoryDefinition(factory = MyTemplateObjectFactory.class)
-@Repeatable(MyTemplateObjectAnnotation.MyTemplateObjectAnnotations.class)
+@TemplateObjectFactory.Definition(MyTemplateObjectFactory.class)
+@Repeatable(MyTemplateObjectAnnotation.List.class)
 public @interface MyTemplateObjectAnnotation {
 
     /**
@@ -67,7 +66,7 @@ public @interface MyTemplateObjectAnnotation {
     @Target({ElementType.METHOD, ElementType.TYPE})
     @Retention(RetentionPolicy.RUNTIME)
     @Documented
-    @interface MyTemplateObjectAnnotations {
+    @interface List {
         MyTemplateObjectAnnotation[] value();
     }
 }

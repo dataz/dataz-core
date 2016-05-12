@@ -1,0 +1,92 @@
+The initial steps has been done.
+
+Now it's time to create your own tests in your test class ${tc} and switching to the "normal" test base class.
+
+Step 2) Add tests to ${tc}.
+
+All test skeletons use Hamcrest Matchers (http://hamcrest.org/). So add them to your import section.
+
+$snippetBegin
+    import static org.hamcrest.CoreMatchers.*;
+    import static org.junit.Assert.assertThat;
+$snippetEnd
+
+
+Some test skeletons:
+
+a) This one creates a TO from the first TOA applied to your Test Fixture class. You could do any test with it.
+
+$snippetBegin
+	@Test
+	public void TOF___should_create_appropriate_TO() {
+        // act / when
+        final ${fullTO} templateObject=createTemplateObjectFromAnnotation(0);
+
+        // assert / then
+        // TODO: Better assertion, then not null check.
+        assertThat(templateObject, is(notNullValue()));
+	}
+$snippetEnd
+
+
+
+b) This one creates a TO from the first TOA applied to a one of the declared methods of
+   your Test Fixture class (${tf})).
+
+   Actually the same like a), but may be a little bit more expressive, if the method's name is more expressive ;-).
+
+$snippetBegin
+	@Test
+	public void TOF___should_create_appropriate_TO__using_method_access() {
+        // act / when
+        final ${fullTO} templateObject=createTemplateObjectFromAnnotation("namedTest");
+        // or
+        // final ${fullTO} templateObject=createTemplateObjectFromAnnotation("namedTest", 0);
+
+        // assert / then
+        // TODO: Better assertion, then not null check.
+        assertThat(templateObject, is(notNullValue()));
+	}
+$snippetEnd
+
+
+c) The last one uses the Velocity Template Engine (http://velocity.apache.org/).
+
+Remarks:
+    (i)  There are several template() implementations available.
+    (ii) The same could be said for createTemplateObjectFromAnnotation().
+
+$snippetBegin
+    @Test
+    public void TO_used_within_template() throws Exception {
+        // act / when
+        final String generated = generate(
+                    template(SIMPLE_TEMPLATE),
+                    createTemplateObjectFromAnnotation()
+                );
+
+        // assert / then
+        // TODO: Better assertion, then not empty check.
+        assertThat(generated, is(not("")));
+    }
+$snippetEnd
+
+
+Step 2) Use none development version of the test base class ${stbc}: ${ntbc}.
+
+
+$snippetBegin
+    @Subject({${TOA}.class, ${TOF}.class, ${fullTO}.class})
+	public class ${tc}
+			extends ${ntbc}<${TOA}, ${TOF}, ${fullTO}> {
+		$ommitted
+	}
+$snippetEnd
+
+
+
+You are finished with initial setup.
+
+Extend your TOA (@${TOA}) and your TO ${fullTO} and write appropriate tests.
+
+======== end of description =========

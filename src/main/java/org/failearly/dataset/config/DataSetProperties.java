@@ -1,7 +1,7 @@
 /*
  * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2016 marko (http://fail-early.com)
+ * Copyright (C) 2014-2016 'Marko Umek' (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,16 +15,14 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
  */
 
 package org.failearly.dataset.config;
 
 import org.apache.commons.lang.StringUtils;
-import org.failearly.common.annotation.traverser.AnnotationTraversers;
 import org.failearly.common.annotation.traverser.TraverseDepth;
-import org.failearly.dataset.internal.template.TemplateObjectDuplicateStrategy;
 import org.failearly.common.test.ExtendedProperties;
+import org.failearly.dataset.internal.template.TemplateObjectDuplicateStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -133,7 +131,6 @@ public final class DataSetProperties implements Constants {
      * @return the template object (annotation) traverse depth.
      *
      * @see TraverseDepth
-     * @see AnnotationTraversers
      * @see org.failearly.dataset.internal.template.TemplateObjectsResolver.Builder
      */
     public static TraverseDepth getTemplateObjectTraverseDepth() {

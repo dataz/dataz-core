@@ -1,7 +1,7 @@
 /*
  * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2016 marko (http://fail-early.com)
+ * Copyright (C) 2014-2016 'Marko Umek' (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,17 +15,14 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
  */
 
 package org.failearly.dataset.template.generator.support.test;
 
+import org.failearly.dataset.template.TemplateObjectFactory;
 import org.failearly.dataset.template.generator.Generator;
 import org.failearly.dataset.template.generator.support.GeneratorFactoryBase;
 import org.failearly.dataset.template.support.test.DevelopmentTemplateObjectTestBase;
-import org.failearly.dataset.template.support.test.mb.DevelopmentMessageBuilders;
-import org.failearly.dataset.template.support.test.mb.TemplateObjectMessageBuilder;
-import org.failearly.common.test.mb.MessageBuilder;
 
 import java.lang.annotation.Annotation;
 
@@ -47,51 +44,18 @@ import java.lang.annotation.Annotation;
  * </pre>
  */
 @SuppressWarnings("unused")
-public abstract class DevelopmentGeneratorTestBase<T, GA extends Annotation, GF extends GeneratorFactoryBase>
-    extends DevelopmentTemplateObjectTestBase<GA, GF> implements GeneratorTemplates {
+public abstract class DevelopmentGeneratorTestBase<T, TOA extends Annotation, TOF extends TemplateObjectFactory, TO extends Generator<T>>
+    extends DevelopmentTemplateObjectTestBase<TOA, TOF, TO> implements GeneratorTemplates {
 
     protected DevelopmentGeneratorTestBase() {
-        super(null, null, null);
     }
 
-    protected DevelopmentGeneratorTestBase(Class<GA> generatorAnnotationClass, Class<GF> generatorFactoryClass, Class<?> testFixtureClass) {
-        super(generatorAnnotationClass, generatorFactoryClass, testFixtureClass);
-    }
-
-    @Override
-    protected String getTemplateObjectFactoryBaseClass() {
-        return toTypeName(GeneratorFactoryBase.class);
-    }
-
-    protected String[] getTemplateObjectFactoryGenerics() {
-        return toStringArray(
-                "/*TODO replace*/" + toTypeName(Object.class),
-                toTypeName(this.templateObjectAnnotationClass)
-        );
-    }
-
-    @Override
-    protected String[] getAdditionalGenerics() {
-        return toTypeNames(Object.class);
-    }
-
-    @Override
-    protected String getTemplateObjectName() {
-        return "Generator";
-    }
-
-    @Override
-    protected String getTemplateObjectType() {
-        return Generator.class.getSimpleName();
-    }
-
-    @Override
-    protected TemplateObjectMessageBuilder missingTemplateObjectMessage(MessageBuilder mb) {
-        return DevelopmentMessageBuilders.missingGeneratorMessage(mb);
-    }
-
-    @SuppressWarnings("unchecked")
-    protected Generator<T> createGenerator(int index) throws Exception {
-        return (Generator<T>) super.createTemplateObjectFromAnnotationIndex(index);
+    protected DevelopmentGeneratorTestBase(
+            Class<TOA> templateObjectAnnotationClass,
+            Class<TOF> templateObjectFactoryClass,
+            Class<TO> templateObjectClass,
+            Class<?> testFixtureClass
+    ) {
+        super(templateObjectAnnotationClass, templateObjectFactoryClass, templateObjectClass, testFixtureClass);
     }
 }

@@ -1,7 +1,7 @@
 /*
  * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2016 marko (http://fail-early.com)
+ * Copyright (C) 2014-2016 'Marko Umek' (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,18 +15,16 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
  */
 
 package org.failearly.dataset.internal.resource.factory.use;
 
+import org.failearly.common.annotation.traverser.MetaAnnotationHandler;
 import org.failearly.dataset.annotations.DataCleanupResourceFactoryDefinition;
-import org.failearly.common.annotation.traverser.AnnotationHandler;
 import org.failearly.dataset.internal.model.DataCleanupResourceAnnotationHandler;
 import org.failearly.dataset.internal.template.TemplateObjects;
 import org.failearly.dataset.resource.DataResource;
 
-import java.lang.annotation.Annotation;
 import java.util.Collections;
 import java.util.List;
 
@@ -36,16 +34,11 @@ import java.util.List;
 public final class UseCleanupResourcesFactory extends ResourcesFactoryBase<DataCleanupResourceFactoryDefinition> {
 
     public UseCleanupResourcesFactory() {
-        super();
+        super(DataCleanupResourceFactoryDefinition.class);
     }
 
     @Override
-    protected Class<? extends Annotation> annotationClass() {
-        return DataCleanupResourceFactoryDefinition.class;
-    }
-
-    @Override
-    protected AnnotationHandler<Annotation> annotationHandler(List<DataResource> dataResources, TemplateObjects templateObjects) {
+    protected MetaAnnotationHandler<DataCleanupResourceFactoryDefinition> metaAnnotationHandler(List<DataResource> dataResources, TemplateObjects templateObjects) {
         return new DataCleanupResourceAnnotationHandler(dataResources, templateObjects);
     }
 

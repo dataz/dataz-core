@@ -1,7 +1,7 @@
 /*
  * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2016 marko (http://fail-early.com)
+ * Copyright (C) 2014-2016 'Marko Umek' (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,16 +15,15 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
  */
 
 package org.failearly.dataset.template;
 
-import java.lang.annotation.Annotation;
+import java.lang.annotation.*;
 
 /**
  * TemplateObjectFactory creates from a Template Object Annotation a {@link TemplateObject}. The class object of any implementation must be assigned
- * to the associated annotation by using the meta annotation {@link TemplateObjectFactoryDefinition#factory()}.
+ * to the associated annotation by using the meta annotation {@link Definition#value()}.
  * <br><br>
  * Remark: Please extend  {@link TemplateObjectFactoryBase} instead of implementing this interface!!
  * <br><br>
@@ -32,7 +31,7 @@ import java.lang.annotation.Annotation;
  * <pre>
  *    {@literal @}Target({ElementType.METHOD, ElementType.TYPE})
  *    {@literal @}Retention(RetentionPolicy.RUNTIME)
- *    {@literal @}TemplateObjectFactoryDefinition(factory = <b>MyTemplateObjectFactory.class</b>) // Assign the factory
+ *    {@literal @}Definition(factory = <b>MyTemplateObjectFactory.class</b>) // Assign the factory
  *     public @interface MyTemplateObjectAnnotation {
  *        // Mandatory attributes
  *        String name();
@@ -71,7 +70,7 @@ import java.lang.annotation.Annotation;
  * </pre>
  *
  *
- * @see TemplateObjectFactoryDefinition#factory()
+ * @see Definition#value()
  * @see TemplateObject
  */
 public interface TemplateObjectFactory {
@@ -83,6 +82,18 @@ public interface TemplateObjectFactory {
      * @return a new instance of template object.
      */
     TemplateObject create(Annotation annotation);
+
+    /**
+     * Create an instance of the template object using the annotation.
+     *
+     * @param annotation the annotation instance.
+     * @param toClass the target template object class.
+     *
+     * @return a new instance of template object.
+     *
+     * @see #create(Annotation)
+     */
+    <TO extends TemplateObject> TO create(Annotation annotation, Class<TO> toClass);
 
     /**
      * Resolves the data set name of the template object annotation.
@@ -102,4 +113,46 @@ public interface TemplateObjectFactory {
     @SuppressWarnings("unused")
     void __extend_TemplateObjectFactoryBase__instead_of_implementing_TemplateObjectFactory();
 
+    /**
+     * Definition is a meta annotation used for {@link TemplateObject} annotations (TOA).
+     * <br><br>
+     * Example:<br><br>
+     * <pre>
+     *     {@literal @Target}({ElementType.METHOD, ElementType.TYPE})
+     *     {@literal @Retention}(RetentionPolicy.RUNTIME)
+     *     <b>{@literal @Definition}(factory = MyGeneratorFactory.class)</b>
+     *     {@literal @}{@link java.lang.annotation.Repeatable}(MyTemplateObjectAnnotation.MyTemplateObjectAnnotations.class)
+     *     public {@literal @interface} MyTemplateObjectAnnotation {
+     *         // mandatory attribute
+     *         String name();
+     *
+     *         // mandatory attribute
+     *         String dataset();
+     *
+     *         // additional elements omitted for brevity
+     *         ...
+     *
+     *         // Necessary for Repeatable
+     *         {@literal @Target}({ElementType.METHOD, ElementType.TYPE})
+     *         {@literal @Retention}(RetentionPolicy.RUNTIME)
+     *         {@literal @interface} List {
+     *             MyTemplateObjectAnnotation[] value();
+     *         }
+     *     }
+     * </pre>
+     *
+     * @see TemplateObjectFactory
+     * @see TemplateObjectFactoryBase
+     * @see TemplateObject
+     */
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.ANNOTATION_TYPE)
+    @interface Definition {
+        /**
+         * The responsible generator factory class.
+         *
+         * @return a {@link TemplateObjectFactory} class which is associated to the template object annotation.
+         */
+        Class<? extends TemplateObjectFactory> value();
+    }
 }

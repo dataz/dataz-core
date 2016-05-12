@@ -1,7 +1,7 @@
 /*
  * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2016 marko (http://fail-early.com/contact)
+ * Copyright (C) 2014-2016 'Marko Umek' (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 package org.failearly.common.internal.message.resolver.parameter;
 
 import org.failearly.common.internal.message.MessageParameters;
-import org.failearly.common.internal.message.MessageParametersBaseTest;
+import org.failearly.common.internal.message.MessageParametersTestBase;
 import org.failearly.common.internal.message.definition.TemplateParametersDefinition;
 import org.failearly.common.test.annotations.TestsFor;
 
@@ -30,7 +30,7 @@ import static org.failearly.common.test.ObjectCreator.createInstanceByConstructo
  * TemplateParametersDefinitionTest contains tests for TemplateParametersDefinition.
  */
 @TestsFor({MessageParametersCollection.class})
-public class MessageParametersCollectionsTest extends MessageParametersBaseTest<MessageParametersCollection> {
+public class MessageParametersCollectionsTest extends MessageParametersTestBase<MessageParametersCollection> {
 
 
     @Override

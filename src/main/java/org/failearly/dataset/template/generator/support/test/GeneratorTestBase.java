@@ -1,7 +1,7 @@
 /*
  * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2016 marko (http://fail-early.com)
+ * Copyright (C) 2014-2016 'Marko Umek' (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,11 +15,11 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
  */
 
 package org.failearly.dataset.template.generator.support.test;
 
+import org.failearly.dataset.template.TemplateObjectFactory;
 import org.failearly.dataset.template.generator.Generator;
 import org.failearly.dataset.template.generator.support.GeneratorFactoryBase;
 import org.failearly.dataset.template.support.test.DevelopmentTemplateObjectTestBase;
@@ -43,7 +43,7 @@ import java.lang.annotation.Annotation;
  *
  *          // Tests skipped for brevity
  *
- *         {@literal @}MyGenerator(name={@link #TEMPLATE_OBJECT_NAME}, other attributes)
+ *         {@literal @}MyGenerator(name={@link #DTON}, other attributes)
  *          private static class TestFixture {}
  *      }
  * </pre>
@@ -51,16 +51,18 @@ import java.lang.annotation.Annotation;
  * @see DevelopmentGeneratorTestBase
  * @see DevelopmentTemplateObjectTestBase
  */
-public abstract class GeneratorTestBase<T, GA extends Annotation, GF extends GeneratorFactoryBase>
-        extends TemplateObjectTestBase<GA, GF> implements GeneratorTemplates {
+public abstract class GeneratorTestBase<T, TOA extends Annotation, TOF extends TemplateObjectFactory, TO extends Generator<T>>
+        extends TemplateObjectTestBase<TOA, TOF, TO> implements GeneratorTemplates {
 
-    protected GeneratorTestBase(Class<GA> generatorAnnotationClass, Class<GF> generatorFactoryClass, Class<?> testFixtureClass) {
-        super(generatorAnnotationClass, generatorFactoryClass, testFixtureClass);
+    protected GeneratorTestBase() {
     }
 
-
-    @SuppressWarnings("unchecked")
-    protected Generator<T> createGenerator(int index) throws Exception {
-        return (Generator<T>) super.createTemplateObjectFromAnnotationIndex(index);
+    protected GeneratorTestBase(
+            Class<TOA> templateObjectAnnotationClass,
+            Class<TOF> templateObjectFactoryClass,
+            Class<TO> templateObjectClass,
+            Class<?> testFixtureClass
+    ) {
+        super(templateObjectAnnotationClass, templateObjectFactoryClass, templateObjectClass, testFixtureClass);
     }
 }

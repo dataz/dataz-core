@@ -1,7 +1,7 @@
 /*
  * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2016 marko (http://fail-early.com)
+ * Copyright (C) 2014-2016 'Marko Umek' (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,14 +15,18 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
  */
 
 package org.failearly.dataset.template.generator;
 
+import org.failearly.common.test.annotations.Subject;
 import org.failearly.dataset.internal.template.generator.DateGeneratorFactory;
+import org.failearly.dataset.internal.template.generator.DateGeneratorFactory.DateGeneratorImpl;
+import org.failearly.dataset.template.generator.support.DateTime;
 import org.failearly.dataset.template.generator.support.test.GeneratorTestBase;
-import org.junit.*;
+import org.junit.After;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import java.util.TimeZone;
 
@@ -32,7 +36,8 @@ import static org.junit.Assert.assertThat;
 /**
  * DateGeneratorTest contains tests for {@link DateGenerator}.
  */
-public class DateGeneratorTest extends GeneratorTestBase<String, DateGenerator, DateGeneratorFactory> {
+@Subject({DateGenerator.class, DateGeneratorFactory.class, DateGeneratorImpl.class})
+public class DateGeneratorTest extends GeneratorTestBase<DateTime, DateGenerator, DateGeneratorFactory, DateGeneratorImpl> {
     private static final int DATE_WITH_DAY_UNIT_GENERATOR=0;
     private static final int DATE_TIME_WITH_2_HOUR_STEP_GENERATOR=1;
     private static final int INVALID_DATE_GENERATOR=2;
@@ -42,7 +47,7 @@ public class DateGeneratorTest extends GeneratorTestBase<String, DateGenerator, 
     private static TimeZone defaultTimeZone;
 
     public DateGeneratorTest() {
-        super(DateGenerator.class, DateGeneratorFactory.class, TestFixture.class);
+        super(DateGenerator.class, DateGeneratorFactory.class, DateGeneratorImpl.class, TestFixture.class);
     }
 
 
@@ -61,7 +66,7 @@ public class DateGeneratorTest extends GeneratorTestBase<String, DateGenerator, 
         // act / when
         final String generated=generate(
                 template(TEMPLATE_EXTERNAL_ITERATOR),
-                createGenerator(DATE_WITH_DAY_UNIT_GENERATOR)
+                super.createTemplateObjectFromAnnotation(DATE_WITH_DAY_UNIT_GENERATOR)
         );
 
         // assert / then
@@ -73,7 +78,7 @@ public class DateGeneratorTest extends GeneratorTestBase<String, DateGenerator, 
         // act / when
         final String generated=generate(
                 template(TEMPLATE_INTERNAL_ITERATOR, 3),
-                createGenerator(DATE_WITH_DAY_UNIT_GENERATOR)
+                super.createTemplateObjectFromAnnotation(DATE_WITH_DAY_UNIT_GENERATOR)
         );
 
         // assert / then
@@ -89,7 +94,7 @@ public class DateGeneratorTest extends GeneratorTestBase<String, DateGenerator, 
         // act / when
         final String generated=generate(
                 template(TEMPLATE_EXTERNAL_ITERATOR),
-                createGenerator(DATE_TIME_WITH_2_HOUR_STEP_GENERATOR)
+                super.createTemplateObjectFromAnnotation(DATE_TIME_WITH_2_HOUR_STEP_GENERATOR)
         );
 
         // assert / then
@@ -107,7 +112,7 @@ public class DateGeneratorTest extends GeneratorTestBase<String, DateGenerator, 
         // act / when
         final String generated=generate(
                 template(TEMPLATE_EXTERNAL_ITERATOR),
-                createGenerator(INVALID_DATE_GENERATOR)
+                super.createTemplateObjectFromAnnotation(INVALID_DATE_GENERATOR)
         );
 
         // assert / then
@@ -120,7 +125,7 @@ public class DateGeneratorTest extends GeneratorTestBase<String, DateGenerator, 
         // act / when
         final String generated=generate(
                 template(TEMPLATE_EXTERNAL_ITERATOR),
-                createGenerator(ONE_DATE_GENERATOR)
+                super.createTemplateObjectFromAnnotation(ONE_DATE_GENERATOR)
         );
 
         // assert / then
@@ -135,18 +140,18 @@ public class DateGeneratorTest extends GeneratorTestBase<String, DateGenerator, 
         // act / when
         final String generated=generate(
                 template(TEMPLATE_EXTERNAL_ITERATOR),
-                createGenerator(TIMEZONE_GMT_PLUS_3_GENERATOR)
+                super.createTemplateObjectFromAnnotation(TIMEZONE_GMT_PLUS_3_GENERATOR)
         );
 
         // assert / then
         assertThat(generated, is("2015-07-26 03:00;"));
     }
 
-    @DateGenerator(name=TEMPLATE_OBJECT_NAME, from="2008-02-28", to="2008-03-01", format="yyyy-MM-dd", unit=DateUnit.DAYS)
-    @DateGenerator(name=TEMPLATE_OBJECT_NAME, from="2015-07-26 00:00", to="2015-07-26 08:00", format="yyyy-MM-dd HH:mm", unit=DateUnit.HOURS, step= 2)
-    @DateGenerator(name=TEMPLATE_OBJECT_NAME, from="2008-02-28", to="1999-01-01")
-    @DateGenerator(name=TEMPLATE_OBJECT_NAME, from="2008-01-01", to="2008-01-01", unit=DateUnit.MILLISECONDS)
-    @DateGenerator(name=TEMPLATE_OBJECT_NAME, from="2015-07-26 00:00", to="2015-07-26 00:00", format="yyyy-MM-dd HH:mm", timeZone = "GMT+3")
+    @DateGenerator(name= DTON, from="2008-02-28", to="2008-03-01", format="yyyy-MM-dd", unit=DateUnit.DAYS)
+    @DateGenerator(name= DTON, from="2015-07-26 00:00", to="2015-07-26 08:00", format="yyyy-MM-dd HH:mm", unit=DateUnit.HOURS, step= 2)
+    @DateGenerator(name= DTON, from="2008-02-28", to="1999-01-01")
+    @DateGenerator(name= DTON, from="2008-01-01", to="2008-01-01", unit=DateUnit.MILLISECONDS)
+    @DateGenerator(name= DTON, from="2015-07-26 00:00", to="2015-07-26 00:00", format="yyyy-MM-dd HH:mm", timeZone = "GMT+3")
     private static class TestFixture {
     }
 }

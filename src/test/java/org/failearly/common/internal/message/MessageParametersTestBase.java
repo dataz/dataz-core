@@ -1,7 +1,7 @@
 /*
  * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2016 marko (http://fail-early.com/contact)
+ * Copyright (C) 2014-2016 'Marko Umek' (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,18 +32,18 @@ import static org.mockito.Mockito.atLeastOnce;
  * Base (test) class for {@link MessageParameters}.
  */
 @TestsFor(MessageParameters.class)
-public abstract class MessageParametersBaseTest<T extends MessageParameters> {
+public abstract class MessageParametersTestBase<T extends MessageParameters> {
     protected static final String FIRST_PARAMETER="arg1";
     protected static final String SECOND_PARAMETER="arg2";
 
     private final ErrorMessageCollector errorMessageCollector=Mockito.mock(ErrorMessageCollector.class);
-    private static final MessageArguments NO_ARGUMENTS=createMessageArguments();
+    private static final MessageArgumentsImpl NO_ARGUMENTS=createMessageArguments();
 
-    private static MessageArguments createMessageArguments(String... parameterNames) {
+    private static MessageArgumentsImpl createMessageArguments(String... parameterNames) {
         final String dontCare="don't care";
-        final MessageArguments messageArguments=new MessageArguments();
+        final MessageArgumentsImpl messageArguments=new MessageArgumentsImpl();
         for (String argumentName : parameterNames) {
-            messageArguments.addArgument(argumentName, dontCare);
+            messageArguments.addMandatoryArgument(argumentName, dontCare);
         }
 
         return messageArguments;
@@ -93,7 +93,7 @@ public abstract class MessageParametersBaseTest<T extends MessageParameters> {
         final MessageParameters messageParameters=createMessageParameters();
 
         // assert / then
-        final MessageArguments exactlyMatchedArguments=createMessageArguments(FIRST_PARAMETER, SECOND_PARAMETER);
+        final MessageArgumentsImpl exactlyMatchedArguments=createMessageArguments(FIRST_PARAMETER, SECOND_PARAMETER);
         assertThat("exactly matched",
             messageParameters.messageArgumentsAreValid(exactlyMatchedArguments, errorMessageCollector),
             is(true)
@@ -106,7 +106,7 @@ public abstract class MessageParametersBaseTest<T extends MessageParameters> {
         final MessageParameters messageParameters=createMessageParameters();
 
         // assert / then
-        final MessageArguments oneOptionalArgument=createMessageArguments(
+        final MessageArgumentsImpl oneOptionalArgument=createMessageArguments(
                                                 FIRST_PARAMETER,
                                                 SECOND_PARAMETER,
                                                 "anyOptionalArgument"

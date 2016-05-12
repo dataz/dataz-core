@@ -1,7 +1,7 @@
 /*
  * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2016 marko (http://fail-early.com)
+ * Copyright (C) 2014-2016 'Marko Umek' (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +15,6 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
  */
 
 /**
@@ -27,7 +26,7 @@
  *    <li>The implementation of {@link org.failearly.dataset.template.TemplateObject},</li>
  *    <li>The factory implementation of {@link org.failearly.dataset.template.TemplateObjectFactory} and </li>
  *    <li>the <i>template object annotation</i>. The template object annotation is the public interface of a template object.
- *          This annotation must use {@link org.failearly.dataset.template.TemplateObjectFactoryDefinition#factory()} for
+ *          This annotation must use {@link org.failearly.dataset.template.TemplateObjectFactory.Definition#value()} for
  *          assigning the factory to the template object annotation.</li>
  * </ul>
  *

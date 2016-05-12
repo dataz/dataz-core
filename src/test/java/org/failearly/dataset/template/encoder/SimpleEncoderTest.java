@@ -1,7 +1,7 @@
 /*
  * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2016 marko (http://fail-early.com)
+ * Copyright (C) 2014-2016 'Marko Umek' (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,12 +15,13 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
  */
 
 package org.failearly.dataset.template.encoder;
 
+import org.failearly.common.test.annotations.Subject;
 import org.failearly.dataset.internal.template.encoder.SimpleEncoderFactory;
+import org.failearly.dataset.internal.template.encoder.SimpleEncoderFactory.SimpleEncoderImpl;
 import org.failearly.dataset.template.encoder.support.test.DevelopmentEncoderTestBase;
 import org.junit.Test;
 
@@ -30,7 +31,8 @@ import static org.junit.Assert.assertThat;
 /**
  * SimpleEncoderTest contains tests for {@link SimpleEncoder} and  {@link SimpleEncoderFactory}.
  */
-public class SimpleEncoderTest extends DevelopmentEncoderTestBase<String, String, SimpleEncoder, SimpleEncoderFactory> {
+@Subject({SimpleEncoder.class, SimpleEncoderFactory.class, SimpleEncoderImpl.class})
+public class SimpleEncoderTest extends DevelopmentEncoderTestBase<String, String, SimpleEncoder, SimpleEncoderFactory, SimpleEncoderImpl> {
 
     private static final int NONE_ENCODER=0;
     private static final int HEX_ENCODER=1;
@@ -41,7 +43,7 @@ public class SimpleEncoderTest extends DevelopmentEncoderTestBase<String, String
         super(
             SimpleEncoder.class,
             SimpleEncoderFactory.class,
-            TestFixture.class
+                SimpleEncoderImpl.class, TestFixture.class
         );
     }
 
@@ -83,9 +85,9 @@ public class SimpleEncoderTest extends DevelopmentEncoderTestBase<String, String
 
 
 
-    @SimpleEncoder(name=TEMPLATE_OBJECT_NAME, type = SimpleEncoder.Type.NONE)
-    @SimpleEncoder(name=TEMPLATE_OBJECT_NAME, type = SimpleEncoder.Type.HEX)
-    @SimpleEncoder(name=TEMPLATE_OBJECT_NAME, type = SimpleEncoder.Type.BASE64)
+    @SimpleEncoder(name= DTON, type = SimpleEncoder.Type.NONE)
+    @SimpleEncoder(name= DTON, type = SimpleEncoder.Type.HEX)
+    @SimpleEncoder(name= DTON, type = SimpleEncoder.Type.BASE64)
     private static class TestFixture {
     }
 }

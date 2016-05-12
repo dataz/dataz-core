@@ -1,7 +1,7 @@
 /*
  * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2016 marko (http://fail-early.com)
+ * Copyright (C) 2014-2016 'Marko Umek' (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,12 +15,13 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
  */
 
 package org.failearly.dataset.template.generator;
 
+import org.failearly.common.test.annotations.Subject;
 import org.failearly.dataset.internal.template.generator.RandomBooleanGeneratorFactory;
+import org.failearly.dataset.internal.template.generator.RandomBooleanGeneratorFactory.RandomBooleanGeneratorImpl;
 import org.failearly.dataset.template.generator.support.test.GeneratorTestBase;
 import org.junit.Test;
 
@@ -31,13 +32,14 @@ import static org.junit.Assert.assertThat;
 /**
  * RandomBooleanGeneratorFactoryTest contains tests for RandomBooleanGeneratorFactory
  */
-public class RandomBooleanGeneratorTest extends GeneratorTestBase<Boolean, RandomBooleanGenerator, RandomBooleanGeneratorFactory> {
+@Subject({RandomBooleanGenerator.class, RandomBooleanGeneratorFactory.class, RandomBooleanGeneratorImpl.class})
+public class RandomBooleanGeneratorTest extends GeneratorTestBase<Boolean, RandomBooleanGenerator, RandomBooleanGeneratorFactory, RandomBooleanGeneratorImpl> {
 
     private static final int TWENTY_PERCENT_WITH_SEED_42=0;
     private static final int SEVENTY_PERCENT_WITH_SEED_1=1;
 
     public RandomBooleanGeneratorTest() {
-        super(RandomBooleanGenerator.class, RandomBooleanGeneratorFactory.class, TestFixture.class);
+        super(RandomBooleanGenerator.class, RandomBooleanGeneratorFactory.class, RandomBooleanGeneratorImpl.class, TestFixture.class);
     }
 
     private static double percentageTrues(Generator<Boolean> generator, int numIterations) {
@@ -59,7 +61,7 @@ public class RandomBooleanGeneratorTest extends GeneratorTestBase<Boolean, Rando
             double expectedDeviation
     ) throws Exception {
         // arrange / given
-        final Generator<Boolean> generator=createGenerator(generatorAnnotationIdx);
+        final Generator<Boolean> generator= super.createTemplateObjectFromAnnotation(generatorAnnotationIdx);
 
         // act / when
         final double percentageTrues=percentageTrues(generator, iterations);
@@ -102,15 +104,15 @@ public class RandomBooleanGeneratorTest extends GeneratorTestBase<Boolean, Rando
         // act / when
         final String generated=generate(
                 template("#if( %var%.next() ) X#else -#end", 20),
-                createGenerator(SEVENTY_PERCENT_WITH_SEED_1)
+                super.createTemplateObjectFromAnnotation(SEVENTY_PERCENT_WITH_SEED_1)
         );
 
         // assert / then
         assertThat(generated, is(" X X - X X - X X X - X X X X X X X X - -"));
     }
 
-    @RandomBooleanGenerator(name=TEMPLATE_OBJECT_NAME, percent=20, seed=42)
-    @RandomBooleanGenerator(name=TEMPLATE_OBJECT_NAME, percent=70, seed=1)
+    @RandomBooleanGenerator(name= DTON, percent=20, seed=42)
+    @RandomBooleanGenerator(name= DTON, percent=70, seed=1)
     private static class TestFixture {
     }
 }

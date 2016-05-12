@@ -1,7 +1,7 @@
 /*
  * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2016 marko (http://fail-early.com)
+ * Copyright (C) 2014-2016 'Marko Umek' (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +15,6 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
  */
 
 package org.failearly.dataset.template;
@@ -43,9 +42,11 @@ public interface TemplateObject {
     String id();
 
     /**
-     * The name will be used within a (Velocity) template as {@code $name}. So be carefully with the name.
+     * The name will be used within a (Velocity) template as {@code $name} or {@code ${name}}.
+     * So be carefully with the name.
      * <br><br>
      * Caution: Not every name will be usable by a template engine.
+     *          (Visit http://velocity.apache.org/engine/devel/user-guide.html)
      *
      * @return  the name of the template object.
      */
@@ -67,13 +68,16 @@ public interface TemplateObject {
      * @see org.failearly.dataset.DataSet#name()
      * @see org.failearly.dataset.DataSetup#name()
      * @see org.failearly.dataset.DataCleanup#name()
+     * @see Scope#LOCAL
      */
     String dataset();
 
     /**
-     * @return The scope of a template object.
+     * @return The scope's value ({@link Scope#getScopeValue()}) of a template object.
      *
      * @see Scope
+     * @see Scope#DEFAULT
+     * @see Scope#getScopeValue()
      */
     Scope scope();
 

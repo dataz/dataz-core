@@ -1,7 +1,7 @@
 /*
  * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2016 marko (http://fail-early.com)
+ * Copyright (C) 2014-2016 'Marko Umek' (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +15,6 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
  */
 
 package org.failearly.dataset.template;
@@ -50,6 +49,14 @@ public abstract class TemplateObjectFactoryBase<T extends Annotation> implements
      * @return the created template object.
      */
     protected abstract TemplateObject doCreate(T annotation);
+
+
+    @Override
+    public final <TO extends TemplateObject> TO create(Annotation annotation, Class<TO> toClass) {
+        Objects.requireNonNull(annotationClass,"Missing template object class.");
+        return toClass.cast(create(annotation));
+    }
+
 
 
     @Override

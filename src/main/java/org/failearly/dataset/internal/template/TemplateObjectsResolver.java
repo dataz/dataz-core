@@ -1,7 +1,7 @@
 /*
  * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2016 marko (http://fail-early.com)
+ * Copyright (C) 2014-2016 'Marko Umek' (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +15,6 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
  */
 
 package org.failearly.dataset.internal.template;
@@ -24,12 +23,12 @@ import org.failearly.common.annotation.traverser.*;
 import org.failearly.dataset.config.DataSetProperties;
 import org.failearly.dataset.internal.util.BuilderBase;
 import org.failearly.dataset.template.TemplateObjectFactory;
-import org.failearly.dataset.template.TemplateObjectFactoryDefinition;
 import org.failearly.common.test.ObjectCreator;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
+import static org.failearly.common.annotation.traverser.AnnotationTraverserBuilder.metaAnnotationTraverser;
 import static org.failearly.common.annotation.utils.AnnotationUtils.getMetaAnnotation;
 
 /**
@@ -100,12 +99,11 @@ public final class TemplateObjectsResolver {
     }
 
     private void doResolveTemplateObjectCreators(Class<?> testClass, final TemplateObjects creators) {
-        final AnnotationTraverser<Annotation> traverser = AnnotationTraversers.createMetaAnnotationTraverser(
-                TemplateObjectFactoryDefinition.class,
-                TraverseStrategy.TOP_DOWN,
-                traverseDepth
-        );
-        traverser.traverse(testClass, new AnnotationHandlerBase<Annotation>() {
+        final MetaAnnotationTraverser<TemplateObjectFactory.Definition> traverser = metaAnnotationTraverser(TemplateObjectFactory.Definition.class)
+                .withTraverseStrategy(TraverseStrategy.TOP_DOWN)
+                .withTraverseDepth(traverseDepth)
+                .build();
+        traverser.traverse(testClass, new MetaAnnotationHandlerBase<TemplateObjectFactory.Definition>() {
             @Override
             public void handleAnnotation(Annotation annotation) {
                 creators.add(createTemplateObjectCreator(annotation));
@@ -114,12 +112,11 @@ public final class TemplateObjectsResolver {
     }
 
     private void doResolveTemplateObjectCreators(Method testClass, final TemplateObjects creators) {
-        final AnnotationTraverser<Annotation> traverser = AnnotationTraversers.createMetaAnnotationTraverser(
-                TemplateObjectFactoryDefinition.class,
-                TraverseStrategy.TOP_DOWN,
-                traverseDepth
-        );
-        traverser.traverse(testClass, new AnnotationHandlerBase<Annotation>() {
+        final MetaAnnotationTraverser<TemplateObjectFactory.Definition> traverser = metaAnnotationTraverser(TemplateObjectFactory.Definition.class)
+                .withTraverseStrategy(TraverseStrategy.TOP_DOWN)
+                .withTraverseDepth(traverseDepth)
+                .build();
+        traverser.traverse(testClass, new MetaAnnotationHandlerBase<TemplateObjectFactory.Definition>() {
             @Override
             public void handleAnnotation(Annotation annotation) {
                 creators.add(createTemplateObjectCreator(annotation));
@@ -129,13 +126,13 @@ public final class TemplateObjectsResolver {
 
     private static TemplateObjectCreator createTemplateObjectCreator(Annotation annotation) {
         return new TemplateObjectCreator(
-                createTemplateObjectFactoryFromDefinition(getMetaAnnotation(TemplateObjectFactoryDefinition.class, annotation)),
+                createTemplateObjectFactoryFromDefinition(getMetaAnnotation(TemplateObjectFactory.Definition.class, annotation)),
                 annotation
         );
     }
 
-    private static TemplateObjectFactory createTemplateObjectFactoryFromDefinition(TemplateObjectFactoryDefinition templateObjectFactoryDefinition) {
-        return ObjectCreator.createInstance(templateObjectFactoryDefinition.factory());
+    private static TemplateObjectFactory createTemplateObjectFactoryFromDefinition(TemplateObjectFactory.Definition definition) {
+        return ObjectCreator.createInstance(definition.value());
     }
 
 

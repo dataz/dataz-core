@@ -1,7 +1,7 @@
 /*
  * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2016 marko (http://fail-early.com)
+ * Copyright (C) 2014-2016 'Marko Umek' (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,16 +15,16 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
  */
 
 package org.failearly.dataset.template.simple;
 
+import org.failearly.common.test.ExceptionVerifier;
+import org.failearly.common.test.annotations.Subject;
 import org.failearly.dataset.Property;
 import org.failearly.dataset.internal.template.simple.AdhocFactory;
 import org.failearly.dataset.template.simple.support.AdhocTemplateObjectBase;
 import org.failearly.dataset.template.support.test.TemplateObjectTestBase;
-import org.failearly.common.test.ExceptionVerifier;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -34,12 +34,12 @@ import static org.junit.Assert.assertThat;
 /**
  * AdhocTest contains tests for {@link Adhoc} and {@link AdhocFactory}.
  */
-public class AdhocTest extends TemplateObjectTestBase<Adhoc, AdhocFactory> {
+@Subject({Adhoc.class, AdhocFactory.class, Adhoc.AdhocTemplateObject.class})
+public class AdhocTest extends TemplateObjectTestBase<Adhoc, AdhocFactory, Adhoc.AdhocTemplateObject> {
 
     public AdhocTest() {
         super(
-            Adhoc.class, AdhocFactory.class, TestFixture.class
-        );
+            Adhoc.class, AdhocFactory.class, Adhoc.AdhocTemplateObject.class, TestFixture.class);
     }
 
     @Test
@@ -64,12 +64,12 @@ public class AdhocTest extends TemplateObjectTestBase<Adhoc, AdhocFactory> {
     }
 
     private CustomAdhocImplementation createAdhocTemplateObject() throws Exception {
-        return (CustomAdhocImplementation) createTemplateObjectFromAnnotationIndex(0);
+        return (CustomAdhocImplementation) createTemplateObjectFromAnnotation(0);
     }
 
 
     @Adhoc(
-            name = TEMPLATE_OBJECT_NAME,
+            name = DTON,
             value = CustomAdhocImplementation.class,
             args = {"argument 0", "argument 1"},
             properties = {@Property(k = "key1", v = "value1"), @Property(k = "key2", v = "value2")}

@@ -1,7 +1,7 @@
 /*
  * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2016 marko (http://fail-early.com)
+ * Copyright (C) 2014-2016 'Marko Umek' (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,16 +15,16 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
  */
 
 package org.failearly.dataset.template.generator;
 
+import org.failearly.common.test.ExceptionVerifier;
 import org.failearly.dataset.internal.template.generator.RandomRangeGeneratorFactory;
+import org.failearly.dataset.internal.template.generator.RandomRangeGeneratorFactory.RandomRangeGeneratorImpl;
 import org.failearly.dataset.template.InvariantViolationException;
 import org.failearly.dataset.template.generator.support.UnlimitedGenerator;
 import org.failearly.dataset.template.generator.support.test.GeneratorTestBase;
-import org.failearly.common.test.ExceptionVerifier;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.not;
@@ -35,7 +35,7 @@ import static org.junit.Assert.assertThat;
 /**
  *  RandomRangeGeneratorTest contains tests for {@link RandomRangeGenerator}.
  */
-public class RandomRangeGeneratorTest extends GeneratorTestBase<Integer, RandomRangeGenerator, RandomRangeGeneratorFactory> {
+public class RandomRangeGeneratorTest extends GeneratorTestBase<Integer, RandomRangeGenerator, RandomRangeGeneratorFactory, RandomRangeGeneratorImpl> {
 
     private static final int DEFAULT_RANDOM_RANGE=0;
     private static final int SIMPLE_RANGE_WITH_SEED_42=1;
@@ -50,12 +50,12 @@ public class RandomRangeGeneratorTest extends GeneratorTestBase<Integer, RandomR
 
 
     public RandomRangeGeneratorTest() {
-        super(RandomRangeGenerator.class, RandomRangeGeneratorFactory.class, TestFixture.class);
+        super(RandomRangeGenerator.class, RandomRangeGeneratorFactory.class, RandomRangeGeneratorImpl.class, TestFixture.class);
     }
 
     @Test
     public void default_random_range__should_be_unlimited_generator() throws Exception {
-        assertThat(createGenerator(DEFAULT_RANDOM_RANGE), instanceOf(UnlimitedGenerator.class));
+        assertThat(super.createTemplateObjectFromAnnotation(DEFAULT_RANDOM_RANGE), instanceOf(UnlimitedGenerator.class));
     }
 
     @Test
@@ -63,7 +63,7 @@ public class RandomRangeGeneratorTest extends GeneratorTestBase<Integer, RandomR
         // act / when
         final String generated=generate(
                 template(TEMPLATE_INTERNAL_ITERATOR_SIMPLE, 6),
-                createGenerator(SIMPLE_RANGE_WITH_SEED_42)
+                super.createTemplateObjectFromAnnotation(SIMPLE_RANGE_WITH_SEED_42)
         );
 
         // assert / then
@@ -75,11 +75,11 @@ public class RandomRangeGeneratorTest extends GeneratorTestBase<Integer, RandomR
         // act / when
         final String generated314=generate(
                 template(TEMPLATE_INTERNAL_ITERATOR_SIMPLE, 6),
-                createGenerator(SIMPLE_RANGE_WITH_SEED_314)
+                super.createTemplateObjectFromAnnotation(SIMPLE_RANGE_WITH_SEED_314)
         );
         final String generated42=generate(
                 template(TEMPLATE_INTERNAL_ITERATOR_SIMPLE, 6),
-                createGenerator(SIMPLE_RANGE_WITH_SEED_42)
+                super.createTemplateObjectFromAnnotation(SIMPLE_RANGE_WITH_SEED_42)
         );
 
         // assert / then
@@ -91,7 +91,7 @@ public class RandomRangeGeneratorTest extends GeneratorTestBase<Integer, RandomR
         // act / when
         final String generated=generate(
                 template(TEMPLATE_EXTERNAL_ITERATOR),
-                createTemplateObjectFromAnnotationIndex(LIMITED_RANGE_WITH_DEFAULT_COUNT)
+                createTemplateObjectFromAnnotation(LIMITED_RANGE_WITH_DEFAULT_COUNT)
         );
 
         // assert / then
@@ -105,7 +105,7 @@ public class RandomRangeGeneratorTest extends GeneratorTestBase<Integer, RandomR
         // act / when
         final String generated=generate(
                 template(TEMPLATE_EXTERNAL_ITERATOR),
-                createGenerator(LIMITED_RANGE_WITH_VALID_COUNT)
+                super.createTemplateObjectFromAnnotation(LIMITED_RANGE_WITH_VALID_COUNT)
         );
 
         // assert / then
@@ -119,7 +119,7 @@ public class RandomRangeGeneratorTest extends GeneratorTestBase<Integer, RandomR
         // act / when
         final String generated=generate(
                 template(TEMPLATE_EXTERNAL_ITERATOR),
-                createGenerator(UNIQUE_RANGE_WITH_DEFAULT_COUNT)
+                super.createTemplateObjectFromAnnotation(UNIQUE_RANGE_WITH_DEFAULT_COUNT)
         );
 
         // assert / then
@@ -133,7 +133,7 @@ public class RandomRangeGeneratorTest extends GeneratorTestBase<Integer, RandomR
         // act / when
         final String generated=generate(
                 template(TEMPLATE_EXTERNAL_ITERATOR),
-                createGenerator(UNIQUE_RANGE_WITH_COUNT_LESS_THEN_RANGE_SIZE)
+                super.createTemplateObjectFromAnnotation(UNIQUE_RANGE_WITH_COUNT_LESS_THEN_RANGE_SIZE)
         );
 
         // assert / then
@@ -147,7 +147,7 @@ public class RandomRangeGeneratorTest extends GeneratorTestBase<Integer, RandomR
         // act / when
         final String generated=generate(
                 template(TEMPLATE_EXTERNAL_ITERATOR),
-                createGenerator(UNIQUE_RANGE_WITH_COUNT_GREATER_THEN_RANGE_SIZE)
+                super.createTemplateObjectFromAnnotation(UNIQUE_RANGE_WITH_COUNT_GREATER_THEN_RANGE_SIZE)
         );
 
         // assert / then
@@ -159,33 +159,33 @@ public class RandomRangeGeneratorTest extends GeneratorTestBase<Integer, RandomR
     @Test
     public void invalid_range__should_throw_InvariantViolationException() throws Exception {
         // act / when
-        ExceptionVerifier.on(() -> createGenerator(INVALID_START_EQ_END))
+        ExceptionVerifier.on(() -> super.createTemplateObjectFromAnnotation(INVALID_START_EQ_END))
                 .expect(InvariantViolationException.class)
                 .expect("Invariant of RandomRangeGenerator has been violated: start < end!" +
-                        "\nCurrent annotation is '" + getDeclaredAnnotation(INVALID_START_EQ_END) + "'" )
+                        "\nCurrent annotation is '" + resolveTestFixtureAnnotation(INVALID_START_EQ_END) + "'" )
                 .verify();
 
-        ExceptionVerifier.on(() -> createGenerator(INVALID_START_GT_END))
+        ExceptionVerifier.on(() -> super.createTemplateObjectFromAnnotation(INVALID_START_GT_END))
                 .expect(InvariantViolationException.class)
                 .expect("Invariant of RandomRangeGenerator has been violated: start < end!" +
-                        "\nCurrent annotation is '" + getDeclaredAnnotation(INVALID_START_GT_END)+ "'" )
+                        "\nCurrent annotation is '" + resolveTestFixtureAnnotation(INVALID_START_GT_END)+ "'" )
                 .verify();
     }
 
     // Unlimited
-    @RandomRangeGenerator(name=TEMPLATE_OBJECT_NAME)
-    @RandomRangeGenerator(name=TEMPLATE_OBJECT_NAME, start=3, end=10, seed=42)
-    @RandomRangeGenerator(name=TEMPLATE_OBJECT_NAME, start=3, end=10, seed=314)
+    @RandomRangeGenerator(name= DTON)
+    @RandomRangeGenerator(name= DTON, start=3, end=10, seed=42)
+    @RandomRangeGenerator(name= DTON, start=3, end=10, seed=314)
     // Limited
-    @RandomRangeGenerator(name=TEMPLATE_OBJECT_NAME, start=3, end=10, seed=42, limit = Limit.LIMITED)
-    @RandomRangeGenerator(name=TEMPLATE_OBJECT_NAME, start=3, end=10, seed=42, limit = Limit.LIMITED, count = 10)
+    @RandomRangeGenerator(name= DTON, start=3, end=10, seed=42, limit = Limit.LIMITED)
+    @RandomRangeGenerator(name= DTON, start=3, end=10, seed=42, limit = Limit.LIMITED, count = 10)
     // Uniqiue
-    @RandomRangeGenerator(name=TEMPLATE_OBJECT_NAME, start=3, end=10, seed=42, unique = true)
-    @RandomRangeGenerator(name=TEMPLATE_OBJECT_NAME, start=3, end=10, seed=42, unique = true, count = 4)
-    @RandomRangeGenerator(name=TEMPLATE_OBJECT_NAME, start=3, end=10, seed=42, unique = true, count = 1_000_000)
+    @RandomRangeGenerator(name= DTON, start=3, end=10, seed=42, unique = true)
+    @RandomRangeGenerator(name= DTON, start=3, end=10, seed=42, unique = true, count = 4)
+    @RandomRangeGenerator(name= DTON, start=3, end=10, seed=42, unique = true, count = 1_000_000)
     // Invalid
-    @RandomRangeGenerator(name=TEMPLATE_OBJECT_NAME, start=1, end=1, seed=42)
-    @RandomRangeGenerator(name=TEMPLATE_OBJECT_NAME, start=3, end=0, seed=42)
+    @RandomRangeGenerator(name= DTON, start=1, end=1, seed=42)
+    @RandomRangeGenerator(name= DTON, start=3, end=0, seed=42)
     private static class TestFixture {
     }
 }

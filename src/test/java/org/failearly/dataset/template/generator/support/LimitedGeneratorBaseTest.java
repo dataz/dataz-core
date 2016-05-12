@@ -1,7 +1,7 @@
 /*
  * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2016 marko (http://fail-early.com)
+ * Copyright (C) 2014-2016 'Marko Umek' (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,12 +15,12 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
  */
 
 package org.failearly.dataset.template.generator.support;
 
 import org.failearly.dataset.internal.template.generator.ListGeneratorFactory;
+import org.failearly.dataset.internal.template.generator.ListGeneratorFactory.ListGeneratorImpl;
 import org.failearly.dataset.template.generator.Limit;
 import org.failearly.dataset.template.generator.ListGenerator;
 import org.failearly.dataset.template.generator.support.test.GeneratorTestBase;
@@ -32,10 +32,10 @@ import static org.junit.Assert.assertThat;
 /**
  * LimitedGeneratorBaseTest contains tests for {@link LimitedGeneratorBase} using {@link ListGenerator}.
  */
-public class LimitedGeneratorBaseTest extends GeneratorTestBase<String, ListGenerator, ListGeneratorFactory> {
+public class LimitedGeneratorBaseTest extends GeneratorTestBase<String, ListGenerator, ListGeneratorFactory, ListGeneratorImpl> {
 
     public LimitedGeneratorBaseTest() {
-        super(ListGenerator.class, ListGeneratorFactory.class, TestFixture.class);
+        super(ListGenerator.class, ListGeneratorFactory.class, ListGeneratorImpl.class, TestFixture.class);
     }
 
     @Test
@@ -43,7 +43,7 @@ public class LimitedGeneratorBaseTest extends GeneratorTestBase<String, ListGene
         // act / when
         final String generated = generate(
                 template(TEMPLATE_EXTERNAL_ITERATOR),
-                createTemplateObject()
+                createTemplateObjectFromAnnotation()
         );
 
         // assert / then
@@ -55,7 +55,7 @@ public class LimitedGeneratorBaseTest extends GeneratorTestBase<String, ListGene
         // act / when
         final String generated = generate(
                 template(TEMPLATE_EXTERNAL_TWO_ITERATORS),
-                createTemplateObject()
+                createTemplateObjectFromAnnotation()
         );
 
         // assert / then
@@ -67,7 +67,7 @@ public class LimitedGeneratorBaseTest extends GeneratorTestBase<String, ListGene
         // act / when
         final String generated = generate(
                 template(TEMPLATE_EXTERNAL_AND_INTERNAL_ITERATOR),
-                createTemplateObject()
+                createTemplateObjectFromAnnotation()
         );
 
         // assert / then
@@ -79,7 +79,7 @@ public class LimitedGeneratorBaseTest extends GeneratorTestBase<String, ListGene
         // act / when
         final String generated = generate(
                 template(TEMPLATE_INTERNAL_ITERATOR, 3),
-                createTemplateObject()
+                createTemplateObjectFromAnnotation()
         );
 
         // assert / then
@@ -92,7 +92,7 @@ public class LimitedGeneratorBaseTest extends GeneratorTestBase<String, ListGene
         // act / when
         final String generated = generate(
                 template(TEMPLATE_INTERNAL_ITERATOR_USING_RESET, 4),
-                createTemplateObject()
+                createTemplateObjectFromAnnotation()
         );
 
         // assert / then
@@ -105,7 +105,7 @@ public class LimitedGeneratorBaseTest extends GeneratorTestBase<String, ListGene
     }
 
 
-    @ListGenerator(name = TEMPLATE_OBJECT_NAME, dataset = DATASET, values = {"val1", "val2", "val3"}, limit = Limit.LIMITED)
+    @ListGenerator(name = DTON, values = {"val1", "val2", "val3"}, limit = Limit.LIMITED)
     private static class TestFixture {
     }
 

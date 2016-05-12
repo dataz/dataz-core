@@ -1,7 +1,7 @@
 /*
  * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2016 marko (http://fail-early.com)
+ * Copyright (C) 2014-2016 'Marko Umek' (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +15,6 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
  */
 
 package org.failearly.dataset.template.encoder.support.test;
@@ -29,18 +28,26 @@ import java.lang.annotation.Annotation;
 /**
  * EncoderTestBase is responsible for ...
  */
-public abstract class EncoderTestBase<R, T, A extends Annotation, EF extends EncoderFactoryBase>
-    extends TemplateObjectTestBase<A, EF> {
+@SuppressWarnings("unused")
+public abstract class EncoderTestBase<T, R, TOA extends Annotation, TOF extends EncoderFactoryBase, TO extends Encoder<T, R>>
+    extends TemplateObjectTestBase<TOA, TOF, TO> {
 
-    protected EncoderTestBase(Class<A> templateObjectAnnotationClass, Class<EF> templateObjectFactoryClass, Class<?> testFixtureClass) {
-        super(templateObjectAnnotationClass, templateObjectFactoryClass, testFixtureClass);
+    protected EncoderTestBase(
+            Class<TOA> templateObjectAnnotationClass,
+            Class<TOF> templateObjectFactoryClass,
+            Class<TO> templateObjectClass,
+            Class<?> testFixtureClass
+    ) {
+        super(templateObjectAnnotationClass, templateObjectFactoryClass, templateObjectClass, testFixtureClass);
     }
 
-
-    @SuppressWarnings("unchecked")
-    protected Encoder<T, R> createEncoder(int annotationNumber) throws Exception {
-        return (Encoder<T, R>) super.createTemplateObjectFromAnnotationIndex(annotationNumber);
+    /**
+     * Create a {@link Encoder} object from Test Fixture Class using the {@code annotationIndex} assigned TOA.
+     * @param  annotationIndex the index of the available annotations.
+     * @return the encoder object
+     * @throws Exception
+     */
+    protected final TO createEncoder(int annotationIndex) throws Exception {
+        return super.createTemplateObjectFromAnnotation(annotationIndex);
     }
-
-
 }

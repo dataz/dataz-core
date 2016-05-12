@@ -1,7 +1,7 @@
 /*
  * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2016 marko (http://fail-early.com)
+ * Copyright (C) 2014-2016 'Marko Umek' (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,15 +15,16 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
  */
 
 package org.failearly.dataset.template.generator;
 
+import org.failearly.common.test.ExceptionVerifier;
+import org.failearly.common.test.annotations.Subject;
 import org.failearly.dataset.internal.template.generator.RangeGeneratorFactory;
+import org.failearly.dataset.internal.template.generator.RangeGeneratorFactory.RangeGeneratorImpl;
 import org.failearly.dataset.template.InvariantViolationException;
 import org.failearly.dataset.template.generator.support.test.GeneratorTestBase;
-import org.failearly.common.test.ExceptionVerifier;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.is;
@@ -32,7 +33,8 @@ import static org.junit.Assert.assertThat;
 /**
  * RangeGeneratorTest contains tests for {@link RangeGenerator}.
  */
-public class RangeGeneratorTest extends GeneratorTestBase<Integer, RangeGenerator, RangeGeneratorFactory> {
+@Subject({RangeGenerator.class, RangeGeneratorFactory.class, RangeGeneratorImpl.class})
+public class RangeGeneratorTest extends GeneratorTestBase<Integer, RangeGenerator, RangeGeneratorFactory, RangeGeneratorImpl> {
 
     private static final int ZERO_TO_FOUR=0;
     private static final int WITH_STEP=1;
@@ -41,7 +43,7 @@ public class RangeGeneratorTest extends GeneratorTestBase<Integer, RangeGenerato
     private static final int INVALID_STEP=4;
 
     public RangeGeneratorTest() {
-        super(RangeGenerator.class, RangeGeneratorFactory.class, TestFixture.class);
+        super(RangeGenerator.class, RangeGeneratorFactory.class, RangeGeneratorImpl.class, TestFixture.class);
     }
 
     @Test
@@ -49,7 +51,7 @@ public class RangeGeneratorTest extends GeneratorTestBase<Integer, RangeGenerato
         // act / when
         final String generated=generate(
                 template(TEMPLATE_EXTERNAL_ITERATOR),
-                createGenerator(ZERO_TO_FOUR)
+                super.createTemplateObjectFromAnnotation(ZERO_TO_FOUR)
         );
 
         // assert / then
@@ -61,7 +63,7 @@ public class RangeGeneratorTest extends GeneratorTestBase<Integer, RangeGenerato
         // act / when
         final String generated=generate(
                 template(TEMPLATE_INTERNAL_ITERATOR, 5),
-                createGenerator(ZERO_TO_FOUR)
+                super.createTemplateObjectFromAnnotation(ZERO_TO_FOUR)
         );
 
         // assert / then
@@ -79,7 +81,7 @@ public class RangeGeneratorTest extends GeneratorTestBase<Integer, RangeGenerato
         // act / when
         final String generated=generate(
                 template(TEMPLATE_EXTERNAL_ITERATOR),
-                createGenerator(WITH_STEP)
+                super.createTemplateObjectFromAnnotation(WITH_STEP)
         );
 
         // assert / then
@@ -91,7 +93,7 @@ public class RangeGeneratorTest extends GeneratorTestBase<Integer, RangeGenerato
         // act / when
         final String generated=generate(
                 template(TEMPLATE_EXTERNAL_ITERATOR),
-                createGenerator(FROM_EQUALS_TO)
+                super.createTemplateObjectFromAnnotation(FROM_EQUALS_TO)
         );
 
         // assert / then
@@ -101,11 +103,11 @@ public class RangeGeneratorTest extends GeneratorTestBase<Integer, RangeGenerato
     @Test
     public void invalid_from_to__should_throw_exception() throws Exception {
         // act / when
-        ExceptionVerifier.on(() -> createGenerator(INVALID_FROM_TO))
+        ExceptionVerifier.on(() -> super.createTemplateObjectFromAnnotation(INVALID_FROM_TO))
                 .expect(InvariantViolationException.class)
                 .expect(
                         "Invariant of RangeGenerator has been violated: from <= to!" +
-                                "\nCurrent annotation is '" + getDeclaredAnnotation(INVALID_FROM_TO) + "'"
+                                "\nCurrent annotation is '" + resolveTestFixtureAnnotation(INVALID_FROM_TO) + "'"
                 )
                 .verify();
     }
@@ -113,19 +115,19 @@ public class RangeGeneratorTest extends GeneratorTestBase<Integer, RangeGenerato
     @Test
     public void invalid_step__should_throw_exception() throws Exception {
         // act / when
-        ExceptionVerifier.on(() -> createGenerator(INVALID_STEP))
+        ExceptionVerifier.on(() -> super.createTemplateObjectFromAnnotation(INVALID_STEP))
                 .expect(InvariantViolationException.class)
                 .expect("Invariant of RangeGenerator has been violated: step > 0!" +
-                        "\nCurrent annotation is '" + getDeclaredAnnotation(INVALID_STEP) + "'")
+                        "\nCurrent annotation is '" + resolveTestFixtureAnnotation(INVALID_STEP) + "'")
                 .verify();
     }
 
 
-    @RangeGenerator(name=TEMPLATE_OBJECT_NAME, from=0, to=4)
-    @RangeGenerator(name=TEMPLATE_OBJECT_NAME, from=1, to=10, step=3)
-    @RangeGenerator(name=TEMPLATE_OBJECT_NAME, from=7, to=7)
-    @RangeGenerator(name=TEMPLATE_OBJECT_NAME, from=0, to=-1)
-    @RangeGenerator(name=TEMPLATE_OBJECT_NAME, from=0, to=4, step=0)
+    @RangeGenerator(name= DTON, from=0, to=4)
+    @RangeGenerator(name= DTON, from=1, to=10, step=3)
+    @RangeGenerator(name= DTON, from=7, to=7)
+    @RangeGenerator(name= DTON, from=0, to=-1)
+    @RangeGenerator(name= DTON, from=0, to=4, step=0)
     private static class TestFixture {
     }
 }

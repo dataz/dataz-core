@@ -1,7 +1,7 @@
 /*
  * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2016 marko (http://fail-early.com)
+ * Copyright (C) 2014-2016 'Marko Umek' (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,17 +15,17 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
  */
 
 package org.failearly.dataset.template.generator.support;
 
 import org.apache.velocity.exception.VelocityException;
+import org.failearly.common.test.ExceptionVerifier;
 import org.failearly.dataset.internal.template.generator.ListGeneratorFactory;
+import org.failearly.dataset.internal.template.generator.ListGeneratorFactory.ListGeneratorImpl;
 import org.failearly.dataset.template.generator.Limit;
 import org.failearly.dataset.template.generator.ListGenerator;
 import org.failearly.dataset.template.generator.support.test.GeneratorTestBase;
-import org.failearly.common.test.ExceptionVerifier;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.is;
@@ -34,10 +34,10 @@ import static org.junit.Assert.assertThat;
 /**
  * UnlimitedGeneratorBaseTest contains tests for {@link UnlimitedGeneratorBase} using {@link ListGenerator}.
  */
-public class UnlimitedGeneratorBaseTest extends GeneratorTestBase<String, ListGenerator, ListGeneratorFactory> {
+public class UnlimitedGeneratorBaseTest extends GeneratorTestBase<String, ListGenerator, ListGeneratorFactory, ListGeneratorImpl> {
 
     public UnlimitedGeneratorBaseTest() {
-        super(ListGenerator.class, ListGeneratorFactory.class, TestFixture.class);
+        super(ListGenerator.class, ListGeneratorFactory.class, ListGeneratorImpl.class, TestFixture.class);
     }
 
 
@@ -45,7 +45,7 @@ public class UnlimitedGeneratorBaseTest extends GeneratorTestBase<String, ListGe
     public void using_external_iterator__should_throw_exception() throws Exception {
         ExceptionVerifier.TestAction action=() -> generate(
                 template(TEMPLATE_EXTERNAL_ITERATOR),
-                createTemplateObject()
+                createTemplateObjectFromAnnotation()
         );
         ExceptionVerifier.on(action).expect(VelocityException.class).expect("Error invoking the method 'iterator' on class 'org.failearly.dataset.internal.template.generator.decorator.UnlimitedGeneratorDecorator'").verify();
     }
@@ -55,7 +55,7 @@ public class UnlimitedGeneratorBaseTest extends GeneratorTestBase<String, ListGe
         // act / when
         final String generated=generate(
                 template(TEMPLATE_INTERNAL_ITERATOR, 3),
-                createTemplateObject()
+                createTemplateObjectFromAnnotation()
         );
 
         // assert / then
@@ -71,7 +71,7 @@ public class UnlimitedGeneratorBaseTest extends GeneratorTestBase<String, ListGe
         // act / when
         final String generated=generate(
                 template(TEMPLATE_INTERNAL_ITERATOR_USING_RESET, 4),
-                createTemplateObject()
+                createTemplateObjectFromAnnotation()
         );
 
         // assert / then
@@ -83,7 +83,7 @@ public class UnlimitedGeneratorBaseTest extends GeneratorTestBase<String, ListGe
         ));
     }
 
-    @ListGenerator(name=TEMPLATE_OBJECT_NAME, dataset=DATASET, values={"val1", "val2", "val3"}, limit=Limit.UNLIMITED)
+    @ListGenerator(name= DTON, values={"val1", "val2", "val3"}, limit=Limit.UNLIMITED)
     private static class TestFixture {
     }
 

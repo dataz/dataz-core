@@ -1,7 +1,7 @@
 /*
  * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2016 marko (http://fail-early.com)
+ * Copyright (C) 2014-2016 'Marko Umek' (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +15,6 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
  */
 
 package org.failearly.dataset.internal.resource.factory.use;
@@ -46,9 +45,11 @@ abstract class ResourcesFactoryBase<T extends Annotation> extends TypedDataResou
             return 0;
         }
     };
+    private final Class<T> metaAnnotationClass;
 
-    protected ResourcesFactoryBase() {
+    ResourcesFactoryBase(Class<T> metaAnnotationClass) {
         super(Use.class);
+        this.metaAnnotationClass = metaAnnotationClass;
     }
 
     @Override
@@ -95,20 +96,17 @@ abstract class ResourcesFactoryBase<T extends Annotation> extends TypedDataResou
 
 
     private void doCreateDataResourcesFromSingleReusableDataSet(Class<?> reusableDataSetClass, List<DataResource> dataResources, TemplateObjects globalTemplateObjects) {
-        final AnnotationTraverser<Annotation> resourcesTraverser = AnnotationTraversers.createMetaAnnotationTraverser(
-                annotationClass(),
-                TraverseStrategy.BOTTOM_UP,
-                TraverseDepth.CLASS_HIERARCHY
-        );
+        final MetaAnnotationTraverser<T> resourcesTraverser = AnnotationTraverserBuilder.metaAnnotationTraverser(metaAnnotationClass)
+                .withTraverseStrategy(TraverseStrategy.BOTTOM_UP)
+                .withTraverseDepth(TraverseDepth.CLASS_HIERARCHY)
+                .build();
         resourcesTraverser.traverse(                                                               //
                 reusableDataSetClass,                                                              //
-                annotationHandler(dataResources, globalTemplateObjects.merge(resolveFromTestClass(reusableDataSetClass)))       //
+                metaAnnotationHandler(dataResources, globalTemplateObjects.merge(resolveFromTestClass(reusableDataSetClass)))       //
         );
     }
 
-    protected abstract Class<? extends Annotation> annotationClass();
-
-    protected abstract AnnotationHandler<Annotation> annotationHandler(List<DataResource> dataResources, TemplateObjects templateObjects);
+    protected abstract MetaAnnotationHandler<T> metaAnnotationHandler(List<DataResource> dataResources, TemplateObjects templateObjects);
 
     private List<Class<? extends Use.ReusableDataSet>> filterDuplicatedReusableDataSetClasses(Use annotation) {
         final List<Class<? extends Use.ReusableDataSet>> filteredDataSetClasses=new LinkedList<>();

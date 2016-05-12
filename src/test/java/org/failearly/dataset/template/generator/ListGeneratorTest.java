@@ -1,7 +1,7 @@
 /*
  * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2016 marko (http://fail-early.com)
+ * Copyright (C) 2014-2016 'Marko Umek' (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,15 +15,16 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
  */
 
 package org.failearly.dataset.template.generator;
 
+import org.failearly.common.test.ExceptionVerifier;
+import org.failearly.common.test.annotations.Subject;
 import org.failearly.dataset.internal.template.generator.ListGeneratorFactory;
+import org.failearly.dataset.internal.template.generator.ListGeneratorFactory.ListGeneratorImpl;
 import org.failearly.dataset.template.generator.support.InternalIteratorExhaustedException;
 import org.failearly.dataset.template.generator.support.test.GeneratorTestBase;
-import org.failearly.common.test.ExceptionVerifier;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.is;
@@ -32,12 +33,13 @@ import static org.junit.Assert.assertThat;
 /**
  * ListGeneratorTest contains tests for {@link ListGenerator}.
  */
-public class ListGeneratorTest extends GeneratorTestBase<String, ListGenerator, ListGeneratorFactory> {
+@Subject({ListGenerator.class, ListGeneratorFactory.class, ListGeneratorImpl.class})
+public class ListGeneratorTest extends GeneratorTestBase<String, ListGenerator, ListGeneratorFactory, ListGeneratorImpl> {
     private static final int LIST_WITH_VALUES=0;
     private static final int EMPTY_LIST=1;
 
     public ListGeneratorTest() {
-        super(ListGenerator.class, ListGeneratorFactory.class, TestFixture.class);
+        super(ListGenerator.class, ListGeneratorFactory.class, ListGeneratorImpl.class, TestFixture.class);
     }
 
     @Test
@@ -45,7 +47,7 @@ public class ListGeneratorTest extends GeneratorTestBase<String, ListGenerator, 
         // act / when
         final String generated=generate(
                 template(TEMPLATE_EXTERNAL_ITERATOR),
-                createGenerator(LIST_WITH_VALUES)
+                createTemplateObjectFromAnnotation(LIST_WITH_VALUES)
         );
 
         // assert / then
@@ -57,7 +59,7 @@ public class ListGeneratorTest extends GeneratorTestBase<String, ListGenerator, 
         // act / when
         final String generated=generate(
                 template(TEMPLATE_INTERNAL_ITERATOR, 3),
-                createGenerator(LIST_WITH_VALUES)
+                createTemplateObjectFromAnnotation(LIST_WITH_VALUES)
         );
 
         // assert / then
@@ -74,7 +76,7 @@ public class ListGeneratorTest extends GeneratorTestBase<String, ListGenerator, 
         ExceptionVerifier.on(                                   //
                 () -> generate(                                 //
                         template(TEMPLATE_INTERNAL_ITERATOR),   //
-                        createGenerator(EMPTY_LIST)             //
+                        createTemplateObjectFromAnnotation(EMPTY_LIST)             //
                 )                                               //
         )                                                       //
                 .expectRootCause(InternalIteratorExhaustedException.class)
@@ -87,7 +89,7 @@ public class ListGeneratorTest extends GeneratorTestBase<String, ListGenerator, 
         // act / when
         final String generated=generate(
                 template(TEMPLATE_EXTERNAL_ITERATOR),
-                createGenerator(EMPTY_LIST)
+                createTemplateObjectFromAnnotation(EMPTY_LIST)
         );
 
         // assert / then
@@ -95,8 +97,8 @@ public class ListGeneratorTest extends GeneratorTestBase<String, ListGenerator, 
     }
 
 
-    @ListGenerator(name=TEMPLATE_OBJECT_NAME, values={"A", "B", "C"})
-    @ListGenerator(name=TEMPLATE_OBJECT_NAME, values={})
+    @ListGenerator(name= DTON, values={"A", "B", "C"})
+    @ListGenerator(name= DTON, values={})
     private static class TestFixture {
     }
 

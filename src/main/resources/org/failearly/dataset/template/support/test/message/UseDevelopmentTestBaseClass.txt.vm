@@ -1,0 +1,21 @@
+Please use the development Test Base Class (${dtbc}).
+
+This message occures, if your test class ${tc} is not derived from the development version of ${stbc} (${dtbc}),
+but at least one of the constructor's arguments has not been set.
+
+
+
+Step 1) Switch the test base class ${stbc} to the development version: ${dtbc}.
+
+$snippetBegin
+    import ${tbc.package.name}.${dtbc};
+
+	public class ${tc} extends ${dtbc} {
+	}
+$snippetEnd
+
+
+Step 2) Compile and rerun ${tc}.
+
+
+======== end of description =========

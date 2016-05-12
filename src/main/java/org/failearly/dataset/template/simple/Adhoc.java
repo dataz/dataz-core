@@ -1,7 +1,7 @@
 /*
  * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2016 marko (http://fail-early.com)
+ * Copyright (C) 2014-2016 'Marko Umek' (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,17 +15,17 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
  */
 
 package org.failearly.dataset.template.simple;
 
+import org.failearly.common.annotations.Tests;
+import org.failearly.dataset.Property;
 import org.failearly.dataset.config.Constants;
 import org.failearly.dataset.internal.template.simple.AdhocFactory;
-import org.failearly.dataset.Property;
 import org.failearly.dataset.template.Scope;
 import org.failearly.dataset.template.TemplateObject;
-import org.failearly.dataset.template.TemplateObjectFactoryDefinition;
+import org.failearly.dataset.template.TemplateObjectFactory;
 
 import java.lang.annotation.*;
 
@@ -34,9 +34,10 @@ import java.lang.annotation.*;
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@TemplateObjectFactoryDefinition(factory = AdhocFactory.class)
+@TemplateObjectFactory.Definition(AdhocFactory.class)
+@Repeatable(Adhoc.List.class)
 @Documented
-@Repeatable(Adhoc.Adhocs.class)
+@Tests("AdhocTest")
 public @interface Adhoc {
     /**
      * @return The name of the template object. Could be used in Velocity templates by {@code $<name>}.
@@ -83,7 +84,7 @@ public @interface Adhoc {
     @Target({ElementType.METHOD, ElementType.TYPE})
     @Retention(RetentionPolicy.RUNTIME)
     @Documented
-    @interface Adhocs {
+    @interface List {
         Adhoc[] value();
     }
 

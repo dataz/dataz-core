@@ -1,7 +1,7 @@
 /*
  * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2016 marko (http://fail-early.com)
+ * Copyright (C) 2014-2016 'Marko Umek' (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,29 +15,26 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
  */
 
 package org.failearly.dataset.internal.model;
 
+import org.failearly.common.annotation.traverser.*;
 import org.failearly.dataset.SuppressCleanup;
 import org.failearly.dataset.annotations.DataCleanupResourceFactoryDefinition;
 import org.failearly.dataset.annotations.DataSetupResourceFactoryDefinition;
-import org.failearly.common.annotation.traverser.AnnotationTraverser;
-import org.failearly.common.annotation.traverser.AnnotationTraversers;
-import org.failearly.common.annotation.traverser.TraverseDepth;
-import org.failearly.common.annotation.traverser.TraverseStrategy;
 import org.failearly.dataset.internal.resource.DataResourceHandler;
-import org.failearly.dataset.internal.template.TemplateObjectsResolver;
 import org.failearly.dataset.internal.template.TemplateObjects;
+import org.failearly.dataset.internal.template.TemplateObjectsResolver;
 import org.failearly.dataset.resource.DataResource;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+
+import static org.failearly.common.annotation.traverser.AnnotationTraverserBuilder.metaAnnotationTraverser;
 
 /**
  * TestMethodImpl is responsible for ...
@@ -74,20 +71,18 @@ final class TestMethodImpl implements TestMethod {
     }
 
     private void resolveSetupDataResources(Method testMethod, TemplateObjects templateObjects) {
-        final AnnotationTraverser<Annotation> resourcesTraverser = AnnotationTraversers.createMetaAnnotationTraverser(
-                DataSetupResourceFactoryDefinition.class,
-                TraverseStrategy.BOTTOM_UP,
-                TraverseDepth.CLASS_HIERARCHY
-        );
+        final MetaAnnotationTraverser<DataSetupResourceFactoryDefinition> resourcesTraverser = metaAnnotationTraverser(DataSetupResourceFactoryDefinition.class)
+                .withTraverseStrategy(TraverseStrategy.BOTTOM_UP)
+                .withTraverseDepth(TraverseDepth.CLASS_HIERARCHY)
+                .build();
         resourcesTraverser.traverse(testMethod, new DataSetupResourceAnnotationHandler(setupResources, templateObjects));
     }
 
     private void resolveCleanupDataResources(Method testMethod, TemplateObjects templateObjects) {
-        final AnnotationTraverser<Annotation> resourcesTraverser = AnnotationTraversers.createMetaAnnotationTraverser(
-                DataCleanupResourceFactoryDefinition.class,
-                TraverseStrategy.BOTTOM_UP,
-                TraverseDepth.CLASS_HIERARCHY
-        );
+        final MetaAnnotationTraverser<DataCleanupResourceFactoryDefinition> resourcesTraverser = metaAnnotationTraverser(DataCleanupResourceFactoryDefinition.class)
+                .withTraverseStrategy(TraverseStrategy.BOTTOM_UP)
+                .withTraverseDepth(TraverseDepth.CLASS_HIERARCHY)
+                .build();
         resourcesTraverser.traverse(testMethod, new DataCleanupResourceAnnotationHandler(cleanupResources, templateObjects));
         Collections.reverse(cleanupResources);
     }

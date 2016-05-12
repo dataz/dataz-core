@@ -1,7 +1,7 @@
 /*
  * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2016 marko (http://fail-early.com)
+ * Copyright (C) 2014-2016 'Marko Umek' (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,12 +15,13 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
  */
 
 package org.failearly.dataset.template.generator;
 
+import org.failearly.common.test.annotations.Subject;
 import org.failearly.dataset.internal.template.generator.LoopGeneratorFactory;
+import org.failearly.dataset.internal.template.generator.LoopGeneratorFactory.LoopGeneratorImpl;
 import org.failearly.dataset.template.InvariantViolationException;
 import org.failearly.dataset.template.generator.support.test.GeneratorTestBase;
 import org.failearly.common.test.ExceptionVerifier;
@@ -32,14 +33,15 @@ import static org.junit.Assert.assertThat;
 /**
  * LoopGeneratorTest contains tests for {@link LoopGenerator}.
  */
-public class LoopGeneratorTest extends GeneratorTestBase<Integer, LoopGenerator, LoopGeneratorFactory> {
+@Subject({LoopGenerator.class, LoopGeneratorFactory.class, LoopGeneratorImpl.class})
+public class LoopGeneratorTest extends GeneratorTestBase<Integer, LoopGenerator, LoopGeneratorFactory, LoopGeneratorImpl> {
 
     private static final int FOUR_TIMES_LOOP=0;
     private static final int ONE_TIME_LOOP=1;
     private static final int NO_LOOP=2;
 
     public LoopGeneratorTest() {
-        super(LoopGenerator.class, LoopGeneratorFactory.class, TestFixture.class);
+        super(LoopGenerator.class, LoopGeneratorFactory.class, LoopGeneratorImpl.class, TestFixture.class);
     }
 
     @Test
@@ -47,7 +49,7 @@ public class LoopGeneratorTest extends GeneratorTestBase<Integer, LoopGenerator,
         // act / when
         final String generated=generate(
                 template(TEMPLATE_EXTERNAL_ITERATOR),
-                createGenerator(FOUR_TIMES_LOOP)
+                super.createTemplateObjectFromAnnotation(FOUR_TIMES_LOOP)
         );
 
         // assert / then
@@ -59,7 +61,7 @@ public class LoopGeneratorTest extends GeneratorTestBase<Integer, LoopGenerator,
         // act / when
         final String generated=generate(
                 template(TEMPLATE_INTERNAL_ITERATOR, 4),
-                createGenerator(FOUR_TIMES_LOOP)
+                super.createTemplateObjectFromAnnotation(FOUR_TIMES_LOOP)
         );
 
         // assert / then
@@ -76,7 +78,7 @@ public class LoopGeneratorTest extends GeneratorTestBase<Integer, LoopGenerator,
         // act / when
         final String generated=generate(
                 template(TEMPLATE_EXTERNAL_ITERATOR),
-                createGenerator(ONE_TIME_LOOP)
+                super.createTemplateObjectFromAnnotation(ONE_TIME_LOOP)
         );
 
         // assert / then
@@ -86,14 +88,14 @@ public class LoopGeneratorTest extends GeneratorTestBase<Integer, LoopGenerator,
     @Test
     public void no_loop__should_throw_exception() throws Exception {
         // act / when
-        ExceptionVerifier.on(() -> createGenerator(NO_LOOP)).expect(InvariantViolationException.class).expect("Invariant of LoopGenerator has been violated: size >= 1!" +
+        ExceptionVerifier.on(() -> super.createTemplateObjectFromAnnotation(NO_LOOP)).expect(InvariantViolationException.class).expect("Invariant of LoopGenerator has been violated: size >= 1!" +
                 "\nCurrent annotation is " +
                 "'@org.failearly.dataset.template.generator.LoopGenerator(dataset=<dataset>, scope=DEFAULT, name=TO, size=0)'").verify();
     }
 
-    @LoopGenerator(name=TEMPLATE_OBJECT_NAME, size=4)
-    @LoopGenerator(name=TEMPLATE_OBJECT_NAME, size=1)
-    @LoopGenerator(name=TEMPLATE_OBJECT_NAME, size=0)
+    @LoopGenerator(name= DTON, size=4)
+    @LoopGenerator(name= DTON, size=1)
+    @LoopGenerator(name= DTON, size=0)
     private static class TestFixture {
     }
 }

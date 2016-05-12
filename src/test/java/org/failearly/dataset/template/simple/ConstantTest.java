@@ -1,7 +1,7 @@
 /*
  * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2016 marko (http://fail-early.com)
+ * Copyright (C) 2014-2016 'Marko Umek' (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,13 +15,14 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
  */
 
 package org.failearly.dataset.template.simple;
 
+import org.failearly.common.test.annotations.Subject;
 import org.failearly.dataset.internal.template.simple.ConstantFactory;
-import org.failearly.dataset.template.support.test.TemplateObjectTestBase;
+import org.failearly.dataset.internal.template.simple.ConstantFactory.ConstantImpl;
+import org.failearly.dataset.template.support.test.DevelopmentTemplateObjectTestBase;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -30,7 +31,8 @@ import static org.junit.Assert.assertThat;
 /**
  * ConstantTest contains tests for {@link ConstantFactory} and {@link Constant}.
  */
-public class ConstantTest extends TemplateObjectTestBase<Constant, ConstantFactory> {
+@Subject({Constant.class, ConstantFactory.class, ConstantImpl.class})
+public class ConstantTest extends DevelopmentTemplateObjectTestBase<Constant, ConstantFactory, ConstantImpl> {
 
     private static final int ANY_CONSTANT=0;
     private static final int OTHER_CONSTANT=1;
@@ -39,13 +41,13 @@ public class ConstantTest extends TemplateObjectTestBase<Constant, ConstantFacto
     private static final String OTHER_CONSTANT_VALUE="Different value";
 
     public ConstantTest() {
-        super(Constant.class, ConstantFactory.class, TestFixture.class);
+        super(Constant.class, ConstantFactory.class, ConstantImpl.class, TestFixture.class);
     }
 
     @Test
     public void using_a_constant_annotation__should_return_the_value_of_the_annotation() throws Exception {
         // arrange / given
-        final ConstantFactory.ConstantImpl constant=createConstant(ANY_CONSTANT);
+        final ConstantImpl constant=createConstant(ANY_CONSTANT);
 
         // assert / then
         assertThat("attribute value?", constant.getValue(), is(ANY_CONSTANT_VALUE));
@@ -85,12 +87,12 @@ public class ConstantTest extends TemplateObjectTestBase<Constant, ConstantFacto
         ));
     }
 
-    private ConstantFactory.ConstantImpl createConstant(int annotationNumber) throws Exception {
-        return (ConstantFactory.ConstantImpl) createTemplateObjectFromAnnotationIndex(annotationNumber);
+    private ConstantImpl createConstant(int annotationNumber) throws Exception {
+        return createTemplateObjectFromAnnotation(annotationNumber);
     }
 
-    @Constant(name=TEMPLATE_OBJECT_NAME, value=ANY_CONSTANT_VALUE)
-    @Constant(name=TEMPLATE_OBJECT_NAME, value=OTHER_CONSTANT_VALUE)
+    @Constant(name= DTON, value=ANY_CONSTANT_VALUE)
+    @Constant(name= DTON, value=OTHER_CONSTANT_VALUE)
     private static class TestFixture {
     }
 }
