@@ -26,7 +26,7 @@
  * @see org.failearly.dataset.datastore.DataStoreFactory
  * @see org.failearly.dataset.datastore.DefaultDataStoreFactory
  * @see org.failearly.dataset.datastore.DataStoreType
- * @see org.failearly.dataset.datastore.DataStoreFactoryDefinition
+ * @see org.failearly.dataset.datastore.DataStoreFactory.Definition
  * @see org.failearly.dataset.AdhocDataStore
  */
 package org.failearly.dataset.datastore;

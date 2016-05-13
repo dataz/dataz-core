@@ -20,10 +20,7 @@
 package org.failearly.dataset;
 
 import org.failearly.dataset.config.Constants;
-import org.failearly.dataset.datastore.DataStoreFactoryDefinition;
-import org.failearly.dataset.datastore.DataStoreType;
-import org.failearly.dataset.datastore.DefaultDataStoreFactory;
-import org.failearly.dataset.datastore.NullDataStoreType;
+import org.failearly.dataset.datastore.*;
 
 import java.lang.annotation.*;
 
@@ -47,7 +44,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Repeatable(AdhocDataStore.AdhocDataStores.class)
-@DataStoreFactoryDefinition(factory = DefaultDataStoreFactory.class)
+@DataStoreFactory.Definition(DefaultDataStoreFactory.class)
 public @interface AdhocDataStore {
     /**
      * If your tests uses multiple data stores, you must identify each data store.

@@ -20,8 +20,9 @@
 package org.failearly.dataset.datastore;
 
 import org.failearly.dataset.AdhocDataStore;
+import org.failearly.dataset.config.Constants;
 
-import java.lang.annotation.Annotation;
+import java.lang.annotation.*;
 
 /**
  * DataStoreFactory is the abstract factory for creating {@link org.failearly.dataset.datastore.DataStore}.
@@ -31,13 +32,53 @@ public interface DataStoreFactory<T extends Annotation> {
     /**
      * Create an instance of {@link org.failearly.dataset.datastore.DataStore} based on a data store annotation.
      *
-     * @param annotation a data store annotation with the meta annotation {@link org.failearly.dataset.datastore.DataStoreFactoryDefinition}.
+     * @param annotation a data store annotation with the meta annotation {@link Definition}.
      * @param context a (optional) context object used for creating.
      *
      * @return a new data store instance.
      *
-     * @see DataStoreFactoryDefinition
+     * @see Definition
      * @see AdhocDataStore
      */
     DataStore createDataStore(T annotation, Object context);
+
+    /**
+     * Definition is the meta annotation marking an annotation as DataStore annotation and providing the {@link DataStoreFactory}.
+     * <br><br>
+     * Any annotation using this annotation ...
+     * <ul>
+     *      <li>must have an id element returning a String: {@code String id()}.</li>
+     *      <li>should have a configuration part: {@code String config()}.</li>
+     * </ul>
+     * <br><br>
+     * Usage Example:<br>
+     * <pre>
+     *    {@literal @Target({ElementType.TYPE})}
+     *    {@literal @Retention(RetentionPolicy.RUNTIME)}
+     *    {@literal @DataStoreFactory.Definition(factory = MyDataStoreFactory.class)}
+     *    {@literal @}{@link java.lang.annotation.Repeatable}(MyDataStore.MyDataStores.class)
+     *    public {@literal @}interface MyDataStore {
+     *        String id() default {@link Constants#DATASET_DEFAULT_DATASTORE_ID};
+     *
+     *        String config() default "/my-datastore-default.properties";
+     *
+     *        // more elements omitted for brevity
+     *        // ...
+     *
+     *        // Java8 stores repeating {@literal @MyDataStore} in the associated container annotation.
+     *        {@literal @interface} MyDataStores {
+     *             MyDataStore[] value();
+     *        }
+     *   }
+     * </pre>
+     *
+     *
+     * @see DataStoreFactory
+     * @see AdhocDataStore
+     */
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.ANNOTATION_TYPE)
+    @interface Definition {
+        Class<? extends DataStoreFactory> value();
+    }
 }

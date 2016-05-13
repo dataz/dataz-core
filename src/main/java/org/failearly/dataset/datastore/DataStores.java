@@ -63,7 +63,7 @@ public final class DataStores {
             .withTraverseDepth(TraverseDepth.CLASS_HIERARCHY)
             .build();
 
-    private final MetaAnnotationTraverser<DataStoreFactoryDefinition> metaDataStoreFactoryAnnotationTraverser = AnnotationTraverserBuilder.metaAnnotationTraverser(DataStoreFactoryDefinition.class)
+    private final MetaAnnotationTraverser<DataStoreFactory.Definition> metaDataStoreFactoryAnnotationTraverser = AnnotationTraverserBuilder.metaAnnotationTraverser(DataStoreFactory.Definition.class)
             .withTraverseStrategy(TraverseStrategy.BOTTOM_UP)
             .withTraverseDepth(TraverseDepth.CLASS_HIERARCHY)
             .build();
@@ -272,7 +272,7 @@ public final class DataStores {
             List<DataStoreSetupInstance> dataStoreSetupAnnotations,
             TemplateObjects templateObjects) {
         final DataStoreCollection dataStoreCollection = new DataStoreCollection();
-        metaDataStoreFactoryAnnotationTraverser.traverse(testClass, new MetaAnnotationHandlerBase<DataStoreFactoryDefinition>() {
+        metaDataStoreFactoryAnnotationTraverser.traverse(testClass, new MetaAnnotationHandlerBase<DataStoreFactory.Definition>() {
             @Override
             public void handleAnnotation(Annotation annotation) {
                 dataStoreCollection.addDataStore(findOrCreateDataStoreFromAnnotation(annotation, dataStoreSetupAnnotations, templateObjects));
@@ -301,8 +301,8 @@ public final class DataStores {
 
     @SuppressWarnings("unchecked")
     private DataStore createDataStoreFromAnnotation(Annotation annotation, List<DataStoreSetupInstance> dataStoreSetupAnnotations, TemplateObjects templateObjects) {
-        final DataStoreFactoryDefinition dataStoreFactoryDefinition = AnnotationUtils.getMetaAnnotation(DataStoreFactoryDefinition.class, annotation);
-        final Class<? extends DataStoreFactory> dataStoreFactoryClass = dataStoreFactoryDefinition.factory();
+        final DataStoreFactory.Definition dataStoreFactoryDefinition = AnnotationUtils.getMetaAnnotation(DataStoreFactory.Definition.class, annotation);
+        final Class<? extends DataStoreFactory> dataStoreFactoryClass = dataStoreFactoryDefinition.value();
         final DataStore dataStore = ObjectCreator.createInstance(dataStoreFactoryClass).createDataStore(annotation, null);
 
         dataStore.initialize();
