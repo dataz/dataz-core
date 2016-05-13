@@ -80,7 +80,7 @@ public abstract class TestMethodImplTestBase {
     @SuppressWarnings("UnusedDeclaration")
     @DataSet(name = "DS1", setup = {"DS11.setup", "DS12.setup"}, cleanup = {"DS11.cleanup", "D12.cleanup"})
     @DataSet(name = "DS3")
-    protected static class SimpleDataSetTestClass {
+    public static class SimpleDataSetTestClass {
         @Test
         public void withoutDataSet() {
         }
@@ -106,7 +106,7 @@ public abstract class TestMethodImplTestBase {
     @DataSet(name = "DS3", setup = {"DS31.setup", "/DS32.setup"}, cleanup = {"DS31.cleanup", "/DS32.cleanup"})
     @DataSet(name = "DS4")
     @DataSet(datastore = OTHER_DATASTORE_ID, name = "DS6")
-    protected static class TestClassHierarchy extends BaseTestClass {
+    public static class TestClassHierarchy extends BaseTestClass {
         @DataSet(name = "DS1",
                 setup = {"DS11.setup", "/DS12.setup"},
                 cleanup = {"DS11.cleanup", "/DS12.cleanup"}
@@ -132,7 +132,7 @@ public abstract class TestMethodImplTestBase {
     }
 
     @SuppressWarnings("UnusedDeclaration")
-    protected static class NormalJunitTestClass {
+    public static class NormalJunitTestClass {
         @Test
         public void anyTestMethod() {
         }

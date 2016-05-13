@@ -52,7 +52,7 @@ public class SimpleEncoderTest extends EncoderTestBase<String, String, SimpleEnc
         // act / when
         final String generated=generate(
             template(HELLO_WORLD_TEMPLATE),
-            createEncoder(NONE_ENCODER)
+                super.createTemplateObjectFromAnnotation(NONE_ENCODER)
         );
 
         // assert / then
@@ -64,7 +64,7 @@ public class SimpleEncoderTest extends EncoderTestBase<String, String, SimpleEnc
         // act / when
         final String generated=generate(
             template(HELLO_WORLD_TEMPLATE),
-            createEncoder(HEX_ENCODER)
+                super.createTemplateObjectFromAnnotation(HEX_ENCODER)
         );
 
         // assert / then
@@ -74,9 +74,9 @@ public class SimpleEncoderTest extends EncoderTestBase<String, String, SimpleEnc
    @Test
     public void base64_encoder() throws Exception {
         // act / when
-        final String generated=generate(
+       final String generated=generate(
             template(HELLO_WORLD_TEMPLATE),
-            createEncoder(BASE64_ENCODER)
+               super.createTemplateObjectFromAnnotation(BASE64_ENCODER)
         );
 
         // assert / then

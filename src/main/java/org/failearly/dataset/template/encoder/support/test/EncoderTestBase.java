@@ -40,14 +40,4 @@ public abstract class EncoderTestBase<T, R, TOA extends Annotation, TOF extends 
     ) {
         super(templateObjectAnnotationClass, templateObjectFactoryClass, templateObjectClass, testFixtureClass);
     }
-
-    /**
-     * Create a {@link Encoder} object from Test Fixture Class using the {@code annotationIndex} assigned TOA.
-     * @param  annotationIndex the index of the available annotations.
-     * @return the encoder object
-     * @throws Exception
-     */
-    protected final TO createEncoder(int annotationIndex) throws Exception {
-        return super.createTemplateObjectFromAnnotation(annotationIndex);
-    }
 }

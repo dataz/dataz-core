@@ -265,6 +265,8 @@ public abstract class TemplateObjectTestBase<TOA extends Annotation, TOF extends
      * Convenient method for {@code createTemplateObjectFromAnnotationIndex(0, templateObjectClass)}.
      *
      * @param templateObjectClass the target TO class.
+     * @param <XTO> eXpected {@link TemplateObject} class
+     *
      * @return first {@link TemplateObject} created from first annotation on your Test Fixture class.
      */
     protected final <XTO extends TemplateObject> XTO createTemplateObjectFromAnnotation(Class<XTO> templateObjectClass) {
@@ -278,6 +280,8 @@ public abstract class TemplateObjectTestBase<TOA extends Annotation, TOF extends
      *
      * @param annotationNumber    the number (or index) of the TOA on your {@code testFixtureClass}.
      * @param templateObjectClass the target TO class.
+     * @param <XTO> eXpected {@link TemplateObject} class
+     *
      * @return the template object
      * @see org.failearly.dataset.internal.template.generator.decorator.GeneratorDecorators
      */
@@ -292,6 +296,7 @@ public abstract class TemplateObjectTestBase<TOA extends Annotation, TOF extends
      * @param methodName          the method name of your {@code testFixtureClass}.
      * @param nthAnnotation       the nth (or index) of your TOA on your {@code methodName}.
      * @param templateObjectClass the target TO class.
+     * @param <XTO> eXpected {@link TemplateObject} class
      *
      * @return the template object
      */
@@ -304,6 +309,8 @@ public abstract class TemplateObjectTestBase<TOA extends Annotation, TOF extends
      *
      * @param methodName the method name of your {@code testFixtureClass}.
      * @param templateObjectClass the target TO class.
+     * @param <XTO> eXpected {@link TemplateObject} class
+     *
      * @return the template object
      * @see #createTemplateObjectFromAnnotation(String, int)
      */

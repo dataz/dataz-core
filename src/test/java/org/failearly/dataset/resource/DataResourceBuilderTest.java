@@ -143,7 +143,7 @@ public class DataResourceBuilderTest {
     }
 
     // Just for satisfy the interfaces
-    private static class ATestClass {
+    public static class ATestClass {
         @Test
         public void anyTestMethod() {
         }

@@ -34,6 +34,7 @@ import static org.failearly.dataset.template.support.test.message.AbstractTempla
 /**
  * AbstractTemplateObjectMessage is responsible for ...
  */
+@SuppressWarnings("WeakerAccess")
 @TemplateParameters({ARG_TEST_CLASS})
 abstract class AbstractTemplateObjectMessage<T extends AbstractTemplateObjectMessage<T>>
         extends MessageBuilderBase<T>
@@ -79,16 +80,16 @@ abstract class AbstractTemplateObjectMessage<T extends AbstractTemplateObjectMes
                 this::baseName
         );
 
-        messageArguments.addDerivedArgument(ARG_TEMPLATE_OBJECT_FACTORY, (MessageArguments.Accessor<String> accessor) ->
+        messageArguments.addDerivedArgument(ARG_TEMPLATE_OBJECT_FACTORY, (MessageArguments.Accessor accessor) ->
                 baseName(accessor) + "Factory"
         );
 
-        messageArguments.addDerivedArgument(ARG_TEMPLATE_OBJECT, (MessageArguments.Accessor<String> accessor) ->
+        messageArguments.addDerivedArgument(ARG_TEMPLATE_OBJECT, (MessageArguments.Accessor accessor) ->
                 baseName(accessor) + "Impl"
         );
 
 
-        messageArguments.addDerivedArgument(_ARG_FULL_TEMPLATE_OBJECT, (MessageArguments.Accessor<String> accessor) ->
+        messageArguments.addDerivedArgument(_ARG_FULL_TEMPLATE_OBJECT, (MessageArguments.Accessor accessor) ->
                 accessor.getValue(ARG_TEMPLATE_OBJECT_FACTORY, String.class, UNKNOWN) + "." +
                 accessor.getValue(ARG_TEMPLATE_OBJECT, String.class, UNKNOWN)
         );
@@ -98,11 +99,11 @@ abstract class AbstractTemplateObjectMessage<T extends AbstractTemplateObjectMes
         return StringUtils.removeStart(clazz.getCanonicalName(), clazz.getPackage().getName()+".");
     }
 
-    private String baseName(MessageArguments.Accessor<String> accessor) {
+    private String baseName(MessageArguments.Accessor accessor) {
         return accessor.getValue(_ARG_BASE_NAME, String.class, UNKNOWN);
     }
 
-    private String generateBaseName(MessageArgumentsImpl.Accessor<String> accessor) {
+    private String generateBaseName(MessageArgumentsImpl.Accessor accessor) {
         return StringUtils.removeEnd(
                             accessor.getValue(ARG_TEST_CLASS, String.class, UNKNOWN),
                             "Test"
