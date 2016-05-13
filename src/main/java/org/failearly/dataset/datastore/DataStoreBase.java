@@ -20,6 +20,12 @@
 package org.failearly.dataset.datastore;
 
 import org.apache.commons.lang.StringUtils;
+import org.failearly.common.message.InlineMessageTemplate;
+import org.failearly.common.message.Message;
+import org.failearly.common.message.MessageBuilderBase;
+import org.failearly.common.message.TemplateParameters;
+import org.failearly.common.test.ExtendedProperties;
+import org.failearly.common.test.With;
 import org.failearly.dataset.DataStoreSetup;
 import org.failearly.dataset.config.Constants;
 import org.failearly.dataset.config.DataSetProperties;
@@ -29,15 +35,13 @@ import org.failearly.dataset.internal.template.TemplateObjects;
 import org.failearly.dataset.internal.util.ResourceUtils;
 import org.failearly.dataset.resource.DataResource;
 import org.failearly.dataset.resource.DataResourceBuilder;
-import org.failearly.common.test.ExtendedProperties;
-import org.failearly.common.test.With;
-import org.failearly.common.test.mb.MessageBuilders;
 
 import java.io.IOException;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Consumer;
+
 
 /**
  * DataStoreBase is the base class for the actually DataStore implementation. There are some useful abstractions like:
@@ -143,11 +147,9 @@ public abstract class DataStoreBase extends AbstractDataStore {
         });
     }
 
-    protected MessageBuilders.LazyMessage establishingConnectionFailedMessage() {
-        return MessageBuilders.createLazyMessage(mb -> {
-                return mb.argument("class", this.getClass().getSimpleName())
-                    .firstLine("(__class__) Establishing a connection failed!");
-            }
+    protected Message establishingConnectionFailedMessage() {
+        return new EstablishingConnectionFailed().buildLazyMessage(
+                (mb) -> mb.withDataStore(this)
         );
     }
 
@@ -290,4 +292,21 @@ public abstract class DataStoreBase extends AbstractDataStore {
         doApplyResource(dataResource);
     }
 
+    @InlineMessageTemplate("${ds}: Establishing a connection failed on datastore with id ${dsid}!")
+    @TemplateParameters({EstablishingConnectionFailed.ARG_DS_CLASS, EstablishingConnectionFailed.ARG_DS_ID})
+    private static class EstablishingConnectionFailed extends MessageBuilderBase<EstablishingConnectionFailed> {
+
+        static final String ARG_DS_CLASS = "ds";
+        static final String ARG_DS_ID = "dsid";
+
+
+        EstablishingConnectionFailed() {
+            super(EstablishingConnectionFailed.class);
+        }
+
+        EstablishingConnectionFailed withDataStore(DataStoreBase dataStore) {
+            return with(ARG_DS_CLASS, dataStore.getClass().getSimpleName())
+                  .with(ARG_DS_ID, dataStore.getId());
+        }
+    }
 }

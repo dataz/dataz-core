@@ -19,8 +19,8 @@
 
 package org.failearly.common.test;
 
+import org.failearly.common.message.Message;
 import org.failearly.dataset.exception.DataSetException;
-import org.failearly.common.test.mb.MessageBuilders;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,7 +70,7 @@ public final class With {
      * @param message any (lazy) error message of the action.
      * @param action the action closure.
      */
-    public void action(String description, MessageBuilders.LazyMessage message, Action action) {
+    public void action(String description, Message message, Action action) {
         doApply(description, message, ()->{action.apply();return "<not-used>";});
     }
 
@@ -91,7 +91,7 @@ public final class With {
      * @param <T> the produced type
      * @return the value of the producer or {@code null}.
      */
-    public <T> T producer(String description, MessageBuilders.LazyMessage message, Producer<T> producer) {
+    public <T> T producer(String description, Message message, Producer<T> producer) {
         return doApply(description, message, producer::apply);
     }
 
@@ -106,6 +106,7 @@ public final class With {
         return doApply(description, description, producer::apply);
     }
 
+    @FunctionalInterface
     private interface Closure<T> {
         T doApply() throws Exception;
     }
