@@ -19,13 +19,13 @@
 
 package com.company.project;
 
-import org.failearly.dataset.DataSet;
+import org.failearly.dataz.DataSet;
 import org.junit.Test;
 
 /**
 * DataSetBaseClass is responsible for ...
 */
-@DataSet(name = "DataSetBaseClass", setup = "DataSetBaseClass.dataset")
+@DataSet(name = "DataSetBaseClass", setup = "DataSetBaseClass.setup")
 public abstract class DataSetBaseClass {
     @Test
     @DataSet(name="anyTest")

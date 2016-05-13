@@ -19,7 +19,7 @@
 
 package com.company.project;
 
-import org.failearly.dataset.DataSet;
+import org.failearly.dataz.DataSet;
 
 /**
  * AnyDataSetBaseWithResources is responsible for ...

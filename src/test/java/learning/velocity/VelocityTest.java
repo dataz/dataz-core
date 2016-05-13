@@ -125,13 +125,13 @@ public class VelocityTest {
     public void withGeneratorAsStaticValue() throws Exception {
         // arrange / given
         final StringWriter stringWriter= Mockito.spy(new StringWriter());
-        context.put("val", "RangeGenerator{dataset=DS1, name=RG1, from=1, to=5}");
+        context.put("val", "RangeGenerator{dataz=DS1, name=RG1, from=1, to=5}");
 
         // act / when
         engine.evaluate(context, stringWriter, "LOOP_TEMPLATE", VALUE_TEMPLATE);
 
         // assert / then
-        assertThat(stringWriter.toString(), is("\tHello\tRangeGenerator{dataset=DS1, name=RG1, from=1, to=5}\n"));
+        assertThat(stringWriter.toString(), is("\tHello\tRangeGenerator{dataz=DS1, name=RG1, from=1, to=5}\n"));
         Mockito.verify(stringWriter, Mockito.times(0)).close();
         Mockito.verify(stringWriter, Mockito.times(0)).flush();
     }

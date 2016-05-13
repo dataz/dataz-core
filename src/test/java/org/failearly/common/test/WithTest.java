@@ -19,7 +19,7 @@
 
 package org.failearly.common.test;
 
-import org.failearly.dataset.exception.DataSetException;
+import org.failearly.dataz.exception.DataSetException;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

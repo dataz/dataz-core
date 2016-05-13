@@ -20,7 +20,7 @@
 package com.company.project.module;
 
 import com.company.project.DataSetBaseClass;
-import org.failearly.dataset.DataSet;
+import org.failearly.dataz.DataSet;
 import org.junit.Test;
 
 /**

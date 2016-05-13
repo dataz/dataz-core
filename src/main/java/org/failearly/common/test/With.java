@@ -20,13 +20,13 @@
 package org.failearly.common.test;
 
 import org.failearly.common.message.Message;
-import org.failearly.dataset.exception.DataSetException;
+import org.failearly.dataz.exception.DataSetException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * {@code With} handles exceptions for {@link With.Action} or {@link With.Producer} closures.
- * {@link org.failearly.dataset.exception.DataSetException} won't be handled, they will be rethrown.
+ * {@link org.failearly.dataz.exception.DataSetException} won't be handled, they will be rethrown.
  * Example:<br><br>
  * <pre>
  *    With with = With.newInstance((d, ex) {@literal ->} {throw new MyException(d+" failed!", ex);});

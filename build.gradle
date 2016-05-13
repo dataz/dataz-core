@@ -18,13 +18,13 @@
  */
 
 
-archivesBaseName='dataset-core'
+archivesBaseName='dataz-core'
 
 dependencies {
-	compile project(':dataset-common')
+	compile project(':dataz-common')
     compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.0'
     compile group: 'commons-codec', name: 'commons-codec', version: '1.10'
     compile group: 'org.apache.velocity', name : 'velocity', version: '1.7'
 
-	testCompile project(':dataset-common-test')
+	testCompile project(':dataz-common-test')
 }
