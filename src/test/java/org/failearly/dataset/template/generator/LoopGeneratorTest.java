@@ -61,7 +61,7 @@ public class LoopGeneratorTest extends GeneratorTestBase<Integer, LoopGenerator,
         // act / when
         final String generated=generate(
                 template(TEMPLATE_INTERNAL_ITERATOR, 4),
-                super.createTemplateObjectFromAnnotation(FOUR_TIMES_LOOP)
+                createTemplateObjectFromAnnotation(FOUR_TIMES_LOOP)
         );
 
         // assert / then
@@ -78,7 +78,7 @@ public class LoopGeneratorTest extends GeneratorTestBase<Integer, LoopGenerator,
         // act / when
         final String generated=generate(
                 template(TEMPLATE_EXTERNAL_ITERATOR),
-                super.createTemplateObjectFromAnnotation(ONE_TIME_LOOP)
+                createTemplateObjectFromAnnotation(ONE_TIME_LOOP)
         );
 
         // assert / then
@@ -88,9 +88,14 @@ public class LoopGeneratorTest extends GeneratorTestBase<Integer, LoopGenerator,
     @Test
     public void no_loop__should_throw_exception() throws Exception {
         // act / when
-        ExceptionVerifier.on(() -> super.createTemplateObjectFromAnnotation(NO_LOOP)).expect(InvariantViolationException.class).expect("Invariant of LoopGenerator has been violated: size >= 1!" +
-                "\nCurrent annotation is " +
-                "'@org.failearly.dataset.template.generator.LoopGenerator(dataset=<dataset>, scope=DEFAULT, name=TO, size=0)'").verify();
+        ExceptionVerifier.on(() -> createTemplateObjectFromAnnotation(NO_LOOP))
+                .expect(InvariantViolationException.class)
+                .expect(
+                    "Invariant of LoopGenerator has been violated: size >= 1!" +
+                    "\nCurrent annotation is " +
+                    "'@org.failearly.dataset.template.generator.LoopGenerator(dataset=<dataset>, scope=DEFAULT, name=TO, size=0)'"
+                )
+                .verify();
     }
 
     @LoopGenerator(name= DTON, size=4)

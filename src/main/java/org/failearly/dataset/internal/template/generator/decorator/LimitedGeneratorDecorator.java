@@ -28,7 +28,7 @@ import java.util.Iterator;
 /**
  * Decorates an unlimited generator with limited behaviour.
  */
-final class LimitedGeneratorDecorator<T> extends LimitedGeneratorBase<T> {
+public final class LimitedGeneratorDecorator<T> extends LimitedGeneratorBase<T> {
 
     private final UnlimitedGeneratorBase<T> generator;
     private final int limit;

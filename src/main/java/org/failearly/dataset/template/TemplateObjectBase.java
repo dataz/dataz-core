@@ -50,7 +50,7 @@ public abstract class TemplateObjectBase implements TemplateObject {
     }
 
     protected TemplateObjectBase(String dataset, String name, Scope scope) {
-        this(NO_ANNOTATION, dataset, name, scope);
+        this(NO_ANNOTATION, name, dataset, scope);
     }
 
     protected TemplateObjectBase(Annotation annotation) {

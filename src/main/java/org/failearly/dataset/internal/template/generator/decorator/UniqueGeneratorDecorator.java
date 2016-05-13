@@ -30,7 +30,7 @@ import java.util.Set;
 /**
  * Decorates an unlimited generator with unique (limited) behaviour.
  */
-final class UniqueGeneratorDecorator<T> extends LimitedGeneratorBase<T> {
+public final class UniqueGeneratorDecorator<T> extends LimitedGeneratorBase<T> {
 
     private final UnlimitedGeneratorBase<T> generator;
     private final int limit;

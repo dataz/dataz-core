@@ -22,7 +22,7 @@ package org.failearly.dataset.template.encoder;
 import org.failearly.common.test.annotations.Subject;
 import org.failearly.dataset.internal.template.encoder.SimpleEncoderFactory;
 import org.failearly.dataset.internal.template.encoder.SimpleEncoderFactory.SimpleEncoderImpl;
-import org.failearly.dataset.template.encoder.support.test.DevelopmentEncoderTestBase;
+import org.failearly.dataset.template.encoder.support.test.EncoderTestBase;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.is;
@@ -32,11 +32,11 @@ import static org.junit.Assert.assertThat;
  * SimpleEncoderTest contains tests for {@link SimpleEncoder} and  {@link SimpleEncoderFactory}.
  */
 @Subject({SimpleEncoder.class, SimpleEncoderFactory.class, SimpleEncoderImpl.class})
-public class SimpleEncoderTest extends DevelopmentEncoderTestBase<String, String, SimpleEncoder, SimpleEncoderFactory, SimpleEncoderImpl> {
+public class SimpleEncoderTest extends EncoderTestBase<String, String, SimpleEncoder, SimpleEncoderFactory, SimpleEncoderImpl> {
 
     private static final int NONE_ENCODER=0;
     private static final int HEX_ENCODER=1;
-    private static final String HELLO_WORLD_TEMPLATE="%var%.encode('Hello world')";
+    private static final String HELLO_WORLD_TEMPLATE=PLACE_HOLDER_TON + ".encode('Hello world')";
     private static final int BASE64_ENCODER=2;
 
     public SimpleEncoderTest() {

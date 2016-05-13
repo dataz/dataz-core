@@ -17,9 +17,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package org.failearly.dataset.template.generator;
+package org.failearly.dataset.internal.template.generator;
 
 import org.failearly.dataset.template.Scope;
+import org.failearly.dataset.template.generator.CsvGenerator;
+import org.failearly.dataset.template.generator.Generator;
 import org.failearly.dataset.template.generator.support.GeneratorFactoryBase;
 
 /**

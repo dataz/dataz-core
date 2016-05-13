@@ -22,7 +22,7 @@ package org.failearly.dataset.template.simple;
 import org.failearly.common.test.annotations.Subject;
 import org.failearly.dataset.internal.template.simple.ConstantFactory;
 import org.failearly.dataset.internal.template.simple.ConstantFactory.ConstantImpl;
-import org.failearly.dataset.template.support.test.DevelopmentTemplateObjectTestBase;
+import org.failearly.dataset.template.support.test.TemplateObjectTestBase;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -32,7 +32,7 @@ import static org.junit.Assert.assertThat;
  * ConstantTest contains tests for {@link ConstantFactory} and {@link Constant}.
  */
 @Subject({Constant.class, ConstantFactory.class, ConstantImpl.class})
-public class ConstantTest extends DevelopmentTemplateObjectTestBase<Constant, ConstantFactory, ConstantImpl> {
+public class ConstantTest extends TemplateObjectTestBase<Constant, ConstantFactory, ConstantImpl> {
 
     private static final int ANY_CONSTANT=0;
     private static final int OTHER_CONSTANT=1;
@@ -75,7 +75,7 @@ public class ConstantTest extends DevelopmentTemplateObjectTestBase<Constant, Co
     public void using_template__should_return_value() throws Exception {
         // act / when
         final String generated=generate(
-            template("method='%var%.getValue()';property='%var%.value';object='%var%'"),
+            template("method='%ton%.getValue()';property='%ton%.value';object='%ton%'"),
             createConstant(ANY_CONSTANT)
         );
 

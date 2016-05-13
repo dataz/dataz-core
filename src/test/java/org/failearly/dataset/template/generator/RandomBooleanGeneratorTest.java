@@ -103,7 +103,7 @@ public class RandomBooleanGeneratorTest extends GeneratorTestBase<Boolean, Rando
         // arrange / given
         // act / when
         final String generated=generate(
-                template("#if( %var%.next() ) X#else -#end", 20),
+                template("#if( %ton%.next() ) X#else -#end", 20),
                 super.createTemplateObjectFromAnnotation(SEVENTY_PERCENT_WITH_SEED_1)
         );
 

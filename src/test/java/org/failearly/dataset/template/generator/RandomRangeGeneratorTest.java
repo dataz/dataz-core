@@ -22,6 +22,8 @@ package org.failearly.dataset.template.generator;
 import org.failearly.common.test.ExceptionVerifier;
 import org.failearly.dataset.internal.template.generator.RandomRangeGeneratorFactory;
 import org.failearly.dataset.internal.template.generator.RandomRangeGeneratorFactory.RandomRangeGeneratorImpl;
+import org.failearly.dataset.internal.template.generator.decorator.LimitedGeneratorDecorator;
+import org.failearly.dataset.internal.template.generator.decorator.UniqueGeneratorDecorator;
 import org.failearly.dataset.template.InvariantViolationException;
 import org.failearly.dataset.template.generator.support.UnlimitedGenerator;
 import org.failearly.dataset.template.generator.support.test.GeneratorTestBase;
@@ -91,7 +93,7 @@ public class RandomRangeGeneratorTest extends GeneratorTestBase<Integer, RandomR
         // act / when
         final String generated=generate(
                 template(TEMPLATE_EXTERNAL_ITERATOR),
-                createTemplateObjectFromAnnotation(LIMITED_RANGE_WITH_DEFAULT_COUNT)
+                createTemplateObjectFromAnnotation(LIMITED_RANGE_WITH_DEFAULT_COUNT, LimitedGeneratorDecorator.class)
         );
 
         // assert / then
@@ -105,7 +107,7 @@ public class RandomRangeGeneratorTest extends GeneratorTestBase<Integer, RandomR
         // act / when
         final String generated=generate(
                 template(TEMPLATE_EXTERNAL_ITERATOR),
-                super.createTemplateObjectFromAnnotation(LIMITED_RANGE_WITH_VALID_COUNT)
+                super.createTemplateObjectFromAnnotation(LIMITED_RANGE_WITH_VALID_COUNT, LimitedGeneratorDecorator.class)
         );
 
         // assert / then
@@ -119,7 +121,7 @@ public class RandomRangeGeneratorTest extends GeneratorTestBase<Integer, RandomR
         // act / when
         final String generated=generate(
                 template(TEMPLATE_EXTERNAL_ITERATOR),
-                super.createTemplateObjectFromAnnotation(UNIQUE_RANGE_WITH_DEFAULT_COUNT)
+                super.createTemplateObjectFromAnnotation(UNIQUE_RANGE_WITH_DEFAULT_COUNT, UniqueGeneratorDecorator.class)
         );
 
         // assert / then
@@ -133,7 +135,7 @@ public class RandomRangeGeneratorTest extends GeneratorTestBase<Integer, RandomR
         // act / when
         final String generated=generate(
                 template(TEMPLATE_EXTERNAL_ITERATOR),
-                super.createTemplateObjectFromAnnotation(UNIQUE_RANGE_WITH_COUNT_LESS_THEN_RANGE_SIZE)
+                createTemplateObjectFromAnnotation(UNIQUE_RANGE_WITH_COUNT_LESS_THEN_RANGE_SIZE, UniqueGeneratorDecorator.class)
         );
 
         // assert / then
@@ -147,7 +149,7 @@ public class RandomRangeGeneratorTest extends GeneratorTestBase<Integer, RandomR
         // act / when
         final String generated=generate(
                 template(TEMPLATE_EXTERNAL_ITERATOR),
-                super.createTemplateObjectFromAnnotation(UNIQUE_RANGE_WITH_COUNT_GREATER_THEN_RANGE_SIZE)
+                super.createTemplateObjectFromAnnotation(UNIQUE_RANGE_WITH_COUNT_GREATER_THEN_RANGE_SIZE, UniqueGeneratorDecorator.class)
         );
 
         // assert / then

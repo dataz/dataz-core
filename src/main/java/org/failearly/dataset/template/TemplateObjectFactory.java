@@ -84,18 +84,6 @@ public interface TemplateObjectFactory {
     TemplateObject create(Annotation annotation);
 
     /**
-     * Create an instance of the template object using the annotation.
-     *
-     * @param annotation the annotation instance.
-     * @param toClass the target template object class.
-     *
-     * @return a new instance of template object.
-     *
-     * @see #create(Annotation)
-     */
-    <TO extends TemplateObject> TO create(Annotation annotation, Class<TO> toClass);
-
-    /**
      * Resolves the data set name of the template object annotation.
      *
      * @param annotation the annotation

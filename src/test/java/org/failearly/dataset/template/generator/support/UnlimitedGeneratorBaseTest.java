@@ -23,6 +23,7 @@ import org.apache.velocity.exception.VelocityException;
 import org.failearly.common.test.ExceptionVerifier;
 import org.failearly.dataset.internal.template.generator.ListGeneratorFactory;
 import org.failearly.dataset.internal.template.generator.ListGeneratorFactory.ListGeneratorImpl;
+import org.failearly.dataset.internal.template.generator.decorator.UnlimitedGeneratorDecorator;
 import org.failearly.dataset.template.generator.Limit;
 import org.failearly.dataset.template.generator.ListGenerator;
 import org.failearly.dataset.template.generator.support.test.GeneratorTestBase;
@@ -45,9 +46,12 @@ public class UnlimitedGeneratorBaseTest extends GeneratorTestBase<String, ListGe
     public void using_external_iterator__should_throw_exception() throws Exception {
         ExceptionVerifier.TestAction action=() -> generate(
                 template(TEMPLATE_EXTERNAL_ITERATOR),
-                createTemplateObjectFromAnnotation()
+                createTemplateObjectFromAnnotation(UnlimitedGeneratorDecorator.class)
         );
-        ExceptionVerifier.on(action).expect(VelocityException.class).expect("Error invoking the method 'iterator' on class 'org.failearly.dataset.internal.template.generator.decorator.UnlimitedGeneratorDecorator'").verify();
+        ExceptionVerifier.on(action)
+                .expect(VelocityException.class)
+                .expect("Error invoking the method 'iterator' on class 'org.failearly.dataset.internal.template.generator.decorator.UnlimitedGeneratorDecorator'")
+                .verify();
     }
 
     @Test
@@ -55,7 +59,7 @@ public class UnlimitedGeneratorBaseTest extends GeneratorTestBase<String, ListGe
         // act / when
         final String generated=generate(
                 template(TEMPLATE_INTERNAL_ITERATOR, 3),
-                createTemplateObjectFromAnnotation()
+                createTemplateObjectFromAnnotation(UnlimitedGeneratorDecorator.class)
         );
 
         // assert / then
@@ -71,7 +75,7 @@ public class UnlimitedGeneratorBaseTest extends GeneratorTestBase<String, ListGe
         // act / when
         final String generated=generate(
                 template(TEMPLATE_INTERNAL_ITERATOR_USING_RESET, 4),
-                createTemplateObjectFromAnnotation()
+                createTemplateObjectFromAnnotation(UnlimitedGeneratorDecorator.class)
         );
 
         // assert / then
@@ -83,7 +87,7 @@ public class UnlimitedGeneratorBaseTest extends GeneratorTestBase<String, ListGe
         ));
     }
 
-    @ListGenerator(name= DTON, values={"val1", "val2", "val3"}, limit=Limit.UNLIMITED)
+    @ListGenerator(name=DTON, values={"val1", "val2", "val3"}, limit=Limit.UNLIMITED)
     private static class TestFixture {
     }
 

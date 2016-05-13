@@ -22,19 +22,21 @@ package org.failearly.dataset.template.generator;
 import org.failearly.common.annotations.Tests;
 import org.failearly.dataset.config.Constants;
 import org.failearly.dataset.template.Scope;
-import org.failearly.dataset.template.TemplateObjectFactory;
 
 import java.lang.annotation.*;
 
 /**
- * CsvGenerator is a Generator Annotation.
+ * CsvGenerator is a Generator Annotation. DO NOT USE.
+ *
+ * @deprecated NOT YET IMPLEMENTED
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Repeatable(CsvGenerator.CsvGenerators.class)
-@TemplateObjectFactory.Definition(CsvGeneratorFactory.class)
+// @TemplateObjectFactory.Definition(CsvGeneratorFactory.class)
 @Tests("CsvGeneratorTest")
+@Deprecated
 public @interface CsvGenerator {
     /**
      * @return The name of the template object. Could be used in Velocity templates by {@code $<name>}.

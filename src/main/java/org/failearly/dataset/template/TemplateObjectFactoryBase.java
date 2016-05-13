@@ -29,10 +29,10 @@ import java.util.Objects;
  * @see #doCreate(Annotation)
  * @see #doResolveDataSetName(Annotation)
  */
-public abstract class TemplateObjectFactoryBase<T extends Annotation> implements TemplateObjectFactory {
-    private final Class<T> annotationClass;
+public abstract class TemplateObjectFactoryBase<TOA extends Annotation> implements TemplateObjectFactory {
+    private final Class<TOA> annotationClass;
 
-    protected TemplateObjectFactoryBase(Class<T> annotationClass) {
+    protected TemplateObjectFactoryBase(Class<TOA> annotationClass) {
         Objects.requireNonNull(annotationClass,"Missing annotation class.");
         this.annotationClass = annotationClass;
     }
@@ -48,15 +48,7 @@ public abstract class TemplateObjectFactoryBase<T extends Annotation> implements
      * @param annotation the annotation.
      * @return the created template object.
      */
-    protected abstract TemplateObject doCreate(T annotation);
-
-
-    @Override
-    public final <TO extends TemplateObject> TO create(Annotation annotation, Class<TO> toClass) {
-        Objects.requireNonNull(annotationClass,"Missing template object class.");
-        return toClass.cast(create(annotation));
-    }
-
+    protected abstract TemplateObject doCreate(TOA annotation);
 
 
     @Override
@@ -69,7 +61,7 @@ public abstract class TemplateObjectFactoryBase<T extends Annotation> implements
      * @param annotation the annotation.
      * @return the data set name.
      */
-    protected abstract String doResolveDataSetName(T annotation);
+    protected abstract String doResolveDataSetName(TOA annotation);
 
 
     @Override
@@ -83,7 +75,7 @@ public abstract class TemplateObjectFactoryBase<T extends Annotation> implements
      * @param annotation the annotation.
      * @return the scope.
      */
-    protected abstract Scope doResolveScope(T annotation);
+    protected abstract Scope doResolveScope(TOA annotation);
 
     @Override
     public final void __extend_TemplateObjectFactoryBase__instead_of_implementing_TemplateObjectFactory() {
