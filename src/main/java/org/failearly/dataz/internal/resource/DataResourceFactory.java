@@ -44,4 +44,5 @@ public final class DataResourceFactory {
     public static DataResource createIgnoringInstance(DataResourceValues dataResourceValues) {
         return new IgnoringDataResource(dataResourceValues);
     }
+
 }

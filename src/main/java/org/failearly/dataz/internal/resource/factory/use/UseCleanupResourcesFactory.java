@@ -20,10 +20,10 @@
 package org.failearly.dataz.internal.resource.factory.use;
 
 import org.failearly.common.annotation.traverser.MetaAnnotationHandler;
-import org.failearly.dataz.annotations.DataCleanupResourceFactoryDefinition;
 import org.failearly.dataz.internal.model.DataCleanupResourceAnnotationHandler;
 import org.failearly.dataz.internal.template.TemplateObjects;
 import org.failearly.dataz.resource.DataResource;
+import org.failearly.dataz.resource.DataResourcesFactory;
 
 import java.util.Collections;
 import java.util.List;
@@ -31,14 +31,14 @@ import java.util.List;
 /**
  * UseCleanupResourcesFactory resolves and creates {@link DataResource}s from {@link org.failearly.dataz.Use} annotation.
  */
-public final class UseCleanupResourcesFactory extends ResourcesFactoryBase<DataCleanupResourceFactoryDefinition> {
+public final class UseCleanupResourcesFactory extends ResourcesFactoryBase<DataResourcesFactory.CleanupDefinition> {
 
     public UseCleanupResourcesFactory() {
-        super(DataCleanupResourceFactoryDefinition.class);
+        super(CleanupDefinition.class);
     }
 
     @Override
-    protected MetaAnnotationHandler<DataCleanupResourceFactoryDefinition> metaAnnotationHandler(List<DataResource> dataResources, TemplateObjects templateObjects) {
+    protected MetaAnnotationHandler<CleanupDefinition> metaAnnotationHandler(List<DataResource> dataResources, TemplateObjects templateObjects) {
         return new DataCleanupResourceAnnotationHandler(dataResources, templateObjects);
     }
 

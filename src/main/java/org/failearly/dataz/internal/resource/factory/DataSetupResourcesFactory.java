@@ -20,7 +20,6 @@
 package org.failearly.dataz.internal.resource.factory;
 
 import org.failearly.dataz.DataSetup;
-import org.failearly.dataz.annotations.DataSetupResourceFactoryDefinition;
 import org.failearly.dataz.internal.resource.ResourceType;
 import org.failearly.dataz.internal.template.TemplateObjects;
 import org.failearly.dataz.resource.DataResource;
@@ -31,7 +30,7 @@ import org.failearly.dataz.resource.GenericDataResourcesFactory;
  * DataSetupResourcesFactory creates {@link DataResource}s from a {@link DataSetup} annotation.
  *
  * @see DataSetup
- * @see DataSetupResourceFactoryDefinition
+ * @see SetupDefinition
  */
 public final class DataSetupResourcesFactory extends GenericDataResourcesFactory<DataSetup> {
 

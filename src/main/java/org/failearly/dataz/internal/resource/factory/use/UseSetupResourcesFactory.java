@@ -20,23 +20,23 @@
 package org.failearly.dataz.internal.resource.factory.use;
 
 import org.failearly.common.annotation.traverser.MetaAnnotationHandler;
-import org.failearly.dataz.annotations.DataSetupResourceFactoryDefinition;
 import org.failearly.dataz.internal.model.DataSetupResourceAnnotationHandler;
 import org.failearly.dataz.internal.template.TemplateObjects;
 import org.failearly.dataz.resource.DataResource;
+import org.failearly.dataz.resource.DataResourcesFactory;
 
 import java.util.List;
 
 /**
  * UseSetupResourcesFactory resolves and creates {@link DataResource}s from {@link org.failearly.dataz.Use} annotation.
  */
-public final class UseSetupResourcesFactory extends ResourcesFactoryBase<DataSetupResourceFactoryDefinition> {
+public final class UseSetupResourcesFactory extends ResourcesFactoryBase<DataResourcesFactory.SetupDefinition> {
     public UseSetupResourcesFactory() {
-        super(DataSetupResourceFactoryDefinition.class);
+        super(SetupDefinition.class);
     }
 
     @Override
-    protected MetaAnnotationHandler<DataSetupResourceFactoryDefinition> metaAnnotationHandler(List<DataResource> dataResources, TemplateObjects templateObjects) {
+    protected MetaAnnotationHandler<SetupDefinition> metaAnnotationHandler(List<DataResource> dataResources, TemplateObjects templateObjects) {
         return new DataSetupResourceAnnotationHandler(dataResources, templateObjects);
     }
 

@@ -19,7 +19,6 @@
 
 package org.failearly.dataz.internal.model;
 
-import org.failearly.dataz.annotations.DataCleanupResourceFactoryDefinition;
 import org.failearly.dataz.internal.template.TemplateObjects;
 import org.failearly.dataz.resource.DataResource;
 import org.failearly.dataz.resource.DataResourcesFactory;
@@ -29,16 +28,16 @@ import java.util.List;
 
 /**
  * DataSetupResourceAnnotationHandler creates an DataResourceFactory from meta annotation
- * {@link DataCleanupResourceFactoryDefinition}.
+ * {@link DataResourcesFactory.CleanupDefinition}.
  */
-public final class DataCleanupResourceAnnotationHandler extends DataResourceAnnotationHandlerBase<DataCleanupResourceFactoryDefinition> {
+public final class DataCleanupResourceAnnotationHandler extends DataResourceAnnotationHandlerBase<DataResourcesFactory.CleanupDefinition> {
 
     public DataCleanupResourceAnnotationHandler(List<DataResource> dataResourceList, TemplateObjects templateObjects) {
         super(templateObjects, dataResourceList);
     }
 
     @Override
-    protected DataResourcesFactory createDataResourceFactory(DataCleanupResourceFactoryDefinition metaAnnotation) {
-        return ObjectCreator.createInstance(metaAnnotation.factory());
+    protected DataResourcesFactory createDataResourceFactory(DataResourcesFactory.CleanupDefinition metaAnnotation) {
+        return ObjectCreator.createInstance(metaAnnotation.value());
     }
 }

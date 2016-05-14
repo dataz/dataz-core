@@ -22,8 +22,8 @@
  * <p>
  * <br><br>
  * <p>
- * {@code DataResourcesFactory} will be used by the meta annotations {@link org.failearly.dataz.annotations.DataSetupResourceFactoryDefinition} and
- * {@link org.failearly.dataz.annotations.DataCleanupResourceFactoryDefinition}.
+ * {@code DataResourcesFactory} will be used by the meta annotations {@link org.failearly.dataz.resource.DataResourcesFactory.SetupDefinition} and
+ * {@link org.failearly.dataz.resource.DataResourcesFactory.CleanupDefinition}.
  *
  * @see org.failearly.dataz.internal.resource.factory.dataset.DataSetSetupResourcesFactory
  * @see org.failearly.dataz.internal.resource.factory.dataset.DataSetCleanupResourcesFactory

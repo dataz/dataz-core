@@ -22,23 +22,22 @@ package org.failearly.dataz.internal.model;
 import org.failearly.dataz.internal.template.TemplateObjects;
 import org.failearly.dataz.resource.DataResource;
 import org.failearly.dataz.resource.DataResourcesFactory;
-import org.failearly.dataz.annotations.DataSetupResourceFactoryDefinition;
 import org.failearly.common.test.ObjectCreator;
 
 import java.util.List;
 
 /**
 * DataSetupResourceAnnotationHandler creates an DataResourceFactory from meta annotation
- * {@link DataSetupResourceFactoryDefinition}.
+ * {@link DataResourcesFactory.SetupDefinition}.
 */
-public final class DataSetupResourceAnnotationHandler extends DataResourceAnnotationHandlerBase<DataSetupResourceFactoryDefinition> {
+public final class DataSetupResourceAnnotationHandler extends DataResourceAnnotationHandlerBase<DataResourcesFactory.SetupDefinition> {
 
     public DataSetupResourceAnnotationHandler(List<DataResource> dataResourceList, TemplateObjects templateObjects) {
         super(templateObjects, dataResourceList);
     }
 
     @Override
-    protected DataResourcesFactory createDataResourceFactory(DataSetupResourceFactoryDefinition metaAnnotation) {
-        return ObjectCreator.createInstance(metaAnnotation.factory());
+    protected DataResourcesFactory createDataResourceFactory(DataResourcesFactory.SetupDefinition metaAnnotation) {
+        return ObjectCreator.createInstance(metaAnnotation.value());
     }
 }

@@ -21,12 +21,11 @@ package org.failearly.dataz.internal.model;
 
 import org.failearly.common.annotation.traverser.*;
 import org.failearly.dataz.SuppressCleanup;
-import org.failearly.dataz.annotations.DataCleanupResourceFactoryDefinition;
-import org.failearly.dataz.annotations.DataSetupResourceFactoryDefinition;
 import org.failearly.dataz.internal.resource.DataResourceHandler;
 import org.failearly.dataz.internal.template.TemplateObjects;
 import org.failearly.dataz.internal.template.TemplateObjectsResolver;
 import org.failearly.dataz.resource.DataResource;
+import org.failearly.dataz.resource.DataResourcesFactory;
 
 import java.lang.reflect.Method;
 import java.util.Collections;
@@ -71,7 +70,7 @@ final class TestMethodImpl implements TestMethod {
     }
 
     private void resolveSetupDataResources(Method testMethod, TemplateObjects templateObjects) {
-        final MetaAnnotationTraverser<DataSetupResourceFactoryDefinition> resourcesTraverser = metaAnnotationTraverser(DataSetupResourceFactoryDefinition.class)
+        final MetaAnnotationTraverser<DataResourcesFactory.SetupDefinition> resourcesTraverser = metaAnnotationTraverser(DataResourcesFactory.SetupDefinition.class)
                 .withTraverseStrategy(TraverseStrategy.BOTTOM_UP)
                 .withTraverseDepth(TraverseDepth.CLASS_HIERARCHY)
                 .build();
@@ -79,7 +78,7 @@ final class TestMethodImpl implements TestMethod {
     }
 
     private void resolveCleanupDataResources(Method testMethod, TemplateObjects templateObjects) {
-        final MetaAnnotationTraverser<DataCleanupResourceFactoryDefinition> resourcesTraverser = metaAnnotationTraverser(DataCleanupResourceFactoryDefinition.class)
+        final MetaAnnotationTraverser<DataResourcesFactory.CleanupDefinition> resourcesTraverser = metaAnnotationTraverser(DataResourcesFactory.CleanupDefinition.class)
                 .withTraverseStrategy(TraverseStrategy.BOTTOM_UP)
                 .withTraverseDepth(TraverseDepth.CLASS_HIERARCHY)
                 .build();

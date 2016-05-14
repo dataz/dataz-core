@@ -19,10 +19,10 @@
 
 package org.failearly.dataz;
 
-import org.failearly.dataz.annotations.DataCleanupResourceFactoryDefinition;
 import org.failearly.dataz.config.Constants;
 import org.failearly.dataz.internal.resource.factory.DataCleanupResourcesFactory;
 import org.failearly.dataz.resource.DataResource;
+import org.failearly.dataz.resource.DataResourcesFactory;
 import org.failearly.dataz.template.TemplateObject;
 
 import java.lang.annotation.*;
@@ -51,8 +51,8 @@ import java.lang.annotation.*;
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Repeatable(DataCleanup.DataCleanups.class)
-@DataCleanupResourceFactoryDefinition(factory = DataCleanupResourcesFactory.class)
+@Repeatable(DataCleanup.List.class)
+@DataResourcesFactory.CleanupDefinition(DataCleanupResourcesFactory.class)
 public @interface DataCleanup {
 
     /**
@@ -144,7 +144,7 @@ public @interface DataCleanup {
     @Target({ElementType.METHOD, ElementType.TYPE})
     @Retention(RetentionPolicy.RUNTIME)
     @Documented
-    @interface DataCleanups {
+    @interface List {
         DataCleanup[] value();
     }
 }

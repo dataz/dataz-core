@@ -19,14 +19,21 @@
 
 package org.failearly.dataz.internal.model;
 
+import org.failearly.common.annotation.traverser.MetaAnnotationTraverser;
+import org.failearly.common.annotation.traverser.TraverseDepth;
+import org.failearly.common.annotation.traverser.TraverseStrategy;
 import org.failearly.dataz.SuppressDataSet;
-import org.failearly.common.annotation.utils.AnnotationUtils;
-import org.failearly.dataz.internal.annotations.DataSetMarkerAnnotation;
 import org.junit.Ignore;
 import org.junit.Test;
 
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
+import static org.failearly.common.annotation.traverser.AnnotationTraverserBuilder.metaAnnotationTraverser;
+import static org.failearly.dataz.resource.DataResourcesFactory.DataSetMarker;
 
 /**
  * TestClass represents a single test class. It is responsible for collecting {@link TestMethod}s by name.
@@ -34,6 +41,10 @@ import java.util.*;
 public final class TestClass {
     private final Map<String,TestMethod> testMethods=new HashMap<>();
     private final Class<?> testClass;
+    private static final MetaAnnotationTraverser<DataSetMarker> DATA_SET_MARKER_TRAVERSER = metaAnnotationTraverser(DataSetMarker.class)
+            .withTraverseDepth(TraverseDepth.CLASS_HIERARCHY)
+            .withTraverseStrategy(TraverseStrategy.TOP_DOWN)
+            .build();
 
     private TestClass(Class<?> testClass) {
         this.testClass = testClass;
@@ -53,24 +64,27 @@ public final class TestClass {
     }
 
     private void resolveTestMethods() {
-        Arrays.stream(testClass.getMethods())
-              // TODO: JUnit specific. Use Predication lambda instead.
-              .filter((method) -> method.isAnnotationPresent(Test.class))
-              .filter((method) -> ! method.isAnnotationPresent(Ignore.class))
-              //
+        Arrays.stream(testClass.getMethods())                                      //
+              // TODO: JUnit4 specific. Use Predication lambda instead.            //
+              .filter((method) -> method.isAnnotationPresent(Test.class))          //
+              .filter((method) -> ! method.isAnnotationPresent(Ignore.class))      //
               .forEach((testMethod) -> testMethods.put(testMethod.getName(), createTestMethod(testMethod)));
     }
 
     private TestMethod createTestMethod(Method testMethod) {
-        if( testMethod.isAnnotationPresent(SuppressDataSet.class) ) {
-            return new NullTestMethod(testMethod.getName());
-        }
-
-        if( ! AnnotationUtils.checkForMetaAnnotation(testMethod, DataSetMarkerAnnotation.class) ) {
+        if( isAnnotatedWithSuppressDataSet(testMethod) || isNotAnnotatedWithDataSetMarker(testMethod) ) {
             return new NullTestMethod(testMethod.getName());
         }
 
         return TestMethodImpl.createTestMethod(testMethod, testClass);
+    }
+
+    private static boolean isAnnotatedWithSuppressDataSet(Method testMethod) {
+        return testMethod.isAnnotationPresent(SuppressDataSet.class);
+    }
+
+    private boolean isNotAnnotatedWithDataSetMarker(Method testMethod) {
+        return ! DATA_SET_MARKER_TRAVERSER.anyAnnotationAvailable(testMethod);
     }
 
     /**

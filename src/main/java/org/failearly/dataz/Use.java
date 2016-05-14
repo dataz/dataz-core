@@ -19,11 +19,10 @@
 
 package org.failearly.dataz;
 
-import org.failearly.dataz.annotations.DataCleanupResourceFactoryDefinition;
-import org.failearly.dataz.annotations.DataSetupResourceFactoryDefinition;
 import org.failearly.dataz.internal.resource.factory.use.UseCleanupResourcesFactory;
 import org.failearly.dataz.internal.resource.factory.use.UseSetupResourcesFactory;
 import org.failearly.dataz.resource.DataResource;
+import org.failearly.dataz.resource.DataResourcesFactory;
 
 import java.lang.annotation.*;
 
@@ -42,8 +41,8 @@ import java.lang.annotation.*;
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@DataSetupResourceFactoryDefinition(factory = UseSetupResourcesFactory.class)
-@DataCleanupResourceFactoryDefinition(factory = UseCleanupResourcesFactory.class)
+@DataResourcesFactory.SetupDefinition(value = UseSetupResourcesFactory.class)
+@DataResourcesFactory.CleanupDefinition(value = UseCleanupResourcesFactory.class)
 public @interface Use {
     Class<? extends ReusableDataSet>[] value();
 

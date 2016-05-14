@@ -19,12 +19,11 @@
 
 package org.failearly.dataz;
 
-import org.failearly.dataz.annotations.DataCleanupResourceFactoryDefinition;
-import org.failearly.dataz.annotations.DataSetupResourceFactoryDefinition;
 import org.failearly.dataz.config.Constants;
 import org.failearly.dataz.internal.resource.factory.dataset.DataSetCleanupResourcesFactory;
 import org.failearly.dataz.internal.resource.factory.dataset.DataSetSetupResourcesFactory;
 import org.failearly.dataz.resource.DataResource;
+import org.failearly.dataz.resource.DataResourcesFactory;
 import org.failearly.dataz.template.TemplateObject;
 
 import java.lang.annotation.*;
@@ -54,9 +53,9 @@ import java.lang.annotation.*;
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Repeatable(DataSet.DataSets.class)
-@DataSetupResourceFactoryDefinition(factory = DataSetSetupResourcesFactory.class)
-@DataCleanupResourceFactoryDefinition(factory = DataSetCleanupResourcesFactory.class)
+@Repeatable(DataSet.List.class)
+@DataResourcesFactory.SetupDefinition(DataSetSetupResourcesFactory.class)
+@DataResourcesFactory.CleanupDefinition(DataSetCleanupResourcesFactory.class)
 public @interface DataSet {
 
     /**
@@ -181,7 +180,7 @@ public @interface DataSet {
     @Target({ElementType.METHOD, ElementType.TYPE})
     @Retention(RetentionPolicy.RUNTIME)
     @Documented
-    @interface DataSets {
+    @interface List {
         DataSet[] value();
     }
 }
