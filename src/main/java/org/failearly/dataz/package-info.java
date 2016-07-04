@@ -25,10 +25,7 @@
  *     <dd>Mark classes and/or test method as DataSet based test. At least <em>one</em> {@literal @DataSet}
  *          must be assigned on your test class, any of super class of your test class or test method, otherwise
  *         {@link org.failearly.dataz.junit4.DataSetDriver} ignores the test.</dd>
- *    <dt>{@link org.failearly.dataz.DataStoreSetup}</dt>
- *    <dd>Quiet similar to {@link org.failearly.dataz.DataSet}, but resources configured with {@code InitialDataSet} will be
- *    applied once per associated {@link org.failearly.dataz.datastore.DataStore}. Useful for scheme setups.</dd>
- *    <dt>{@link org.failearly.dataz.SuppressDataSet}</dt>
+ *    <dt>{@link org.failearly.dataz.NoDataSet}</dt>
  *    <dd>If you mark the entire test class with {@link org.failearly.dataz.DataSet}, you can
  *         force {@link org.failearly.dataz.junit4.DataSetDriver} to ignore the test method. The test will be executed, but
  *         not as DataSet based test</dd>
@@ -58,7 +55,7 @@
  *          // ...
  *      }
  *      {@literal @Test}
- *      {@literal @}{@link org.failearly.dataz.SuppressDataSet}
+ *      {@literal @}{@link org.failearly.dataz.NoDataSet}
  *      public void noDataSetTest() {
  *          // ...
  *      }
@@ -69,7 +66,7 @@
  * <br><br>
  * <ol>
  *    <li>a {@link org.failearly.dataz.datastore.DataStore} configuration file (/datastore.config) in your classpath.
- *          (see {@link org.failearly.dataz.AdhocDataStore#config()}). This file should contain all necessary configuration for your
+ *          (see {@link org.failearly.dataz.test.datastore.AdhocDataStore#config()}). This file should contain all necessary configuration for your
  *          chosen {@code DataStore} implementation.</li>
  *    <li>a (mandatory) setup file named {@code "/com/company/project/module/MyClass.setup"} in your classpath. If omitted the test will fail.</li>
  *    <li>a (optional) cleanup file named {@code "/com/company/project/module/MyClass.cleanup"} in your classpath.</li>
@@ -92,6 +89,8 @@
  *
  * @see org.failearly.dataz.junit4.DataSetDriver
  * @see org.failearly.dataz.DataSet
- * @see org.failearly.dataz.AdhocDataStore
+ * @see org.failearly.dataz.DataSetup
+ * @see org.failearly.dataz.DataCleanup
+ * @see org.failearly.dataz.test.datastore.AdhocDataStore
  */
 package org.failearly.dataz;

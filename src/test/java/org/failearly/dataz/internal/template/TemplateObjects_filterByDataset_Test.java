@@ -37,7 +37,7 @@ public class TemplateObjects_filterByDataset_Test extends TemplateObjectsTestBas
     @Test
     public void should_remove_template_objects_which_does_not_belong_to_the_dataset__and__keep_those_with_global_scope() throws Exception {
         // arrange / given
-        final TemplateObjects originTemplateObjects = buildTemplateObjectsResolver().resolveFromTestMethod0(withTemplateObjects());
+        final TemplateObjects originTemplateObjects = buildTemplateObjectsResolver().resolveFromMethod0(withTemplateObjects());
 
         // act / when
         final TemplateObjects filteredTemplateObjects = originTemplateObjects.filterByDataSet("D3");

@@ -21,14 +21,16 @@ package org.failearly.dataz.test;
 
 import org.failearly.dataz.datastore.DataStoreBase;
 import org.failearly.dataz.datastore.DataStoreException;
+import org.failearly.dataz.NamedDataStore;
 import org.failearly.dataz.resource.DataResource;
 
 /**
 * DefaultFakeDataStore to be used with
 */
+@Deprecated
 public class DefaultFakeDataStore extends DataStoreBase {
-    public DefaultFakeDataStore(String dataStoreId) {
-        super(dataStoreId, "no-config");
+    public DefaultFakeDataStore() {
+        super(Fake.class, null);
     }
 
     @Override
@@ -44,5 +46,8 @@ public class DefaultFakeDataStore extends DataStoreBase {
     public boolean hasTransactionalSupport() {
         return false;
     }
+
+
+    private static final class Fake extends NamedDataStore {}
 
 }

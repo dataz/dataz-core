@@ -35,24 +35,19 @@ public final class DataCleanupResourcesFactory extends GenericDataResourcesFacto
     }
 
     @Override
-    protected String getDataStoreIdFromAnnotation(DataCleanup annotation) {
-        return annotation.datastore();
-    }
-
-    @Override
     protected String[] getResourceNamesFromAnnotation(DataCleanup annotation) {
         return annotation.value();
     }
 
     @Override
-    protected DataResource createDataResourceFromAnnotation(DataCleanup annotation, Class<?> testClass, String resourceName, TemplateObjects generatorCreators) {
+    protected DataResource createDataResourceFromAnnotation(DataCleanup annotation, Class<?> testClass, String resourceName, TemplateObjects templateObjects) {
         return DataResourceBuilder.createBuilder(testClass)         //
                 .withDataSetName(annotation.name())                 //
-                .withDataStoreId(annotation.datastore())            //
+                .withDataStores(annotation.datastores())            //
                 .withResourceName(resourceName)                     //
                 .withFailOnError(annotation.failOnError())          //
                 .withTransactional(annotation.transactional())      //
-                .withTemplateObjects(generatorCreators)           //
+                .withTemplateObjects(templateObjects)           //
                 .mandatory()                                        //
                 .build();
     }

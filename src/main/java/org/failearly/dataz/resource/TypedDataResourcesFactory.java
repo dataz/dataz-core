@@ -38,35 +38,35 @@ public abstract class TypedDataResourcesFactory<T extends Annotation> implements
 
     @Override
     public final List<DataResource> createDataResources(Class<?> annotatedClass, Annotation annotation, TemplateObjects templateObjects) {
-        return doCreateDataResourcesFromTestClass(annotatedClass, annotationClass.cast(annotation), templateObjects);
+        return doCreateDataResourcesFromClass(annotatedClass, annotationClass.cast(annotation), templateObjects);
     }
 
     @Override
     public final List<DataResource> createDataResources(Method annotatedMethod, Annotation annotation, TemplateObjects templateObjects) {
-        return doCreateDataResourcesFromTestMethod(annotatedMethod, annotationClass.cast(annotation), templateObjects);
+        return doCreateDataResourcesFromMethod(annotatedMethod, annotationClass.cast(annotation), templateObjects);
     }
 
     /**
      * Do create {@link DataResource}s from test class and annotation.
      *
-     * @param testClass         the test class
+     * @param clazz         the test class
      * @param annotation        the annotation
      * @param templateObjects   all template objects.
      * @return a list with all DataResource
      */
-    protected List<DataResource> doCreateDataResourcesFromTestClass(Class<?> testClass, T annotation, TemplateObjects templateObjects) {
+    protected List<DataResource> doCreateDataResourcesFromClass(Class<?> clazz, T annotation, TemplateObjects templateObjects) {
         return doCreateDataResources(annotation, templateObjects);
     }
 
     /**
      * Do create {@link DataResource}s from test method and annotation.
      *
-     * @param testMethod        the test method
+     * @param method        the test method
      * @param annotation        the annotation
      * @param templateObjects   all template objects.
      * @return a list with all DataResource
      */
-    protected List<DataResource> doCreateDataResourcesFromTestMethod(Method testMethod, T annotation, TemplateObjects templateObjects)  {
+    protected List<DataResource> doCreateDataResourcesFromMethod(Method method, T annotation, TemplateObjects templateObjects)  {
         return doCreateDataResources(annotation, templateObjects);
     }
 
@@ -78,7 +78,7 @@ public abstract class TypedDataResourcesFactory<T extends Annotation> implements
      * @return a list with all DataResource
      */
     protected List<DataResource> doCreateDataResources(T annotation, TemplateObjects templateObjects) {
-        throw new UnsupportedOperationException("Please implement doCreateDataResources(), doCreateDataResourcesFromTestClass() or doCreateDataResourcesFromTestMethod()");
+        throw new UnsupportedOperationException("Please implement doCreateDataResources(), doCreateDataResourcesFromClass() or doCreateDataResourcesFromMethod()");
     }
 
 }

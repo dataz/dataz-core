@@ -77,7 +77,7 @@ public class DataCleanupResourcesFactoryTest extends DataResourcesFactoryTestBas
         public void defaultSettings() {
         }
 
-        @DataCleanup(datastore = OTHER_DATASTORE_ID, name = OTHER_DATA_SET_NAME, value = "/any-resource.cleanup", transactional = false, failOnError = false)
+        @DataCleanup(name = OTHER_DATA_SET_NAME, value = "/any-resource.cleanup", transactional = false, failOnError = false)
         public void noneDefaultSettings() {
         }
 

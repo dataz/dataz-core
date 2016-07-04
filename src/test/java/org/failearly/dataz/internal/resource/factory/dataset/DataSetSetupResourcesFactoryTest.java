@@ -78,7 +78,7 @@ public class DataSetSetupResourcesFactoryTest extends DataResourcesFactoryTestBa
         public void defaultSettings() {
         }
 
-        @DataSet(datastore = OTHER_DATASTORE_ID, name = OTHER_DATA_SET_NAME, setup = "/any-resource.setup", transactional = false, failOnError = false)
+        @DataSet(name = OTHER_DATA_SET_NAME, setup = "/any-resource.setup", transactional = false, failOnError = false)
         public void noneDefaultSettings() {
         }
 

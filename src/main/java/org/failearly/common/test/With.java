@@ -122,7 +122,7 @@ public final class With {
             throw ex;
         }
         catch(Exception ex) {
-            LOGGER.warn("({}) Caught exception while applying '{}'. Caught exception: {}", name, description, ex);
+            LOGGER.warn("({}) Caught exception while applying '{}'. Origin message: {}", name, description, ex.getMessage());
             exceptionHandler.handleException(message.toString(), ex);
         }
         return null;

@@ -19,48 +19,36 @@
 
 package org.failearly.dataz.datastore;
 
-import org.failearly.dataz.AdhocDataStore;
-import org.failearly.dataz.config.DataSetProperties;
-import org.failearly.dataz.internal.model.TestMethod;
-import org.failearly.dataz.internal.template.TemplateObjects;
+import org.failearly.common.proputils.PropertiesAccessor;
+import org.failearly.dataz.NamedDataStore;
+import org.failearly.dataz.internal.model.AtomicTest;
 import org.failearly.dataz.resource.DataResource;
-import org.failearly.dataz.template.TemplateObject;
-
-import java.util.List;
 
 /**
- * DataStore is the representation for any Database driver.
+ * {@code DataStore} is the representation for any Database driver. For any {@link NamedDataStore} and applied datastore
+ * annotation there will be an instance of {@code DataStore}.
  */
 public interface DataStore {
     /**
+     * The named datastore of this instance.
+     * @return the named data store
+     */
+    Class<? extends NamedDataStore> getNamedDataStore();
+
+    /**
+     * @return the name of the data store (annotation).
+     */
+    String getName();
+
+    /**
      * @return the id of the data store.
-     * @see AdhocDataStore#id()
      */
     String getId();
 
     /**
      * @return the configuration file of the data store.
-     * @see AdhocDataStore#config()
      */
     String getConfigFile();
-
-    /**
-     * The default suffix used for searching <b>setup</b> resource files.
-     *
-     * @return suffix to be used for {@link org.failearly.dataz.DataSet#setup()} (if no setup resource is specified).
-     * @see AdhocDataStore#setupSuffix()
-     * @see DataSetProperties#getDefaultSetupSuffix()
-     */
-    String getSetupSuffix();
-
-    /**
-     * The default suffix used for searching <b>cleanup</b> resource files.
-     *
-     * @return suffix to be used for {@link org.failearly.dataz.DataSet#cleanup()} (if no setup resource is specified).
-     * @see AdhocDataStore#cleanupSuffix()
-     * @see DataSetProperties#getDefaultCleanupSuffix()
-     */
-    String getCleanupSuffix();
 
     /**
      * Initialize the DataStore. I.e. Establish connection(s).
@@ -70,15 +58,14 @@ public interface DataStore {
     void initialize() throws DataStoreException;
 
     /**
-     * After initialization, the DataStore needs sometimes special setup (like creating a schema).
+     * Return the loaded properties. The properties will be resolved as first step during initialization.
      *
-     * @param dataStoreSetups   all declared {@link org.failearly.dataz.DataStoreSetup} annotations available.
-     * @param templateObjects a list of {@link TemplateObject}s, which represents
-     *                          all template object annotations.
-     * @throws org.failearly.dataz.datastore.DataStoreException in case of any exception while setup the Datastore.
-     * @see org.failearly.dataz.DataStoreSetup
+     * @return the loaded properties from config file and/or properties annotation.
+     *
+     * @see #getConfigFile()
+     * @see org.failearly.dataz.common.Property
      */
-    void setupDataStore(List<DataStoreSetupInstance> dataStoreSetups, TemplateObjects templateObjects) throws DataStoreException;
+    PropertiesAccessor getProperties();
 
     /**
      * If the DataStore supports transactional behaviour, the {@link org.failearly.dataz.DataSet#transactional()} will
@@ -91,14 +78,21 @@ public interface DataStore {
     boolean hasTransactionalSupport();
 
     /**
+     * Apply {@code dataResource} on this datastore instance.
+     * @param dataResource a {@link DataResource} instance
+     */
+    void applyDataResource(DataResource dataResource);
+
+    /**
      * Apply the {@link org.failearly.dataz.DataSet#setup()} resources.
      *
      * @param testMethod current test method.
      * @throws org.failearly.dataz.datastore.DataStoreException thrown in case any unexpected issue with given
      *                                                            setup resource of {@link org.failearly.dataz.DataSet}.
-     * @see org.failearly.dataz.internal.model.TestMethod#handleSetupResource(String, org.failearly.dataz.internal.resource.DataResourceHandler)
+     * @see AtomicTest#handleSetupResource(String, org.failearly.dataz.internal.resource.DataResourceHandler)
      */
-    void setup(TestMethod testMethod) throws DataStoreException;
+    @Deprecated
+    void setup(AtomicTest testMethod) throws DataStoreException;
 
     /**
      * Apply the {@link org.failearly.dataz.DataSet#cleanup()} resources.
@@ -106,16 +100,15 @@ public interface DataStore {
      * @param testMethod current test method.
      * @throws org.failearly.dataz.datastore.DataStoreException thrown in case any unexpected issue with given
      *                                                            cleanup resource of {@link org.failearly.dataz.DataSet}.
-     * @see org.failearly.dataz.internal.model.TestMethod#handleCleanupResource(String, org.failearly.dataz.internal.resource.DataResourceHandler)
+     * @see AtomicTest#handleCleanupResource(String, org.failearly.dataz.internal.resource.DataResourceHandler)
      */
-    void cleanup(TestMethod testMethod) throws DataStoreException;
+    @Deprecated
+    void cleanup(AtomicTest testMethod) throws DataStoreException;
 
     /**
      * Does the cleanup of the data store, after all tests has been executed.
-     *
-     * @see DataStores#dispose()
-     * @see DataStores#shutdown()
      */
+    @Deprecated
     void cleanupDataStore() throws DataStoreException;
 
     /**
@@ -123,11 +116,4 @@ public interface DataStore {
      */
     void dispose();
 
-    /**
-     * Return the property with given key.
-     *
-     * @param key the property key.
-     * @return the property value or {@code null}.
-     */
-    String getProperty(String key);
 }

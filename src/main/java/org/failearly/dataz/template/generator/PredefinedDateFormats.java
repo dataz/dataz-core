@@ -22,7 +22,7 @@ package org.failearly.dataz.template.generator;
 /**
  * PredefinedDateFormats contains some predefined formats for {@link DateGenerator#format()}.
  *
- * Inspired by {@link org.apache.commons.lang.time.DateFormatUtils}.
+ * Inspired by {@code org.apache.commons.lang.time.DateFormatUtils}.
  */
 @SuppressWarnings("unused")
 public final class PredefinedDateFormats {

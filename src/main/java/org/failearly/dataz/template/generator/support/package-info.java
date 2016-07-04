@@ -22,7 +22,7 @@
  * <br><br>
  * Any generator annotation must define following attributes:<br>
  * <ul>
- *    <li>{@code name()}: The name of the generator. Use this to access the generator within your template.</li>
+ *    <li>{@code name()}: The name of the generator. Use this to reserve the generator within your template.</li>
  *    <li>{@code dataz()}: A generator must be associated to a specific {@link org.failearly.dataz.DataSet#name()}.</li>
  *    <li>{@code scope()}: A generator has .</li>
  * </ul>

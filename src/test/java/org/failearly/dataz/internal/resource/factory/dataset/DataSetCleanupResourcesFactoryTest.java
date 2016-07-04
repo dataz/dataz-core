@@ -78,7 +78,7 @@ public class DataSetCleanupResourcesFactoryTest extends DataResourcesFactoryTest
         public void defaultSettings() {
         }
 
-        @DataSet(datastore = OTHER_DATASTORE_ID, name = OTHER_DATA_SET_NAME, cleanup = "/any-resource.cleanup", transactional = false, failOnError = false)
+        @DataSet(name = OTHER_DATA_SET_NAME, cleanup = "/any-resource.cleanup", transactional = false, failOnError = false)
         public void noneDefaultSettings() {
         }
 

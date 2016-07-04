@@ -83,7 +83,6 @@ public class DataResourceTest {
         return DataResourceBuilder.createBuilder(TestClass.class)
                 .mandatory()
                 .withDataSetName(dataSet.name())
-                .withDataStoreId(dataSet.datastore())
                 .withResourceName(resourceName)
                 .withTemplateObjects(CoreTestUtils.resolveTemplateObjects(methodName, TestClass.class))
                 .build();
@@ -94,7 +93,6 @@ public class DataResourceTest {
         return DataResourceBuilder.createBuilder(TestClass.class)
                 .optional()
                 .withDataSetName(dataSet.name())
-                .withDataStoreId(dataSet.datastore())
                 .withResourceName(resourceName)
                 .withTemplateObjects(CoreTestUtils.resolveTemplateObjects(methodName, TestClass.class))
                 .build();

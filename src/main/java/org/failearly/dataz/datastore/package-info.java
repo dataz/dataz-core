@@ -24,9 +24,6 @@
  *
  * @see org.failearly.dataz.datastore.DataStore
  * @see org.failearly.dataz.datastore.DataStoreFactory
- * @see org.failearly.dataz.datastore.DefaultDataStoreFactory
- * @see org.failearly.dataz.datastore.DataStoreType
  * @see org.failearly.dataz.datastore.DataStoreFactory.Definition
- * @see org.failearly.dataz.AdhocDataStore
  */
 package org.failearly.dataz.datastore;

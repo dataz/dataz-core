@@ -19,12 +19,17 @@
 
 package org.failearly.dataz.resource;
 
-import org.failearly.dataz.AdhocDataStore;
+import org.failearly.dataz.DataCleanup;
+import org.failearly.dataz.DataSet;
+import org.failearly.dataz.DataSetup;
+import org.failearly.dataz.datastore.DataStore;
+import org.failearly.dataz.NamedDataStore;
 import org.failearly.dataz.exception.DataSetException;
 import org.failearly.dataz.internal.resource.DataResourceProcessingException;
 import org.failearly.dataz.internal.template.TemplateObjects;
 
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * DataSetResource represents either a {@link org.failearly.dataz.DataSet#setup()} or {@link org.failearly.dataz.DataSet#cleanup()}
@@ -34,24 +39,22 @@ import java.io.InputStream;
  */
 public interface DataResource {
     /**
-     * If the data resource is template based resource, here the target data resource will be generated.
+     * Returns the associated datastore(s), the data resource should be applied on.
      *
-     * @param templateObjects all template objects available.
-     * @throws DataResourceProcessingException in case of processing issues while processing the template.
+     * @return the associated datastore(s).
+     *
+     * @see DataSet#datastores()
+     * @see DataSetup#datastores()
+     * @see DataCleanup#datastores()
+     *
      */
-    void generate(TemplateObjects templateObjects) throws DataResourceProcessingException;
-
-    /**
-     * @return The data store id.
-     * @see org.failearly.dataz.DataSet#datastore()
-     * @see AdhocDataStore#id()
-     */
-    String getDataStoreId();
+    List<Class<? extends NamedDataStore>> getDataStores();
 
     /**
      * @return the data set name.
-     * @see org.failearly.dataz.DataSet#name()
-     * @see org.failearly.dataz.DataStoreSetup#name()
+     * @see DataSet#name()
+     * @see DataSetup#name()
+     * @see DataCleanup#name()
      */
     String getDataSetName();
 
@@ -59,26 +62,37 @@ public interface DataResource {
      * A single entry of {@link org.failearly.dataz.DataSet#setup()} or {@link org.failearly.dataz.DataSet#cleanup()}.
      *
      * @return the resource name.
-     * @see org.failearly.dataz.DataSet#setup()
-     * @see org.failearly.dataz.DataSet#cleanup()
+     * @see DataSet#setup()
+     * @see DataSet#cleanup()
+     * @see DataSetup#value()
+     * @see DataCleanup#value()
      */
     String getResource();
 
     /**
      * @return {@code true} if the resource should be handled within one transaction.
-     * @see org.failearly.dataz.DataSet#transactional()
+     * @see DataSet#transactional()
+     * @see DataSetup#transactional()
+     * @see DataCleanup#transactional()
      */
     boolean isTransactional();
 
     /**
-     * Return an additional value stored under {@code key} or {@code defaultValue}.
-     *
-     * @param key          the key or name of the additional value
-     * @param defaultValue the value to be returned if there is no value stored for given {@code key}
-     * @param <T>          the expected type.
-     * @return the additional value or {@code defaultValue}.
+     * @return {@code true} if the DataStore should fail.
+     * @see DataSet#failOnError()
+     * @see DataSetup#failOnError()
+     * @see DataCleanup#failOnError()
      */
-    <T> T getAdditionalValue(String key, T defaultValue);
+    boolean isFailOnError();
+
+
+    /**
+     * If the data resource is template based resource, here the target data resource will be generated.
+     *
+     * @param templateObjects all template objects available.
+     * @throws DataResourceProcessingException in case of processing issues while processing the template.
+     */
+    void generate(TemplateObjects templateObjects) throws DataResourceProcessingException;
 
     /**
      * Open's the resource as stream.
@@ -89,7 +103,12 @@ public interface DataResource {
     InputStream open() throws DataSetException;
 
     /**
-     * @return {@code true} if the DataStore should fail.
+     * Check if this {@code DataResource} is associated to {@code dataStore}, then {@link DataStore#applyDataResource(DataResource)}
+     * could be applied.
+     * @param dataStore the datastore
+     * @return {@code true} if this resource is associated to the {@code dataStore}, otherwise {@code false}.
+     *
+     * @see DataStore#applyDataResource(DataResource)
      */
-    boolean isFailOnError();
+    boolean shouldAppliedOn(DataStore dataStore);
 }

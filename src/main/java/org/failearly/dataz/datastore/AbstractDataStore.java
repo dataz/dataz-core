@@ -19,12 +19,12 @@
 
 package org.failearly.dataz.datastore;
 
-import org.failearly.dataz.internal.model.TestMethod;
-import org.failearly.dataz.internal.template.TemplateObjects;
+import org.failearly.common.proputils.PropertiesAccessor;
+import org.failearly.dataz.NamedDataStore;
+import org.failearly.dataz.internal.model.AtomicTest;
+import org.failearly.dataz.resource.DataResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.List;
 
 /**
  * AbstractDataStore is a base class to protect the implementations against changes of the interface {@link DataStore}.
@@ -32,6 +32,18 @@ import java.util.List;
 @SuppressWarnings("WeakerAccess")
 public abstract class AbstractDataStore implements DataStore {
     protected final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+
+    @Override
+    public Class<? extends NamedDataStore> getNamedDataStore() {
+        LOGGER.warn("getNamedDataStore() not implemented");
+        return NullNamedDataStore.class;
+    }
+
+    @Override
+    public String getName() {
+        LOGGER.warn("getName() not implemented");
+        return "unknown";
+    }
 
     @Override
     public String getId() {
@@ -46,16 +58,9 @@ public abstract class AbstractDataStore implements DataStore {
     }
 
     @Override
-    public String getSetupSuffix() {
-        LOGGER.error("getSetupSuffix() not implemented");
-        throw new UnsupportedOperationException("getSetupSuffix() not implemented");
-    }
-
-    @Override
-    public String getCleanupSuffix() {
-        LOGGER.error("getCleanupSuffix() not implemented");
-        throw new UnsupportedOperationException("getCleanupSuffix() not implemented");
-
+    public PropertiesAccessor getProperties() {
+        LOGGER.error("getProperties() not implemented");
+        throw new UnsupportedOperationException("getProperties() not implemented");
     }
 
     @Override
@@ -65,25 +70,25 @@ public abstract class AbstractDataStore implements DataStore {
     }
 
     @Override
-    public void setupDataStore(List<DataStoreSetupInstance> dataStoreSetups, TemplateObjects templateObjects) {
-        LOGGER.error("setupDataStore() not implemented");
-        throw new UnsupportedOperationException("setupDataStore() not implemented");
-    }
-
-    @Override
     public boolean hasTransactionalSupport() {
         LOGGER.warn("hasTransactionalSupport() not implemented");
         return false;
     }
 
     @Override
-    public void setup(TestMethod testMethod) throws DataStoreException {
+    public void applyDataResource(DataResource dataResource) {
+        LOGGER.error("applyDataResource() not implemented");
+        throw new UnsupportedOperationException("applyDataResource() not implemented");
+    }
+
+    @Override
+    public final void setup(AtomicTest testMethod) throws DataStoreException {
         LOGGER.error("setup() not implemented");
         throw new UnsupportedOperationException("setup() not implemented");
     }
 
     @Override
-    public void cleanup(TestMethod testMethod) {
+    public final void cleanup(AtomicTest testMethod) {
         LOGGER.error("cleanup() not implemented");
         throw new UnsupportedOperationException("cleanup() not implemented");
     }
@@ -100,9 +105,8 @@ public abstract class AbstractDataStore implements DataStore {
         throw new UnsupportedOperationException("dispose() not implemented");
     }
 
-    @Override
-    public String getProperty(String key) {
-        LOGGER.error("getProperty() not implemented");
-        throw new UnsupportedOperationException("getProperty() not implemented");
+    static final class NullNamedDataStore
+            extends NamedDataStore {
     }
+
 }

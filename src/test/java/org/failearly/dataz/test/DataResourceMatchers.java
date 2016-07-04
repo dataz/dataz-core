@@ -21,21 +21,22 @@ package org.failearly.dataz.test;
 
 import org.failearly.dataz.DataSet;
 import org.failearly.dataz.config.Constants;
+import org.failearly.dataz.NamedDataStore;
 import org.failearly.dataz.resource.DataResource;
 import org.hamcrest.Matcher;
 
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 
 /**
  * DataResourceMatchers contains several factory method for {@link DataResource} matchers.
+ *
+ * TODO: dataStoreId does not exists anymore.
  */
 public final class DataResourceMatchers {
     /**
      * Create {@link Matcher} for {@link DataResource} based on ... .
      *
-     * @param dataStoreId the ID of the data store (i.e. {@link DataSet#datastore()}).
+     * @param dataStoreId the ID of the data store (i.e. {@link DataSet#datastores()}).
      * @param dataSetName the data set name (i.e. {@link DataSet#name()}).
      * @param resource the resource name.
      * @param transactional the DataResource should be transactional or not (all or nothing)
@@ -45,7 +46,6 @@ public final class DataResourceMatchers {
      */
     public static Matcher<DataResource> isDataResource(String dataStoreId, String dataSetName, String resource, boolean transactional, boolean failOnError) {
         return allOf(
-                hasDataStoreId(dataStoreId),
                 hasDataSetName(dataSetName),
                 hasResourceValue(resource),
                 hasTransactionalValue(transactional),
@@ -56,7 +56,7 @@ public final class DataResourceMatchers {
     /**
      * Create {@link Matcher} for {@link DataResource} based on ... .
      *
-     * @param dataStoreId the ID of the data store (i.e. {@link DataSet#datastore()}).
+     * @param dataStoreId the ID of the data store (i.e. {@link DataSet#datastores()}).
      * @param dataSetName the data set name (i.e. {@link DataSet#name()}).
      * @param resource the resource name.
      *
@@ -77,7 +77,7 @@ public final class DataResourceMatchers {
     }
 
     /**
-     * Like {@link #isDataResource(String, String, String)} but with {@code dataStoreId} value {@link Constants#DATAZ_DEFAULT_DATASTORE_ID}.
+     * Like {@link #isDataResource(String, String, String)} but with {@code dataStoreId} value {@link Constants#DATAZ_DEFAULT_DATASTORE_NAME}.
      *
      * @param dataSetName the data set name (i.e. {@link DataSet#name()}).
      * @param resource the resource name.
@@ -85,11 +85,16 @@ public final class DataResourceMatchers {
      * @return matcher matches all of {@code dataStoreId}, {@code dataSetName} and {@code resource}.
      */
     public static Matcher<DataResource> isDataResource(String dataSetName, String resource) {
-        return isDataResource(Constants.DATAZ_DEFAULT_DATASTORE_ID, dataSetName, resource);
+        return isDataResource(Constants.DATAZ_DEFAULT_DATASTORE_NAME, dataSetName, resource);
     }
 
-    public static Matcher<DataResource> hasDataStoreId(String dataStoreId) {
-        return ClosureMatcher.closureMatcher(DataResource::getDataStoreId, equalTo(dataStoreId), "DataStoreId");
+    @SafeVarargs
+    public static Class<? extends NamedDataStore>[] datastores(Class<? extends NamedDataStore>... dataStores) {
+        return dataStores;
+    }
+
+    public static Matcher<DataResource> hasDataStores(Class<? extends NamedDataStore>[] dataStores) {
+        return ClosureMatcher.closureMatcher(DataResource::getDataStores, containsInAnyOrder(dataStores), "DataStores");
     }
 
     public static Matcher<DataResource> hasDataSetName(final String dataSetName) {

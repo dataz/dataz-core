@@ -38,12 +38,6 @@ import java.lang.annotation.*;
  *         {@literal @Test}
  *         {@literal @DataSetup}
  *          public void testMethod() {
- *              // Uses
- *              // * {@link #datastore()} with id {@link Constants#DATAZ_DEFAULT_DATASTORE_ID}. This means that any setup/cleanup resource will be applied
- *              //     on this data store.
- *              // * as the {@link #name} (not ID!!) {@link Constants#DATASET_DEFAULT_NAME}
- *              // * ... for {@link #value()} resource in classpath /com/company/module/MyTestClass-testMethod.setup  (<b>mandatory</b>)
- *              // * {@link #transactional()} and {@link #failOnError()} defaults to true
  *          }
  *      }
  * </pre>
@@ -68,17 +62,14 @@ public @interface DataSetup {
     String name() default Constants.DATASET_DEFAULT_NAME;
 
     /**
-     * The associated DataStore. If the DataStore does not exists, the DataSet resources will be ignored.
+     * The data store(s) the data set resource will be applied on. If ommitted the default data store
+     * will be used.
      *
-     * @return the ID of an associated DataStore.
-     *
-     * @see AdhocDataStore#id()
-     * @see org.failearly.dataz.datastore.DataStore#getId()
-     *
-     * @deprecated Will replaced in Release 0.6 (with new element datastores)
+     * @return the associated data stores
+     * @see DataResource#getDataStores()
      */
-    @Deprecated
-    String datastore() default Constants.DATAZ_DEFAULT_DATASTORE_ID;
+    Class<? extends NamedDataStore>[] datastores() default {};
+
 
     /**
      * The name(s) of the setup resource(s).<br>
@@ -106,8 +97,6 @@ public @interface DataSetup {
      * <br><br>
      *
      * @return The name(s) of the setup resource(s) or empty.
-     * @see org.failearly.dataz.datastore.DataStore#getSetupSuffix()
-     * @see AdhocDataStore#setupSuffix()
      * @see Constants#DATAZ_PROPERTY_DEFAULT_SETUP_SUFFIX
      */
     String[] value() default {};

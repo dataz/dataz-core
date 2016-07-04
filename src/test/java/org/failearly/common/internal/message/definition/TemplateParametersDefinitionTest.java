@@ -21,7 +21,7 @@ package org.failearly.common.internal.message.definition;
 
 import org.failearly.common.internal.message.MessageParametersTestBase;
 import org.failearly.common.test.annotations.TestsFor;
-import org.failearly.common.test.ObjectCreator;
+import org.failearly.common.classutils.ObjectCreator;
 
 /**
  * TemplateParametersDefinitionTest contains tests for TemplateParametersDefinition.

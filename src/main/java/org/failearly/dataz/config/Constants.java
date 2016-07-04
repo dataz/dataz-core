@@ -20,8 +20,9 @@
 package org.failearly.dataz.config;
 
 import org.failearly.common.annotation.traverser.TraverseDepth;
-import org.failearly.dataz.AdhocDataStore;
 import org.failearly.dataz.DataSet;
+import org.failearly.dataz.NamedDataStore;
+import org.failearly.dataz.datastore.DataStoreFactory;
 import org.failearly.dataz.template.TemplateObject;
 
 /**
@@ -144,21 +145,18 @@ public interface Constants {
     String DATAZ_PROPERTY_TEMPLATE_ENGINE_FACTORY = "dataz.template.engine.factory";
 
     /**
-     * The default datastore id used for {@link org.failearly.dataz.DataSet#datastore()} and {@link AdhocDataStore#id()}.
+     * The default datastore name.
      */
-    String DATAZ_DEFAULT_DATASTORE_ID = "<master>";
+    String DATAZ_DEFAULT_DATASTORE_NAME = "<master>";
 
     /**
-     * The property used by {@link org.failearly.dataz.datastore.DefaultDataStoreFactory} to resolve the actually
-     * {@link org.failearly.dataz.datastore.DataStoreType}.
-     * <br><br>
-     * Remark: It's also possible to set this property in a custom dataz property file. But usually this is not necessary, because
-     * almost a single database type will be used.
+     * Settings for the default DataStore (a {@link NamedDataStore}).
+     * This will be used if for example {@link DataSet#datastores()} has not been set.
      *
-     * @see org.failearly.dataz.datastore.DefaultDataStoreFactory
-     * @see AdhocDataStore
+     * @see DataSet#datastores()
      */
-    String DATAZ_PROPERTY_DATASTORE_TYPE_CLASS_NAME = "dataz.default.datastore.type.class";
+    String DATAZ_PROPERTY_DEFAULT_DATA_STORE = "dataz.default.datastore.class";
+
 
     /**
      * Defines the used depth for resolving {@link TemplateObject} annotations. Currently possible values are:<br><br>
@@ -188,14 +186,23 @@ public interface Constants {
     String DATAZ_TEMPLATE_OBJECT_DUPLICATE_STRATEGY = "dataz.template.object.duplicate.strategy";
 
     /**
-     * Used by {@link AdhocDataStore#setupSuffix()} and
-     */
-    String DATASET_USE_DEFAULT_SUFFIX = "<use_default>";
-
-    /**
      * The default name of a data set if the name has been omitted.
      *
      * @see DataSet#name()
      */
     String DATASET_DEFAULT_NAME = "<dataset>";
+
+    /**
+     * No config file
+     */
+    String DATAZ_NO_CONFIG_FILE="<no-config-file>";
+
+    /**
+     * The default name of factory method used in conjunction with {@link org.failearly.dataz.datastore.ReflectionDataStoreFactory}
+     * and {@link DataStoreFactory.Definition#factoryMethod()}.
+     *
+     * @see org.failearly.dataz.datastore.ReflectionDataStoreFactory
+     * @see DataStoreFactory.Definition#factoryMethod()
+     */
+    String DATAZ_DEFAULT_DATASTORE_FACTORY_METHOD="createDataStore";
 }

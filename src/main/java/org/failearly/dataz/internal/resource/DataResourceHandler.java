@@ -25,6 +25,7 @@ import org.failearly.dataz.resource.DataResource;
  * DataSetResourceHandler is responsible for ...
  */
 @FunctionalInterface
+@Deprecated
 public interface DataResourceHandler {
     /**
      * A DataSet resource handler.

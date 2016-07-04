@@ -20,7 +20,7 @@
 package org.failearly.dataz.template.simple;
 
 import org.failearly.common.annotations.Tests;
-import org.failearly.dataz.Property;
+import org.failearly.dataz.common.Property;
 import org.failearly.dataz.config.Constants;
 import org.failearly.dataz.internal.template.simple.AdhocFactory;
 import org.failearly.dataz.template.Scope;

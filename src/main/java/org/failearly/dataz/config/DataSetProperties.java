@@ -21,7 +21,7 @@ package org.failearly.dataz.config;
 
 import org.apache.commons.lang.StringUtils;
 import org.failearly.common.annotation.traverser.TraverseDepth;
-import org.failearly.common.test.ExtendedProperties;
+import org.failearly.common.proputils.ExtendedProperties;
 import org.failearly.dataz.internal.template.TemplateObjectDuplicateStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,7 +73,6 @@ public final class DataSetProperties implements Constants {
         properties.loadCustomPropertyFile(DATAZ_DEFAULT_CUSTOM_PROPERTY_FILE);
         properties.loadCustomPropertyFileFromFileSystemFirst(System.getProperty(DATAZ_CONFIG_OPTION));
         properties.loadFromSystemProperties();
-        properties.resolveReferences();
     }
 
 
@@ -99,10 +98,10 @@ public final class DataSetProperties implements Constants {
     }
 
     /**
-     * @return value of {@link Constants#DATAZ_PROPERTY_DATASTORE_TYPE_CLASS_NAME}
+     * @return the default data store of {@link #DATAZ_PROPERTY_DEFAULT_DATA_STORE}
      */
-    public static String getDefaultDataStoreTypeClassName() {
-        return properties.getDefaultDataStoreTypeClassName();
+    public static String getDefaultDataStore() {
+        return properties.getDefaultDataStore();
     }
 
     /**
@@ -179,7 +178,6 @@ public final class DataSetProperties implements Constants {
      */
     public static void setProperty(String key, String value) {
         properties.setProperty(key, value);
-        properties.resolveReferences(key);
     }
 
     /**
@@ -190,13 +188,6 @@ public final class DataSetProperties implements Constants {
      */
     public static String getProperty(String key) {
         return properties.getProperty(key);
-    }
-
-    /**
-     * Just for test purpose.
-     */
-    public static void resolveReferences() {
-        properties.resolveReferences();
     }
 
     /**
@@ -253,14 +244,6 @@ public final class DataSetProperties implements Constants {
             if (key.startsWith("dataz.")) {
                 LOGGER.debug("DataSet Property '{}' set to value '{}'", key, value);
             }
-        }
-
-        void resolveReferences() {
-            properties.resolveReferences();
-        }
-
-        void resolveReferences(String key) {
-            properties.resolveReferences(key);
         }
 
         private boolean loadProperties(InputStream resource, boolean optional, String type) {
@@ -320,10 +303,10 @@ public final class DataSetProperties implements Constants {
             return "." + properties.getProperty(DATAZ_PROPERTY_TEMPLATE_SUFFIX);
         }
 
-        String getDefaultDataStoreTypeClassName() {
-            return properties.getProperty(DATAZ_PROPERTY_DATASTORE_TYPE_CLASS_NAME);
-
+        String getDefaultDataStore() {
+            return properties.getProperty(DATAZ_PROPERTY_DEFAULT_DATA_STORE);
         }
+
 
         boolean isDropTempFile() {
             return Boolean.parseBoolean(properties.getProperty(Constants.DATAZ_PROPERTY_DROP_TEMP_FILE, "true"));
@@ -372,5 +355,6 @@ public final class DataSetProperties implements Constants {
         Properties getProperties() {
             return properties.toStandardProperties();
         }
+
     }
 }

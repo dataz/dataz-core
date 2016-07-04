@@ -23,7 +23,7 @@ import org.failearly.common.annotation.traverser.*;
 import org.failearly.dataz.config.DataSetProperties;
 import org.failearly.dataz.internal.util.BuilderBase;
 import org.failearly.dataz.template.TemplateObjectFactory;
-import org.failearly.common.test.ObjectCreator;
+import org.failearly.common.classutils.ObjectCreator;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -63,34 +63,34 @@ public final class TemplateObjectsResolver {
     }
 
     /**
-     * Resolves {@link TemplateObjects} from a test method.
+     * Resolves {@link TemplateObjects} from a method.
      *
-     * @param testMethod the test method.
+     * @param method the method.
      * @return the template {@link TemplateObjects}.
      */
-    public static TemplateObjects resolveFromTestMethod(Method testMethod) {
-        return newStandardInstance().resolveFromTestMethod0(testMethod);
+    public static TemplateObjects resolveFromMethod(Method method) {
+        return newStandardInstance().resolveFromMethod0(method);
     }
 
-    TemplateObjects resolveFromTestMethod0(Method testMethod) {
+    TemplateObjects resolveFromMethod0(Method method) {
         final TemplateObjects creators = createTemplateObjects();
-        doResolveTemplateObjectCreators(testMethod, creators);
+        doResolveTemplateObjectCreators(method, creators);
         return creators;
     }
 
     /**
-     * Resolves {@link TemplateObjects} from a test class.
+     * Resolves {@link TemplateObjects} from a class.
      *
-     * @param testClass the test class.
+     * @param clazz the class.
      * @return the template {@link TemplateObjects}.
      */
-    public static TemplateObjects resolveFromTestClass(Class<?> testClass) {
-        return newStandardInstance().resolveFromTestClass0(testClass);
+    public static TemplateObjects resolveFromClass(Class<?> clazz) {
+        return newStandardInstance().resolveFromClass0(clazz);
     }
 
-    TemplateObjects resolveFromTestClass0(Class<?> testClass) {
+    TemplateObjects resolveFromClass0(Class<?> clazz) {
         final TemplateObjects creators = createTemplateObjects();
-        doResolveTemplateObjectCreators(testClass, creators);
+        doResolveTemplateObjectCreators(clazz, creators);
         return creators;
     }
 
@@ -98,12 +98,12 @@ public final class TemplateObjectsResolver {
         return new TemplateObjects(duplicateHandler, templateObjectCreatorListOrder);
     }
 
-    private void doResolveTemplateObjectCreators(Class<?> testClass, final TemplateObjects creators) {
+    private void doResolveTemplateObjectCreators(Class<?> clazz, final TemplateObjects creators) {
         final MetaAnnotationTraverser<TemplateObjectFactory.Definition> traverser = metaAnnotationTraverser(TemplateObjectFactory.Definition.class)
                 .withTraverseStrategy(TraverseStrategy.TOP_DOWN)
                 .withTraverseDepth(traverseDepth)
                 .build();
-        traverser.traverse(testClass, new MetaAnnotationHandlerBase<TemplateObjectFactory.Definition>() {
+        traverser.traverse(clazz, new MetaAnnotationHandlerBase<TemplateObjectFactory.Definition>() {
             @Override
             public void handleAnnotation(Annotation annotation) {
                 creators.add(createTemplateObjectCreator(annotation));
@@ -111,12 +111,12 @@ public final class TemplateObjectsResolver {
         });
     }
 
-    private void doResolveTemplateObjectCreators(Method testClass, final TemplateObjects creators) {
+    private void doResolveTemplateObjectCreators(Method clazz, final TemplateObjects creators) {
         final MetaAnnotationTraverser<TemplateObjectFactory.Definition> traverser = metaAnnotationTraverser(TemplateObjectFactory.Definition.class)
                 .withTraverseStrategy(TraverseStrategy.TOP_DOWN)
                 .withTraverseDepth(traverseDepth)
                 .build();
-        traverser.traverse(testClass, new MetaAnnotationHandlerBase<TemplateObjectFactory.Definition>() {
+        traverser.traverse(clazz, new MetaAnnotationHandlerBase<TemplateObjectFactory.Definition>() {
             @Override
             public void handleAnnotation(Annotation annotation) {
                 creators.add(createTemplateObjectCreator(annotation));

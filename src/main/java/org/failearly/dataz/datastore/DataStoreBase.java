@@ -20,31 +20,57 @@
 package org.failearly.dataz.datastore;
 
 import org.apache.commons.lang.StringUtils;
+import org.failearly.common.annotation.traverser.MetaAnnotationTraverser;
+import org.failearly.common.annotation.traverser.TraverseDepth;
+import org.failearly.common.annotation.traverser.TraverseStrategy;
 import org.failearly.common.message.InlineMessageTemplate;
 import org.failearly.common.message.Message;
 import org.failearly.common.message.MessageBuilderBase;
 import org.failearly.common.message.TemplateParameters;
-import org.failearly.common.test.ExtendedProperties;
+import org.failearly.common.proputils.ExtendedProperties;
+import org.failearly.common.proputils.PropertiesAccessor;
 import org.failearly.common.test.With;
-import org.failearly.dataz.DataStoreSetup;
+import org.failearly.dataz.common.Property;
+import org.failearly.dataz.common.PropertyUtility;
 import org.failearly.dataz.config.Constants;
 import org.failearly.dataz.config.DataSetProperties;
-import org.failearly.dataz.internal.model.TestMethod;
-import org.failearly.dataz.internal.resource.ResourceType;
+import org.failearly.dataz.NamedDataStore;
+import org.failearly.dataz.internal.resource.resolver.DataResourcesResolver;
+import org.failearly.dataz.internal.resource.resolver.DataResourcesResolvers;
 import org.failearly.dataz.internal.template.TemplateObjects;
+import org.failearly.dataz.internal.template.TemplateObjectsResolver;
 import org.failearly.dataz.internal.util.ResourceUtils;
 import org.failearly.dataz.resource.DataResource;
-import org.failearly.dataz.resource.DataResourceBuilder;
+import org.failearly.dataz.resource.DataResourcesFactory;
+import org.failearly.dataz.resource.DelegateDataResource;
 
 import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.function.Consumer;
+import java.util.Properties;
+
+import static org.failearly.common.annotation.traverser.AnnotationTraverserBuilder.metaAnnotationTraverser;
+import static org.failearly.common.annotation.utils.AnnotationUtils.resolveValueOfAnnotationAttribute;
 
 
 /**
- * DataStoreBase is the base class for the actually DataStore implementation. There are some useful abstractions like:
+ * {@code DataStoreBase} should be <b>the</b> base class for any DataStore implementation. {@code DataStoreBase} is
+ * responsible for the correct initialization and disposing of the instance.
+ * <br><br>
+ * <b>Caution</b>: It's possible to override {@link #initialize()}, but not recommended.
+ * <br><br>
+ * The initialization steps are:<br><br>
+ * <ol>
+ *    <li>loading and merging properties (file(s) first, dataStoreAnnotation properties last)</li>
+ *    <li>execute scripts (TODO: not yet implemented)</li>
+ *    <li>establish connection to DataStore</li>
+ *    <li>resolve setup and cleanup {@link DataResource}s from {@link NamedDataStore} class</li>
+ *    <li>Execute setup {@code DataResource}s (using {@link #applyDataResource(DataResource)})</li>
+ * </ol>
+ * <br><br>
+ * There are some useful abstractions like:
  * <br><br>
  * <ul>
  * <li>{@link org.failearly.dataz.datastore.support.TransactionalSupportDataStoreBase}: provides an implementation for
@@ -60,43 +86,59 @@ public abstract class DataStoreBase extends AbstractDataStore {
         throw new DataStoreException(description, exception);
     }, "standard-datastore-exception");
 
-    private String id = "<unknown>";
-    private String configFile = "<unknown>";
 
-    private String setupSuffix = Constants.DATASET_USE_DEFAULT_SUFFIX;
-    private String cleanupSuffix = Constants.DATASET_USE_DEFAULT_SUFFIX;
+    private static final MetaAnnotationTraverser<DataResourcesFactory.SetupDefinition> SETUP_RESOURCES_TRAVERSER =  //
+            metaAnnotationTraverser(DataResourcesFactory.SetupDefinition.class)                                     //
+                    .withTraverseStrategy(TraverseStrategy.BOTTOM_UP)                                  //
+                    .withTraverseDepth(TraverseDepth.HIERARCHY)                                        //
+                    .build();
 
-    private ExtendedProperties properties;
-    private final List<DataResource> cleanupDataStoreResources = new LinkedList<>();
+    private static final DataResourcesResolver setupResolver= DataResourcesResolvers.setupDataResourcesResolver(TraverseDepth.HIERARCHY);
+    private static final DataResourcesResolver cleanupResolver= DataResourcesResolvers.cleanupDataResourcesResolver(TraverseDepth.HIERARCHY);
 
-    protected DataStoreBase() {
+    private final Class<? extends NamedDataStore> namedDataStore;
+    private final Annotation dataStoreAnnotation;
+    private final String name;
+    private final String id;
+    private final String configFile;
+
+    private final ExtendedProperties properties=new ExtendedProperties();
+
+    private TemplateObjects templateObjects;
+    private List<DataResource> cleanupDataResources = new LinkedList<>();
+
+    private boolean initialized=false;
+
+    protected DataStoreBase(Class<? extends NamedDataStore> namedDataStore, Annotation dataStoreAnnotation) {
+        this.namedDataStore = namedDataStore;
+        this.dataStoreAnnotation = dataStoreAnnotation;
+        this.name       = resolveValueOfAnnotationAttribute(dataStoreAnnotation, "name", String.class);
+        this.id         = createDataStoreId(this, namedDataStore, name);
+        this.configFile = resolveValueOfAnnotationAttribute(dataStoreAnnotation, "config", String.class);
     }
 
-    protected DataStoreBase(String dataStoreId, String dataStoreConfigFile) {
-        this.configFile = dataStoreConfigFile;
-        this.id = dataStoreId;
-    }
+    private static String createDataStoreId(DataStore dataStore, Class<? extends NamedDataStore> namedDataStore, String dataStoreName) {
+        String id;
+        if (StringUtils.isNotEmpty(dataStoreName))
+            id = namedDataStore.getSimpleName() + "[name=" + dataStoreName + "]";
+        else
+            id = namedDataStore.getSimpleName();
 
-    public final void setId(String id) {
-        this.id = id;
+        return id + "@" + dataStore.getClass().getSimpleName();
     }
-
-    public final void setConfigFile(String configFile) {
-        this.configFile = configFile;
-    }
-
-    public final void setSetupSuffix(String setupSuffix) {
-        this.setupSuffix = setupSuffix;
-    }
-
-    public final void setCleanupSuffix(String cleanupSuffix) {
-        this.cleanupSuffix = cleanupSuffix;
-    }
-
 
     @Override
-    public final String getId() {
+    public final String getName() {
+        return name;
+    }
+
+    @Override
+    public String getId() {
         return id;
+    }
+
+    public final Class<? extends NamedDataStore> getNamedDataStore() {
+        return namedDataStore;
     }
 
     @Override
@@ -104,47 +146,86 @@ public abstract class DataStoreBase extends AbstractDataStore {
         return configFile;
     }
 
-    /**
-     * The standard implementation returns {@link DataSetProperties#getDefaultSetupSuffix()},
-     * if the value is
-     * {@link Constants#DATASET_USE_DEFAULT_SUFFIX}.
-     *
-     * @return the default setup suffix associated with current datastore.
-     */
-    @Override
-    public String getSetupSuffix() {
-        if (useDefaultSuffix(this.setupSuffix))
-            return DataSetProperties.getDefaultSetupSuffix();
-        return this.setupSuffix;
-    }
-
-    /**
-     * The standard implementation returns {@link DataSetProperties#getDefaultCleanupSuffix()},
-     * if the value is
-     * {@link Constants#DATASET_USE_DEFAULT_SUFFIX}.
-     *
-     * @return the default cleanup suffix associated with current datastore.
-     */
-    @Override
-    public String getCleanupSuffix() {
-        if (useDefaultSuffix(this.cleanupSuffix))
-            return DataSetProperties.getDefaultCleanupSuffix();
-        return this.cleanupSuffix;
-    }
-
-    private static boolean useDefaultSuffix(String setupSuffix) {
-        return Constants.DATASET_USE_DEFAULT_SUFFIX.equals(setupSuffix);
-    }
-
     @Override
     public void initialize() throws DataStoreException {
-        with.action("Initialize " + this.getClass().getSimpleName(), () -> {
-            checkConfigurationFileForExistence();
-            loadDataStoreConfiguration();
+        if( initialized ) {
+            throw new IllegalStateException("Must no initialized twice.");
+        }
+
+        loadProperties();
+
+        executeScripts();
+
+        establishConnection();
+
+        resolveTemplateObjects();
+
+        applySetupDataResources();
+
+        loadCleanupDataResources();
+
+        this.initialized = true;
+    }
+
+    private void loadCleanupDataResources() {
+        cleanupDataResources = cleanupResolver.resolveFromClass(this.namedDataStore, this.templateObjects);
+    }
+
+    private void resolveTemplateObjects() {
+        this.templateObjects= TemplateObjectsResolver.resolveFromClass(namedDataStore);
+    }
+
+    private void applySetupDataResources() {
+        final List<DataResource> setupResources = resolveSetupDataResources();
+        with.action("Apply setup resources",
+                ()->setupResources.forEach(this::handleDataResource)
+        );
+    }
+
+    private void handleDataResource(DataResource dataResource) {
+        final DataResource delegatedDataResource = new OverwriteAssignedDataStore(dataResource);
+        if( delegatedDataResource.isFailOnError() ){
+            doApplyResource(delegatedDataResource);
+        }
+        else {
+            With.ignore().action("Apply resource " + delegatedDataResource.getResource(), ()->doApplyResource(delegatedDataResource));
+        }
+    }
+
+    private List<DataResource> resolveSetupDataResources() {
+        return setupResolver.resolveFromClass(this.namedDataStore, this.templateObjects);
+    }
+
+    private void executeScripts() {
+        // TODO: Implement DataStoreBase#executeScripts
+    }
+
+    private void establishConnection() {
+        with.action("Establish connection " + this.getId(), establishingConnectionFailedMessage(), () -> {
+            doEstablishConnection(this.getProperties());
         });
-        with.action("Establish connection", establishingConnectionFailedMessage(), () -> {
-            doEstablishConnection(this.properties);
+    }
+
+    private void loadProperties() {
+        with.action("Load properties " + this.getId(), () -> {
+            if (checkConfigurationFileForExistence()) {
+                this.properties.merge(
+                        DataSetProperties.getProperties(),
+                        loadDataStoreConfigurationFromConfigFile(),
+                        loadDataStoreConfigFromAnnotationProperties()
+                );
+            } else {
+                this.properties.merge(
+                        DataSetProperties.getProperties(),
+                        loadDataStoreConfigFromAnnotationProperties()
+                );
+            }
         });
+    }
+
+    private Properties loadDataStoreConfigFromAnnotationProperties() {
+        final Property[] annotationProperties = resolveValueOfAnnotationAttribute(dataStoreAnnotation, "properties", Property[].class);
+        return PropertyUtility.toProperties(annotationProperties);
     }
 
     protected Message establishingConnectionFailedMessage() {
@@ -154,31 +235,23 @@ public abstract class DataStoreBase extends AbstractDataStore {
     }
 
     @Override
-    public final void setupDataStore(List<DataStoreSetupInstance> dataStoreSetups, TemplateObjects templateObjects) throws DataStoreInitializationException {
-        dataStoreSetups.stream()
-                .filter(this::belongsToThisDataStore)
-                .forEach((dataStoreSetup) -> doCreateDataSetResources(dataStoreSetup, templateObjects));
-        Collections.reverse(this.cleanupDataStoreResources);
-    }
-
-    @Override
-    public void setup(TestMethod testMethod) throws DataStoreException {
-        testMethod.handleSetupResource(this.getId(), this::doHandleSetupResources);
-    }
-
-    @Override
-    public void cleanup(TestMethod testMethod) {
-        testMethod.handleCleanupResource(this.getId(), this::doHandleCleanupResources);
+    public final void applyDataResource(DataResource dataResource) {
+        if( ! initialized )
+            throw new IllegalStateException(this.getId() +" not yet initialized!" );
+        doApplyResource(dataResource);
     }
 
     @Override
     public void cleanupDataStore() {
-        cleanupDataStoreResources.forEach(this::doApplyResource);
-        cleanupDataStoreResources.clear();
+        with.action("Apply cleanup resources",
+                ()->cleanupDataResources.forEach(this::handleDataResource)
+        );
+        cleanupDataResources.clear();
     }
 
     @Override
     public void dispose() {
+        cleanupDataStore();
         LOGGER.info("Dispose data store '{}'", id);
     }
 
@@ -188,8 +261,8 @@ public abstract class DataStoreBase extends AbstractDataStore {
      * @param properties the {@link #properties} instance.
      * @throws Exception any exception while establishing a connection
      */
-    protected void doEstablishConnection(ExtendedProperties properties) throws Exception {
-        LOGGER.warn("doEstablishConnection() should be implemented.");
+    protected void doEstablishConnection(PropertiesAccessor properties) throws Exception {
+        LOGGER.error("doEstablishConnection() must be implemented.");
     }
 
     /**
@@ -199,98 +272,32 @@ public abstract class DataStoreBase extends AbstractDataStore {
      */
     protected abstract void doApplyResource(DataResource dataResource) throws DataStoreException;
 
-    /**
-     * @return the loaded properties from {@link #getConfigFile()}.
-     */
-    protected final ExtendedProperties getProperties() {
-        return properties;
-    }
-
     @Override
-    public final String getProperty(String key) {
-        return properties.getProperty(key);
+    public final PropertiesAccessor getProperties() {
+        return properties.toAccessor();
     }
 
-    @SuppressWarnings({"SameParameterValue", "WeakerAccess"})
-    protected final String getProperty(String key, String defaultValue) {
-        return properties.getProperty(key, defaultValue);
-    }
-
-    private void loadDataStoreConfiguration() {
+    private Properties loadDataStoreConfigurationFromConfigFile() {
+        final Properties properties=new Properties();
         try {
-            this.properties = new ExtendedProperties(DataSetProperties.getProperties());
-            this.properties.load(ResourceUtils.openResource(DataStoreBase.class, configFile));
-            this.properties.resolveReferences();
+            properties.load(ResourceUtils.openResource(DataStoreBase.class, configFile));
+            return properties;
         } catch (IOException e) {
             throw new DataStoreInitializationException("Unexpected IO exception while loading configuration file " + configFile, e);
         }
     }
 
-    private void checkConfigurationFileForExistence() {
+    private boolean checkConfigurationFileForExistence() {
+        if (Constants.DATAZ_NO_CONFIG_FILE.equals(configFile)) {
+            return false;
+        }
+
         if (!ResourceUtils.resourceExistsInClassPath(DataStoreBase.class, configFile)) {
             LOGGER.error("Missing configuration file '{}' for DataStore '{}'", configFile, id);
             throw new DataStoreInitializationException("Missing configuration file " + configFile + " for DataStore " + id);
         }
-    }
 
-    private void doCreateDataSetResources(DataStoreSetupInstance dataStoreSetup, TemplateObjects templateObjects) {
-        applyDataStoreSetupResources(dataStoreSetup, templateObjects);
-        addDataStoreCleanupResources(dataStoreSetup, templateObjects);
-    }
-
-    private void applyDataStoreSetupResources(DataStoreSetupInstance dataStoreSetup, TemplateObjects templateObjects) {
-        doHandleDataStoreSetupResources(ResourceType.SETUP, dataStoreSetup, templateObjects, dataStoreSetup.setup(), this::doApplyResource);
-    }
-
-    private void addDataStoreCleanupResources(DataStoreSetupInstance dataStoreSetup, TemplateObjects templateObjects) {
-        doHandleDataStoreSetupResources(ResourceType.CLEANUP, dataStoreSetup, templateObjects, dataStoreSetup.cleanup(), cleanupDataStoreResources::add);
-    }
-
-    private static void doHandleDataStoreSetupResources(
-            ResourceType resourceType,
-            DataStoreSetupInstance dataStoreSetupInstance,
-            TemplateObjects templateObjects,
-            String[] resourceNames,
-            Consumer<DataResource> dataResourceConsumer) {
-        for (String resourceName : resourceNames) {
-
-            dataResourceConsumer.accept(createDataResourceFromDataStoreSetup(resourceType, dataStoreSetupInstance, templateObjects, resourceName));
-        }
-    }
-
-    private static DataResource createDataResourceFromDataStoreSetup( //
-                                                                      ResourceType resourceType,                                //
-                                                                      DataStoreSetupInstance dataStoreSetupInstance,            //
-                                                                      TemplateObjects templateObjects,                 //
-                                                                      String resourceName) {
-        final DataStoreSetup dataStoreSetup = dataStoreSetupInstance.getAnnotation();
-        String dataSetName = dataStoreSetup.name();
-        if (StringUtils.isEmpty(dataStoreSetup.name())) {
-            dataSetName = dataStoreSetup.datastore();
-        }
-        return DataResourceBuilder.createBuilder(dataStoreSetupInstance.getAssociatedClass())  //
-                .withResourceType(resourceType) //
-                .withDataStoreId(dataStoreSetup.datastore())  //
-                .withDataSetName(dataSetName) //
-                .withResourceName(resourceName) //
-                .withFailOnError(dataStoreSetup.failOnError()) //
-                .withTransactional(dataStoreSetup.transactional()) //
-                .withTemplateObjects(templateObjects) //
-                .build();
-    }
-
-    private boolean belongsToThisDataStore(DataStoreSetupInstance dataStoreSetup) {
-        return dataStoreSetup.belongsToDataStore(id);
-    }
-
-    private void doHandleSetupResources(String methodName, String dataSet, DataResource dataResource) throws DataStoreException {
-        LOGGER.debug("Apply setup resource {} of data set {} on test {}", dataResource.getResource(), dataSet, methodName);
-        doApplyResource(dataResource);
-    }
-
-    private void doHandleCleanupResources(String methodName, String dataSet, DataResource dataResource) throws DataStoreException {
-        LOGGER.debug("Apply cleanup resource {} of data set {} on test {}", dataResource.getResource(), dataSet, methodName);
-        doApplyResource(dataResource);
+        return true;
     }
 
     @InlineMessageTemplate("${ds}: Establishing a connection failed on datastore with id ${dsid}!")
@@ -308,6 +315,19 @@ public abstract class DataStoreBase extends AbstractDataStore {
         EstablishingConnectionFailed withDataStore(DataStoreBase dataStore) {
             return with(ARG_DS_CLASS, dataStore.getClass().getSimpleName())
                     .with(ARG_DS_ID, dataStore.getId());
+        }
+    }
+
+
+    private class OverwriteAssignedDataStore extends DelegateDataResource {
+
+        OverwriteAssignedDataStore(DataResource origin) {
+            super(origin);
+        }
+
+        @Override
+        public List<Class<? extends NamedDataStore>> getDataStores() {
+            return Collections.singletonList(namedDataStore);
         }
     }
 }

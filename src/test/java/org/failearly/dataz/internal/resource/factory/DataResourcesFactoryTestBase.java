@@ -20,18 +20,13 @@
 package org.failearly.dataz.internal.resource.factory;
 
 import org.failearly.common.test.utils.ReflectionUtils;
-import org.failearly.dataz.config.Constants;
-import org.failearly.dataz.internal.model.TestMethodImplSetupHandlerTest;
 import org.failearly.dataz.internal.template.TemplateObjectsResolver;
 import org.failearly.dataz.resource.DataResource;
 import org.failearly.dataz.resource.DataResourcesFactory;
 import org.failearly.dataz.resource.GenericDataResourcesFactory;
 import org.failearly.dataz.resource.TypedDataResourcesFactory;
 import org.failearly.dataz.test.CoreTestUtils;
-import org.failearly.dataz.test.FakeDataStoreRule;
 import org.hamcrest.Matcher;
-import org.junit.ClassRule;
-import org.junit.rules.TestRule;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -49,10 +44,10 @@ import static org.junit.Assert.assertThat;
 public abstract class DataResourcesFactoryTestBase<T extends Annotation, R extends TypedDataResourcesFactory<T>> {
     public static final String OTHER_DATASTORE_ID = "OTHER-DATASTORE";
 
-    @ClassRule
-    public static final TestRule fakeDataStoreRule = FakeDataStoreRule.createFakeDataStoreRule(TestMethodImplSetupHandlerTest.class)
-            .addDataStore(Constants.DATAZ_DEFAULT_DATASTORE_ID)
-            .addDataStore(OTHER_DATASTORE_ID);
+//    @ClassRule
+//    public static final TestRule fakeDataStoreRule = FakeDataStoreRule.createFakeDataStoreRule(null)
+//            .addDataStore(Constants.DATAZ_DEFAULT_DATASTORE_NAME)
+//            .addDataStore(OTHER_DATASTORE_ID);
     public static final String OTHER_DATA_SET_NAME = "other-data-set-name";
 
     private final Class<T> annotationClass;
@@ -82,7 +77,7 @@ public abstract class DataResourcesFactoryTestBase<T extends Annotation, R exten
         return dataResourcesFactory.createDataResources(
                 testMethod,
                 resolveAnnotation(methodName),
-                TemplateObjectsResolver.resolveFromTestMethod(testMethod)
+                TemplateObjectsResolver.resolveFromMethod(testMethod)
         );
     }
 

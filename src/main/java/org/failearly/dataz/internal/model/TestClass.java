@@ -22,7 +22,7 @@ package org.failearly.dataz.internal.model;
 import org.failearly.common.annotation.traverser.MetaAnnotationTraverser;
 import org.failearly.common.annotation.traverser.TraverseDepth;
 import org.failearly.common.annotation.traverser.TraverseStrategy;
-import org.failearly.dataz.SuppressDataSet;
+import org.failearly.dataz.NoDataSet;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -36,13 +36,13 @@ import static org.failearly.common.annotation.traverser.AnnotationTraverserBuild
 import static org.failearly.dataz.resource.DataResourcesFactory.DataSetMarker;
 
 /**
- * TestClass represents a single test class. It is responsible for collecting {@link TestMethod}s by name.
+ * TestClass represents a single test class. It is responsible for collecting {@link AtomicTest}s by name.
  */
 public final class TestClass {
-    private final Map<String,TestMethod> testMethods=new HashMap<>();
+    private final Map<String,AtomicTest> testInstances =new HashMap<>();
     private final Class<?> testClass;
     private static final MetaAnnotationTraverser<DataSetMarker> DATA_SET_MARKER_TRAVERSER = metaAnnotationTraverser(DataSetMarker.class)
-            .withTraverseDepth(TraverseDepth.CLASS_HIERARCHY)
+            .withTraverseDepth(TraverseDepth.HIERARCHY)
             .withTraverseStrategy(TraverseStrategy.TOP_DOWN)
             .build();
 
@@ -68,19 +68,19 @@ public final class TestClass {
               // TODO: JUnit4 specific. Use Predication lambda instead.            //
               .filter((method) -> method.isAnnotationPresent(Test.class))          //
               .filter((method) -> ! method.isAnnotationPresent(Ignore.class))      //
-              .forEach((testMethod) -> testMethods.put(testMethod.getName(), createTestMethod(testMethod)));
+              .forEach((testMethod) -> testInstances.put(testMethod.getName(), createTestInstance(testMethod)));
     }
 
-    private TestMethod createTestMethod(Method testMethod) {
+    private AtomicTest createTestInstance(Method testMethod) {
         if( isAnnotatedWithSuppressDataSet(testMethod) || isNotAnnotatedWithDataSetMarker(testMethod) ) {
-            return new NullTestMethod(testMethod.getName());
+            return new NullTest(testMethod.getName());
         }
 
-        return TestMethodImpl.createTestMethod(testMethod, testClass);
+        return AtomicTestInstance.createTestInstance(testMethod, testClass);
     }
 
     private static boolean isAnnotatedWithSuppressDataSet(Method testMethod) {
-        return testMethod.isAnnotationPresent(SuppressDataSet.class);
+        return testMethod.isAnnotationPresent(NoDataSet.class);
     }
 
     private boolean isNotAnnotatedWithDataSetMarker(Method testMethod) {
@@ -90,11 +90,11 @@ public final class TestClass {
     /**
      * Return the test method instance.
      * @param testMethodName the test methods name
-     * @return the test method or an instance of {@link org.failearly.dataz.internal.model.NullTestMethod}.
+     * @return the test method or an instance of {@link NullTest}.
      */
-    public TestMethod getTestMethod(String testMethodName) {
-        final TestMethod testMethod = testMethods.get(testMethodName);
-        Objects.requireNonNull(testMethod, "Implementation failure in TestClass.resolveTestMethods(). The test method " + testMethodName + " has not been created");
-        return testMethod;
+    public AtomicTest getTestInstance(String testMethodName) {
+        final AtomicTest testInstance = testInstances.get(testMethodName);
+        Objects.requireNonNull(testInstance, "Implementation failure in TestClass.resolveTestMethods(). The test instance " + testMethodName + " has not been created");
+        return testInstance;
     }
 }

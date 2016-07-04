@@ -21,9 +21,12 @@ package org.failearly.dataz.resource;
 
 import org.failearly.common.resource.ResourcePathUtils;
 import org.failearly.dataz.config.DataSetProperties;
+import org.failearly.dataz.NamedDataStore;
 import org.failearly.dataz.internal.util.BuilderBase;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * DataResourceValues is a parameter object containing the values of any dataSet annotation (like {@link org.failearly.dataz.DataSet}).
@@ -33,10 +36,10 @@ import java.util.*;
 public final class DataResourceValues {
 
     private final String dataSetName;
-    private final String dataStoreId;
+
+    private final List<Class<? extends NamedDataStore>> datastores;
     private final String resource;
     private final boolean transactional;
-    private final Map<String,?> additionalValues;
     private final boolean  failOnError;
 
     private final Class<?> testClass;
@@ -51,14 +54,13 @@ public final class DataResourceValues {
         return new Builder(testClass);
     }
 
-    private DataResourceValues(Class<?> testClass, String dataSetName, String dataStoreId, String resource, boolean failOnError, boolean transactional, Map<String, ?> additionalValues) {
+    private DataResourceValues(Class<?> testClass, String dataSetName, List<Class<? extends NamedDataStore>> datastores, String resource, boolean failOnError, boolean transactional) {
         this.testClass = testClass;
         this.dataSetName = dataSetName;
-        this.dataStoreId = dataStoreId;
+        this.datastores = datastores;
         this.resource = resource;
         this.failOnError = failOnError;
         this.transactional = transactional;
-        this.additionalValues = additionalValues;
     }
 
     /**
@@ -77,11 +79,8 @@ public final class DataResourceValues {
         return dataSetName;
     }
 
-    /**
-     * @return  The associated {@link org.failearly.dataz.datastore.DataStore} ID.
-     */
-    public String getDataStoreId() {
-        return dataStoreId;
+    public List<Class<? extends NamedDataStore>> getDataStores() {
+        return datastores;
     }
 
     /**
@@ -111,24 +110,6 @@ public final class DataResourceValues {
     }
 
     /**
-     * Return additional value for given {@code key} or if the {@code key} is unknown return the {@code defaultValue}.
-     *
-     * @param key the key or name of the additional value
-     * @param defaultValue the value to be returned if there is no value stored for given {@code key}
-     * @param <T> the expected type.
-     * @return the additional value or {@code defaultValue}.
-     */
-    @SuppressWarnings("unchecked")
-    public <T> T getAdditionalValue(String key, T defaultValue) {
-        final Object value=additionalValues.get(key);
-        if( null==value ) {
-            return defaultValue;
-        }
-
-        return (T)value;
-    }
-
-    /**
      * @return {@code true} if the resource exists.
      */
     public boolean doesResourceExists() {
@@ -146,10 +127,8 @@ public final class DataResourceValues {
     public String toString() {
         return "DataResource{" +
                 "name='" + dataSetName + '\'' +
-                ", dataStoreId='" + dataStoreId + '\'' +
                 ", resource='" + resource + '\'' +
                 ", transactional=" + transactional +
-                ", additionalValues=" +  additionalValues +
                 '}';
     }
 
@@ -160,7 +139,6 @@ public final class DataResourceValues {
             final DataResourceValues that = (DataResourceValues) o;
 
             return dataSetName.equals(that.dataSetName)       //
-                    && dataStoreId.equals(that.dataStoreId)   //
                     && resource.equals(that.resource);
         }
         return false;
@@ -170,7 +148,6 @@ public final class DataResourceValues {
     @Override
     public int hashCode() {
         int result = dataSetName.hashCode();
-        result = 31 * result + dataStoreId.hashCode();
         result = 31 * result + resource.hashCode();
         return result;
     }
@@ -183,27 +160,15 @@ public final class DataResourceValues {
 
         // mandatory
         private String dataSetName;
-        private String dataStoreId;
         private String resourceName;
 
         // optional
         private boolean transactional=false;
         private boolean  failOnError=false;
-        private final Map<String, Object> additionalValues=new HashMap<>();
+        private List<Class<? extends NamedDataStore>> datastores= Collections.emptyList();
 
         private Builder(Class<?> testClass) {
             this.testClass = testClass;
-        }
-
-        @SuppressWarnings("UnusedDeclaration")
-        public <T> Builder withAdditionalValue(String key, T value) {
-            this.additionalValues.put(key, value);
-            return this;
-        }
-
-        public Builder withDataStoreId(String dataStoreId) {
-            this.dataStoreId = dataStoreId;
-            return this;
         }
 
         public Builder withFailOnError(boolean failOnError) {
@@ -226,24 +191,27 @@ public final class DataResourceValues {
             return this;
         }
 
+        public Builder withDataStores(Class<? extends NamedDataStore>[] datastores) {
+            this.datastores = Arrays.asList(datastores);
+            return this;
+        }
+
         @Override
         protected DataResourceValues doBuild() {
             return new DataResourceValues(
                             testClass,
                             dataSetName,
-                            dataStoreId,
+                            datastores,
                             ResourcePathUtils.resourcePath(resourceName, testClass),
                             failOnError,
-                            transactional,
-                            additionalValues
-                    );
+                            transactional
+            );
         }
 
         @Override
         protected void checkMandatoryFields() {
             checkMandatoryField(this.testClass, "testClass");
             checkMandatoryField(this.dataSetName, "dataSetName");
-            checkMandatoryField(this.dataStoreId, "dataStoreId");
             checkMandatoryField(this.resourceName, "resourceName");
         }
     }

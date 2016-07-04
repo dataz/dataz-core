@@ -28,7 +28,7 @@ import static org.hamcrest.Matchers.contains;
 import static org.junit.Assert.assertThat;
 
 /**
- * Tests for {@link TemplateObjectsResolver#resolveFromTestMethod0(Method)} and {@link TemplateObjectsResolver#resolveFromTestClass0(Class)} and
+ * Tests for {@link TemplateObjectsResolver#resolveFromMethod0(Method)} and {@link TemplateObjectsResolver#resolveFromClass0(Class)} and
  * {@link TraverseDepth#DECLARED_CLASS}.
  */
 public class TemplateObjectsResolver_TraverseDepth_DECLARD_CLASS__Test extends TemplateObjectsTestBase {
@@ -43,7 +43,7 @@ public class TemplateObjectsResolver_TraverseDepth_DECLARD_CLASS__Test extends T
         final TemplateObjectsResolver templateObjectsResolver = buildTemplateObjectsResolver();
 
         // act / when
-        final TemplateObjects templateObjects = templateObjectsResolver.resolveFromTestMethod0(withoutTemplateObjects());
+        final TemplateObjects templateObjects = templateObjectsResolver.resolveFromMethod0(withoutTemplateObjects());
 
         // assert / then
         assertTemplateObjects(templateObjects,
@@ -59,7 +59,7 @@ public class TemplateObjectsResolver_TraverseDepth_DECLARD_CLASS__Test extends T
         final TemplateObjectsResolver templateObjectsResolver = buildTemplateObjectsResolver();
 
         // act / when
-        final TemplateObjects templateObjects = templateObjectsResolver.resolveFromTestMethod0(withTemplateObjects());
+        final TemplateObjects templateObjects = templateObjectsResolver.resolveFromMethod0(withTemplateObjects());
 
         // assert / then
         assertTemplateObjects(templateObjects,
@@ -77,7 +77,7 @@ public class TemplateObjectsResolver_TraverseDepth_DECLARD_CLASS__Test extends T
         final TemplateObjectsResolver templateObjectsResolver = buildTemplateObjectsResolver();
 
         // act / when
-        final TemplateObjects templateObjects = templateObjectsResolver.resolveFromTestClass0(AClass.class);
+        final TemplateObjects templateObjects = templateObjectsResolver.resolveFromClass0(AClass.class);
 
         // assert / then
         assertTemplateObjects(templateObjects,

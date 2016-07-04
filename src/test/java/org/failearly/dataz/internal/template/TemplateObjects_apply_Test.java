@@ -50,7 +50,7 @@ public class TemplateObjects_apply_Test extends TemplateObjectsTestBase {
     public void strategy_ignore__should_accept_first_but_ignore_last_template_object() throws Exception {
         // arrange / given
         final TemplateObjectsResolver templateObjectsResolver = buildTemplateObjectResolver(TemplateObjectDuplicateStrategy.IGNORE, collectDuplicated());
-        final TemplateObjects templateObjects = templateObjectsResolver.resolveFromTestMethod0(withDuplicatedTemplateObjects());
+        final TemplateObjects templateObjects = templateObjectsResolver.resolveFromMethod0(withDuplicatedTemplateObjects());
 
         // act / when
         templateObjects.apply(collectAccepted());
@@ -69,7 +69,7 @@ public class TemplateObjects_apply_Test extends TemplateObjectsTestBase {
     public void strategy_overwrite__should_ignore_first_but_accept_last_template_object() throws Exception {
         // arrange / given
         final TemplateObjectsResolver templateObjectsResolver = buildTemplateObjectResolver(TemplateObjectDuplicateStrategy.OVERWRITE, collectDuplicated());
-        final TemplateObjects templateObjects = templateObjectsResolver.resolveFromTestMethod0(withDuplicatedTemplateObjects());
+        final TemplateObjects templateObjects = templateObjectsResolver.resolveFromMethod0(withDuplicatedTemplateObjects());
 
         // act / when
         templateObjects.apply(collectAccepted());
@@ -88,7 +88,7 @@ public class TemplateObjects_apply_Test extends TemplateObjectsTestBase {
     public void strategy_strict__should_throw_exception_on_first_duplicated() throws Exception {
         // arrange / given
         final TemplateObjectsResolver templateObjectsResolver = buildTemplateObjectResolverNoDuplicateHandler(TemplateObjectDuplicateStrategy.STRICT);
-        final TemplateObjects templateObjects = templateObjectsResolver.resolveFromTestMethod0(withDuplicatedTemplateObjects());
+        final TemplateObjects templateObjects = templateObjectsResolver.resolveFromMethod0(withDuplicatedTemplateObjects());
 
         // assert / then
         ExceptionVerifier.TestAction action=() -> templateObjects.apply(collectAccepted());
@@ -103,7 +103,7 @@ public class TemplateObjects_apply_Test extends TemplateObjectsTestBase {
 
         // act / when
         final TemplateObjects templateObjects = templateObjectsResolver                               //
-                                .resolveFromTestMethod0(withDuplicatedTemplateObjects())        //
+                                .resolveFromMethod0(withDuplicatedTemplateObjects())        //
                                 .filterByDataSet("SAME-DATASET");
         templateObjects.apply(collectAccepted());
 

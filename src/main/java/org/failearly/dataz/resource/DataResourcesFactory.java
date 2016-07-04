@@ -20,6 +20,7 @@
 package org.failearly.dataz.resource;
 
 
+import org.failearly.dataz.internal.model.AtomicTest;
 import org.failearly.dataz.internal.template.TemplateObjects;
 
 import java.lang.annotation.*;
@@ -93,7 +94,7 @@ public interface DataResourcesFactory {
      * DataSetMarker is a marker (meta) annotation, for simplifying the check for relevant test methods.
      *
      * @see org.failearly.dataz.internal.model.TestClass
-     * @see org.failearly.dataz.internal.model.TestMethod
+     * @see AtomicTest
      *
      * @see SetupDefinition
      * @see CleanupDefinition

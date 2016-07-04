@@ -22,8 +22,11 @@ package org.failearly.dataz.datastore.support;
 
 import org.failearly.dataz.datastore.DataStoreBase;
 import org.failearly.dataz.datastore.DataStoreException;
+import org.failearly.dataz.NamedDataStore;
 import org.failearly.dataz.resource.DataResource;
 import org.failearly.common.test.With;
+
+import java.lang.annotation.Annotation;
 
 /**
  * Base class for providing usual transactional behaviour for a DataStore.
@@ -39,11 +42,8 @@ public abstract class TransactionalSupportDataStoreBase<T> extends DataStoreBase
     protected static final boolean USE_TRANSACTION = true;
     protected static final boolean NO_TRANSACTION = false;
 
-    protected TransactionalSupportDataStoreBase() {
-    }
-
-    protected TransactionalSupportDataStoreBase(String dataStoreId, String dataStoreConfigFile) {
-        super(dataStoreId, dataStoreConfigFile);
+    protected TransactionalSupportDataStoreBase(Class<? extends NamedDataStore> namedDataStore, Annotation dataStoreAnnotation) {
+        super(namedDataStore, dataStoreAnnotation);
     }
 
     @Override
@@ -74,7 +74,7 @@ public abstract class TransactionalSupportDataStoreBase<T> extends DataStoreBase
     private void doApplyTransactionalResource(boolean useTransaction, DataResource dataResource) {
         final T transaction=with.producer("Start transaction", ()->startTransaction(dataResource, useTransaction));
         try {
-            with.action("Apply resource " + dataResource.getResource(), ()->applyEntireResource(transaction, dataResource));
+            with.action("Apply resource " + dataResource.getResource(), ()-> applyResourceOnTransaction(transaction, dataResource));
             if( useTransaction ) {
                 with.action("Commit transaction",()->commitTransaction(transaction));
             }
@@ -123,7 +123,7 @@ public abstract class TransactionalSupportDataStoreBase<T> extends DataStoreBase
      *
      * @see #startTransaction(DataResource, boolean)
      */
-    protected abstract void applyEntireResource(T transaction, DataResource dataResource) throws Exception;
+    protected abstract void applyResourceOnTransaction(T transaction, DataResource dataResource) throws Exception;
 
     /**
      * Do commit the previous created transaction. Only called if there is an open transaction.

@@ -35,20 +35,15 @@ abstract class ResourcesFactoryBase extends GenericDataResourcesFactory<DataSet>
         super(DataSet.class, resourceType);
     }
 
-    @Override
-    protected final String getDataStoreIdFromAnnotation(DataSet annotation) {
-        return annotation.datastore();
-    }
-
-    protected final DataResource createDataResourceFromAnnotation(DataSet annotation, Class<?> testClass, String resourceName, TemplateObjects generatorCreators) {
+    protected final DataResource createDataResourceFromAnnotation(DataSet annotation, Class<?> testClass, String resourceName, TemplateObjects templateObjects) {
         return DataResourceBuilder.createBuilder(testClass)        //
                 .withResourceType(this.resourceType)           //
                 .withDataSetName(annotation.name())            //
-                .withDataStoreId(annotation.datastore())       //
+                .withDataStores(annotation.datastores())            //
                 .withResourceName(resourceName)                //
                 .withFailOnError(annotation.failOnError())     //
                 .withTransactional(annotation.transactional()) //
-                .withTemplateObjects(generatorCreators)      //
+                .withTemplateObjects(templateObjects)      //
                 .build();
     }
 

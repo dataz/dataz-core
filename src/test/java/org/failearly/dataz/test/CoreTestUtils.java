@@ -35,7 +35,7 @@ public class CoreTestUtils {
      * @throws NoSuchMethodException method has not been found
      */
     public static TemplateObjects resolveTemplateObjects(String methodName, Class<?> clazz) throws NoSuchMethodException {
-        return TemplateObjectsResolver.resolveFromTestMethod(
+        return TemplateObjectsResolver.resolveFromMethod(
                 ReflectionUtils.resolveMethodFromClass(methodName, clazz)
         );
     }

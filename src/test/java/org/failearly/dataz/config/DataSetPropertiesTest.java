@@ -124,10 +124,10 @@ public class DataSetPropertiesTest {
         DataSetProperties.setProperty("dataz.any.prop", "${user.home}/my/dir");
 
         // act / when
-        DataSetProperties.resolveReferences();
+        final String propertyValue = DataSetProperties.getProperty("dataz.any.prop");
 
         // assert / then
-        assertThat("Replace System property?", DataSetProperties.getProperty("dataz.any.prop"), is(System.getProperty("user.home") + "/my/dir"));
+        assertThat("Replace System property?", propertyValue, is(System.getProperty("user.home") + "/my/dir"));
     }
 
     private String createTempPropertyFile(String property) throws IOException {

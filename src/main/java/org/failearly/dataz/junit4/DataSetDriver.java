@@ -19,7 +19,6 @@
 
 package org.failearly.dataz.junit4;
 
-import org.junit.rules.RuleChain;
 import org.junit.rules.TestRule;
 
 /**
@@ -39,29 +38,12 @@ public final class DataSetDriver {
      * @return a new driver instance.
      */
     public static TestRule createDataSetDriver(Object testInstance) {
-        return createDataSetDriver(testInstance, null);
-    }
+        return DataSetRule.createDataSetRule(testInstance);
 
-    /**
-     * Create a {@link org.failearly.dataz.junit4.DataSetDriver} from current test instance and context.
-     *
-     * @param testInstance {@code this}
-     * @param context      any context to be used for creating a {@link org.failearly.dataz.datastore.DataStore}.
-     * @return a new driver instance.
-     * @see org.failearly.dataz.datastore.DataStoreFactory#createDataStore(java.lang.annotation.Annotation, Object)
-     */
-    public static TestRule createDataSetDriver(Object testInstance, Object context) {
-        final TestRule dataStoreHandlerRule = DataStoreLoaderRule.createDataStoreLoaderRule(testInstance, context);
-        final TestRule dataSetRule = DataSetRule.createDataSetRule(testInstance);
-
-        return RuleChain.emptyRuleChain()
-                .around(dataSetRule)
-                .around(dataStoreHandlerRule);
 
     }
 
     public static void reset() {
-        DataStoreLoaderRule.reset();
         DataSetRule.reset();
     }
 }

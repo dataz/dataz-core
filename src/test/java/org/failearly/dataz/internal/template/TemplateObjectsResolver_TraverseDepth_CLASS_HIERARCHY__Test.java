@@ -25,7 +25,7 @@ import org.junit.Test;
 import java.lang.reflect.Method;
 
 /**
- * Tests for {@link TemplateObjectsResolver#resolveFromTestMethod0(Method)} and {@link TemplateObjectsResolver#resolveFromTestClass0(Class)} and
+ * Tests for {@link TemplateObjectsResolver#resolveFromMethod0(Method)} and {@link TemplateObjectsResolver#resolveFromClass0(Class)} and
  * {@link TraverseDepth#CLASS_HIERARCHY}.
  */
 public class TemplateObjectsResolver_TraverseDepth_CLASS_HIERARCHY__Test extends TemplateObjectsTestBase {
@@ -40,7 +40,7 @@ public class TemplateObjectsResolver_TraverseDepth_CLASS_HIERARCHY__Test extends
         final TemplateObjectsResolver templateObjectsResolver = buildTemplateObjectsResolver();
 
         // act / when
-        final TemplateObjects templateObjects = templateObjectsResolver.resolveFromTestMethod0(withoutTemplateObjects());
+        final TemplateObjects templateObjects = templateObjectsResolver.resolveFromMethod0(withoutTemplateObjects());
 
         // assert / then
         assertTemplateObjects(templateObjects,
@@ -57,7 +57,7 @@ public class TemplateObjectsResolver_TraverseDepth_CLASS_HIERARCHY__Test extends
         final TemplateObjectsResolver templateObjectsResolver = buildTemplateObjectsResolver();
 
         // act / when
-        final TemplateObjects templateObjects = templateObjectsResolver.resolveFromTestMethod0(withTemplateObjects());
+        final TemplateObjects templateObjects = templateObjectsResolver.resolveFromMethod0(withTemplateObjects());
 
         // assert / then
         assertTemplateObjects(templateObjects,
@@ -76,7 +76,7 @@ public class TemplateObjectsResolver_TraverseDepth_CLASS_HIERARCHY__Test extends
         final TemplateObjectsResolver templateObjectsResolver = buildTemplateObjectsResolver();
 
         // act / when
-        final TemplateObjects templateObjects = templateObjectsResolver.resolveFromTestClass0(AClass.class);
+        final TemplateObjects templateObjects = templateObjectsResolver.resolveFromClass0(AClass.class);
 
         // assert / then
         assertTemplateObjects(templateObjects,

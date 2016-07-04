@@ -19,22 +19,19 @@
 
 package org.failearly.dataz.junit4;
 
-import org.failearly.dataz.datastore.DataStore;
-import org.failearly.dataz.datastore.DataStores;
+import org.failearly.dataz.internal.junit4.TestRuleBase;
+import org.failearly.dataz.internal.junit4.TestRuleSupport;
 import org.failearly.dataz.internal.model.TestClass;
-import org.failearly.dataz.internal.model.TestMethod;
-import org.failearly.dataz.internal.junit.TestRuleBase;
-import org.failearly.dataz.internal.junit.TestRuleSupport;
+import org.failearly.dataz.internal.model.AtomicTest;
 import org.junit.runner.Description;
 
 /**
  * DataSetRule is responsible for creating the {@link TestClass} object.
  */
-public final class DataSetRule extends TestRuleBase<TestMethod> {
+public final class DataSetRule extends TestRuleBase<AtomicTest> {
 
     private static final TestRuleSupport<DataSetRule> support = new TestRuleSupport<>(DataSetRule.class);
 
-    private DataStore dataStore;
     private TestClass testClass;
 
 
@@ -66,34 +63,28 @@ public final class DataSetRule extends TestRuleBase<TestMethod> {
 
     @Override
     protected void initialize(Class<?> testClass, Object notUsed) {
-        dataStore=DataStores.getDataStore(testClass);
         this.testClass = TestClass.create(testClass);
     }
 
     @Override
-    protected TestMethod createContext(Description description) {
+    protected AtomicTest createContext(Description description) {
         final String methodName = description.getMethodName();
-        return testClass.getTestMethod(methodName);
+        return testClass.getTestInstance(methodName);
     }
 
     @Override
-    protected boolean shouldApplyOriginStatement(TestMethod currentTestMethod) {
+    protected boolean shouldApplyOriginStatement(AtomicTest currentTestMethod) {
         return ! currentTestMethod.isValid();
     }
 
     @Override
-    protected void beforeTest(TestMethod currentTestMethod) {
-        dataStore.setup(currentTestMethod);
+    protected void beforeTest(AtomicTest currentTestMethod) {
+        currentTestMethod.setup();
     }
 
     @Override
-    protected void afterTest(TestMethod currentTestMethod) {
-        if( ! currentTestMethod.isSuppressCleanup() ) {
-            dataStore.cleanup(currentTestMethod);
-        }
-        else {
-            LOGGER.warn("Cleanup on current test method '{}' has been suppressed!", currentTestMethod.getName());
-        }
+    protected void afterTest(AtomicTest currentTestMethod) {
+        currentTestMethod.cleanup();
     }
 
     @Override

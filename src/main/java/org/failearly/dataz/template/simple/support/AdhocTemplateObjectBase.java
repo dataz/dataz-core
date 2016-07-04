@@ -19,10 +19,10 @@
 
 package org.failearly.dataz.template.simple.support;
 
-import org.failearly.dataz.template.support.PropertiesHelperFactory;
+import org.failearly.common.proputils.PropertiesAccessor;
+import org.failearly.dataz.common.PropertyUtility;
 import org.failearly.dataz.template.TemplateObjectBase;
 import org.failearly.dataz.template.simple.Adhoc;
-import org.failearly.common.test.PropertiesHelper;
 
 import java.util.*;
 
@@ -31,14 +31,14 @@ import java.util.*;
  */
 public abstract class AdhocTemplateObjectBase extends TemplateObjectBase implements Adhoc.AdhocTemplateObject {
     private List<String> arguments = Collections.emptyList();
-    private PropertiesHelper propertiesHelper;
+    private PropertiesAccessor propertiesAccessor;
 
     protected AdhocTemplateObjectBase() {}
 
     protected AdhocTemplateObjectBase(Adhoc annotation) {
         super(annotation);
         this.arguments = Arrays.asList(annotation.args());
-        this.propertiesHelper = PropertiesHelperFactory.createFromPropertyList(annotation.properties());
+        this.propertiesAccessor = PropertyUtility.toPropertyAccessor(annotation.properties());
     }
 
     /**
@@ -49,10 +49,10 @@ public abstract class AdhocTemplateObjectBase extends TemplateObjectBase impleme
     }
 
     /**
-     * @return the entire {@link Adhoc#properties()} as {@link PropertiesHelper} instance.
+     * @return the entire {@link Adhoc#properties()} as {@link PropertiesAccessor} instance.
      */
-    public final PropertiesHelper getProperties() {
-        return propertiesHelper;
+    public final PropertiesAccessor getProperties() {
+        return propertiesAccessor;
     }
 
     @Override

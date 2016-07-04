@@ -27,8 +27,6 @@ import java.util.List;
 
 import static org.failearly.dataz.test.DataResourceMatchers.isDataResource;
 import static org.failearly.dataz.test.DataResourceMatchers.isDefaultDataResource;
-import static org.hamcrest.Matchers.contains;
-import static org.junit.Assert.assertThat;
 
 /**
  * DataSetupResourcesFactoryTest contains tests for {@link DataSetup} and {@link DataSetupResourcesFactory}.
@@ -75,7 +73,7 @@ public class DataSetupResourcesFactoryTest extends DataResourcesFactoryTestBase<
         public void defaultSettings() {
         }
 
-        @DataSetup(datastore = OTHER_DATASTORE_ID, name = OTHER_DATA_SET_NAME, value = "/any-resource.setup", transactional = false, failOnError = false)
+        @DataSetup(name = OTHER_DATA_SET_NAME, value = "/any-resource.setup", transactional = false, failOnError = false)
         public void noneDefaultSettings() {
         }
 

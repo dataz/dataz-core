@@ -105,7 +105,6 @@ public @interface DateGenerator {
      *
      * @return the format string
      *
-     * @see java.text.SimpleDateFormat
      * @see PredefinedDateFormats
      */
     String format() default PredefinedDateFormats.ISO_DATE_FORMAT;

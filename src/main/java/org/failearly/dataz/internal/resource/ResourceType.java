@@ -19,7 +19,7 @@
 
 package org.failearly.dataz.internal.resource;
 
-import org.failearly.dataz.datastore.DataStores;
+import org.failearly.dataz.config.DataSetProperties;
 
 /**
  * ResourceType is responsible for ...
@@ -27,19 +27,19 @@ import org.failearly.dataz.datastore.DataStores;
 public enum ResourceType {
     SETUP {
         @Override
-        public String resolveDataStoreSuffix(String dataStoreId) {
-            return DataStores.getDataStoreSetupSuffix(dataStoreId);
+        public String resolveDataStoreSuffix() {
+            return DataSetProperties.getDefaultSetupSuffix();
         }
 
     },
     CLEANUP {
         @Override
-        public String resolveDataStoreSuffix(String dataStoreId) {
-            return DataStores.getDataStoreCleanupSuffix(dataStoreId);
+        public String resolveDataStoreSuffix() {
+            return DataSetProperties.getDefaultCleanupSuffix();
         }
 
     };
 
-    public abstract String resolveDataStoreSuffix(String dataStoreId);
+    public abstract String resolveDataStoreSuffix();
 
 }

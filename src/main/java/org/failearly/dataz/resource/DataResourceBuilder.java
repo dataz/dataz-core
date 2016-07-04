@@ -19,6 +19,7 @@
 
 package org.failearly.dataz.resource;
 
+import org.failearly.dataz.NamedDataStore;
 import org.failearly.dataz.internal.resource.DataResourceFactory;
 import org.failearly.dataz.internal.resource.ResourceType;
 import org.failearly.dataz.internal.template.TemplateObjects;
@@ -65,10 +66,11 @@ public final class DataResourceBuilder extends BuilderBase<DataResource> {
         return this;
     }
 
-    public DataResourceBuilder withDataStoreId(String dataStoreId) {
-        dataResourceValueBuilder.withDataStoreId(dataStoreId);
+    public DataResourceBuilder withDataStores(Class<? extends NamedDataStore>[] datastores) {
+        dataResourceValueBuilder.withDataStores(datastores);
         return this;
     }
+
 
     public DataResourceBuilder withFailOnError(boolean failOnError) {
         dataResourceValueBuilder.withFailOnError(failOnError);
@@ -87,11 +89,6 @@ public final class DataResourceBuilder extends BuilderBase<DataResource> {
 
     public DataResourceBuilder withTransactional(boolean transactional) {
         dataResourceValueBuilder.withTransactional(transactional);
-        return this;
-    }
-
-    public <T> DataResourceBuilder withAdditionalValue(String key, T value) {
-        dataResourceValueBuilder.withAdditionalValue(key, value);
         return this;
     }
 

@@ -39,21 +39,16 @@ public final class DataSetupResourcesFactory extends GenericDataResourcesFactory
     }
 
     @Override
-    protected DataResource createDataResourceFromAnnotation(DataSetup annotation, Class<?> testClass, String resourceName, TemplateObjects generatorCreators) {
-        return DataResourceBuilder.createBuilder(testClass)         //
+    protected DataResource createDataResourceFromAnnotation(DataSetup annotation, Class<?> clazz, String resourceName, TemplateObjects templateObjects) {
+        return DataResourceBuilder.createBuilder(clazz)             //
                 .withDataSetName(annotation.name())                 //
-                .withDataStoreId(annotation.datastore())            //
+                .withDataStores(annotation.datastores())            //
                 .withResourceName(resourceName)                     //
                 .withFailOnError(annotation.failOnError())          //
                 .withTransactional(annotation.transactional())      //
-                .withTemplateObjects(generatorCreators)             //
+                .withTemplateObjects(templateObjects)               //
                 .mandatory()                                        //
                 .build();
-    }
-
-    @Override
-    protected String getDataStoreIdFromAnnotation(DataSetup annotation) {
-        return annotation.datastore();
     }
 
     @Override
