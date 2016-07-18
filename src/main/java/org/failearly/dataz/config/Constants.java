@@ -20,9 +20,12 @@
 package org.failearly.dataz.config;
 
 import org.failearly.common.annotation.traverser.TraverseDepth;
+import org.failearly.dataz.DataCleanup;
 import org.failearly.dataz.DataSet;
+import org.failearly.dataz.DataSetup;
 import org.failearly.dataz.NamedDataStore;
 import org.failearly.dataz.datastore.DataStoreFactory;
+import org.failearly.dataz.datastore.support.ReflectionDataStoreFactory;
 import org.failearly.dataz.template.TemplateObject;
 
 /**
@@ -198,11 +201,28 @@ public interface Constants {
     String DATAZ_NO_CONFIG_FILE="<no-config-file>";
 
     /**
-     * The default name of factory method used in conjunction with {@link org.failearly.dataz.datastore.ReflectionDataStoreFactory}
+     * The default name of factory method used in conjunction with {@link ReflectionDataStoreFactory}
      * and {@link DataStoreFactory.Definition#factoryMethod()}.
      *
-     * @see org.failearly.dataz.datastore.ReflectionDataStoreFactory
+     * @see ReflectionDataStoreFactory
      * @see DataStoreFactory.Definition#factoryMethod()
      */
     String DATAZ_DEFAULT_DATASTORE_FACTORY_METHOD="createDataStore";
+
+    /**
+     * The default value for {@link DataSet#transactional()} and Co.
+     *
+     * @see DataSet#transactional()
+     * @see DataSetup#transactional()
+     * @see DataCleanup#transactional()
+     */
+    boolean DATASET_DEFAULT_TRANSACTIONAL_VALUE = true;
+    /**
+     * The default value for {@link DataSet#failOnError()} and Co.
+     *
+     * @see DataSet#failOnError()
+     * @see DataSetup#failOnError()
+     * @see DataCleanup#failOnError()
+     */
+    boolean DATASET_DEFAULT_FAIL_ON_ERROR_VALUE = true;
 }

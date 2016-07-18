@@ -26,6 +26,8 @@ import org.failearly.dataz.resource.DataResource;
 import org.failearly.dataz.resource.DataResourceBuilder;
 import org.failearly.dataz.resource.GenericDataResourcesFactory;
 
+import java.util.List;
+
 /**
  * DataCleanupResourcesFactory creates {@link DataResource}s from a {@link DataCleanup} annotation.
  */
@@ -40,14 +42,14 @@ public final class DataCleanupResourcesFactory extends GenericDataResourcesFacto
     }
 
     @Override
-    protected DataResource createDataResourceFromAnnotation(DataCleanup annotation, Class<?> testClass, String resourceName, TemplateObjects templateObjects) {
+    protected List<DataResource> createDataResourceFromAnnotation(DataCleanup annotation, Class<?> testClass, String resourceName, TemplateObjects templateObjects) {
         return DataResourceBuilder.createBuilder(testClass)         //
                 .withDataSetName(annotation.name())                 //
-                .withDataStores(annotation.datastores())            //
+                .withNamedDataStore(annotation.datastores())        //
                 .withResourceName(resourceName)                     //
                 .withFailOnError(annotation.failOnError())          //
                 .withTransactional(annotation.transactional())      //
-                .withTemplateObjects(templateObjects)           //
+                .withTemplateObjects(templateObjects)               //
                 .mandatory()                                        //
                 .build();
     }

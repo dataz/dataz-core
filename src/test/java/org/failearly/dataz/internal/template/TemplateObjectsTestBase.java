@@ -23,7 +23,7 @@ import org.failearly.common.annotation.traverser.TraverseDepth;
 import org.failearly.common.test.utils.ReflectionUtils;
 import org.failearly.dataz.template.Scope;
 import org.failearly.dataz.template.TemplateObject;
-import org.failearly.dataz.test.MyTemplateObjectAnnotation;
+import org.failearly.dataz.test.SimpleTemplateObject;
 import org.junit.Before;
 
 import java.lang.reflect.Method;
@@ -105,18 +105,18 @@ abstract class TemplateObjectsTestBase {
     }
 
     // Test Fixtures
-    @MyTemplateObjectAnnotation(name = "G1", dataset = "D0", description = "(0) on class BaseClass")
+    @SimpleTemplateObject(name = "G1", dataset = "D0", description = "(0) on class BaseClass")
     private static class BaseClass {
     }
 
     @SuppressWarnings("UnusedDeclaration")
-    @MyTemplateObjectAnnotation(name = "GLOBAL", dataset = GLOBAL_TEMPLATE_OBJECT_DATA_SET, description = "(0) on class AClass", scope = Scope.GLOBAL)
-    @MyTemplateObjectAnnotation(name = "G1", dataset = "D1", description = "(1) on class AClass")
-    @MyTemplateObjectAnnotation(name = "G2", dataset = "D2", description = "(2) on class AClass")
+    @SimpleTemplateObject(name = "GLOBAL", dataset = GLOBAL_TEMPLATE_OBJECT_DATA_SET, description = "(0) on class AClass", scope = Scope.GLOBAL)
+    @SimpleTemplateObject(name = "G1", dataset = "D1", description = "(1) on class AClass")
+    @SimpleTemplateObject(name = "G2", dataset = "D2", description = "(2) on class AClass")
     static class AClass extends BaseClass {
 
-        @MyTemplateObjectAnnotation(name = "G2", dataset = "D3", description = "(3) On method withTemplateObjects")
-        @MyTemplateObjectAnnotation(name = "G3", dataset = "D3", description = "(4) On method withTemplateObjects")
+        @SimpleTemplateObject(name = "G2", dataset = "D3", description = "(3) On method withTemplateObjects")
+        @SimpleTemplateObject(name = "G3", dataset = "D3", description = "(4) On method withTemplateObjects")
         public void withTemplateObjects() {
         }
 
@@ -124,9 +124,9 @@ abstract class TemplateObjectsTestBase {
         }
 
 
-        @MyTemplateObjectAnnotation(name = "G0", dataset = "SAME-DATASET", description = "(5) On method withDuplicatedTemplateObjects")
-        @MyTemplateObjectAnnotation(name = "G0", dataset = "OTHER-DATASET", description = "(6) On method withDuplicatedTemplateObjects")
-        @MyTemplateObjectAnnotation(name = "G0", dataset = "SAME-DATASET", description = "(7) On method withDuplicatedTemplateObjects. OVERWRITE G0")
+        @SimpleTemplateObject(name = "G0", dataset = "SAME-DATASET", description = "(5) On method withDuplicatedTemplateObjects")
+        @SimpleTemplateObject(name = "G0", dataset = "OTHER-DATASET", description = "(6) On method withDuplicatedTemplateObjects")
+        @SimpleTemplateObject(name = "G0", dataset = "SAME-DATASET", description = "(7) On method withDuplicatedTemplateObjects. OVERWRITE G0")
         public void withDuplicatedTemplateObjects() {
         }
     }

@@ -25,7 +25,7 @@ import org.failearly.dataz.internal.template.TemplateEngines;
 import org.failearly.dataz.internal.template.TemplateObjects;
 import org.failearly.dataz.internal.template.engine.velocity.VelocityTemplateEngine;
 import org.failearly.dataz.test.CoreTestUtils;
-import org.failearly.dataz.test.MyTemplateObjectAnnotation;
+import org.failearly.dataz.test.SimpleTemplateObject;
 import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
@@ -68,8 +68,8 @@ public abstract class TemplateEngineTestBase {
 
 
     @SuppressWarnings("UnusedDeclaration")
-    @MyTemplateObjectAnnotation(name = TEMPLATE_OBJECT_NAME_1, dataset = DATA_SET, description = DATA_SET + "/" + TEMPLATE_OBJECT_NAME_1)
-    @MyTemplateObjectAnnotation(name = TEMPLATE_OBJECT_NAME_2, dataset = DATA_SET, description = DATA_SET + "/" + TEMPLATE_OBJECT_NAME_2)
+    @SimpleTemplateObject(name = TEMPLATE_OBJECT_NAME_1, dataset = DATA_SET, description = DATA_SET + "/" + TEMPLATE_OBJECT_NAME_1)
+    @SimpleTemplateObject(name = TEMPLATE_OBJECT_NAME_2, dataset = DATA_SET, description = DATA_SET + "/" + TEMPLATE_OBJECT_NAME_2)
     protected static class TestFixture {
         public void anyTestMethod() {
         }

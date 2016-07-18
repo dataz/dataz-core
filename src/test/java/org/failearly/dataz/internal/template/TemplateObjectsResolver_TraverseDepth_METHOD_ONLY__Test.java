@@ -56,8 +56,8 @@ public class TemplateObjectsResolver_TraverseDepth_METHOD_ONLY__Test extends Tem
 
         // assert / then
         assertTemplateObjects(templateObjects,
-                "@org.failearly.dataz.test.MyTemplateObjectAnnotation(description=(3) On method withTemplateObjects, dataz=D3, name=G2)",
-                "@org.failearly.dataz.test.MyTemplateObjectAnnotation(description=(4) On method withTemplateObjects, dataz=D3, name=G3)"
+                "@org.failearly.dataz.test.SimpleTemplateObject(description=(3) On method withTemplateObjects, dataz=D3, name=G2)",
+                "@org.failearly.dataz.test.SimpleTemplateObject(description=(4) On method withTemplateObjects, dataz=D3, name=G3)"
         );
     }
 

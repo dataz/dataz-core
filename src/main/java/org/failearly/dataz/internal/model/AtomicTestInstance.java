@@ -24,8 +24,8 @@ import org.failearly.common.annotation.traverser.TraverseDepth;
 import org.failearly.common.annotation.traverser.TraverseStrategy;
 import org.failearly.dataz.SuppressCleanup;
 import org.failearly.dataz.datastore.DataStore;
-import org.failearly.dataz.datastore.ng.DataStoresNG;
-import org.failearly.dataz.datastore.ng.MutableDataStores;
+import org.failearly.dataz.datastore.DataStores;
+import org.failearly.dataz.datastore.MutableDataStores;
 import org.failearly.dataz.NamedDataStore;
 import org.failearly.dataz.internal.resource.resolver.DataResourcesResolver;
 import org.failearly.dataz.internal.resource.resolver.DataResourcesResolvers;
@@ -91,7 +91,7 @@ final class AtomicTestInstance implements AtomicTest {
     }
 
     private MutableDataStores reserveDataStores() {
-        return DataStoresNG.reserve(collectAllDataStoresFromDataResources());
+        return DataStores.reserve(collectAllDataStoresFromDataResources());
     }
 
     private List<Class<? extends NamedDataStore>> collectAllDataStoresFromDataResources() {
@@ -103,7 +103,7 @@ final class AtomicTestInstance implements AtomicTest {
 
     private static List<Class<? extends NamedDataStore>> collectDataStores(List<DataResource> resources) {
         return resources.stream()
-                .flatMap(dataResource -> dataResource.getDataStores().stream())
+                .map(DataResource::getNamedDataStore)
                 .collect(Collectors.toList());
     }
 

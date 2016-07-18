@@ -20,38 +20,33 @@
 package org.failearly.dataz.datastore;
 
 import org.apache.commons.lang.StringUtils;
-import org.failearly.common.annotation.traverser.MetaAnnotationTraverser;
 import org.failearly.common.annotation.traverser.TraverseDepth;
-import org.failearly.common.annotation.traverser.TraverseStrategy;
 import org.failearly.common.message.InlineMessageTemplate;
 import org.failearly.common.message.Message;
 import org.failearly.common.message.MessageBuilderBase;
 import org.failearly.common.message.TemplateParameters;
 import org.failearly.common.proputils.ExtendedProperties;
 import org.failearly.common.proputils.PropertiesAccessor;
-import org.failearly.common.test.With;
+import org.failearly.dataz.NamedDataStore;
 import org.failearly.dataz.common.Property;
 import org.failearly.dataz.common.PropertyUtility;
 import org.failearly.dataz.config.Constants;
 import org.failearly.dataz.config.DataSetProperties;
-import org.failearly.dataz.NamedDataStore;
 import org.failearly.dataz.internal.resource.resolver.DataResourcesResolver;
 import org.failearly.dataz.internal.resource.resolver.DataResourcesResolvers;
 import org.failearly.dataz.internal.template.TemplateObjects;
 import org.failearly.dataz.internal.template.TemplateObjectsResolver;
 import org.failearly.dataz.internal.util.ResourceUtils;
+import org.failearly.dataz.internal.util.With;
 import org.failearly.dataz.resource.DataResource;
-import org.failearly.dataz.resource.DataResourcesFactory;
 import org.failearly.dataz.resource.DelegateDataResource;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
-import static org.failearly.common.annotation.traverser.AnnotationTraverserBuilder.metaAnnotationTraverser;
 import static org.failearly.common.annotation.utils.AnnotationUtils.resolveValueOfAnnotationAttribute;
 
 
@@ -86,12 +81,6 @@ public abstract class DataStoreBase extends AbstractDataStore {
         throw new DataStoreException(description, exception);
     }, "standard-datastore-exception");
 
-
-    private static final MetaAnnotationTraverser<DataResourcesFactory.SetupDefinition> SETUP_RESOURCES_TRAVERSER =  //
-            metaAnnotationTraverser(DataResourcesFactory.SetupDefinition.class)                                     //
-                    .withTraverseStrategy(TraverseStrategy.BOTTOM_UP)                                  //
-                    .withTraverseDepth(TraverseDepth.HIERARCHY)                                        //
-                    .build();
 
     private static final DataResourcesResolver setupResolver= DataResourcesResolvers.setupDataResourcesResolver(TraverseDepth.HIERARCHY);
     private static final DataResourcesResolver cleanupResolver= DataResourcesResolvers.cleanupDataResourcesResolver(TraverseDepth.HIERARCHY);
@@ -201,9 +190,7 @@ public abstract class DataStoreBase extends AbstractDataStore {
     }
 
     private void establishConnection() {
-        with.action("Establish connection " + this.getId(), establishingConnectionFailedMessage(), () -> {
-            doEstablishConnection(this.getProperties());
-        });
+        with.action("Establish connection " + this.getId(), establishingConnectionFailedMessage(), () -> doEstablishConnection(this.getProperties()));
     }
 
     private void loadProperties() {
@@ -241,8 +228,7 @@ public abstract class DataStoreBase extends AbstractDataStore {
         doApplyResource(dataResource);
     }
 
-    @Override
-    public void cleanupDataStore() {
+    private void cleanupDataStore() {
         with.action("Apply cleanup resources",
                 ()->cleanupDataResources.forEach(this::handleDataResource)
         );
@@ -262,7 +248,7 @@ public abstract class DataStoreBase extends AbstractDataStore {
      * @throws Exception any exception while establishing a connection
      */
     protected void doEstablishConnection(PropertiesAccessor properties) throws Exception {
-        LOGGER.error("doEstablishConnection() must be implemented.");
+        LOGGER.warn("doEstablishConnection() should be implemented.");
     }
 
     /**
@@ -326,8 +312,8 @@ public abstract class DataStoreBase extends AbstractDataStore {
         }
 
         @Override
-        public List<Class<? extends NamedDataStore>> getDataStores() {
-            return Collections.singletonList(namedDataStore);
+        public Class<? extends NamedDataStore> getNamedDataStore() {
+            return namedDataStore;
         }
     }
 }

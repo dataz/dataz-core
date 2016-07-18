@@ -19,8 +19,6 @@
 
 package org.failearly.dataz.internal.model;
 
-import org.failearly.dataz.internal.resource.DataResourceHandler;
-
 /**
  * AtomicTest collect all necessary information from a Test {@link java.lang.reflect.Method} - a public method
  * annotated with {@link org.junit.Test} and not {@link org.junit.Ignore}.
@@ -45,24 +43,6 @@ public interface AtomicTest {
      * Apply cleanup resources.
      */
     void cleanup();
-
-    /**
-     * handle all available setup resources (in the correct order).
-     * @param dataStoreId  the ID of a {@link org.failearly.dataz.datastore.DataStore}.
-     * @param dataResourceHandler the setup data set resource handler
-     *
-     * @see org.failearly.dataz.datastore.DataStore#getId
-     */
-    @Deprecated // TODO: dataStoreId replace with Class Object
-    default void handleSetupResource(String dataStoreId, DataResourceHandler dataResourceHandler) {}
-
-    /**
-     * handle all available cleanup resources (in the correct order).
-     * @param dataStoreId  the ID of a {@link org.failearly.dataz.datastore.DataStore}.
-     * @param dataResourceHandler the cleanup data set resource handler
-     */
-    @Deprecated
-    default void handleCleanupResource(String dataStoreId, DataResourceHandler dataResourceHandler) {}
 
     /**
      * @return {@code true} if the method or class has been annotated with {@link org.failearly.dataz.SuppressCleanup}.

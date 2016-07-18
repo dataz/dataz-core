@@ -1,7 +1,7 @@
 /*
- * dataZ - Test Support For Data Stores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2016 'Marko Umek' (http://fail-early.com)
+ * Copyright (C) 2014-2016 'Marko Umek' (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,20 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+package org.failearly.dataz.datastore;
 
-package org.failearly.dataz.junit4;
+import org.failearly.dataz.NamedDataStore;
 
-import org.junit.Rule;
-import org.junit.rules.TestRule;
+import java.util.function.Consumer;
 
 /**
- * Extending AbstractDataSetTest is a simple way to use <i>dataSet</i>.
+ * ImmutableDataStores could be resolved by {@link DataStores#access()})} or {@link MutableDataStores#access()}.
  */
-public abstract class AbstractDataSetTest {
+public interface ImmutableDataStores {
+
+    DataStore getDataStore(Class<? extends NamedDataStore> namedDataStore);
 
     /**
-     * THE DataSet driver.
+     * Read Only Access to all data stores.
+     * @param dataStoreConsumer the consumer function can use any immutable or readonly method on the datastore.
      */
-    @Rule
-    public final TestRule dataSetDriver = DataSetDriver.createDataSetDriver(this);
+    void access(Consumer<DataStore> dataStoreConsumer);
 }

@@ -24,7 +24,7 @@ import org.failearly.dataz.datastore.DataStoreBase;
 import org.failearly.dataz.datastore.DataStoreException;
 import org.failearly.dataz.NamedDataStore;
 import org.failearly.dataz.resource.DataResource;
-import org.failearly.common.test.With;
+import org.failearly.dataz.internal.util.With;
 
 import java.lang.annotation.Annotation;
 

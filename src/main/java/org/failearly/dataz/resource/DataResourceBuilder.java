@@ -20,18 +20,25 @@
 package org.failearly.dataz.resource;
 
 import org.failearly.dataz.NamedDataStore;
+import org.failearly.dataz.config.DataSetProperties;
 import org.failearly.dataz.internal.resource.DataResourceFactory;
 import org.failearly.dataz.internal.resource.ResourceType;
 import org.failearly.dataz.internal.template.TemplateObjects;
 import org.failearly.dataz.internal.util.BuilderBase;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * DataResourceFactory is responsible for ...
  */
-public final class DataResourceBuilder extends BuilderBase<DataResource> {
+public final class DataResourceBuilder extends BuilderBase<List<DataResource>> {
     private final DataResourceValues.Builder dataResourceValueBuilder;
     private Boolean mandatory;
     private TemplateObjects templateObjects;
+    private List<Class<? extends NamedDataStore>> namedDataStores=Collections.emptyList();
 
     private DataResourceBuilder(Class<?> testClass) {
         dataResourceValueBuilder = DataResourceValues.builder(testClass);
@@ -66,9 +73,15 @@ public final class DataResourceBuilder extends BuilderBase<DataResource> {
         return this;
     }
 
-    public DataResourceBuilder withDataStores(Class<? extends NamedDataStore>[] datastores) {
-        dataResourceValueBuilder.withDataStores(datastores);
+    @SafeVarargs
+    public final DataResourceBuilder withNamedDataStore(Class<? extends NamedDataStore>... datastores) {
+        this.namedDataStores = distinctNamedDataStores(datastores);
+
         return this;
+    }
+
+    private static List<Class<? extends NamedDataStore>> distinctNamedDataStores(Class<? extends NamedDataStore>[] namedDataStores) {
+        return Arrays.stream(namedDataStores).distinct().collect(Collectors.toList());
     }
 
 
@@ -93,9 +106,18 @@ public final class DataResourceBuilder extends BuilderBase<DataResource> {
     }
 
     @Override
-    protected DataResource doBuild() {
+    protected List<DataResource> doBuild() {
+        if( this.namedDataStores.isEmpty() ) {
+            this.namedDataStores = Collections.singletonList(DataSetProperties.loadDefaultNamedDataStore());
+        }
+        return namedDataStores.stream()
+                .map(this::doBuildSingleDataResource)
+                .collect(Collectors.toList());
+    }
+
+    private DataResource doBuildSingleDataResource(Class<? extends NamedDataStore> namedDataStore) {
         final DataResource dataResource;
-        final DataResourceValues dataResourceValues = dataResourceValueBuilder.build();
+        final DataResourceValues dataResourceValues = dataResourceValueBuilder.withNamedDataStore(namedDataStore).build();
         if (dataResourceValues.doesResourceExists()) {
             if (dataResourceValues.isTemplateResource()) {
                 dataResource = DataResourceFactory.createTemplateInstance(dataResourceValues);
@@ -109,7 +131,6 @@ public final class DataResourceBuilder extends BuilderBase<DataResource> {
         }
 
         dataResource.generate(templateObjects);
-
         return dataResource;
     }
 

@@ -21,7 +21,6 @@ package org.failearly.dataz.datastore;
 
 import org.failearly.common.proputils.PropertiesAccessor;
 import org.failearly.dataz.NamedDataStore;
-import org.failearly.dataz.internal.model.AtomicTest;
 import org.failearly.dataz.resource.DataResource;
 
 /**
@@ -84,36 +83,7 @@ public interface DataStore {
     void applyDataResource(DataResource dataResource);
 
     /**
-     * Apply the {@link org.failearly.dataz.DataSet#setup()} resources.
-     *
-     * @param testMethod current test method.
-     * @throws org.failearly.dataz.datastore.DataStoreException thrown in case any unexpected issue with given
-     *                                                            setup resource of {@link org.failearly.dataz.DataSet}.
-     * @see AtomicTest#handleSetupResource(String, org.failearly.dataz.internal.resource.DataResourceHandler)
-     */
-    @Deprecated
-    void setup(AtomicTest testMethod) throws DataStoreException;
-
-    /**
-     * Apply the {@link org.failearly.dataz.DataSet#cleanup()} resources.
-     *
-     * @param testMethod current test method.
-     * @throws org.failearly.dataz.datastore.DataStoreException thrown in case any unexpected issue with given
-     *                                                            cleanup resource of {@link org.failearly.dataz.DataSet}.
-     * @see AtomicTest#handleCleanupResource(String, org.failearly.dataz.internal.resource.DataResourceHandler)
-     */
-    @Deprecated
-    void cleanup(AtomicTest testMethod) throws DataStoreException;
-
-    /**
-     * Does the cleanup of the data store, after all tests has been executed.
-     */
-    @Deprecated
-    void cleanupDataStore() throws DataStoreException;
-
-    /**
      * Dispose reserved resources (i.e. database connections)
      */
     void dispose();
-
 }

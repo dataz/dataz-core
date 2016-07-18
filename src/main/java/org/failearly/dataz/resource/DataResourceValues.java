@@ -20,13 +20,10 @@
 package org.failearly.dataz.resource;
 
 import org.failearly.common.resource.ResourcePathUtils;
-import org.failearly.dataz.config.DataSetProperties;
 import org.failearly.dataz.NamedDataStore;
+import org.failearly.dataz.config.Constants;
+import org.failearly.dataz.config.DataSetProperties;
 import org.failearly.dataz.internal.util.BuilderBase;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * DataResourceValues is a parameter object containing the values of any dataSet annotation (like {@link org.failearly.dataz.DataSet}).
@@ -37,7 +34,7 @@ public final class DataResourceValues {
 
     private final String dataSetName;
 
-    private final List<Class<? extends NamedDataStore>> datastores;
+    private final Class<? extends NamedDataStore> datastore;
     private final String resource;
     private final boolean transactional;
     private final boolean  failOnError;
@@ -54,10 +51,10 @@ public final class DataResourceValues {
         return new Builder(testClass);
     }
 
-    private DataResourceValues(Class<?> testClass, String dataSetName, List<Class<? extends NamedDataStore>> datastores, String resource, boolean failOnError, boolean transactional) {
+    private DataResourceValues(Class<?> testClass, String dataSetName, Class<? extends NamedDataStore> datastore, String resource, boolean failOnError, boolean transactional) {
         this.testClass = testClass;
         this.dataSetName = dataSetName;
-        this.datastores = datastores;
+        this.datastore = datastore;
         this.resource = resource;
         this.failOnError = failOnError;
         this.transactional = transactional;
@@ -79,8 +76,8 @@ public final class DataResourceValues {
         return dataSetName;
     }
 
-    public List<Class<? extends NamedDataStore>> getDataStores() {
-        return datastores;
+    public Class<? extends NamedDataStore> getDataStore() {
+        return datastore;
     }
 
     /**
@@ -163,9 +160,9 @@ public final class DataResourceValues {
         private String resourceName;
 
         // optional
-        private boolean transactional=false;
-        private boolean  failOnError=false;
-        private List<Class<? extends NamedDataStore>> datastores= Collections.emptyList();
+        private boolean transactional= Constants.DATASET_DEFAULT_TRANSACTIONAL_VALUE;
+        private boolean  failOnError=Constants.DATASET_DEFAULT_FAIL_ON_ERROR_VALUE;
+        private Class<? extends NamedDataStore> datastore;
 
         private Builder(Class<?> testClass) {
             this.testClass = testClass;
@@ -191,8 +188,8 @@ public final class DataResourceValues {
             return this;
         }
 
-        public Builder withDataStores(Class<? extends NamedDataStore>[] datastores) {
-            this.datastores = Arrays.asList(datastores);
+        public Builder withNamedDataStore(Class<? extends NamedDataStore> datastore) {
+            this.datastore = datastore;
             return this;
         }
 
@@ -201,7 +198,7 @@ public final class DataResourceValues {
             return new DataResourceValues(
                             testClass,
                             dataSetName,
-                            datastores,
+                            datastore,
                             ResourcePathUtils.resourcePath(resourceName, testClass),
                             failOnError,
                             transactional
@@ -213,6 +210,7 @@ public final class DataResourceValues {
             checkMandatoryField(this.testClass, "testClass");
             checkMandatoryField(this.dataSetName, "dataSetName");
             checkMandatoryField(this.resourceName, "resourceName");
+            checkMandatoryField(this.datastore, "datastore");
         }
     }
 }

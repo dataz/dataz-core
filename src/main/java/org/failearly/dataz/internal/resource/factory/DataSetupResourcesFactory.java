@@ -19,6 +19,7 @@
 
 package org.failearly.dataz.internal.resource.factory;
 
+import org.failearly.common.annotations.Tests;
 import org.failearly.dataz.DataSetup;
 import org.failearly.dataz.internal.resource.ResourceType;
 import org.failearly.dataz.internal.template.TemplateObjects;
@@ -26,12 +27,15 @@ import org.failearly.dataz.resource.DataResource;
 import org.failearly.dataz.resource.DataResourceBuilder;
 import org.failearly.dataz.resource.GenericDataResourcesFactory;
 
+import java.util.List;
+
 /**
  * DataSetupResourcesFactory creates {@link DataResource}s from a {@link DataSetup} annotation.
  *
  * @see DataSetup
  * @see SetupDefinition
  */
+@Tests("org.failearly.dataz.internal.resource.factory.DataSetupResourcesFactoryTest")
 public final class DataSetupResourcesFactory extends GenericDataResourcesFactory<DataSetup> {
 
     public DataSetupResourcesFactory() {
@@ -39,10 +43,10 @@ public final class DataSetupResourcesFactory extends GenericDataResourcesFactory
     }
 
     @Override
-    protected DataResource createDataResourceFromAnnotation(DataSetup annotation, Class<?> clazz, String resourceName, TemplateObjects templateObjects) {
+    protected List<DataResource> createDataResourceFromAnnotation(DataSetup annotation, Class<?> clazz, String resourceName, TemplateObjects templateObjects) {
         return DataResourceBuilder.createBuilder(clazz)             //
                 .withDataSetName(annotation.name())                 //
-                .withDataStores(annotation.datastores())            //
+                .withNamedDataStore(annotation.datastores())        //
                 .withResourceName(resourceName)                     //
                 .withFailOnError(annotation.failOnError())          //
                 .withTransactional(annotation.transactional())      //
@@ -55,6 +59,5 @@ public final class DataSetupResourcesFactory extends GenericDataResourcesFactory
     protected String[] getResourceNamesFromAnnotation(DataSetup annotation) {
         return annotation.value();
     }
-
 
 }

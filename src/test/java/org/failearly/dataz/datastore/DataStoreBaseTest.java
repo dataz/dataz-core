@@ -22,8 +22,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.failearly.dataz.test.CoreTestUtils.inputStreamToString;
-import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.isNotNull;
 import static org.mockito.Mockito.*;
@@ -252,7 +252,7 @@ public class DataStoreBaseTest {
 
     private void assertAssignedNamedDataStore(TestDataStore dataStore, Class<? extends NamedDataStore> expectedNamedDataStore) {
         final Set<Class<? extends NamedDataStore>> namedDataStores=dataStore.dataResources.stream() //
-                .flatMap((dataResource) -> dataResource.getDataStores().stream())                   //
+                .map(DataResource::getNamedDataStore)                   //
                 .collect(Collectors.toSet());
 
         assertThat("Assigned to NamedDataStore?", namedDataStores, is(Collections.singleton(expectedNamedDataStore)));

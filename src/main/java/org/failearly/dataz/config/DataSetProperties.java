@@ -21,7 +21,9 @@ package org.failearly.dataz.config;
 
 import org.apache.commons.lang.StringUtils;
 import org.failearly.common.annotation.traverser.TraverseDepth;
+import org.failearly.common.classutils.ClassLoader;
 import org.failearly.common.proputils.ExtendedProperties;
+import org.failearly.dataz.NamedDataStore;
 import org.failearly.dataz.internal.template.TemplateObjectDuplicateStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -98,9 +100,19 @@ public final class DataSetProperties implements Constants {
     }
 
     /**
-     * @return the default data store of {@link #DATAZ_PROPERTY_DEFAULT_DATA_STORE}
+     * Load the default {@link NamedDataStore} from property {@link #getDefaultNamedDataStore()}.
+     * @return the class object
      */
-    public static String getDefaultDataStore() {
+    public static Class<? extends NamedDataStore> loadDefaultNamedDataStore() {
+        return ClassLoader.loadClass(NamedDataStore.class, getDefaultNamedDataStore());
+    }
+
+    /**
+     * @return the default data store of {@link #DATAZ_PROPERTY_DEFAULT_DATA_STORE}
+     *
+     * @see #loadDefaultNamedDataStore()
+     */
+    public static String getDefaultNamedDataStore() {
         return properties.getDefaultDataStore();
     }
 

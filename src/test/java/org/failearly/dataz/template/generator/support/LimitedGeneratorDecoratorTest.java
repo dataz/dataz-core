@@ -55,8 +55,8 @@ public class LimitedGeneratorDecoratorTest {
 
     @Test
     public void assume_unlimited_generator__could_not_be_exhausted() throws Exception {
-        for (int i = 0; i < 10*LIMIT; i++) {
-            assertThat(unlimitedGenerator.next(), isOneOf(ANY_CONSTANT_ARRAY));
+        for (int i = 0; i < 10*ANY_CONSTANT_ARRAY.length; i++) {
+            assertThat(unlimitedGenerator.next(), is(oneOf(ANY_CONSTANT_ARRAY)));
         }
     }
 

@@ -18,24 +18,43 @@
  */
 
 package org.failearly.dataz.internal.resource;
+
+import org.failearly.common.test.ExceptionVerifier;
 import org.failearly.dataz.DataSet;
+import org.failearly.dataz.NamedDataStore;
+import org.failearly.dataz.config.Constants;
+import org.failearly.dataz.config.DataSetProperties;
 import org.failearly.dataz.resource.DataResource;
 import org.failearly.dataz.resource.DataResourceBuilder;
 import org.failearly.dataz.test.CoreTestUtils;
-import org.failearly.common.test.ExceptionVerifier;
-import org.failearly.dataz.test.MyTemplateObjectAnnotation;
+import org.failearly.dataz.test.SimpleTemplateObject;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.lang.reflect.Method;
 
 import static org.failearly.dataz.test.CoreTestUtils.inputStreamToString;
-import static org.junit.Assert.*;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
 /**
  * DataSetResourceTest contains tests for {@link DataResource#open()} for different DataResource implementations.
  */
 public class DataResourceTest {
+
+    @BeforeClass
+    public static void setUp() throws Exception {
+        System.setProperty(Constants.DATAZ_PROPERTY_DEFAULT_DATA_STORE, DefaultDataStore.class.getName());
+        DataSetProperties.reload();
+    }
+
+    @AfterClass
+    public static void tearDown() throws Exception {
+        System.clearProperty(Constants.DATAZ_PROPERTY_DEFAULT_DATA_STORE);
+        DataSetProperties.reload();
+    }
+
 
     @Test
     public void open_mandatory_none_existing_resource__should_throw_exception() throws Exception {
@@ -44,7 +63,10 @@ public class DataResourceTest {
 
         // assert / then
         assertThat("Resource?", dataResource.getResource(), is("/org/failearly/dataz/internal/resource/noneExisting.setup"));
-        ExceptionVerifier.on(dataResource::open).expect(MissingDataResourceException.class).expect("Can't open resource '/org/failearly/dataz/internal/resource/noneExisting.setup'. Did you create the resource within classpath?").verify();
+        ExceptionVerifier.on(dataResource::open)                                                                                                       //
+            .expect(MissingDataResourceException.class)                                                                                                //
+            .expect("Can't open resource '/org/failearly/dataz/internal/resource/noneExisting.setup'. Did you create the resource within classpath?")  //
+            .verify();
     }
 
     @Test
@@ -85,7 +107,7 @@ public class DataResourceTest {
                 .withDataSetName(dataSet.name())
                 .withResourceName(resourceName)
                 .withTemplateObjects(CoreTestUtils.resolveTemplateObjects(methodName, TestClass.class))
-                .build();
+                .build().get(0);
     }
 
     private static DataResource createOptionalDataResource(String methodName, String resourceName) throws NoSuchMethodException {
@@ -95,7 +117,7 @@ public class DataResourceTest {
                 .withDataSetName(dataSet.name())
                 .withResourceName(resourceName)
                 .withTemplateObjects(CoreTestUtils.resolveTemplateObjects(methodName, TestClass.class))
-                .build();
+                .build().get(0);
     }
 
     private static Method getTestMethod(String methodName) throws NoSuchMethodException {
@@ -115,11 +137,12 @@ public class DataResourceTest {
         public void testMethodWithExistingResource() {
         }
         @DataSet(name="DS3", setup = "existing.setup.vm")
-        @MyTemplateObjectAnnotation(name="const", dataset = "DS3", description = "a constant value")
-        @MyTemplateObjectAnnotation(name="const", dataset = "DS2", description = "not used otherwise exception")
+        @SimpleTemplateObject(name="const", dataset = "DS3", description = "a constant value")
+        @SimpleTemplateObject(name="const", dataset = "DS2", description = "not used otherwise exception")
         public void testMethodWithTemplate() {
         }
     }
 
+    private static class DefaultDataStore extends NamedDataStore {}
 
 }

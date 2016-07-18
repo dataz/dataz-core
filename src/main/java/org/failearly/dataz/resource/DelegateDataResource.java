@@ -13,7 +13,6 @@ import org.failearly.dataz.internal.resource.DataResourceProcessingException;
 import org.failearly.dataz.internal.template.TemplateObjects;
 
 import java.io.InputStream;
-import java.util.List;
 
 /**
  * DataResourceDelegate is responsible for ...
@@ -27,8 +26,8 @@ public abstract class DelegateDataResource implements DataResource {
     }
 
     @Override
-    public List<Class<? extends NamedDataStore>> getDataStores() {
-        return origin.getDataStores();
+    public Class<? extends NamedDataStore> getNamedDataStore() {
+        return origin.getNamedDataStore();
     }
 
     @Override

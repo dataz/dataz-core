@@ -18,6 +18,9 @@
  */
 
 /**
- * More base classes for {@link org.failearly.dataz.datastore.DataStore} extending {@link org.failearly.dataz.datastore.DataStoreBase}.
+ * # Supporting classes or {@link org.failearly.dataz.datastore.DataStore} and {@link org.failearly.dataz.datastore.DataStoreFactory}.
+ *
+ * More base classes for {@link org.failearly.dataz.datastore.DataStore}
+ * extending {@link org.failearly.dataz.datastore.DataStoreBase}.
  */
 package org.failearly.dataz.datastore.support;

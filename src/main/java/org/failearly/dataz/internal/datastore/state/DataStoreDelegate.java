@@ -10,7 +10,6 @@ import org.failearly.common.proputils.PropertiesAccessor;
 import org.failearly.dataz.datastore.DataStore;
 import org.failearly.dataz.datastore.DataStoreException;
 import org.failearly.dataz.NamedDataStore;
-import org.failearly.dataz.internal.model.AtomicTest;
 import org.failearly.dataz.resource.DataResource;
 
 import java.util.Objects;
@@ -74,24 +73,6 @@ abstract class DataStoreDelegate implements DataStore {
     @Override
     public void applyDataResource(DataResource dataResource) {
         origin.applyDataResource(dataResource);
-    }
-
-    @Override
-    @Deprecated
-    public void setup(AtomicTest testMethod) throws DataStoreException {
-        // TODO: DROP ME
-    }
-
-    @Override
-    @Deprecated
-    public void cleanup(AtomicTest testMethod) throws DataStoreException {
-        // TODO: DROP ME
-    }
-
-    @Override
-    @Deprecated
-    public void cleanupDataStore() throws DataStoreException {
-        // TODO: DROP ME
     }
 
     @Override

@@ -26,20 +26,22 @@ import org.failearly.dataz.resource.DataResource;
 import org.failearly.dataz.resource.DataResourceBuilder;
 import org.failearly.dataz.resource.GenericDataResourcesFactory;
 
+import java.util.List;
+
 /**
  * DataSetResourcesFactoryBase is the base class for {@link DataSet} based {@link DataResource}s factory classes.
  */
-abstract class ResourcesFactoryBase extends GenericDataResourcesFactory<DataSet> {
+abstract class DataSetResourcesFactoryBase extends GenericDataResourcesFactory<DataSet> {
 
-    protected ResourcesFactoryBase(ResourceType resourceType) {
+    protected DataSetResourcesFactoryBase(ResourceType resourceType) {
         super(DataSet.class, resourceType);
     }
 
-    protected final DataResource createDataResourceFromAnnotation(DataSet annotation, Class<?> testClass, String resourceName, TemplateObjects templateObjects) {
+    protected final List<DataResource> createDataResourceFromAnnotation(DataSet annotation, Class<?> testClass, String resourceName, TemplateObjects templateObjects) {
         return DataResourceBuilder.createBuilder(testClass)        //
                 .withResourceType(this.resourceType)           //
                 .withDataSetName(annotation.name())            //
-                .withDataStores(annotation.datastores())            //
+                .withNamedDataStore(annotation.datastores())            //
                 .withResourceName(resourceName)                //
                 .withFailOnError(annotation.failOnError())     //
                 .withTransactional(annotation.transactional()) //

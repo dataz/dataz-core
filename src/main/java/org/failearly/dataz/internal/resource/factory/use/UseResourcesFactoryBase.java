@@ -21,16 +21,17 @@ package org.failearly.dataz.internal.resource.factory.use;
 
 import org.failearly.common.annotation.traverser.*;
 import org.failearly.dataz.DataSet;
+import org.failearly.dataz.NamedDataStore;
 import org.failearly.dataz.Use;
 import org.failearly.dataz.internal.template.TemplateObjects;
 import org.failearly.dataz.resource.DataResource;
+import org.failearly.dataz.resource.DelegateDataResource;
 import org.failearly.dataz.resource.TypedDataResourcesFactory;
 
 import java.lang.annotation.Annotation;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.failearly.dataz.internal.template.TemplateObjectsResolver.resolveFromClass;
 
@@ -57,7 +58,27 @@ abstract class UseResourcesFactoryBase<T extends Annotation> extends TypedDataRe
         final List<DataResource> dataResources = new LinkedList<>();
         final List<Class<? extends Use.ReusableDataSet>> reusableDataSetClasses = filterDuplicatedReusableDataSetClasses(annotation);
         doResolveDataResourcesFromAllReusableDataSets(reusableDataSetClasses, dataResources, templateObjects.filterGlobalScope());
-        return changeOrder(dataResources);
+        return overwriteDataStores(changeOrder(dataResources), annotation);
+    }
+
+    private List<DataResource> overwriteDataStores(List<DataResource> dataResources, Use annotation) {
+        final Class<? extends NamedDataStore>[] datastores = annotation.datastores();
+        if( datastores.length==0 || isNestedUse() )
+            return dataResources;
+
+        final List<Class<? extends NamedDataStore>> namedDataStores=distinctNamedDataStores(datastores);
+
+        return dataResources.stream()
+                .flatMap((ds)-> generateDataResourcePerNamedDataStore(ds, namedDataStores))
+                .collect(Collectors.toList());
+    }
+
+    private static List<Class<? extends NamedDataStore>> distinctNamedDataStores(Class<? extends NamedDataStore>[] namedDataStores) {
+        return Arrays.stream(namedDataStores).distinct().collect(Collectors.toList());
+    }
+
+    private Stream<DataResource> generateDataResourcePerNamedDataStore(DataResource dataResource, List<Class<? extends NamedDataStore>> namedDataStores) {
+        return namedDataStores.stream().map((nds)->new OverwriteAssignedDataStores(dataResource, nds));
     }
 
     private List<DataResource> changeOrder(List<DataResource> dataResources) {
@@ -119,5 +140,20 @@ abstract class UseResourcesFactoryBase<T extends Annotation> extends TypedDataRe
         return filteredDataSetClasses;
     }
 
+    private static class OverwriteAssignedDataStores extends DelegateDataResource {
+
+        private final Class<? extends NamedDataStore> namedDataStore;
+
+
+        private OverwriteAssignedDataStores(DataResource dataResource, Class<? extends NamedDataStore> namedDataStore) {
+            super(dataResource);
+            this.namedDataStore = namedDataStore;
+        }
+
+        @Override
+        public Class<? extends NamedDataStore> getNamedDataStore() {
+            return namedDataStore;
+        }
+    }
 
 }

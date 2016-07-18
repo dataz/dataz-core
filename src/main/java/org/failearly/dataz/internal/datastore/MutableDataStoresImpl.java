@@ -6,8 +6,8 @@
  */
 package org.failearly.dataz.internal.datastore;
 
-import org.failearly.dataz.datastore.ng.ImmutableDataStores;
-import org.failearly.dataz.datastore.ng.MutableDataStores;
+import org.failearly.dataz.datastore.ImmutableDataStores;
+import org.failearly.dataz.datastore.MutableDataStores;
 import org.failearly.dataz.internal.datastore.state.DataStoreState;
 
 import java.util.List;

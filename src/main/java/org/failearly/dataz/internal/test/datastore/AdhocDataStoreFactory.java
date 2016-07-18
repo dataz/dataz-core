@@ -20,7 +20,7 @@
 package org.failearly.dataz.internal.test.datastore;
 
 import org.failearly.dataz.datastore.DataStore;
-import org.failearly.dataz.datastore.ReflectionDataStoreFactoryBase;
+import org.failearly.dataz.datastore.support.ReflectionDataStoreFactoryBase;
 import org.failearly.dataz.NamedDataStore;
 import org.failearly.dataz.test.datastore.AdhocDataStore;
 

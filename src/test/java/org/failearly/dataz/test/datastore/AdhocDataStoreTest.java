@@ -11,8 +11,8 @@ import org.failearly.dataz.NamedDataStore;
 import org.failearly.dataz.datastore.DataStore;
 import org.failearly.dataz.datastore.DataStoreBase;
 import org.failearly.dataz.datastore.DataStoreException;
-import org.failearly.dataz.datastore.ng.DataStoresNG;
-import org.failearly.dataz.datastore.ng.MutableDataStores;
+import org.failearly.dataz.datastore.DataStores;
+import org.failearly.dataz.datastore.MutableDataStores;
 import org.failearly.dataz.resource.DataResource;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,13 +30,13 @@ import static org.junit.Assert.assertThat;
 public class AdhocDataStoreTest {
     @Before
     public void setUp() throws Exception {
-        DataStoresNG.dispose();
+        DataStores.dispose();
     }
 
     @Test
     public void access_datastores__should_create_expected_datastore_type() throws Exception {
         // arrange / given
-        final MutableDataStores dataStores = DataStoresNG.reserve(MyDataStore.class);
+        final MutableDataStores dataStores = DataStores.reserve(MyDataStore.class);
 
         // act / when
         final TestDataStore tds=dataStores.getOriginDataStore(MyDataStore.class, TestDataStore.class);

@@ -25,7 +25,7 @@ import org.failearly.dataz.internal.resource.ResourceType;
 /**
  * DataSetSetupResourceFactory creates Setup DataResource from annotation {@link DataSet}.
  */
-public final class DataSetSetupResourcesFactory extends ResourcesFactoryBase {
+public final class DataSetSetupResourcesFactory extends DataSetResourcesFactoryBase {
     public DataSetSetupResourcesFactory() {
         super(ResourceType.SETUP);
     }

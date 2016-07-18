@@ -21,7 +21,6 @@ package org.failearly.dataz.datastore;
 
 import org.failearly.common.proputils.PropertiesAccessor;
 import org.failearly.dataz.NamedDataStore;
-import org.failearly.dataz.internal.model.AtomicTest;
 import org.failearly.dataz.resource.DataResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -79,24 +78,6 @@ public abstract class AbstractDataStore implements DataStore {
     public void applyDataResource(DataResource dataResource) {
         LOGGER.error("applyDataResource() not implemented");
         throw new UnsupportedOperationException("applyDataResource() not implemented");
-    }
-
-    @Override
-    public final void setup(AtomicTest testMethod) throws DataStoreException {
-        LOGGER.error("setup() not implemented");
-        throw new UnsupportedOperationException("setup() not implemented");
-    }
-
-    @Override
-    public final void cleanup(AtomicTest testMethod) {
-        LOGGER.error("cleanup() not implemented");
-        throw new UnsupportedOperationException("cleanup() not implemented");
-    }
-
-    @Override
-    public void cleanupDataStore() {
-        LOGGER.error("cleanupDataStore() not implemented");
-        throw new UnsupportedOperationException("cleanupDataStore() not implemented");
     }
 
     @Override

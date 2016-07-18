@@ -57,11 +57,11 @@ public class TemplateObjects_apply_Test extends TemplateObjectsTestBase {
 
         // assert / then
         assertThat(duplicated, containsInAnyOrder(
-                "@org.failearly.dataz.test.MyTemplateObjectAnnotation(description=(6) On method withDuplicatedTemplateObjects, dataz=OTHER-DATASET, name=G0)",
-                "@org.failearly.dataz.test.MyTemplateObjectAnnotation(description=(7) On method withDuplicatedTemplateObjects. OVERWRITE G0, dataz=SAME-DATASET, name=G0)"
+                "@org.failearly.dataz.test.SimpleTemplateObject(description=(6) On method withDuplicatedTemplateObjects, dataz=OTHER-DATASET, name=G0)",
+                "@org.failearly.dataz.test.SimpleTemplateObject(description=(7) On method withDuplicatedTemplateObjects. OVERWRITE G0, dataz=SAME-DATASET, name=G0)"
         ));
         assertThat(accepted, containsInAnyOrder(
-                "@org.failearly.dataz.test.MyTemplateObjectAnnotation(description=(5) On method withDuplicatedTemplateObjects, dataz=SAME-DATASET, name=G0)"
+                "@org.failearly.dataz.test.SimpleTemplateObject(description=(5) On method withDuplicatedTemplateObjects, dataz=SAME-DATASET, name=G0)"
         ));
     }
 
@@ -76,11 +76,11 @@ public class TemplateObjects_apply_Test extends TemplateObjectsTestBase {
 
         // assert / then
         assertThat(duplicated, containsInAnyOrder(
-                "@org.failearly.dataz.test.MyTemplateObjectAnnotation(description=(6) On method withDuplicatedTemplateObjects, dataz=OTHER-DATASET, name=G0)",
-                "@org.failearly.dataz.test.MyTemplateObjectAnnotation(description=(5) On method withDuplicatedTemplateObjects, dataz=SAME-DATASET, name=G0)"
+                "@org.failearly.dataz.test.SimpleTemplateObject(description=(6) On method withDuplicatedTemplateObjects, dataz=OTHER-DATASET, name=G0)",
+                "@org.failearly.dataz.test.SimpleTemplateObject(description=(5) On method withDuplicatedTemplateObjects, dataz=SAME-DATASET, name=G0)"
         ));
         assertThat(accepted, containsInAnyOrder(
-                "@org.failearly.dataz.test.MyTemplateObjectAnnotation(description=(7) On method withDuplicatedTemplateObjects. OVERWRITE G0, dataz=SAME-DATASET, name=G0)"
+                "@org.failearly.dataz.test.SimpleTemplateObject(description=(7) On method withDuplicatedTemplateObjects. OVERWRITE G0, dataz=SAME-DATASET, name=G0)"
         ));
     }
 
@@ -92,7 +92,7 @@ public class TemplateObjects_apply_Test extends TemplateObjectsTestBase {
 
         // assert / then
         ExceptionVerifier.TestAction action=() -> templateObjects.apply(collectAccepted());
-        ExceptionVerifier.on(action).expect(DuplicateTemplateObjectException.class).expect("Duplicate template object found: @org.failearly.dataz.test.MyTemplateObjectAnnotation(description=(6) On method withDuplicatedTemplateObjects, dataz=OTHER-DATASET, name=G0)").verify();
+        ExceptionVerifier.on(action).expect(DuplicateTemplateObjectException.class).expect("Duplicate template object found: @org.failearly.dataz.test.SimpleTemplateObject(description=(6) On method withDuplicatedTemplateObjects, dataz=OTHER-DATASET, name=G0)").verify();
     }
 
 
@@ -109,10 +109,10 @@ public class TemplateObjects_apply_Test extends TemplateObjectsTestBase {
 
         // assert / then
         assertThat(duplicated, containsInAnyOrder(
-                "@org.failearly.dataz.test.MyTemplateObjectAnnotation(description=(7) On method withDuplicatedTemplateObjects. OVERWRITE G0, dataz=SAME-DATASET, name=G0)"
+                "@org.failearly.dataz.test.SimpleTemplateObject(description=(7) On method withDuplicatedTemplateObjects. OVERWRITE G0, dataz=SAME-DATASET, name=G0)"
         ));
         assertThat(accepted, containsInAnyOrder(
-                "@org.failearly.dataz.test.MyTemplateObjectAnnotation(description=(5) On method withDuplicatedTemplateObjects, dataz=SAME-DATASET, name=G0)"
+                "@org.failearly.dataz.test.SimpleTemplateObject(description=(5) On method withDuplicatedTemplateObjects, dataz=SAME-DATASET, name=G0)"
         ));
     }
 

@@ -17,33 +17,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package org.failearly.dataz.junit4;
+package org.failearly.dataz.internal.resource;
 
-import org.junit.rules.TestRule;
+import org.failearly.dataz.resource.DataResourceValues;
+
+import java.io.InputStream;
 
 /**
- * DataSetDriver does the actually work.
- * <p>
- * Applies the {@link org.failearly.dataz.DataSet} on the registered {@link org.failearly.dataz.datastore.DataStore}s.
+ * MissingDataResource is responsible for ...
  */
-public final class DataSetDriver {
-
-    private DataSetDriver() {
+final class MissingDataResource extends DataResourceBase {
+    MissingDataResource(DataResourceValues dataResourceValues) {
+        super(dataResourceValues);
     }
 
-    /**
-     * Create a {@link org.failearly.dataz.junit4.DataSetDriver} from current test instance.
-     *
-     * @param testInstance {@code this}
-     * @return a new driver instance.
-     */
-    public static TestRule createDataSetDriver(Object testInstance) {
-        return DataSetRule.createDataSetRule(testInstance);
-
-
-    }
-
-    public static void reset() {
-        DataSetRule.reset();
+    @Override
+    public InputStream open() {
+        throw new MissingDataResourceException(getResource());
     }
 }

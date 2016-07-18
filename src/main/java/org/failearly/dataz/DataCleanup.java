@@ -69,11 +69,13 @@ public @interface DataCleanup {
     String name() default Constants.DATASET_DEFAULT_NAME;
 
     /**
-     * The data store(s) the data set resource will be applied on. If ommitted the default data store
-     * will be used.
+     * The data store(s) the data set resource will be applied on.
+     *
+     * If ommitted the default data store will be used.
      *
      * @return the associated data stores
-     * @see DataResource#getDataStores()
+     * @see DataResource#getNamedDataStore()
+     * @see DataSetProperties#getDefaultNamedDataStore()
      */
     Class<? extends NamedDataStore>[] datastores() default {};
 
@@ -110,26 +112,31 @@ public @interface DataCleanup {
     String[] value() default {};
 
     /**
-     * Controls the transactional behaviour of {@link org.failearly.dataz.datastore.DataStore}.
-     * <br><br>
-     * <ul>
-     * <li><b>default {@code true}</b>: run a single setup/cleanup resource file within a transaction.</li>
-     * <li>{@code false}: No transaction, each statement will be executed within a new transaction.</li>
-     * </ul>
+     * (Optional) Controls the transactional behaviour of {@link org.failearly.dataz.datastore.DataStore}.
+     *
+     * + **default {@code true}** : run a single setup/cleanup resource file within a transaction.
+     * + {@code false}: No transaction.
+     *
+     *
      *
      * @return {@code true} or {@code false}.
      * @see DataResource#isTransactional()
      * @see #value()
+     * @see Constants#DATASET_DEFAULT_TRANSACTIONAL_VALUE
      */
-    boolean transactional() default true;
+    boolean transactional() default Constants.DATASET_DEFAULT_TRANSACTIONAL_VALUE;
 
     /**
      * (Optional) Set to {@code false} if you want to ignore any error while applying the data set resource.
      *
+     * This is useful, if you have a datastore with schema and to apply only the changes.
+     *
      * @return {@code true} (default value) if the dataSet should fail otherwise {@code false}.
      * @see DataResource#isFailOnError()
+     * @see Constants#DATASET_DEFAULT_FAIL_ON_ERROR_VALUE
      */
-    boolean failOnError() default true;
+    boolean failOnError() default Constants.DATASET_DEFAULT_FAIL_ON_ERROR_VALUE;
+
 
     /**
      * Containing Annotation Type.

@@ -63,6 +63,6 @@ public abstract class NamedDataStore {
      * @throws UnsupportedOperationException must not be called
      */
     protected NamedDataStore() {
-        throw new UnsupportedOperationException("Must not create any instance");
+        throw new UnsupportedOperationException("Currently no instance will be created at all");
     }
 }

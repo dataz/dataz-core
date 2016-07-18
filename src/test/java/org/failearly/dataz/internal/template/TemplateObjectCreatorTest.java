@@ -22,8 +22,8 @@ package org.failearly.dataz.internal.template;
 import org.failearly.dataz.template.Scope;
 import org.failearly.dataz.template.TemplateObject;
 import org.failearly.dataz.template.TemplateObjectFactory;
-import org.failearly.dataz.test.MyTemplateObjectAnnotation;
-import org.failearly.dataz.test.MyTemplateObjectFactory;
+import org.failearly.dataz.test.SimpleTemplateObject;
+import org.failearly.dataz.test.SimpleTemplateObjectFactory;
 import org.junit.Test;
 
 import java.lang.annotation.Annotation;
@@ -41,7 +41,7 @@ public final class TemplateObjectCreatorTest {
     private static final String DS1 = "DS1";
     private static final String DS2 = "DS2";
 
-    private static final TemplateObjectFactory TEMPLATE_OBJECT_FACTORY = new MyTemplateObjectFactory();
+    private static final TemplateObjectFactory TEMPLATE_OBJECT_FACTORY = new SimpleTemplateObjectFactory();
 
     @Test
     public void template_object_creator__should_create_correct_template_object() throws Exception {
@@ -69,12 +69,12 @@ public final class TemplateObjectCreatorTest {
     }
 
     private Annotation getAnnotation(int annotationNumber) {
-        return AnyClass.class.getAnnotationsByType(MyTemplateObjectAnnotation.class)[annotationNumber];
+        return AnyClass.class.getAnnotationsByType(SimpleTemplateObject.class)[annotationNumber];
     }
 
 
-    @MyTemplateObjectAnnotation(name = TEMPLATE_OBJECT_1, dataset = DS1, scope = Scope.GLOBAL)
-    @MyTemplateObjectAnnotation(name = TEMPLATE_OBJECT_2, dataset = DS2, scope = Scope.LOCAL)
+    @SimpleTemplateObject(name = TEMPLATE_OBJECT_1, dataset = DS1, scope = Scope.GLOBAL)
+    @SimpleTemplateObject(name = TEMPLATE_OBJECT_2, dataset = DS2, scope = Scope.LOCAL)
     private final static class AnyClass {
     }
 }

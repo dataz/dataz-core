@@ -46,16 +46,18 @@ public abstract class GenericDataResourcesFactory<T extends Annotation> extends 
     @Override
     protected final List<DataResource> doCreateDataResourcesFromClass(Class<?> clazz, T annotation, TemplateObjects templateObjects) {
         final List<DataResource> dataResources = new LinkedList<>();
-        if (userHasProvidedResourceNames(annotation)) {
-            dataResources.addAll(doResolveDataResourcesFromResourceNames(annotation, clazz, templateObjects));
+        if (anyResourceNamedHasBeenSet(annotation)) {
+            dataResources.addAll(doCreateDataResourcesForNamedDataStore(
+                annotation, clazz, templateObjects
+            ));
         } else {
-            dataResources.add(
-                    createDataResourceFromAnnotation(                                    //
-                            annotation,                                                  //
-                            clazz,                                                       //
-                            createDefaultResourceNameFromClass(clazz, this.resourceType),//
-                            templateObjects                                              //
-                    )                                                                    //
+            dataResources.addAll(
+                createDataResourceFromAnnotation( //
+                    annotation,                                                  //
+                    clazz,                                                       //
+                    createDefaultResourceNameFromClass(clazz, this.resourceType),//
+                    templateObjects                                              //
+                )
             );
         }
         return dataResources;
@@ -65,39 +67,40 @@ public abstract class GenericDataResourcesFactory<T extends Annotation> extends 
     protected final List<DataResource> doCreateDataResourcesFromMethod(Method method, T annotation, TemplateObjects templateObjects) {
         final Class<?> declaringClass = method.getDeclaringClass();
         final List<DataResource> dataResources = new LinkedList<>();
-        if (userHasProvidedResourceNames(annotation)) {
-            dataResources.addAll(doResolveDataResourcesFromResourceNames(annotation, declaringClass, templateObjects));
-        } else {
-            dataResources.add(
-                    createDataResourceFromAnnotation( //
-                            annotation,                                                     //
-                            declaringClass,                                                 //
-                            createDefaultResourceNameFromMethod(method, this.resourceType), //
-                            templateObjects                                                 //
-                    )
+        if (anyResourceNamedHasBeenSet(annotation)) {
+            dataResources.addAll(
+                doCreateDataResourcesForNamedDataStore(
+                    annotation, declaringClass, templateObjects
+                )
             );
+        } else {
+            dataResources.addAll(
+                createDataResourceFromAnnotation( //
+                    annotation,                                                     //
+                    declaringClass,                                                 //
+                    createDefaultResourceNameFromMethod(method, this.resourceType), //
+                    templateObjects                                                 //
+                )
+            );
+
         }
         return dataResources;
     }
 
-    private boolean userHasProvidedResourceNames(T annotation) {
-        return 0 <  getResourceNamesFromAnnotation(annotation).length;
+    private boolean anyResourceNamedHasBeenSet(T annotation) {
+        return 0 < getResourceNamesFromAnnotation(annotation).length;
     }
 
-    private List<DataResource> doResolveDataResourcesFromResourceNames(    //
-                                                                           T annotation,            //
-                                                                           Class<?> clazz,      //
-                                                                           TemplateObjects templateObjects  //
-    ) {
-        final String[] resourceNames = getResourceNamesFromAnnotation(annotation);
+
+    private List<DataResource> doCreateDataResourcesForNamedDataStore(T annotation, Class<?> clazz, TemplateObjects templateObjects) {
         final List<DataResource> dataResources = new ArrayList<>();
+        final String[] resourceNames = getResourceNamesFromAnnotation(annotation);
         for (String resourceName : resourceNames) {
-            dataResources.add(createDataResourceFromAnnotation(annotation, clazz, resourceName, templateObjects));
+            dataResources.addAll(createDataResourceFromAnnotation(annotation, clazz, resourceName, templateObjects));
         }
 
         return dataResources;
     }
-
 
     /**
      * Creates a default resource name from {@code clazz}.
@@ -107,8 +110,9 @@ public abstract class GenericDataResourcesFactory<T extends Annotation> extends 
      * The result: MyTest.&lt;datastore-suffix&gt;}.
      * The {@literal <datastore-suffix>} will be generated from {@code dataStoreId} and {@code resourceType}.
      *
-     * @param clazz    the class
+     * @param clazz        the class
      * @param resourceType the resource type
+     *
      * @return the default resource path
      */
     private static String createDefaultResourceNameFromClass(Class<?> clazz, ResourceType resourceType) {
@@ -123,8 +127,9 @@ public abstract class GenericDataResourcesFactory<T extends Annotation> extends 
      * The result: {@code MyTest-myTestMethod.&lt;datastore-suffix&gt;}.
      * The {@literal <datastore-suffix>} will be generated from {@code dataStoreId} and {@code resourceType}.
      *
-     * @param method   the method
+     * @param method       the method
      * @param resourceType the resource type
+     *
      * @return the default resource path
      */
     private static String createDefaultResourceNameFromMethod(Method method, ResourceType resourceType) {
@@ -143,21 +148,23 @@ public abstract class GenericDataResourcesFactory<T extends Annotation> extends 
     /**
      * Get the resource name(s) from annotation.
      *
-     * @param annotation the annotation
+     * @param annotation the dataset annotation
+     *
      * @return all configured resource names.
      */
     protected abstract String[] getResourceNamesFromAnnotation(T annotation);
 
 
     /**
-     * Create a {@link DataResource} from Annotation and test class. Typical this method uses {@link DataResourceBuilder}.
+     * Create a {@link DataResource} List from Annotation and test class. Typical this method uses {@link DataResourceBuilder}.
      *
-     * @param annotation        the annotation
-     * @param clazz         the test class
-     * @param resourceName      the resource name
+     * @param annotation      the annotation
+     * @param clazz           the test class
+     * @param resourceName    the resource name
      * @param templateObjects the generators
-     * @return the data resource object.
+     *
+     * @return the data resources list.
      */
-    protected abstract DataResource createDataResourceFromAnnotation(T annotation, Class<?> clazz, String resourceName, TemplateObjects templateObjects);
+    protected abstract List<DataResource> createDataResourceFromAnnotation(T annotation, Class<?> clazz, String resourceName, TemplateObjects templateObjects);
 
 }

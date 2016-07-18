@@ -44,6 +44,22 @@ import java.lang.annotation.*;
 @DataResourcesFactory.SetupDefinition(value = UseSetupResourcesFactory.class)
 @DataResourcesFactory.CleanupDefinition(value = UseCleanupResourcesFactory.class)
 public @interface Use {
+    /**
+     * (Optional) Overwrites the data store(s) settings of {@link ReusableDataSet}.
+     *
+     * If ommitted the data store(s) of the {@link ReusableDataSet} will be used.
+     *
+     * @return the associated data stores
+     * @see DataResource#getNamedDataStore()
+     */
+    Class<? extends NamedDataStore>[] datastores() default {};
+
+
+    /**
+     * Define which datasets should be reused.
+     *
+     * @return Your reusable dataset(s)
+     */
     Class<? extends ReusableDataSet>[] value();
 
     /**

@@ -19,18 +19,13 @@
 
 package org.failearly.dataz.internal.resource;
 
-import org.failearly.common.classutils.ClassLoader;
-import org.failearly.dataz.config.DataSetProperties;
-import org.failearly.dataz.datastore.DataStore;
 import org.failearly.dataz.NamedDataStore;
+import org.failearly.dataz.datastore.DataStore;
 import org.failearly.dataz.internal.template.TemplateObjects;
 import org.failearly.dataz.resource.DataResource;
 import org.failearly.dataz.resource.DataResourceValues;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Collections;
-import java.util.List;
 
 /**
  * DataSetResourceBase is responsible for ...
@@ -38,8 +33,6 @@ import java.util.List;
 abstract class DataResourceBase implements DataResource {
 
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
-
-    private Class<? extends NamedDataStore> defaultDataStore;
 
     private DataResourceValues dataResourceValues;
 
@@ -60,29 +53,13 @@ abstract class DataResourceBase implements DataResource {
 
 
     @Override
-    public final List<Class<? extends NamedDataStore>> getDataStores() {
-        List<Class<? extends NamedDataStore>> dataStores = this.dataResourceValues.getDataStores();
-        if (dataStores.isEmpty()) {
-            dataStores = getDefaultDataStore();
-        }
-
-        return dataStores;
+    public final Class<? extends NamedDataStore> getNamedDataStore() {
+        return this.dataResourceValues.getDataStore();
     }
 
     @Override
     public final boolean shouldAppliedOn(DataStore dataStore) {
-        return getDataStores().contains(dataStore.getNamedDataStore()) ;
-    }
-
-    private List<Class<? extends NamedDataStore>> getDefaultDataStore() {
-        if( defaultDataStore==null ) {
-            defaultDataStore = loadDefaultDataStore();
-        }
-        return Collections.singletonList(defaultDataStore);
-    }
-
-    private static Class<? extends NamedDataStore> loadDefaultDataStore() {
-        return ClassLoader.loadClass(NamedDataStore.class, DataSetProperties.getDefaultDataStore());
+        return getNamedDataStore().equals(dataStore.getNamedDataStore()) ;
     }
 
     @Override

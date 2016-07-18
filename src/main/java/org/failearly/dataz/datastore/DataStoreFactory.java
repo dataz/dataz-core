@@ -21,6 +21,7 @@ package org.failearly.dataz.datastore;
 
 import org.failearly.dataz.config.Constants;
 import org.failearly.dataz.NamedDataStore;
+import org.failearly.dataz.datastore.support.ReflectionDataStoreFactory;
 import org.failearly.dataz.test.datastore.AdhocDataStore;
 
 import java.lang.annotation.*;

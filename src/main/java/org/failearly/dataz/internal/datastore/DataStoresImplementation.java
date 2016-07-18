@@ -12,10 +12,7 @@ import org.failearly.common.annotation.traverser.TraverseDepth;
 import org.failearly.common.annotation.traverser.TraverseStrategy;
 import org.failearly.common.classutils.ObjectCreator;
 import org.failearly.dataz.NamedDataStore;
-import org.failearly.dataz.datastore.DataStore;
-import org.failearly.dataz.datastore.DataStoreFactory;
-import org.failearly.dataz.datastore.DataStoreInitializationException;
-import org.failearly.dataz.datastore.ng.*;
+import org.failearly.dataz.datastore.*;
 import org.failearly.dataz.internal.datastore.state.DataStoreState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,9 +29,9 @@ import java.util.stream.Collectors;
 import static org.failearly.common.annotation.traverser.AnnotationTraverserBuilder.metaAnnotationTraverser;
 
 /**
- * DataStoresInstance is responsible for ...
+ * DataStoresImplementation conatins the actually implementation of {@link DataStores}.
  */
-public final class DataStoresImplementation implements DataStoresInstance, DataStoreState.OnRelease {
+public final class DataStoresImplementation implements DataStores.Instance, DataStoreState.OnRelease {
 
     private final ThreadLocal<Optional<MutableDataStores>> currentDataStore = new ThreadLocal<Optional<MutableDataStores>>() {
         @Override
@@ -43,7 +40,7 @@ public final class DataStoresImplementation implements DataStoresInstance, DataS
         }
     };
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DataStoresNG.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DataStores.class);
 
     private static final MetaAnnotationTraverser<DataStoreFactory.Definition> DATASTORE_ANNOTATION_TRAVERSER = metaAnnotationTraverser(DataStoreFactory.Definition.class)
             .withTraverseDepth(TraverseDepth.DECLARED_CLASS)
@@ -57,10 +54,10 @@ public final class DataStoresImplementation implements DataStoresInstance, DataS
     }
 
     /**
-     * The factory method for {@link DataStoresInstance}.
+     * The factory method for {@link DataStores.Instance}.
      * @return a new datastore instance.
      */
-    public static DataStoresInstance createDataStoresInstance() {
+    public static DataStores.Instance createDataStoresInstance() {
         return new DataStoresImplementation();
     }
 

@@ -38,7 +38,7 @@ public final class DataResourceFactory {
     }
 
     public static DataResource createMissingResourceInstance(DataResourceValues dataResourceValues) {
-        return new MissingResourceDataResource(dataResourceValues);
+        return new MissingDataResource(dataResourceValues);
     }
 
     public static DataResource createIgnoringInstance(DataResourceValues dataResourceValues) {

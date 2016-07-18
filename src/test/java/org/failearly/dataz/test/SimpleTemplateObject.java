@@ -26,13 +26,13 @@ import org.failearly.dataz.template.TemplateObjectFactory;
 import java.lang.annotation.*;
 
 /**
- * MyTemplateObjectAnnotation is a template object annotation as replacement for real ones, which has only the minimal set of annotation's attributes.
+ * SimpleTemplateObject is a template object annotation as replacement for real ones, which has only the minimal set of annotation's attributes.
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@TemplateObjectFactory.Definition(MyTemplateObjectFactory.class)
-@Repeatable(MyTemplateObjectAnnotation.List.class)
-public @interface MyTemplateObjectAnnotation {
+@TemplateObjectFactory.Definition(SimpleTemplateObjectFactory.class)
+@Repeatable(SimpleTemplateObject.List.class)
+public @interface SimpleTemplateObject {
 
     /**
      * @return The name of the generator. Could be used in Velocity templates by {@code $<name>}.
@@ -40,9 +40,11 @@ public @interface MyTemplateObjectAnnotation {
     String name();
 
     /**
-     * @return The name of the associated dataz.
+     * @return The name of the associated data set.
      *
      * @see org.failearly.dataz.DataSet#name()
+     * @see org.failearly.dataz.DataSetup#name()
+     * @see org.failearly.dataz.DataCleanup#name()
      */
     String dataset() default Constants.DATASET_DEFAULT_NAME;
 
@@ -67,6 +69,6 @@ public @interface MyTemplateObjectAnnotation {
     @Retention(RetentionPolicy.RUNTIME)
     @Documented
     @interface List {
-        MyTemplateObjectAnnotation[] value();
+        SimpleTemplateObject[] value();
     }
 }

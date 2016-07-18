@@ -1,6 +1,6 @@
-##* @vtlvariable name="to" type="org.failearly.dataz.test.MyTemplateObjectFactory.MyTemplateObject" *#
-##* @vtlvariable name="global" type="org.failearly.dataz.test.MyTemplateObjectFactory.MyTemplateObject" *#
-##* @vtlvariable name="to-be-ignored" type="org.failearly.dataz.test.MyTemplateObjectFactory.MyTemplateObject" *#
+##* @vtlvariable name="to" type="org.failearly.dataz.test.SimpleTemplateObjectFactory.MyTemplateObject" *#
+##* @vtlvariable name="global" type="org.failearly.dataz.test.SimpleTemplateObjectFactory.MyTemplateObject" *#
+##* @vtlvariable name="to-be-ignored" type="org.failearly.dataz.test.SimpleTemplateObjectFactory.MyTemplateObject" *#
 ## Just a simple template using TemplateObjectAnnotation. ##
 $to.description
 $global.description

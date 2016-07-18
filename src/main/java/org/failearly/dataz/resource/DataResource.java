@@ -29,7 +29,6 @@ import org.failearly.dataz.internal.resource.DataResourceProcessingException;
 import org.failearly.dataz.internal.template.TemplateObjects;
 
 import java.io.InputStream;
-import java.util.List;
 
 /**
  * DataSetResource represents either a {@link org.failearly.dataz.DataSet#setup()} or {@link org.failearly.dataz.DataSet#cleanup()}
@@ -39,16 +38,16 @@ import java.util.List;
  */
 public interface DataResource {
     /**
-     * Returns the associated datastore(s), the data resource should be applied on.
+     * Returns the associated (named) datastore, the data resource should be applied on.
      *
-     * @return the associated datastore(s).
+     * @return the associated datastore.
      *
      * @see DataSet#datastores()
      * @see DataSetup#datastores()
      * @see DataCleanup#datastores()
      *
      */
-    List<Class<? extends NamedDataStore>> getDataStores();
+    Class<? extends NamedDataStore> getNamedDataStore();
 
     /**
      * @return the data set name.
@@ -84,7 +83,6 @@ public interface DataResource {
      * @see DataCleanup#failOnError()
      */
     boolean isFailOnError();
-
 
     /**
      * If the data resource is template based resource, here the target data resource will be generated.

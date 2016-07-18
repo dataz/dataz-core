@@ -72,18 +72,18 @@ public final class TestClass {
     }
 
     private AtomicTest createTestInstance(Method testMethod) {
-        if( isAnnotatedWithSuppressDataSet(testMethod) || isNotAnnotatedWithDataSetMarker(testMethod) ) {
+        if( isAnnotatedWithNoDataSet(testMethod) || isNotAnnotatedWithDataSetAnnotation(testMethod) ) {
             return new NullTest(testMethod.getName());
         }
 
         return AtomicTestInstance.createTestInstance(testMethod, testClass);
     }
 
-    private static boolean isAnnotatedWithSuppressDataSet(Method testMethod) {
+    private static boolean isAnnotatedWithNoDataSet(Method testMethod) {
         return testMethod.isAnnotationPresent(NoDataSet.class);
     }
 
-    private boolean isNotAnnotatedWithDataSetMarker(Method testMethod) {
+    private boolean isNotAnnotatedWithDataSetAnnotation(Method testMethod) {
         return ! DATA_SET_MARKER_TRAVERSER.anyAnnotationAvailable(testMethod);
     }
 

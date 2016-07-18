@@ -25,7 +25,7 @@ import org.failearly.dataz.internal.resource.ResourceType;
 /**
  * DataSetCleanupResourcesFactory creates Cleanup DataResource from annotation {@link DataSet}.
  */
-public final class DataSetCleanupResourcesFactory extends ResourcesFactoryBase {
+public final class DataSetCleanupResourcesFactory extends DataSetResourcesFactoryBase {
     public DataSetCleanupResourcesFactory() {
         super(ResourceType.CLEANUP);
     }

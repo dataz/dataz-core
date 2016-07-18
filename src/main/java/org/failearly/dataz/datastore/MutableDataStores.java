@@ -1,7 +1,7 @@
 /*
- * dataZ - Test Support For Data Stores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2016 'Marko Umek' (http://fail-early.com)
+ * Copyright (C) 2014-2016 'Marko Umek' (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,23 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+package org.failearly.dataz.datastore;
 
-package org.failearly.dataz.internal.resource;
+import org.failearly.dataz.NamedDataStore;
 
-import org.failearly.dataz.resource.DataResourceValues;
-
-import java.io.InputStream;
+import java.util.function.Consumer;
 
 /**
- * MissingResourceDataResource is responsible for ...
+ * MutableDataStores is responsible for ...
  */
-final class MissingResourceDataResource extends DataResourceBase {
-    MissingResourceDataResource(DataResourceValues dataResourceValues) {
-        super(dataResourceValues);
-    }
+public interface MutableDataStores {
 
-    @Override
-    public InputStream open() {
-        throw new MissingDataResourceException(getResource());
-    }
+    DataStore getOriginDataStore(Class<? extends NamedDataStore> namedDataStore);
+
+    <T extends DataStore> T getOriginDataStore(Class<? extends NamedDataStore> namedDataStore, Class<T> targetClass);
+
+    void apply(Consumer<DataStore> dataStoreConsumer);
+
+    void release();
+
+    ImmutableDataStores access();
 }

@@ -1,7 +1,7 @@
 /*
- * dataZ - Test Support For Data Stores.
+ * dataSet - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2016 'Marko Umek' (http://fail-early.com)
+ * Copyright (C) 2014-2016 'Marko Umek' (http://fail-early.com/contact)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package org.failearly.common.test;
+package org.failearly.dataz.internal.util;
 
 import org.failearly.common.message.Message;
 import org.failearly.dataz.exception.DataSetException;
@@ -33,6 +33,7 @@ import org.slf4j.LoggerFactory;
  *    java.sql.Connection con=with.producer("Create connection from " + url,(){@literal ->}DriverManager.getConnection(url));
  * </pre>
  */
+@SuppressWarnings("unused")
 public final class With {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(With.class);

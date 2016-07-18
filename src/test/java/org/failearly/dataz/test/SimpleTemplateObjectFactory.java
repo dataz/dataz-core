@@ -25,26 +25,26 @@ import org.failearly.dataz.template.TemplateObjectBase;
 import org.failearly.dataz.template.TemplateObjectFactoryBase;
 
 /**
- * TemplateObjectAnnotationFactory is the factory for making from the annotation {@link MyTemplateObjectAnnotation} a
- * {@link MyTemplateObjectFactory.MyTemplateObject} object.
+ * TemplateObjectAnnotationFactory is the factory for making from the annotation {@link SimpleTemplateObject} a
+ * {@link SimpleTemplateObjectFactory.MyTemplateObject} object.
  */
-public final class MyTemplateObjectFactory extends TemplateObjectFactoryBase<MyTemplateObjectAnnotation> {
-    public MyTemplateObjectFactory() {
-        super(MyTemplateObjectAnnotation.class);
+public final class SimpleTemplateObjectFactory extends TemplateObjectFactoryBase<SimpleTemplateObject> {
+    public SimpleTemplateObjectFactory() {
+        super(SimpleTemplateObject.class);
     }
 
     @Override
-    protected TemplateObject doCreate(MyTemplateObjectAnnotation annotation) {
+    protected TemplateObject doCreate(SimpleTemplateObject annotation) {
         return new MyTemplateObject(annotation);
     }
 
     @Override
-    protected String doResolveDataSetName(MyTemplateObjectAnnotation annotation) {
+    protected String doResolveDataSetName(SimpleTemplateObject annotation) {
         return annotation.dataset();
     }
 
     @Override
-    protected Scope doResolveScope(MyTemplateObjectAnnotation annotation) {
+    protected Scope doResolveScope(SimpleTemplateObject annotation) {
         return annotation.scope();
     }
 
@@ -52,7 +52,7 @@ public final class MyTemplateObjectFactory extends TemplateObjectFactoryBase<MyT
 
         private final String description;
 
-        public MyTemplateObject(MyTemplateObjectAnnotation annotation) {
+        private MyTemplateObject(SimpleTemplateObject annotation) {
             super(annotation);
             this.description = annotation.description();
         }
@@ -64,10 +64,10 @@ public final class MyTemplateObjectFactory extends TemplateObjectFactoryBase<MyT
 
         @Override
         public String toString() {
-            final MyTemplateObjectAnnotation annotation=getAnnotation(MyTemplateObjectAnnotation.class);
+            final SimpleTemplateObject annotation=getAnnotation(SimpleTemplateObject.class);
             return "@"+annotation.annotationType().getName()
                     +"(description="+annotation.description()
-                    +", dataz="+annotation.dataset()
+                    +", dataset="+annotation.dataset()
                     +", name="+annotation.name()
                     +")";
         }

@@ -47,9 +47,9 @@ public class TemplateObjectsResolver_TraverseDepth_DECLARD_CLASS__Test extends T
 
         // assert / then
         assertTemplateObjects(templateObjects,
-                "@org.failearly.dataz.test.MyTemplateObjectAnnotation(description=(0) on class AClass, dataz=<don't care>, name=GLOBAL)",
-                "@org.failearly.dataz.test.MyTemplateObjectAnnotation(description=(1) on class AClass, dataz=D1, name=G1)",
-                "@org.failearly.dataz.test.MyTemplateObjectAnnotation(description=(2) on class AClass, dataz=D2, name=G2)"
+                "@org.failearly.dataz.test.SimpleTemplateObject(description=(0) on class AClass, dataz=<don't care>, name=GLOBAL)",
+                "@org.failearly.dataz.test.SimpleTemplateObject(description=(1) on class AClass, dataz=D1, name=G1)",
+                "@org.failearly.dataz.test.SimpleTemplateObject(description=(2) on class AClass, dataz=D2, name=G2)"
          );
     }
 
@@ -63,11 +63,11 @@ public class TemplateObjectsResolver_TraverseDepth_DECLARD_CLASS__Test extends T
 
         // assert / then
         assertTemplateObjects(templateObjects,
-                "@org.failearly.dataz.test.MyTemplateObjectAnnotation(description=(0) on class AClass, dataz=<don't care>, name=GLOBAL)",
-                "@org.failearly.dataz.test.MyTemplateObjectAnnotation(description=(1) on class AClass, dataz=D1, name=G1)",
-                "@org.failearly.dataz.test.MyTemplateObjectAnnotation(description=(2) on class AClass, dataz=D2, name=G2)",
-                "@org.failearly.dataz.test.MyTemplateObjectAnnotation(description=(3) On method withTemplateObjects, dataz=D3, name=G2)",
-                "@org.failearly.dataz.test.MyTemplateObjectAnnotation(description=(4) On method withTemplateObjects, dataz=D3, name=G3)"
+                "@org.failearly.dataz.test.SimpleTemplateObject(description=(0) on class AClass, dataz=<don't care>, name=GLOBAL)",
+                "@org.failearly.dataz.test.SimpleTemplateObject(description=(1) on class AClass, dataz=D1, name=G1)",
+                "@org.failearly.dataz.test.SimpleTemplateObject(description=(2) on class AClass, dataz=D2, name=G2)",
+                "@org.failearly.dataz.test.SimpleTemplateObject(description=(3) On method withTemplateObjects, dataz=D3, name=G2)",
+                "@org.failearly.dataz.test.SimpleTemplateObject(description=(4) On method withTemplateObjects, dataz=D3, name=G3)"
         );
     }
 
@@ -81,9 +81,9 @@ public class TemplateObjectsResolver_TraverseDepth_DECLARD_CLASS__Test extends T
 
         // assert / then
         assertTemplateObjects(templateObjects,
-                "@org.failearly.dataz.test.MyTemplateObjectAnnotation(description=(0) on class AClass, dataz=<don't care>, name=GLOBAL)",
-                "@org.failearly.dataz.test.MyTemplateObjectAnnotation(description=(1) on class AClass, dataz=D1, name=G1)",
-                "@org.failearly.dataz.test.MyTemplateObjectAnnotation(description=(2) on class AClass, dataz=D2, name=G2)"
+                "@org.failearly.dataz.test.SimpleTemplateObject(description=(0) on class AClass, dataz=<don't care>, name=GLOBAL)",
+                "@org.failearly.dataz.test.SimpleTemplateObject(description=(1) on class AClass, dataz=D1, name=G1)",
+                "@org.failearly.dataz.test.SimpleTemplateObject(description=(2) on class AClass, dataz=D2, name=G2)"
         );
     }
 

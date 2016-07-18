@@ -19,11 +19,14 @@
 
 package org.failearly.dataz.resource;
 
+import org.failearly.dataz.NamedDataStore;
 import org.failearly.dataz.internal.template.TemplateObjects;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * TypedDataResourcesFactoryBase is a typed base class for all {@link DataResourcesFactory} implementations. It's only responsibility is type safety.
