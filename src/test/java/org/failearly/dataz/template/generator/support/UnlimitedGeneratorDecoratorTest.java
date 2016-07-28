@@ -76,7 +76,7 @@ public class UnlimitedGeneratorDecoratorTest {
     @Test
     public void unlimited_generator__should_delegate_properties__and__toString() throws Exception {
         assertThat("name?", unlimitedGenerator.name(), is(limitedGenerator.name()));
-        assertThat("dataz?", unlimitedGenerator.dataset(), is(limitedGenerator.dataset()));
+        assertThat("datasets?", unlimitedGenerator.datasets(), is(limitedGenerator.datasets()));
         assertThat("scope?", unlimitedGenerator.scope(), is(limitedGenerator.scope()));
         assertThat("toString?", unlimitedGenerator.toString(), is(limitedGenerator.toString()));
     }
@@ -132,7 +132,7 @@ public class UnlimitedGeneratorDecoratorTest {
     private static class LimitedGenerator extends LimitedGeneratorBase<String> {
 
         LimitedGenerator() {
-            super("DATASET", "NAME", Scope.DEFAULT);
+            super(Collections.singleton("DATASET"), "NAME", Scope.DEFAULT);
         }
 
         @Override

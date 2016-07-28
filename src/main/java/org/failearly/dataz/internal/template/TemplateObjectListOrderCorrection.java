@@ -22,11 +22,11 @@ package org.failearly.dataz.internal.template;
 import java.util.List;
 
 /**
- * TemplateObjectCreatorListOrder is responsible for changing the order of a list of templateObjectCreatorList.
+ * TemplateObjectListOrderCorrection is responsible for changing the order of a list of templateObjectCreatorList.
  *
  * @see TemplateObjectDuplicateStrategy
  * @see TemplateObjects
  */
-interface TemplateObjectCreatorListOrder {
-    List<TemplateObjectCreator> order(List<TemplateObjectCreator> templateObjectCreatorList);
+interface TemplateObjectListOrderCorrection {
+    List<TemplateObjectCreator> correctOrder(List<TemplateObjectCreator> templateObjectCreatorList);
 }

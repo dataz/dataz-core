@@ -19,14 +19,17 @@
 
 package org.failearly.dataz.internal.template;
 
-import org.failearly.dataz.template.Scope;
-import org.failearly.dataz.template.TemplateObject;
-import org.failearly.dataz.template.TemplateObjectFactory;
+import org.failearly.common.test.annotations.Subject;
+import org.failearly.dataz.template.*;
 import org.failearly.dataz.test.SimpleTemplateObject;
 import org.failearly.dataz.test.SimpleTemplateObjectFactory;
 import org.junit.Test;
 
 import java.lang.annotation.Annotation;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -34,47 +37,105 @@ import static org.junit.Assert.assertThat;
 /**
  * TemplateObjectCreatorTest contains tests for {@link TemplateObjectCreator} .
  */
+@Subject({TemplateObjectCreator.class, TemplateObjectBase.class, TemplateObjectFactoryBase.class, SimpleTemplateObject.class, SimpleTemplateObjectFactory.class})
 public final class TemplateObjectCreatorTest {
-
-    private static final String TEMPLATE_OBJECT_1 = "unlimited";
-    private static final String TEMPLATE_OBJECT_2 = "limited";
-    private static final String DS1 = "DS1";
-    private static final String DS2 = "DS2";
 
     private static final TemplateObjectFactory TEMPLATE_OBJECT_FACTORY = new SimpleTemplateObjectFactory();
 
-    @Test
-    public void template_object_creator__should_create_correct_template_object() throws Exception {
-        // arrange / given
-        final TemplateObjectCreator creatorAssociatedTo1stAnnotation = new TemplateObjectCreator(TEMPLATE_OBJECT_FACTORY, getAnnotation(0));
-        final TemplateObjectCreator creatorAssociatedTo2ndAnnotation = new TemplateObjectCreator(TEMPLATE_OBJECT_FACTORY, getAnnotation(1));
+    private static final int TOA_WITH_DEFAULT_SETTINGS = 0;
+    private static final int TOA_WITH_NON_DEFAULT_SETTINGS = 1;
+    private static final int LOCAL_TOA = 1;
+    private static final int GLOBAL_TOA = 2;
+    private static final int TOA_WITH_ONE_DATASET = 1;
+    private static final int TOA_WITH_MULTIPLE_DATASETS = 2;
+    private static final int TOA_WITH_NONE_UNIQUE_DATASETS = 3;
 
-        // act / when
-        final TemplateObject templateObject1 = creatorAssociatedTo1stAnnotation.createTemplateObjectInstance();
-        final TemplateObject templateObject2 = creatorAssociatedTo2ndAnnotation.createTemplateObjectInstance();
-
-        // assert / then
-        assertThat("Creator's DataSet?", creatorAssociatedTo1stAnnotation.getDataSetName(), is(DS1));
-        assertThat("Creator's Scope?", creatorAssociatedTo1stAnnotation.hasScope(Scope.GLOBAL), is(true));
-        assertThat("Template Object's DataSet?", templateObject1.dataset(), is(DS1));
-        assertThat("Template Object's Name?", templateObject1.name(), is(TEMPLATE_OBJECT_1));
-        assertThat("Template Object's Scope?", templateObject1.scope(), is(Scope.GLOBAL));
-
-        // ... and
-        assertThat("Creator's DataSet?", creatorAssociatedTo2ndAnnotation.getDataSetName(), is(DS2));
-        assertThat("Creator's Scope?", creatorAssociatedTo2ndAnnotation.hasScope(Scope.LOCAL), is(true));
-        assertThat("Template Object's DataSet?", templateObject2.dataset(), is(DS2));
-        assertThat("Template Object's Name?", templateObject2.name(), is(TEMPLATE_OBJECT_2));
-        assertThat("Template Object's Scope?", templateObject2.scope(), is(Scope.LOCAL));
-    }
-
-    private Annotation getAnnotation(int annotationNumber) {
+    private static Annotation getAnnotation(int annotationNumber) {
         return AnyClass.class.getAnnotationsByType(SimpleTemplateObject.class)[annotationNumber];
     }
 
+    private static Set<String> expectedDatasets(String... expected) {
+        return new HashSet<>(Arrays.asList(expected));
+    }
 
-    @SimpleTemplateObject(name = TEMPLATE_OBJECT_1, dataset = DS1, scope = Scope.GLOBAL)
-    @SimpleTemplateObject(name = TEMPLATE_OBJECT_2, dataset = DS2, scope = Scope.LOCAL)
+    @Test
+    public void which_TOA_values_are_available_on_the_TemplateObjectCreator() throws Exception {
+        // arrange / given
+        final Annotation toa = getAnnotation(TOA_WITH_NON_DEFAULT_SETTINGS);
+
+        // act / when
+        final TemplateObjectCreator creator = new TemplateObjectCreator(TEMPLATE_OBJECT_FACTORY, toa);
+
+        // assert / then
+        assertThat("TOA?", creator.getAnnotation(), is(toa));
+        assertThat("TOA.datasets()?", creator.getDataSetNames(), is(expectedDatasets("ds-11")));
+        assertThat("TOA.scope()?", creator.hasScope(Scope.LOCAL), is(true));
+    }
+
+    @Test
+    public void how_to_create_a_TemplateObject_from_TemplateObjectCreator() throws Exception {
+        // arrange / given
+        final Annotation toa = getAnnotation(TOA_WITH_NON_DEFAULT_SETTINGS);
+
+        // act / when
+        final TemplateObjectCreator creator = new TemplateObjectCreator(TEMPLATE_OBJECT_FACTORY, toa);
+        final TemplateObject templateObject = creator.createTemplateObjectInstance();
+
+        // assert / then
+        assertThat(templateObject.getClass().getName(), is("org.failearly.dataz.test.SimpleTemplateObjectFactory$SimpleTemplateObjectImpl"));
+    }
+
+    private static TemplateObject createTemplateObjectFromCreator(int annotationNumber) {
+        final Annotation toa = getAnnotation(annotationNumber);
+        final TemplateObjectCreator creator = new TemplateObjectCreator(TEMPLATE_OBJECT_FACTORY, toa);
+
+        return creator.createTemplateObjectInstance();
+    }
+
+    @Test
+    public void what_are_the_default_settings_of_any_TOA() throws Exception {
+        // act / when
+        final TemplateObject templateObject = createTemplateObjectFromCreator(TOA_WITH_DEFAULT_SETTINGS);
+
+        // assert / then
+        assertThat("Template Object's name?", templateObject.name(), is("TOA-with-defaults"));
+        assertThat("Template Object's Scope?", templateObject.scope(), is(Scope.LOCAL));
+        assertThat("Template Object's Datasets?", templateObject.datasets(), is(Collections.emptySet()));
+    }
+
+    @Test
+    public void how_to_create_a_TemplateObject_with_none_default_scope() throws Exception {
+        // assert / then
+        assertThat("Local scope?", createTemplateObjectFromCreator(LOCAL_TOA).scope(), is(Scope.LOCAL));
+        assertThat("Global scope?", createTemplateObjectFromCreator(GLOBAL_TOA).scope(), is(Scope.GLOBAL));
+    }
+
+    @Test
+    public void how_to_create_a_TemplateObject_with_non_default_datasets() throws Exception {
+        assertThat(createTemplateObjectFromCreator(TOA_WITH_DEFAULT_SETTINGS).datasets(), is(expectedDatasets()));
+        assertThat(createTemplateObjectFromCreator(TOA_WITH_ONE_DATASET).datasets(), is(expectedDatasets("ds-11")));
+        assertThat(createTemplateObjectFromCreator(TOA_WITH_MULTIPLE_DATASETS).datasets(), is(expectedDatasets("ds-21", "ds-22")));
+    }
+
+    @Test
+    public void what_happens_to_non_unique_datasets() throws Exception {
+        // arrange / given
+        final Annotation toa = getAnnotation(TOA_WITH_NONE_UNIQUE_DATASETS);
+
+        // act / when
+        final TemplateObjectCreator creator = new TemplateObjectCreator(TEMPLATE_OBJECT_FACTORY, toa);
+        final TemplateObject templateObject = creator.createTemplateObjectInstance();
+
+        // assert / then
+        assertThat("TOC.datasets?", creator.getDataSetNames(), is(expectedDatasets("not-unique","UNIQUE")));
+        assertThat("TOA.datasets?", templateObject.datasets(), is(expectedDatasets("not-unique","UNIQUE")));
+    }
+
+
+    @SimpleTemplateObject(name = "TOA-with-defaults")
+    @SimpleTemplateObject(name = "TO-1", datasets = { "ds-11"}, scope = Scope.LOCAL)
+    @SimpleTemplateObject(name = "TO-2", datasets = { "ds-21", "ds-22" }, scope = Scope.GLOBAL)
+    @SimpleTemplateObject(name = "any-name", datasets = { "not-unique", "UNIQUE", "not-unique", "not-unique" })
     private final static class AnyClass {
     }
 }

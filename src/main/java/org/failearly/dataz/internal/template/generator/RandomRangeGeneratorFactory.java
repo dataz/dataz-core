@@ -74,10 +74,14 @@ public final class RandomRangeGeneratorFactory extends GeneratorFactoryBase<Inte
         return new RandomRangeGeneratorImpl(generatorAnnotation);
     }
 
+    @Override
+    protected String doResolveName(RandomRangeGenerator annotation) {
+        return annotation.name();
+    }
 
     @Override
-    protected String doResolveDataSetName(RandomRangeGenerator annotation) {
-        return annotation.dataset();
+    protected String[] doResolveDataSetNames(RandomRangeGenerator annotation) {
+        return annotation.datasets();
     }
 
     @Override

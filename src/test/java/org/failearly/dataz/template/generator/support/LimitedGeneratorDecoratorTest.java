@@ -27,6 +27,7 @@ import org.failearly.common.test.ExceptionVerifier;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Consumer;
@@ -63,7 +64,7 @@ public class LimitedGeneratorDecoratorTest {
     @Test
     public void limited_generator__should_delegate_properties__and__toString() throws Exception {
         assertThat("name?", limitedGenerator.name(), is(unlimitedGenerator.name()));
-        assertThat("dataz?", limitedGenerator.dataset(), is(unlimitedGenerator.dataset()));
+        assertThat("dataz?", limitedGenerator.datasets(), is(unlimitedGenerator.datasets()));
         assertThat("scope?", limitedGenerator.scope(), is(unlimitedGenerator.scope()));
         assertThat("toString?", limitedGenerator.toString(), is(unlimitedGenerator.toString()));
     }
@@ -113,7 +114,7 @@ public class LimitedGeneratorDecoratorTest {
     private static class UnlimitedGenerator extends UnlimitedGeneratorBase<String> {
 
         UnlimitedGenerator() {
-            super("DATASET", "NAME", Scope.DEFAULT);
+            super(Collections.singleton("DATASET"), "NAME", Scope.DEFAULT);
         }
 
         @Override

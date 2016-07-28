@@ -49,8 +49,13 @@ public final class ListGeneratorFactory extends GeneratorFactoryBase<String,List
     }
 
     @Override
-    protected String doResolveDataSetName(ListGenerator annotation) {
-        return annotation.dataset();
+    protected String doResolveName(ListGenerator annotation) {
+        return annotation.name();
+    }
+
+    @Override
+    protected String[] doResolveDataSetNames(ListGenerator annotation) {
+        return annotation.datasets();
     }
 
     @Override

@@ -40,8 +40,8 @@ public final class AdhocFactory extends TemplateObjectFactoryBase<Adhoc> {
     }
 
     @Override
-    protected String doResolveDataSetName(Adhoc annotation) {
-        return annotation.dataset();
+    protected String[] doResolveDataSetNames(Adhoc annotation) {
+        return annotation.datasets();
     }
 
     @Override
@@ -49,5 +49,9 @@ public final class AdhocFactory extends TemplateObjectFactoryBase<Adhoc> {
         return annotation.scope();
     }
 
+    @Override
+    protected String doResolveName(Adhoc annotation) {
+        return annotation.name();
+    }
 }
 

@@ -26,7 +26,7 @@ import org.failearly.dataz.template.TemplateObjectFactoryBase;
 
 /**
  * TemplateObjectAnnotationFactory is the factory for making from the annotation {@link SimpleTemplateObject} a
- * {@link SimpleTemplateObjectFactory.MyTemplateObject} object.
+ * {@link SimpleTemplateObjectImpl} object.
  */
 public final class SimpleTemplateObjectFactory extends TemplateObjectFactoryBase<SimpleTemplateObject> {
     public SimpleTemplateObjectFactory() {
@@ -35,12 +35,17 @@ public final class SimpleTemplateObjectFactory extends TemplateObjectFactoryBase
 
     @Override
     protected TemplateObject doCreate(SimpleTemplateObject annotation) {
-        return new MyTemplateObject(annotation);
+        return new SimpleTemplateObjectImpl(annotation);
     }
 
     @Override
-    protected String doResolveDataSetName(SimpleTemplateObject annotation) {
-        return annotation.dataset();
+    protected String doResolveName(SimpleTemplateObject annotation) {
+        return annotation.name();
+    }
+
+    @Override
+    protected String[] doResolveDataSetNames(SimpleTemplateObject annotation) {
+        return annotation.datasets();
     }
 
     @Override
@@ -48,11 +53,11 @@ public final class SimpleTemplateObjectFactory extends TemplateObjectFactoryBase
         return annotation.scope();
     }
 
-    public final class MyTemplateObject extends TemplateObjectBase {
+    public final class SimpleTemplateObjectImpl extends TemplateObjectBase {
 
         private final String description;
 
-        private MyTemplateObject(SimpleTemplateObject annotation) {
+        private SimpleTemplateObjectImpl(SimpleTemplateObject annotation) {
             super(annotation);
             this.description = annotation.description();
         }
@@ -67,7 +72,7 @@ public final class SimpleTemplateObjectFactory extends TemplateObjectFactoryBase
             final SimpleTemplateObject annotation=getAnnotation(SimpleTemplateObject.class);
             return "@"+annotation.annotationType().getName()
                     +"(description="+annotation.description()
-                    +", dataset="+annotation.dataset()
+                    +", datasets="+toSet(annotation.datasets())
                     +", name="+annotation.name()
                     +")";
         }

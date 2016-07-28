@@ -51,8 +51,13 @@ public final class DateGeneratorFactory extends GeneratorFactoryBase<DateTime,Da
     }
 
     @Override
-    protected String doResolveDataSetName(DateGenerator annotation) {
-        return annotation.dataset();
+    protected String doResolveName(DateGenerator annotation) {
+        return annotation.name();
+    }
+
+    @Override
+    protected String[] doResolveDataSetNames(DateGenerator annotation) {
+        return annotation.datasets();
     }
 
     @Override
@@ -103,8 +108,8 @@ public final class DateGeneratorFactory extends GeneratorFactoryBase<DateTime,Da
 
     private static class MillisecondsGenerator extends LongRangeGenerator {
         private MillisecondsGenerator(DateGenerator annotation, DateDecoder decoder) {
-            super(annotation, annotation.dataset(), annotation.name(), annotation.scope(),
-                    start(decoder, annotation),
+            super(annotation,
+                start(decoder, annotation),
                     end(decoder, annotation),
                     step(annotation)
             );

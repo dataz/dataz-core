@@ -24,7 +24,6 @@ import org.failearly.dataz.NamedDataStore;
 import org.failearly.dataz.config.Constants;
 import org.failearly.dataz.config.DataSetProperties;
 import org.failearly.dataz.internal.template.TemplateObjects;
-import org.failearly.dataz.internal.template.TemplateObjectsTestHelper;
 import org.failearly.dataz.test.DataResourceMatcherBuilder;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -33,7 +32,8 @@ import org.junit.Test;
 import java.util.List;
 
 import static org.failearly.common.test.ExceptionVerifier.on;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -48,7 +48,7 @@ public class DataResourceBuilderTest {
     private static final String EXISTING_TEMPLATE_RESOURCE = "/any-existing-resource.setup.vm";
     private static final String NON_EXISTING_TEMPLATE_RESOURCE = "/non-existing-resource.setup.vm";
 
-    private static final TemplateObjects NO_TEMPLATE_OBJECTS = TemplateObjectsTestHelper.noTemplateObjects();
+    private static final TemplateObjects NO_TEMPLATE_OBJECTS = TemplateObjects.noTemplateObjects();
 
     @Subject
     private final DataResourceBuilder dataResourceBuilder = DataResourceBuilder.createBuilder(ATestClass.class) //

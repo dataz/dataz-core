@@ -211,7 +211,7 @@ public final class UseCleanupResourcesFactoryTest extends DataResourcesFactoryTe
         public void reusableDatasetClassHierarchy() {
         }
 
-        @SimpleTemplateObject(scope = Scope.GLOBAL, dataset = "<don't care>", name = "global", description = "Uses global template objects!")
+        @SimpleTemplateObject(scope = Scope.GLOBAL, name = "global", description = "Uses global template objects!")
         @SimpleTemplateObject(scope = Scope.LOCAL, name = "to-be-ignored", description = "<to be ignored>")
         @Use(ReusableTemplateDataSet.class)
         public void reuseWithTemplateObjects() {

@@ -20,6 +20,7 @@
 package org.failearly.dataz.template;
 
 import java.lang.annotation.*;
+import java.util.Set;
 
 /**
  * TemplateObjectFactory creates from a Template Object Annotation a {@link TemplateObject}. The class object of any implementation must be assigned
@@ -56,7 +57,7 @@ import java.lang.annotation.*;
  *           }
  *
  *          {@literal @}Override
- *           protected String doResolveDataSetName(MyTemplateObjectAnnotation annotation) {
+ *           protected String doResolveDataSetNames(MyTemplateObjectAnnotation annotation) {
  *              return annotation.dataz();
  *           }
  *
@@ -68,7 +69,6 @@ import java.lang.annotation.*;
  *          }
  *      }
  * </pre>
- *
  *
  * @see Definition#value()
  * @see TemplateObject
@@ -84,22 +84,35 @@ public interface TemplateObjectFactory {
     TemplateObject create(Annotation annotation);
 
     /**
-     * Resolves the data set name of the template object annotation.
+     * Resolves the name of the template object annotation.
      *
      * @param annotation the annotation
-     * @return the data set name of the generator annotation.
+     *
+     * @return the name of the template object annotation.
      */
-    String resolveDataSetName(Annotation annotation);
+    String resolveName(Annotation annotation);
+
+    /**
+     * Resolves the associated datasets of the template object annotation.
+     *
+     * @param annotation the annotation
+     *
+     * @return the data set name of the template object annotation.
+     */
+    Set<String> resolveDataSetNames(Annotation annotation);
 
     /**
      * Resolves the scope from the template object annotation.
+     *
      * @param annotation the annotation
+     *
      * @return the {@link Scope} of the template object.
      */
     Scope resolveScope(Annotation annotation);
 
     @SuppressWarnings("unused")
     void __extend_TemplateObjectFactoryBase__instead_of_implementing_TemplateObjectFactory();
+
 
     /**
      * Definition is a meta annotation used for {@link TemplateObject} annotations (TOA).

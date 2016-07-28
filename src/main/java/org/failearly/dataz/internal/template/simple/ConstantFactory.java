@@ -42,8 +42,13 @@ public final class ConstantFactory extends TemplateObjectFactoryBase<Constant> {
     }
 
     @Override
-    protected String doResolveDataSetName(Constant annotation) {
-        return annotation.dataset();
+    protected String doResolveName(Constant annotation) {
+        return annotation.name();
+    }
+
+    @Override
+    protected String[] doResolveDataSetNames(Constant annotation) {
+        return annotation.datasets();
     }
 
 

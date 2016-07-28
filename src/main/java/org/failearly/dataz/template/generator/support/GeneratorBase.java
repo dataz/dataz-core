@@ -27,6 +27,7 @@ import org.failearly.dataz.template.generator.Generator;
 
 import java.lang.annotation.Annotation;
 import java.util.Iterator;
+import java.util.Set;
 
 /**
  * GeneratorBase should be the base class for any {@link Generator} implementations. Please extend {@link
@@ -38,8 +39,8 @@ public abstract class GeneratorBase<T> extends TemplateObjectBase implements Gen
     private T lastValue;
 
 
-    protected GeneratorBase(String dataset, String name, Scope scope) {
-        super(dataset, name, scope);
+    protected GeneratorBase(Set<String> datasets, String name, Scope scope) {
+        super(datasets, name, scope);
     }
 
     protected GeneratorBase(Annotation annotation) {
@@ -122,7 +123,7 @@ public abstract class GeneratorBase<T> extends TemplateObjectBase implements Gen
 
     protected final T setLastValue(T value) {
         this.lastValue = value;
-        LOGGER.debug("Generator '{}' in dataz '{}': Last generated value is '{}'", name(), dataset(), lastValue);
+        LOGGER.debug("Generator '{}' in dataz '{}': Last generated value is '{}'", name(), datasets(), lastValue);
         return lastValue;
     }
 

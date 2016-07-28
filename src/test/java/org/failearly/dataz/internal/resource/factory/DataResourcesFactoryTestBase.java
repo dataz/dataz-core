@@ -54,6 +54,7 @@ import static org.junit.Assert.assertThat;
 public abstract class DataResourcesFactoryTestBase<T extends Annotation, R extends TypedDataResourcesFactory<T>> {
     protected static final String OTHER_DATA_SET_NAME = "other-data-set-name";
     private static final String OTHER_DATASTORE_ID = "OTHER-DATASTORE";
+    private final TemplateObjectsResolver templateObjectsResolver = TemplateObjectsResolver.withStandardSettings();
 
     private final Class<T> annotationClass;
     private final R dataResourcesFactory;
@@ -98,7 +99,7 @@ public abstract class DataResourcesFactoryTestBase<T extends Annotation, R exten
         return dataResourcesFactory.createDataResources(
                 testMethod,
                 resolveAnnotation(methodName),
-                TemplateObjectsResolver.resolveFromMethod(testMethod)
+                templateObjectsResolver.resolveFromMethod(testMethod)
         );
     }
 

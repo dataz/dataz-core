@@ -176,7 +176,7 @@ public interface Constants {
 
     /**
      * Defines the used strategy for handling duplicate {@link TemplateObject}s. A template object should be unique
-     * with it's name within the same dataset, otherwise the {@link org.failearly.dataz.internal.template.TemplateObjectDuplicateStrategy} will be used.
+     * with it's name within the same datasets, otherwise the {@link org.failearly.dataz.internal.template.TemplateObjectDuplicateStrategy} will be used.
      * <br><br>
      * Currently possible values are:<br><br>
      * <br><br>
@@ -193,7 +193,7 @@ public interface Constants {
      *
      * @see DataSet#name()
      */
-    String DATASET_DEFAULT_NAME = "<dataset>";
+    String DATASET_DEFAULT_NAME = "<datasets>";
 
     /**
      * No config file

@@ -58,11 +58,11 @@ import static org.failearly.common.annotation.utils.AnnotationUtils.resolveValue
  * <br><br>
  * The initialization steps are:<br><br>
  * <ol>
- *    <li>loading and merging properties (file(s) first, dataStoreAnnotation properties last)</li>
- *    <li>execute scripts (TODO: not yet implemented)</li>
- *    <li>establish connection to DataStore</li>
- *    <li>resolve setup and cleanup {@link DataResource}s from {@link NamedDataStore} class</li>
- *    <li>Execute setup {@code DataResource}s (using {@link #applyDataResource(DataResource)})</li>
+ * <li>loading and merging properties (file(s) first, dataStoreAnnotation properties last)</li>
+ * <li>execute scripts (TODO: not yet implemented)</li>
+ * <li>establish connection to DataStore</li>
+ * <li>resolve setup and cleanup {@link DataResource}s from {@link NamedDataStore} class</li>
+ * <li>Execute setup {@code DataResource}s (using {@link #applyDataResource(DataResource)})</li>
  * </ol>
  * <br><br>
  * There are some useful abstractions like:
@@ -82,8 +82,9 @@ public abstract class DataStoreBase extends AbstractDataStore {
     }, "standard-datastore-exception");
 
 
-    private static final DataResourcesResolver setupResolver= DataResourcesResolvers.setupDataResourcesResolver(TraverseDepth.HIERARCHY);
-    private static final DataResourcesResolver cleanupResolver= DataResourcesResolvers.cleanupDataResourcesResolver(TraverseDepth.HIERARCHY);
+    private static final DataResourcesResolver setupResolver = DataResourcesResolvers.setupDataResourcesResolver(TraverseDepth.HIERARCHY);
+    private static final DataResourcesResolver cleanupResolver = DataResourcesResolvers.cleanupDataResourcesResolver(TraverseDepth.HIERARCHY);
+    private static final TemplateObjectsResolver templateObjectsResolver = TemplateObjectsResolver.withStandardSettings();
 
     private final Class<? extends NamedDataStore> namedDataStore;
     private final Annotation dataStoreAnnotation;
@@ -91,18 +92,18 @@ public abstract class DataStoreBase extends AbstractDataStore {
     private final String id;
     private final String configFile;
 
-    private final ExtendedProperties properties=new ExtendedProperties();
+    private final ExtendedProperties properties = new ExtendedProperties();
 
     private TemplateObjects templateObjects;
     private List<DataResource> cleanupDataResources = new LinkedList<>();
 
-    private boolean initialized=false;
+    private boolean initialized = false;
 
     protected DataStoreBase(Class<? extends NamedDataStore> namedDataStore, Annotation dataStoreAnnotation) {
         this.namedDataStore = namedDataStore;
         this.dataStoreAnnotation = dataStoreAnnotation;
-        this.name       = resolveValueOfAnnotationAttribute(dataStoreAnnotation, "name", String.class);
-        this.id         = createDataStoreId(this, namedDataStore, name);
+        this.name = resolveValueOfAnnotationAttribute(dataStoreAnnotation, "name", String.class);
+        this.id = createDataStoreId(this, namedDataStore, name);
         this.configFile = resolveValueOfAnnotationAttribute(dataStoreAnnotation, "config", String.class);
     }
 
@@ -137,7 +138,7 @@ public abstract class DataStoreBase extends AbstractDataStore {
 
     @Override
     public void initialize() throws DataStoreException {
-        if( initialized ) {
+        if (initialized) {
             throw new IllegalStateException("Must no initialized twice.");
         }
 
@@ -161,23 +162,22 @@ public abstract class DataStoreBase extends AbstractDataStore {
     }
 
     private void resolveTemplateObjects() {
-        this.templateObjects= TemplateObjectsResolver.resolveFromClass(namedDataStore);
+        this.templateObjects = templateObjectsResolver.resolveFromClass(namedDataStore);
     }
 
     private void applySetupDataResources() {
         final List<DataResource> setupResources = resolveSetupDataResources();
         with.action("Apply setup resources",
-                ()->setupResources.forEach(this::handleDataResource)
+            () -> setupResources.forEach(this::handleDataResource)
         );
     }
 
     private void handleDataResource(DataResource dataResource) {
         final DataResource delegatedDataResource = new OverwriteAssignedDataStore(dataResource);
-        if( delegatedDataResource.isFailOnError() ){
+        if (delegatedDataResource.isFailOnError()) {
             doApplyResource(delegatedDataResource);
-        }
-        else {
-            With.ignore().action("Apply resource " + delegatedDataResource.getResource(), ()->doApplyResource(delegatedDataResource));
+        } else {
+            With.ignore().action("Apply resource " + delegatedDataResource.getResource(), () -> doApplyResource(delegatedDataResource));
         }
     }
 
@@ -197,14 +197,14 @@ public abstract class DataStoreBase extends AbstractDataStore {
         with.action("Load properties " + this.getId(), () -> {
             if (checkConfigurationFileForExistence()) {
                 this.properties.merge(
-                        DataSetProperties.getProperties(),
-                        loadDataStoreConfigurationFromConfigFile(),
-                        loadDataStoreConfigFromAnnotationProperties()
+                    DataSetProperties.getProperties(),
+                    loadDataStoreConfigurationFromConfigFile(),
+                    loadDataStoreConfigFromAnnotationProperties()
                 );
             } else {
                 this.properties.merge(
-                        DataSetProperties.getProperties(),
-                        loadDataStoreConfigFromAnnotationProperties()
+                    DataSetProperties.getProperties(),
+                    loadDataStoreConfigFromAnnotationProperties()
                 );
             }
         });
@@ -217,20 +217,20 @@ public abstract class DataStoreBase extends AbstractDataStore {
 
     protected Message establishingConnectionFailedMessage() {
         return new EstablishingConnectionFailed().buildLazyMessage(
-                (mb) -> mb.withDataStore(this)
+            (mb) -> mb.withDataStore(this)
         );
     }
 
     @Override
     public final void applyDataResource(DataResource dataResource) {
-        if( ! initialized )
-            throw new IllegalStateException(this.getId() +" not yet initialized!" );
+        if (!initialized)
+            throw new IllegalStateException(this.getId() + " not yet initialized!");
         doApplyResource(dataResource);
     }
 
     private void cleanupDataStore() {
         with.action("Apply cleanup resources",
-                ()->cleanupDataResources.forEach(this::handleDataResource)
+            () -> cleanupDataResources.forEach(this::handleDataResource)
         );
         cleanupDataResources.clear();
     }
@@ -245,6 +245,7 @@ public abstract class DataStoreBase extends AbstractDataStore {
      * Will be called by {@link DataStore#initialize()}, if there was no error and all properties could be called.
      *
      * @param properties the {@link #properties} instance.
+     *
      * @throws Exception any exception while establishing a connection
      */
     protected void doEstablishConnection(PropertiesAccessor properties) throws Exception {
@@ -264,7 +265,7 @@ public abstract class DataStoreBase extends AbstractDataStore {
     }
 
     private Properties loadDataStoreConfigurationFromConfigFile() {
-        final Properties properties=new Properties();
+        final Properties properties = new Properties();
         try {
             properties.load(ResourceUtils.openResource(DataStoreBase.class, configFile));
             return properties;
@@ -300,7 +301,7 @@ public abstract class DataStoreBase extends AbstractDataStore {
 
         EstablishingConnectionFailed withDataStore(DataStoreBase dataStore) {
             return with(ARG_DS_CLASS, dataStore.getClass().getSimpleName())
-                    .with(ARG_DS_ID, dataStore.getId());
+                .with(ARG_DS_ID, dataStore.getId());
         }
     }
 

@@ -22,6 +22,8 @@ package org.failearly.dataz.template;
 import org.failearly.dataz.resource.DataResource;
 import org.failearly.dataz.template.engine.TemplateEngine;
 
+import java.util.Set;
+
 /**
  * TemplateObject is a named object which could be used in {@link DataResource} templates. The template object
  * could be used within any {@link DataResource} with the same dataz name or if the {@link #scope()} of the template object
@@ -35,12 +37,6 @@ import org.failearly.dataz.template.engine.TemplateEngine;
  * @see Scope
  */
 public interface TemplateObject {
-    /**
-     * The id is {@literal <dataz>-<name>}.
-     * @return the id
-     */
-    String id();
-
     /**
      * The name will be used within a (Velocity) template as {@code $name} or {@code ${name}}.
      * So be carefully with the name.
@@ -70,7 +66,7 @@ public interface TemplateObject {
      * @see org.failearly.dataz.DataCleanup#name()
      * @see Scope#LOCAL
      */
-    String dataset();
+    Set<String> datasets();
 
     /**
      * @return The scope's value ({@link Scope#getScopeValue()}) of a template object.

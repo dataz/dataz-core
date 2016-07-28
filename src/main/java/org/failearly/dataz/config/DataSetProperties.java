@@ -142,7 +142,6 @@ public final class DataSetProperties implements Constants {
      * @return the template object (annotation) traverse depth.
      *
      * @see TraverseDepth
-     * @see org.failearly.dataz.internal.template.TemplateObjectsResolver.Builder
      */
     public static TraverseDepth getTemplateObjectTraverseDepth() {
         return properties.getTemplateObjectTraverseDepth();
@@ -152,7 +151,6 @@ public final class DataSetProperties implements Constants {
      * @return the strategy for duplicated template objects
      *
      * @see TemplateObjectDuplicateStrategy
-     * @see org.failearly.dataz.internal.template.TemplateObjectsResolver.Builder
      */
     public static TemplateObjectDuplicateStrategy getTemplateObjectDuplicateStrategy() {
         return properties.getTemplateObjectDuplicateStrategy();
@@ -315,9 +313,11 @@ public final class DataSetProperties implements Constants {
             return "." + properties.getProperty(DATAZ_PROPERTY_TEMPLATE_SUFFIX);
         }
 
+        private static class NullDefaultDataStore extends NamedDataStore {}
         String getDefaultDataStore() {
-            return properties.getProperty(DATAZ_PROPERTY_DEFAULT_DATA_STORE);
+            return properties.getProperty(DATAZ_PROPERTY_DEFAULT_DATA_STORE, NullDefaultDataStore.class.getName());
         }
+
 
 
         boolean isDropTempFile() {

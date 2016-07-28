@@ -22,13 +22,14 @@ package org.failearly.dataz.template.generator.support;
 import org.failearly.dataz.template.Scope;
 
 import java.lang.annotation.Annotation;
+import java.util.Set;
 
 /**
  * LimitedGeneratorBase - the base implementation for limited generators.
  */
 public abstract class LimitedGeneratorBase<T> extends GeneratorBase<T> implements LimitedGenerator<T> {
 
-    protected LimitedGeneratorBase(String dataset, String name, Scope scope) {
+    protected LimitedGeneratorBase(Set<String> dataset, String name, Scope scope) {
         super(dataset, name, scope);
     }
 

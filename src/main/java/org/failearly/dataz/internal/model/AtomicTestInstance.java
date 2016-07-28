@@ -22,11 +22,11 @@ package org.failearly.dataz.internal.model;
 import org.failearly.common.annotation.traverser.MetaAnnotationTraverser;
 import org.failearly.common.annotation.traverser.TraverseDepth;
 import org.failearly.common.annotation.traverser.TraverseStrategy;
+import org.failearly.dataz.NamedDataStore;
 import org.failearly.dataz.SuppressCleanup;
 import org.failearly.dataz.datastore.DataStore;
 import org.failearly.dataz.datastore.DataStores;
 import org.failearly.dataz.datastore.MutableDataStores;
-import org.failearly.dataz.NamedDataStore;
 import org.failearly.dataz.internal.resource.resolver.DataResourcesResolver;
 import org.failearly.dataz.internal.resource.resolver.DataResourcesResolvers;
 import org.failearly.dataz.internal.template.TemplateObjects;
@@ -45,6 +45,7 @@ import static org.failearly.common.annotation.traverser.AnnotationTraverserBuild
 /**
  * AtomicTestInstance is responsible for ...
  */
+@SuppressWarnings("WeakerAccess")
 final class AtomicTestInstance implements AtomicTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(AtomicTestInstance.class);
 
@@ -56,6 +57,7 @@ final class AtomicTestInstance implements AtomicTest {
 
     private static final DataResourcesResolver setupResolver= DataResourcesResolvers.setupDataResourcesResolver(TraverseDepth.HIERARCHY);
     private static final DataResourcesResolver cleanupResolver= DataResourcesResolvers.cleanupDataResourcesResolver(TraverseDepth.HIERARCHY);
+    private static final TemplateObjectsResolver templateObjectResolver= TemplateObjectsResolver.withStandardSettings();
 
     private final String name;
     private List<DataResource> setupResources = new LinkedList<>();
@@ -81,7 +83,7 @@ final class AtomicTestInstance implements AtomicTest {
                 testMethod.getName(),
                 isSuppressCleanupAvailable(testMethod, testClass)
         );
-        newInstance.resolveDataResources(TemplateObjectsResolver.resolveFromMethod(testMethod), testMethod);
+        newInstance.resolveDataResources(templateObjectResolver.resolveFromMethod(testMethod), testMethod);
         return newInstance;
     }
 

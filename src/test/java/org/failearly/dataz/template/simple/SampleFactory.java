@@ -40,8 +40,13 @@ public class SampleFactory extends TemplateObjectFactoryBase<Sample> {
     }
 
     @Override
-    protected String doResolveDataSetName(Sample annotation) {
-        return annotation.dataset();
+    protected String doResolveName(Sample annotation) {
+        return annotation.name();
+    }
+
+    @Override
+    protected String[] doResolveDataSetNames(Sample annotation) {
+        return annotation.datasets();
     }
 
     @Override

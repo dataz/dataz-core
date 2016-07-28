@@ -19,13 +19,12 @@
 
 package org.failearly.dataz.template;
 
-import org.failearly.dataz.config.Constants;
 import org.failearly.dataz.exception.DataSetException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
-import java.util.Objects;
+import java.util.*;
 
 import static org.failearly.common.annotation.utils.AnnotationUtils.resolveValueOfAnnotationAttribute;
 
@@ -38,7 +37,7 @@ public abstract class TemplateObjectBase implements TemplateObject {
     protected final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     private final Annotation annotation;
-    private final String dataset;
+    private final Set<String> datasets;
     private final String name;
     private final Scope scope;
 
@@ -46,31 +45,34 @@ public abstract class TemplateObjectBase implements TemplateObject {
      * For prototype based implementations like {@link org.failearly.dataz.template.simple.Adhoc}.
      */
     protected TemplateObjectBase() {
-        this(NO_ANNOTATION, Constants.DATASET_DEFAULT_NAME, "<no name>", Scope.DEFAULT);
+        this(Collections.emptySet(), "<no name>", Scope.DEFAULT);
     }
 
-    protected TemplateObjectBase(String dataset, String name, Scope scope) {
-        this(NO_ANNOTATION, name, dataset, scope);
+    protected TemplateObjectBase(final Set<String> datasets, String name, Scope scope) {
+        this.annotation = NO_ANNOTATION;
+        this.datasets = datasets;
+        this.name = name;
+        this.scope = scope;
     }
 
     protected TemplateObjectBase(Annotation annotation) {
         this(annotation,
                 resolveValueOfAnnotationAttribute(annotation,"name",String.class),
-                resolveValueOfAnnotationAttribute(annotation,"dataset",String.class),
+                resolveValueOfAnnotationAttribute(annotation,"datasets",String[].class),
                 resolveValueOfAnnotationAttribute(annotation,"scope",Scope.class)
             );
     }
 
-    private TemplateObjectBase(Annotation annotation, String name, String dataset, Scope scope) {
+    private TemplateObjectBase(Annotation annotation, String name, String[] dataset, Scope scope) {
         this.annotation = annotation;
-        this.dataset = dataset;
+        this.datasets = new HashSet<>(Arrays.asList(dataset));
         this.name = name;
         this.scope = scope;
     }
 
     public void init() throws DataSetException {
         checkInvariant(notEmptyOrNull(name), "name() must not be empty or null");
-        checkInvariant(notEmptyOrNull(dataset), "dataset() must not be empty or null");
+        checkInvariant(datasets!=null, "datasets() must not be null");
         checkInvariant(scope != null, "scope() must not be null");
         doInit();
     }
@@ -95,18 +97,13 @@ public abstract class TemplateObjectBase implements TemplateObject {
 
 
     @Override
-    public final String id() {
-        return dataset + "-" + name;
-    }
-
-    @Override
     public final String name() {
         return name;
     }
 
     @Override
-    public final String dataset() {
-        return dataset;
+    public final Set<String> datasets() {
+        return datasets;
     }
 
     @Override
@@ -120,12 +117,12 @@ public abstract class TemplateObjectBase implements TemplateObject {
         if (!(o instanceof TemplateObjectBase)) return false;
 
         TemplateObjectBase that = (TemplateObjectBase) o;
-        return Objects.equals(id(), that.id());
+        return Objects.equals(this.name, that.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id());
+        return Objects.hash(name);
     }
 
     @Override
@@ -145,9 +142,10 @@ public abstract class TemplateObjectBase implements TemplateObject {
     @Override
     public String toString() {
         return Objects.toString(annotation, "TemplateObject{" +
-                "dataz='" + dataset + '\'' +
-                ", name='" + name + '\'' +
+                "name='" + name + '\'' +
+                ", datasets='" + datasets + '\'' +
                 ", scope='" + scope + '\'' +
+                ", annotationType=@" + getAnnotationName() +
                 '}');
     }
 }

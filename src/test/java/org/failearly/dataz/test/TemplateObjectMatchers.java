@@ -44,7 +44,7 @@ public final class TemplateObjectMatchers {
     }
 
     private static Matcher<TemplateObject> hasTemplateObjectDataset(String expectedDataset) {
-        return ClosureMatcher.closureMatcher(TemplateObject::dataset, equalTo(expectedDataset), "dataz");
+        return ClosureMatcher.closureMatcher(TemplateObject::datasets, equalTo(expectedDataset), "dataz");
     }
 
     private static Matcher<TemplateObject> hasTemplateObjectName(String expectedName) {

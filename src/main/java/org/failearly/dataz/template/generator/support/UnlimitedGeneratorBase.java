@@ -25,12 +25,13 @@ import org.failearly.dataz.template.Scope;
 import java.lang.annotation.Annotation;
 import java.util.Iterator;
 import java.util.Random;
+import java.util.Set;
 
 /**
  * UnlimitedGeneratorBase - the base implementation for unlimited generators.
  */
 public abstract class UnlimitedGeneratorBase<T> extends GeneratorBase<T> implements UnlimitedGenerator<T> {
-    protected UnlimitedGeneratorBase(String dataset, String name, Scope scope) {
+    protected UnlimitedGeneratorBase(Set<String> dataset, String name, Scope scope) {
         super(dataset, name, scope);
     }
 

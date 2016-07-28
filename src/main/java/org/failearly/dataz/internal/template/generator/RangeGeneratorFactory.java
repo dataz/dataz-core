@@ -45,8 +45,13 @@ public final class RangeGeneratorFactory extends GeneratorFactoryBase<Integer, R
     }
 
     @Override
-    protected String doResolveDataSetName(RangeGenerator annotation) {
-        return annotation.dataset();
+    protected String doResolveName(RangeGenerator annotation) {
+        return annotation.name();
+    }
+
+    @Override
+    protected String[] doResolveDataSetNames(RangeGenerator annotation) {
+        return annotation.datasets();
     }
 
     @Override

@@ -19,8 +19,6 @@
 
 package org.failearly.dataz.template.encoder.support;
 
-import org.failearly.dataz.template.Scope;
-
 import java.lang.annotation.Annotation;
 
 /**
@@ -30,11 +28,7 @@ public abstract class StringEncoderBase extends EncoderBase<String, String> {
     protected StringEncoderBase() {
     }
 
-    protected StringEncoderBase(Annotation annotation, String dataset, String name, Scope scope) {
+    protected StringEncoderBase(Annotation annotation) {
         super(annotation);
-    }
-
-    protected StringEncoderBase(String dataset, String name, Scope scope) {
-        super(dataset, name, scope);
     }
 }

@@ -137,8 +137,8 @@ public class DataResourceTest {
         public void testMethodWithExistingResource() {
         }
         @DataSet(name="DS3", setup = "existing.setup.vm")
-        @SimpleTemplateObject(name="const", dataset = "DS3", description = "a constant value")
-        @SimpleTemplateObject(name="const", dataset = "DS2", description = "not used otherwise exception")
+        @SimpleTemplateObject(name="const", datasets = "DS3", description = "a constant value")
+        @SimpleTemplateObject(name="const", datasets = "DS2", description = "not used otherwise exception")
         public void testMethodWithTemplate() {
         }
     }

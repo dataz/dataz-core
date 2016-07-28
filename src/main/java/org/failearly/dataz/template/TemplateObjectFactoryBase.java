@@ -20,14 +20,17 @@
 package org.failearly.dataz.template;
 
 import java.lang.annotation.Annotation;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * TemplateObjectFactoryBase is the base class for implementing {@link TemplateObjectFactory}. It also cast to the
  * actually expected annotation and provides type safe methods.
  *
  * @see #doCreate(Annotation)
- * @see #doResolveDataSetName(Annotation)
+ * @see #doResolveDataSetNames(Annotation)
  */
 public abstract class TemplateObjectFactoryBase<TOA extends Annotation> implements TemplateObjectFactory {
     private final Class<TOA> annotationClass;
@@ -52,16 +55,20 @@ public abstract class TemplateObjectFactoryBase<TOA extends Annotation> implemen
 
 
     @Override
-    public final String resolveDataSetName(Annotation annotation) {
-        return doResolveDataSetName(annotationClass.cast(annotation));
+    public final Set<String> resolveDataSetNames(Annotation annotation) {
+        return toSet(doResolveDataSetNames(annotationClass.cast(annotation)));
+    }
+
+    protected static Set<String> toSet(String[] dataSetNames) {
+        return new HashSet<>(Arrays.asList(dataSetNames));
     }
 
     /**
-     * Type safe alternative for {@link #resolveDataSetName(Annotation)}.
+     * Type safe alternative for {@link #resolveDataSetNames(Annotation)}.
      * @param annotation the annotation.
      * @return the data set name.
      */
-    protected abstract String doResolveDataSetName(TOA annotation);
+    protected abstract String[] doResolveDataSetNames(TOA annotation);
 
 
     @Override
@@ -69,6 +76,19 @@ public abstract class TemplateObjectFactoryBase<TOA extends Annotation> implemen
         final Scope scope = doResolveScope(annotationClass.cast(annotation));
         return scope.getScopeValue();
     }
+
+    @Override
+    public final String resolveName(Annotation annotation) {
+        return doResolveName(annotationClass.cast(annotation));
+    }
+
+    /**
+     * Type safe alternative for {@link #resolveName(Annotation)}.
+     * @param annotation the annotation.
+     * @return the name.
+     */
+    protected abstract String doResolveName(TOA annotation);
+
 
     /**
      * Type safe alternative for {@link #resolveScope(Annotation)}.

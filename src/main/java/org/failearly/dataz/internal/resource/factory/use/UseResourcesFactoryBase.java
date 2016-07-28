@@ -24,6 +24,7 @@ import org.failearly.dataz.DataSet;
 import org.failearly.dataz.NamedDataStore;
 import org.failearly.dataz.Use;
 import org.failearly.dataz.internal.template.TemplateObjects;
+import org.failearly.dataz.internal.template.TemplateObjectsResolver;
 import org.failearly.dataz.resource.DataResource;
 import org.failearly.dataz.resource.DelegateDataResource;
 import org.failearly.dataz.resource.TypedDataResourcesFactory;
@@ -33,13 +34,13 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.failearly.dataz.internal.template.TemplateObjectsResolver.resolveFromClass;
 
 /**
  * DataSetResourcesFactoryBase is the base class for {@link DataSet} based {@link DataResource}s factory classes.
  */
 abstract class UseResourcesFactoryBase<T extends Annotation> extends TypedDataResourcesFactory<Use> {
 
+    private static final TemplateObjectsResolver templateObjectsResolver= TemplateObjectsResolver.withStandardSettings();
     private static final ThreadLocal<Integer> nestedUseCounter = new ThreadLocal<Integer>() {
         @Override
         protected Integer initialValue() {
@@ -47,6 +48,7 @@ abstract class UseResourcesFactoryBase<T extends Annotation> extends TypedDataRe
         }
     };
     private final Class<T> metaAnnotationClass;
+
 
     UseResourcesFactoryBase(Class<T> metaAnnotationClass) {
         super(Use.class);
@@ -123,7 +125,10 @@ abstract class UseResourcesFactoryBase<T extends Annotation> extends TypedDataRe
                 .build();
         resourcesTraverser.traverse(                                                               //
                 reusableDataSetClass,                                                              //
-                metaAnnotationHandler(dataResources, globalTemplateObjects.merge(resolveFromClass(reusableDataSetClass)))       //
+                metaAnnotationHandler(dataResources, globalTemplateObjects.merge(                  //
+                        templateObjectsResolver.resolveFromClass(reusableDataSetClass)             //
+                    )                //
+                )                    //
         );
     }
 

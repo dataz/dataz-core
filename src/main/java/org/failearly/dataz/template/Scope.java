@@ -21,15 +21,15 @@ package org.failearly.dataz.template;
 
 /**
  * The scope of {@link TemplateObject}. The scope defines, if the template object will be visible within
- * {@link org.failearly.dataz.Use} templates and if {@link TemplateObject#dataset()} will be used or not.
+ * {@link org.failearly.dataz.Use} templates and if {@link TemplateObject#datasets()} will be used or not.
  */
 public enum Scope {
     /**
-     * Use {@link TemplateObject#dataset()}. Not visible for {@link org.failearly.dataz.Use}.
+     * Use {@link TemplateObject#datasets()}. Not visible for {@link org.failearly.dataz.Use}.
      */
     LOCAL,
     /**
-     * Independent from {@link TemplateObject#dataset()}. Global visibility.
+     * Independent from {@link TemplateObject#datasets()}. Global visibility.
      */
     GLOBAL,
     /**

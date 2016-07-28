@@ -36,8 +36,13 @@ public final class LoopGeneratorFactory extends GeneratorFactoryBase<Integer, Lo
     }
 
     @Override
-    protected String doResolveDataSetName(LoopGenerator annotation) {
-        return annotation.dataset();
+    protected String doResolveName(LoopGenerator annotation) {
+        return annotation.name();
+    }
+
+    @Override
+    protected String[] doResolveDataSetNames(LoopGenerator annotation) {
+        return annotation.datasets();
     }
 
     @Override

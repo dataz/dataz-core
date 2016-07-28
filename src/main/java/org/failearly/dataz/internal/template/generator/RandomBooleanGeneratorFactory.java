@@ -50,8 +50,13 @@ public final class RandomBooleanGeneratorFactory extends GeneratorFactoryBase<Bo
     }
 
     @Override
-    protected String doResolveDataSetName(RandomBooleanGenerator annotation) {
-        return annotation.dataset();
+    protected String doResolveName(RandomBooleanGenerator annotation) {
+        return annotation.name();
+    }
+
+    @Override
+    protected String[] doResolveDataSetNames(RandomBooleanGenerator annotation) {
+        return annotation.datasets();
     }
 
     @Override

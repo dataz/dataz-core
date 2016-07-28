@@ -44,8 +44,13 @@ public final class SimpleEncoderFactory extends EncoderFactoryBase<SimpleEncoder
     }
 
     @Override
-    protected String doResolveDataSetName(SimpleEncoder annotation) {
-        return annotation.dataset();
+    protected String doResolveName(SimpleEncoder annotation) {
+        return annotation.name();
+    }
+
+    @Override
+    protected String[] doResolveDataSetNames(SimpleEncoder annotation) {
+        return annotation.datasets();
     }
 
     @Override
@@ -58,7 +63,7 @@ public final class SimpleEncoderFactory extends EncoderFactoryBase<SimpleEncoder
         private final Encoder encoder;
 
         private SimpleEncoderImpl(SimpleEncoder annotation) {
-            super(annotation, annotation.dataset(), annotation.name(), annotation.scope());
+            super(annotation);
             encoder=createEncoder(annotation);
         }
 

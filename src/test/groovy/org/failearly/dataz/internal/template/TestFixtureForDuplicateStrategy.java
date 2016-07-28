@@ -16,15 +16,32 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
-
 package org.failearly.dataz.internal.template;
 
-/**
- * TemplateObjectsTestHelper is responsible for ...
- */
-public final class TemplateObjectsTestHelper {
+import org.failearly.dataz.test.SimpleTemplateObject;
 
-    public static TemplateObjects noTemplateObjects() {
-        return TemplateObjects.empty();
+/**
+ * TestFixtureForDuplicateStrategy is a test fixture class for {@link TemplateObjectDuplicateStrategy} tests.
+ */
+@SuppressWarnings("unused")
+@SimpleTemplateObject(name = "TO-2", description = "TO-2 (1st)")
+@SimpleTemplateObject(name = "TO-1", description = "TO-1 (1st)")
+@SimpleTemplateObject(name = "TO-1", description = "TO-1 (2nd)")
+abstract class TestFixtureForDuplicateStrategy {
+
+    private TestFixtureForDuplicateStrategy() {
+    }
+
+    public void methodWithoutTOs() {
+    }
+
+    @SimpleTemplateObject(name = "TO-3", description = "TO-3 (1st)")
+    @SimpleTemplateObject(name = "TO-3", description = "TO-3 (2nd)")
+    public void methodWithDuplicates() {
+    }
+
+    @SimpleTemplateObject(name = "TO-2", description = "TO-2 (2nd)")
+    public void methodWithOneTO() {
     }
 }
+

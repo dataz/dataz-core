@@ -38,8 +38,13 @@ public class CsvGeneratorFactory extends GeneratorFactoryBase</*TODO replace*/Ob
     }
 
     @Override
-    protected String doResolveDataSetName(CsvGenerator annotation) {
-        return annotation.dataset();
+    protected String doResolveName(CsvGenerator annotation) {
+        return annotation.name();
+    }
+
+    @Override
+    protected String[] doResolveDataSetNames(CsvGenerator annotation) {
+        return annotation.datasets();
     }
 
     @Override

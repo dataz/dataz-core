@@ -25,6 +25,8 @@ import org.failearly.dataz.template.TemplateObject;
 import org.failearly.dataz.template.TemplateObjectFactory;
 
 import java.lang.annotation.Annotation;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * TemplateObjectCreator is helper class which holds a specific annotation and creates the actually {@link TemplateObject} from the annotation using
@@ -43,8 +45,10 @@ final class TemplateObjectCreator {
         return annotation;
     }
 
-    String getDataSetName() {
-        return factory.resolveDataSetName(getAnnotation());
+    String getName() { return factory.resolveName(annotation); }
+
+    Set<String> getDataSetNames() {
+        return factory.resolveDataSetNames(getAnnotation());
     }
 
     TemplateObject createTemplateObjectInstance() {
@@ -53,5 +57,20 @@ final class TemplateObjectCreator {
 
     boolean hasScope(Scope scope) {
         return factory.resolveScope(annotation)==scope;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (!(o instanceof TemplateObjectCreator))
+            return false;
+        final TemplateObjectCreator that = (TemplateObjectCreator) o;
+        return Objects.equals(getName(), that.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName());
     }
 }

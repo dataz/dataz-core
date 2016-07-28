@@ -58,7 +58,7 @@ public @interface Use {
     /**
      * Define which datasets should be reused.
      *
-     * @return Your reusable dataset(s)
+     * @return Your reusable datasets(s)
      */
     Class<? extends ReusableDataSet>[] value();
 

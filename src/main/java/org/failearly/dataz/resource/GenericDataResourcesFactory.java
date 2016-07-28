@@ -21,6 +21,7 @@ package org.failearly.dataz.resource;
 
 import org.failearly.dataz.internal.resource.ResourceType;
 import org.failearly.dataz.internal.template.TemplateObjects;
+import org.failearly.dataz.internal.template.TemplateObjects;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -148,7 +149,7 @@ public abstract class GenericDataResourcesFactory<T extends Annotation> extends 
     /**
      * Get the resource name(s) from annotation.
      *
-     * @param annotation the dataset annotation
+     * @param annotation the datasets annotation
      *
      * @return all configured resource names.
      */
