@@ -18,15 +18,23 @@
  */
 package org.failearly.dataz.internal.model;
 
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+
 /**
- * TestClass contains one or more {@link AtomicTest} instances.
+ * TestClassCollection creates a collection of test classes using a {@link TestClassBase} prototype.
  */
-public interface TestClass {
-    /**
-     * Return the test method instance.
-     * @param testMethodName the test methods name
-     * @return the test method or an instance of {@link NullTest}.
-     */
-    AtomicTest getAtomicTest(String testMethodName);
+public final class TestClassCollection {
+    private final ConcurrentMap<Class<?>, TestClass> testClasses=new ConcurrentHashMap<>();
+    private final TestClassBase testClassPrototype;
+
+    public TestClassCollection(TestClassBase testClassPrototype) {
+        this.testClassPrototype = testClassPrototype;
+    }
+
+    public TestClass createOrFetchTestClass(Class<?> testClassInstance) {
+        return testClasses.computeIfAbsent(testClassInstance, (testClass) -> this.testClassPrototype.createInstanceFrom(testClass).resolveTestInstances());
+    }
+
 
 }

@@ -19,7 +19,8 @@
 
 package org.failearly.dataz.internal.model;
 
-import org.failearly.common.annotation.traverser.MetaAnnotationTraverser;
+import org.failearly.common.annotation.traverser.AnnotationTraverser;
+import org.failearly.common.annotation.traverser.AnnotationTraverserBuilder;
 import org.failearly.common.annotation.traverser.TraverseDepth;
 import org.failearly.common.annotation.traverser.TraverseStrategy;
 import org.failearly.dataz.NamedDataStore;
@@ -40,8 +41,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.failearly.common.annotation.traverser.AnnotationTraverserBuilder.metaAnnotationTraverser;
-
 /**
  * AtomicTestInstance is responsible for ...
  */
@@ -49,8 +48,8 @@ import static org.failearly.common.annotation.traverser.AnnotationTraverserBuild
 final class AtomicTestInstance implements AtomicTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(AtomicTestInstance.class);
 
-    private static final MetaAnnotationTraverser<SuppressCleanup> SUPPRESS_CLEANUP_TRAVERSER =  //
-            metaAnnotationTraverser(SuppressCleanup.class)                                      //
+    private static final AnnotationTraverser<SuppressCleanup> SUPPRESS_CLEANUP_TRAVERSER =  //
+        AnnotationTraverserBuilder.annotationTraverser(SuppressCleanup.class)                                      //
                     .withTraverseStrategy(TraverseStrategy.TOP_DOWN)                            //
                     .withTraverseDepth(TraverseDepth.HIERARCHY)                                 //
                     .build();
