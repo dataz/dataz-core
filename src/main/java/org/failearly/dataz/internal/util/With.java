@@ -118,7 +118,7 @@ public final class With {
             return closure.doApply();
         }
         catch(DataSetException ex) {
-            LOGGER.debug("({}) Caught dataSet exception while applying '{}'.", name,
+            LOGGER.debug("({}) Caught DataSetException while applying '{}'.", name,
                 description);
             throw ex;
         }

@@ -16,20 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
-
-package org.failearly.dataz.simplefile;
-
-import org.failearly.dataz.exception.DataSetException;
+package org.failearly.dataz.datastore.support.transaction
 
 /**
- * Thrown by DataSet in case of any exception while parsing.
+ * TestTransactionalContext is just for test purpose and has no functionality at all.
  */
-public class DataSetParseException extends DataSetException {
-    public DataSetParseException(Exception ex) {
-        super("DataSet parse exception", ex);
-    }
+final class TestTransactionalContext {
 
-    public DataSetParseException(String message, Exception ex) {
-        super("DataSet parse exception: " + message, ex);
-    }
 }

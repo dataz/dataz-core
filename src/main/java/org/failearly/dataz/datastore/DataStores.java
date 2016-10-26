@@ -61,7 +61,7 @@ public final class DataStores {
     /**
      * Internal usage. Not for public usage.
      */
-    public static interface Instance {
+    public interface Instance {
         /**
          * Read only accessor to
          */

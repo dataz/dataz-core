@@ -16,18 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+package org.failearly.dataz.datastore.support.transaction;
 
-package org.failearly.dataz.simplefile;
-
-import java.util.List;
+import org.failearly.dataz.resource.DataResource;
 
 /**
- * Statements is responsible for ...
+ * The potential processing states for {@link PerDataResourceProvider#process(Object, DataResource)}
+ * and {@link PerStatementProvider#process(Object, DataResource)}.
+ *
+ * @see PerDataResourceProvider#close(Object, ProcessingState)
+ * @see PerStatementProvider#close(Object, ProcessingState)
  */
-public interface SimpleFileStatements extends Iterable<SimpleFileStatement> {
-
-    /**
-     * @return all statements as list.
-     */
-    List<SimpleFileStatement> statements();
+public enum ProcessingState {
+    OK,
+    ERROR
 }

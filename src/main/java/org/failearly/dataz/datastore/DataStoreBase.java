@@ -59,7 +59,7 @@ import static org.failearly.common.annotation.utils.AnnotationUtils.resolveValue
  * The initialization steps are:<br><br>
  * <ol>
  * <li>loading and merging properties (file(s) first, dataStoreAnnotation properties last)</li>
- * <li>execute scripts (TODO: not yet implemented)</li>
+ * <li>apply scripts (TODO: not yet implemented)</li>
  * <li>establish connection to DataStore</li>
  * <li>resolve setup and cleanup {@link DataResource}s from {@link NamedDataStore} class</li>
  * <li>Execute setup {@code DataResource}s (using {@link #applyDataResource(DataResource)})</li>
@@ -72,10 +72,11 @@ import static org.failearly.common.annotation.utils.AnnotationUtils.resolveValue
  * transactional behaviour.</li>
  * <li>{@link org.failearly.dataz.datastore.support.SimpleFileTransactionalSupportDataStoreBase}: extends the
  * transactional resource and
- * add {@link org.failearly.dataz.simplefile.SimpleFileParser} to it.
+ * add {@link org.failearly.dataz.datastore.support.simplefile.SimpleFileParser} to it.
  * </li>
  * </ul>
  */
+@SuppressWarnings("WeakerAccess")
 public abstract class DataStoreBase extends AbstractDataStore {
     protected static final With with = With.create((description, exception) -> {
         throw new DataStoreException(description, exception);
@@ -236,9 +237,36 @@ public abstract class DataStoreBase extends AbstractDataStore {
     }
 
     @Override
-    public void dispose() {
-        cleanupDataStore();
+    public final void dispose() {
         LOGGER.info("Dispose data store '{}'", id);
+        try {
+            preDispose();
+            cleanupDataStore();
+        } finally {
+            doCloseConnection();
+            postDispose();
+        }
+    }
+
+    /**
+     * Hook for dispose, called before dispose.
+     */
+    protected void preDispose() {
+        // do nothing
+    }
+
+    /**
+     * Close the connection to the datastore, if necessary.
+     */
+    protected void doCloseConnection() {
+        LOGGER.info("doCloseConnection() is not implemented.");
+    }
+
+    /**
+     * Hook for dispose, called after dispose.
+     */
+    protected void postDispose() {
+        // do nothing
     }
 
     /**
@@ -287,6 +315,18 @@ public abstract class DataStoreBase extends AbstractDataStore {
         return true;
     }
 
+    private class OverwriteAssignedDataStore extends DelegateDataResource {
+
+        OverwriteAssignedDataStore(DataResource origin) {
+            super(origin);
+        }
+
+        @Override
+        public Class<? extends NamedDataStore> getNamedDataStore() {
+            return namedDataStore;
+        }
+    }
+
     @InlineMessageTemplate("${ds}: Establishing a connection failed on datastore with id ${dsid}!")
     @TemplateParameters({EstablishingConnectionFailed.ARG_DS_CLASS, EstablishingConnectionFailed.ARG_DS_ID})
     private static class EstablishingConnectionFailed extends MessageBuilderBase<EstablishingConnectionFailed> {
@@ -306,15 +346,4 @@ public abstract class DataStoreBase extends AbstractDataStore {
     }
 
 
-    private class OverwriteAssignedDataStore extends DelegateDataResource {
-
-        OverwriteAssignedDataStore(DataResource origin) {
-            super(origin);
-        }
-
-        @Override
-        public Class<? extends NamedDataStore> getNamedDataStore() {
-            return namedDataStore;
-        }
-    }
 }

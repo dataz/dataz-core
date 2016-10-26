@@ -68,6 +68,7 @@ public @interface DataSetup {
      * If ommitted the default data store will be used.
      *
      * @return the associated data stores
+     *
      * @see DataResource#getNamedDataStore()
      * @see DataSetProperties#getDefaultNamedDataStore()
      */
@@ -100,6 +101,7 @@ public @interface DataSetup {
      * <br><br>
      *
      * @return The name(s) of the setup resource(s) or empty.
+     *
      * @see Constants#DATAZ_PROPERTY_DEFAULT_SETUP_SUFFIX
      */
     String[] value() default {};
@@ -107,12 +109,11 @@ public @interface DataSetup {
     /**
      * (Optional) Controls the transactional behaviour of {@link org.failearly.dataz.datastore.DataStore}.
      *
-     * + **default {@code true}** : run a single setup/cleanup resource file within a transaction.
-     * + {@code false}: No transaction.
-     *
-     *
+     * + **default {@code true}** : run a single setup/cleanup resource file within a single transaction.
+     * + {@code false}: each statement within the resource will be stored in its own transaction.
      *
      * @return {@code true} or {@code false}.
+     *
      * @see DataResource#isTransactional()
      * @see #value()
      * @see Constants#DATASET_DEFAULT_TRANSACTIONAL_VALUE
@@ -125,6 +126,7 @@ public @interface DataSetup {
      * This is useful, if you have a datastore with schema and to apply only the changes.
      *
      * @return {@code true} (default value) if the dataSet should fail otherwise {@code false}.
+     *
      * @see DataResource#isFailOnError()
      * @see Constants#DATASET_DEFAULT_FAIL_ON_ERROR_VALUE
      */

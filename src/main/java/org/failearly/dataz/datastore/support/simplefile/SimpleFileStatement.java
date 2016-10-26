@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package org.failearly.dataz.simplefile;
+package org.failearly.dataz.datastore.support.simplefile;
 
 /**
  * Statement contains a single statement with additional infos for debugging purposes.
@@ -28,6 +28,12 @@ public interface SimpleFileStatement {
     SimpleFileStatement NULL=new SimpleFileStatement() {};
 
     /**
+     * Set the statement number
+     * @param statementNumber the statement number
+     */
+    default void setStatementNumber(int statementNumber) {}
+
+    /**
      * @return the content of the statement.
      */
     default String getContent() { return  "<null>";}
@@ -35,7 +41,7 @@ public interface SimpleFileStatement {
     /**
      * @return the statement number within the file.
      */
-    default int getNo() { return -1; }
+    default int getStatementNumber() { return -1; }
 
     /**
      * @return The first line number of the statement.
@@ -51,4 +57,5 @@ public interface SimpleFileStatement {
      * @return {@code true} if the statement is valid.
      */
     default boolean isValid() { return false; }
+
 }

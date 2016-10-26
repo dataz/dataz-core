@@ -41,7 +41,7 @@ import java.util.stream.Collectors;
 import static org.failearly.common.annotation.traverser.AnnotationTraverserBuilder.metaAnnotationTraverser;
 
 /**
- * DataStoresImplementation conatins the actually implementation of {@link DataStores}.
+ * DataStoresImplementation contains the actually implementation of {@link DataStores}.
  */
 public final class DataStoresImplementation implements DataStores.Instance, DataStoreState.OnRelease {
 
@@ -52,7 +52,7 @@ public final class DataStoresImplementation implements DataStores.Instance, Data
         }
     };
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DataStores.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DataStoresImplementation.class);
 
     private static final MetaAnnotationTraverser<DataStoreFactory.Definition> DATASTORE_ANNOTATION_TRAVERSER = metaAnnotationTraverser(DataStoreFactory.Definition.class)
             .withTraverseDepth(TraverseDepth.DECLARED_CLASS)
@@ -61,8 +61,10 @@ public final class DataStoresImplementation implements DataStores.Instance, Data
 
     private final ConcurrentMap<Class<? extends NamedDataStore>, DataStoresHolder> dataStores = new ConcurrentHashMap<>();
 
+    private static final DataStoresShutdown shutdown=new DataStoresShutdown();
+
     private DataStoresImplementation() {
-        Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
+        shutdown.setImplementation(this);
     }
 
     /**
@@ -89,7 +91,12 @@ public final class DataStoresImplementation implements DataStores.Instance, Data
 
     @Override
     public void dispose() {
+        disposeAllDataStores();
+    }
+
+    private void disposeAllDataStores() {
         this.dataStores.values().forEach(DataStoresHolder::dispose);
+        this.dataStores.clear();
     }
 
     private List<DataStoreState> reserveDataStores(Set<Class<? extends NamedDataStore>> namedDataStores) {
@@ -123,14 +130,9 @@ public final class DataStoresImplementation implements DataStores.Instance, Data
         return DataStoresHolder.createDataStoresHolder(namedDataStore, dataStoreCreator.getDataStores());
     }
 
-    private void reset() {
-        this.dataStores.clear();
-    }
-
-    private void shutdown() {
-        LOGGER.info("Shutdown: dispose and reset all data stores");
-        dispose();
-        reset();
+    void shutdown() {
+        LOGGER.info("Shutdown: dispose and reset {} data stores.", this.dataStores.size());
+        disposeAllDataStores();
     }
 
     private static class DataStoreCreator extends MetaAnnotationHandlerBase<DataStoreFactory.Definition> {

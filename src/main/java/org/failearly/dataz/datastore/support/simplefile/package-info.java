@@ -20,10 +20,10 @@
 /**
  * dataSet provides a simple file format which will be used by {@link org.failearly.dataz.datastore.DataStore} implementations.
  * <br><br>
- * If you are not a developing a {@code DataStore} you won't use the {@link org.failearly.dataz.simplefile.SimpleFileParser} or any other of these classes.
+ * If you are not a developing a {@code DataStore} you won't use the {@link org.failearly.dataz.datastore.support.simplefile.SimpleFileParser} or any other of these classes.
  * <br><br>
- * A simple file consists of {@link org.failearly.dataz.simplefile.SimpleFileStatement}s - collected by
- * {@link org.failearly.dataz.simplefile.SimpleFileStatements}. The statement itself won't interpreted by {@code SimpleFileParser}. This responsibility belongs
+ * A simple file consists of {@link org.failearly.dataz.datastore.support.simplefile.SimpleFileStatement}s - collected by
+ * {@link org.failearly.dataz.datastore.support.simplefile.SimpleFileStatements}. The statement itself won't interpreted by {@code SimpleFileParser}. This responsibility belongs
  * to the {@link org.failearly.dataz.datastore.DataStore} implementation.
  * <br><br>
  * If you are using also the template engine, then first the template engine will be applied and the result of the template engine, becomes the
@@ -39,7 +39,7 @@
  *    <li>A comment within a statement will not be recognized.</li>
  * </ul>
  * <br>
- * 2. A comment line starts {@code ##}.
+ * 2. A comment line starts {@code ##} or {@code --}.
  * <br><br>
  * 3. A statement separator is either ...
  * <ul>
@@ -92,7 +92,7 @@
  *    <li>Last statement</li>
  * </ol>
  *
- * @see org.failearly.dataz.simplefile.SimpleFileParser
+ * @see org.failearly.dataz.datastore.support.simplefile.SimpleFileParser
  * @see org.failearly.dataz.datastore.DataStore
  */
-package org.failearly.dataz.simplefile;
+package org.failearly.dataz.datastore.support.simplefile;

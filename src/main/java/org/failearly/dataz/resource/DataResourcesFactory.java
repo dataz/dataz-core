@@ -93,7 +93,7 @@ public interface DataResourcesFactory {
     /**
      * DataSetMarker is a marker (meta) annotation, for simplifying the check for relevant test methods.
      *
-     * @see org.failearly.dataz.internal.model.TestClass
+     * @see org.failearly.dataz.internal.model.TestClassBase
      * @see AtomicTest
      *
      * @see SetupDefinition

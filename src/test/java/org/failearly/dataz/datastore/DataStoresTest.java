@@ -344,7 +344,7 @@ public class DataStoresTest {
         }
 
         @Override
-        public void dispose() {
+        protected void postDispose() {
             disposedCalled.incrementAndGet();
         }
 

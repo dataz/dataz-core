@@ -21,13 +21,13 @@ package org.failearly.dataz.datastore.support;
 
 import org.failearly.dataz.NamedDataStore;
 import org.failearly.dataz.resource.DataResource;
-import org.failearly.dataz.simplefile.SimpleFileParser;
-import org.failearly.dataz.simplefile.SimpleFileStatement;
+import org.failearly.dataz.datastore.support.simplefile.SimpleFileParser;
+import org.failearly.dataz.datastore.support.simplefile.SimpleFileStatement;
 
 import java.lang.annotation.Annotation;
 
 /**
- * Base class for {@link org.failearly.dataz.simplefile.SimpleFileParser} based data store implementations with transactional behaviour.
+ * Base class for {@link org.failearly.dataz.datastore.support.simplefile.SimpleFileParser} based data store implementations with transactional behaviour.
  */
 public abstract class SimpleFileTransactionalSupportDataStoreBase<T> extends TransactionalSupportDataStoreBase<T> {
 
@@ -39,9 +39,11 @@ public abstract class SimpleFileTransactionalSupportDataStoreBase<T> extends Tra
 
     @Override
     protected final void applyResourceOnTransaction(T transaction, DataResource dataResource) throws Exception {
-        simpleFileParser.parseAndHandleInputStream(dataResource,
+        simpleFileParser.processStatements(
+                dataResource,
                 transaction,
-                this::doExecuteStatement);
+                (statement, transaction1) -> doExecuteStatement(transaction1, statement)
+        );
     }
 
     protected void doExecuteStatement(T transaction, SimpleFileStatement statement) throws Exception {

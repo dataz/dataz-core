@@ -163,13 +163,13 @@ public class RandomRangeGeneratorTest extends GeneratorTestBase<Integer, RandomR
         // act / when
         ExceptionVerifier.on(() -> super.createTemplateObjectFromAnnotation(INVALID_START_EQ_END))
                 .expect(InvariantViolationException.class)
-                .expect("Invariant of RandomRangeGenerator has been violated: start < end!" +
+                .expect("Invariant of RandomRangeGenerator has been violated: init < end!" +
                         "\nCurrent annotation is '" + resolveTestFixtureAnnotation(INVALID_START_EQ_END) + "'" )
                 .verify();
 
         ExceptionVerifier.on(() -> super.createTemplateObjectFromAnnotation(INVALID_START_GT_END))
                 .expect(InvariantViolationException.class)
-                .expect("Invariant of RandomRangeGenerator has been violated: start < end!" +
+                .expect("Invariant of RandomRangeGenerator has been violated: init < end!" +
                         "\nCurrent annotation is '" + resolveTestFixtureAnnotation(INVALID_START_GT_END)+ "'" )
                 .verify();
     }

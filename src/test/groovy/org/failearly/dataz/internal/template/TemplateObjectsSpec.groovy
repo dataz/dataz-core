@@ -138,7 +138,7 @@ class TemplateObjectsSpec extends TemplateObjectsSpecBase {
         and: "resolving template objects from #method"
         final TemplateObjects templateObjects = templateObjectResolver.resolveFromMethod(resolveMethodFromClass("localScope", TestFixtureForTemplateObjectSpec))
 
-        when: "using apply() on templateObjects (collecting the template object's name)"
+        when: "using process() on templateObjects (collecting the template object's name)"
         def templateObjectNames=[]
         templateObjects.apply({TemplateObject templateObject-> templateObjectNames.add(templateObject.name())})
 
