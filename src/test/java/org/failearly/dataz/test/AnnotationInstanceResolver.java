@@ -19,7 +19,7 @@
 
 package org.failearly.dataz.test;
 
-import org.failearly.dataz.internal.util.BuilderBase;
+import org.failearly.common.builder.BuilderBase;
 
 import java.lang.annotation.Annotation;
 

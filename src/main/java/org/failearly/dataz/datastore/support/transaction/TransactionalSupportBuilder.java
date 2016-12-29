@@ -19,7 +19,7 @@
 
 package org.failearly.dataz.datastore.support.transaction;
 
-import org.failearly.dataz.internal.util.BuilderBase;
+import org.failearly.common.builder.BuilderBase;
 
 /**
  * Provides support for processing a data resource either in a single transaction (batch mode) or

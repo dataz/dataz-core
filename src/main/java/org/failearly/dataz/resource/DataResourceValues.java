@@ -23,7 +23,7 @@ import org.failearly.common.resource.ResourcePathUtils;
 import org.failearly.dataz.NamedDataStore;
 import org.failearly.dataz.config.Constants;
 import org.failearly.dataz.config.DataSetProperties;
-import org.failearly.dataz.internal.util.BuilderBase;
+import org.failearly.common.builder.BuilderBase;
 
 /**
  * DataResourceValues is a parameter object containing the values of any dataSet annotation (like {@link org.failearly.dataz.DataSet}).

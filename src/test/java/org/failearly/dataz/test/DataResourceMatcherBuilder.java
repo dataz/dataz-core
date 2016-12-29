@@ -21,7 +21,7 @@ package org.failearly.dataz.test;
 import org.failearly.dataz.NamedDataStore;
 import org.failearly.dataz.config.Constants;
 import org.failearly.dataz.config.DataSetProperties;
-import org.failearly.dataz.internal.util.BuilderBase;
+import org.failearly.common.builder.BuilderBase;
 import org.failearly.dataz.resource.DataResource;
 import org.hamcrest.Matcher;
 
