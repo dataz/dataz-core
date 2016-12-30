@@ -24,7 +24,7 @@ import org.failearly.common.test.annotations.Subject;
 import org.failearly.dataz.internal.template.generator.ListGeneratorFactory;
 import org.failearly.dataz.internal.template.generator.ListGeneratorFactory.ListGeneratorImpl;
 import org.failearly.dataz.template.generator.support.InternalIteratorExhaustedException;
-import org.failearly.dataz.template.generator.support.test.GeneratorTestBase;
+import org.failearly.dataz.template.generator.support.test.LimitedGeneratorTestBase;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.is;
@@ -34,7 +34,7 @@ import static org.junit.Assert.assertThat;
  * ListGeneratorTest contains tests for {@link ListGenerator}.
  */
 @Subject({ListGenerator.class, ListGeneratorFactory.class, ListGeneratorImpl.class})
-public class ListGeneratorTest extends GeneratorTestBase<String, ListGenerator, ListGeneratorFactory, ListGeneratorImpl> {
+public class ListGeneratorTest extends LimitedGeneratorTestBase<String, ListGenerator, ListGeneratorFactory, ListGeneratorImpl> {
     private static final int LIST_WITH_VALUES=0;
     private static final int EMPTY_LIST=1;
 

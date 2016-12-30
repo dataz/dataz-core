@@ -22,7 +22,7 @@ package org.failearly.dataz.template.generator;
 import org.failearly.common.test.annotations.Subject;
 import org.failearly.dataz.internal.template.generator.RandomBooleanGeneratorFactory;
 import org.failearly.dataz.internal.template.generator.RandomBooleanGeneratorFactory.RandomBooleanGeneratorImpl;
-import org.failearly.dataz.template.generator.support.test.GeneratorTestBase;
+import org.failearly.dataz.template.generator.support.test.UnlimitedGeneratorTestBase;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.closeTo;
@@ -33,7 +33,7 @@ import static org.junit.Assert.assertThat;
  * RandomBooleanGeneratorFactoryTest contains tests for RandomBooleanGeneratorFactory
  */
 @Subject({RandomBooleanGenerator.class, RandomBooleanGeneratorFactory.class, RandomBooleanGeneratorImpl.class})
-public class RandomBooleanGeneratorTest extends GeneratorTestBase<Boolean, RandomBooleanGenerator, RandomBooleanGeneratorFactory, RandomBooleanGeneratorImpl> {
+public class RandomBooleanGeneratorTest extends UnlimitedGeneratorTestBase<Boolean, RandomBooleanGenerator, RandomBooleanGeneratorFactory, RandomBooleanGeneratorImpl> {
 
     private static final int TWENTY_PERCENT_WITH_SEED_42=0;
     private static final int SEVENTY_PERCENT_WITH_SEED_1=1;

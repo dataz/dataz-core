@@ -26,7 +26,7 @@ import org.failearly.dataz.internal.template.generator.decorator.LimitedGenerato
 import org.failearly.dataz.internal.template.generator.decorator.UniqueGeneratorDecorator;
 import org.failearly.dataz.template.InvariantViolationException;
 import org.failearly.dataz.template.generator.support.UnlimitedGenerator;
-import org.failearly.dataz.template.generator.support.test.GeneratorTestBase;
+import org.failearly.dataz.template.generator.support.test.UnlimitedGeneratorTestBase;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.not;
@@ -37,7 +37,7 @@ import static org.junit.Assert.assertThat;
 /**
  *  RandomRangeGeneratorTest contains tests for {@link RandomRangeGenerator}.
  */
-public class RandomRangeGeneratorTest extends GeneratorTestBase<Integer, RandomRangeGenerator, RandomRangeGeneratorFactory, RandomRangeGeneratorImpl> {
+public class RandomRangeGeneratorTest extends UnlimitedGeneratorTestBase<Integer, RandomRangeGenerator, RandomRangeGeneratorFactory, RandomRangeGeneratorImpl> {
 
     private static final int DEFAULT_RANDOM_RANGE=0;
     private static final int SIMPLE_RANGE_WITH_SEED_42=1;

@@ -24,7 +24,7 @@ import org.failearly.common.test.annotations.Subject;
 import org.failearly.dataz.internal.template.generator.RangeGeneratorFactory;
 import org.failearly.dataz.internal.template.generator.RangeGeneratorFactory.RangeGeneratorImpl;
 import org.failearly.dataz.template.InvariantViolationException;
-import org.failearly.dataz.template.generator.support.test.GeneratorTestBase;
+import org.failearly.dataz.template.generator.support.test.LimitedGeneratorTestBase;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.is;
@@ -34,7 +34,7 @@ import static org.junit.Assert.assertThat;
  * RangeGeneratorTest contains tests for {@link RangeGenerator}.
  */
 @Subject({RangeGenerator.class, RangeGeneratorFactory.class, RangeGeneratorImpl.class})
-public class RangeGeneratorTest extends GeneratorTestBase<Integer, RangeGenerator, RangeGeneratorFactory, RangeGeneratorImpl> {
+public class RangeGeneratorTest extends LimitedGeneratorTestBase<Integer, RangeGenerator, RangeGeneratorFactory, RangeGeneratorImpl> {
 
     private static final int ZERO_TO_FOUR=0;
     private static final int WITH_STEP=1;

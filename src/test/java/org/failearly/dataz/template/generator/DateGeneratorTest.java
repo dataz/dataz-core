@@ -23,7 +23,7 @@ import org.failearly.common.test.annotations.Subject;
 import org.failearly.dataz.internal.template.generator.DateGeneratorFactory;
 import org.failearly.dataz.internal.template.generator.DateGeneratorFactory.DateGeneratorImpl;
 import org.failearly.dataz.template.generator.support.DateTime;
-import org.failearly.dataz.template.generator.support.test.GeneratorTestBase;
+import org.failearly.dataz.template.generator.support.test.LimitedGeneratorTestBase;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -37,7 +37,7 @@ import static org.junit.Assert.assertThat;
  * DateGeneratorTest contains tests for {@link DateGenerator}.
  */
 @Subject({DateGenerator.class, DateGeneratorFactory.class, DateGeneratorImpl.class})
-public class DateGeneratorTest extends GeneratorTestBase<DateTime, DateGenerator, DateGeneratorFactory, DateGeneratorImpl> {
+public class DateGeneratorTest extends LimitedGeneratorTestBase<DateTime, DateGenerator, DateGeneratorFactory, DateGeneratorImpl> {
     private static final int DATE_WITH_DAY_UNIT_GENERATOR=0;
     private static final int DATE_TIME_WITH_2_HOUR_STEP_GENERATOR=1;
     private static final int INVALID_DATE_GENERATOR=2;

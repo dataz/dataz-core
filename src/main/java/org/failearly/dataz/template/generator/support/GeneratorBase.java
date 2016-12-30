@@ -39,11 +39,11 @@ public abstract class GeneratorBase<T> extends TemplateObjectBase implements Gen
     private T lastValue;
 
 
-    protected GeneratorBase(Set<String> datasets, String name, Scope scope) {
+    GeneratorBase(Set<String> datasets, String name, Scope scope) {
         super(datasets, name, scope);
     }
 
-    protected GeneratorBase(Annotation annotation) {
+    GeneratorBase(Annotation annotation) {
         super(annotation);
     }
 
@@ -55,12 +55,12 @@ public abstract class GeneratorBase<T> extends TemplateObjectBase implements Gen
         this.internalIterator = createIterator();
     }
 
-    protected final void resetInternalIterator() {
+    final void resetInternalIterator() {
         this.lastValue = null;
         this.internalIterator = createIterator();
     }
 
-    protected final Iterator<T> internalIterator() {
+    final Iterator<T> internalIterator() {
         return internalIterator;
     }
 
@@ -86,7 +86,7 @@ public abstract class GeneratorBase<T> extends TemplateObjectBase implements Gen
         else
             throw new InternalIteratorExhaustedException(this.name());
 
-        // LOGGER.debug("Generator '{}' in dataz '{}': Generated value is '{}'", name(), dataz(), lastValue);
+        LOGGER.debug("Generator '{}' in datasets '{}': Generated value is '{}'", name(), datasets(), lastValue);
 
         return lastValue;
     }
@@ -121,7 +121,7 @@ public abstract class GeneratorBase<T> extends TemplateObjectBase implements Gen
         resetInternalIterator();
     }
 
-    protected final T setLastValue(T value) {
+    final T setLastValue(T value) {
         this.lastValue = value;
         LOGGER.debug("Generator '{}' in dataz '{}': Last generated value is '{}'", name(), datasets(), lastValue);
         return lastValue;

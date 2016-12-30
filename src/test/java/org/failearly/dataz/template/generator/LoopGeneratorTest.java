@@ -19,12 +19,12 @@
 
 package org.failearly.dataz.template.generator;
 
+import org.failearly.common.test.ExceptionVerifier;
 import org.failearly.common.test.annotations.Subject;
 import org.failearly.dataz.internal.template.generator.LoopGeneratorFactory;
 import org.failearly.dataz.internal.template.generator.LoopGeneratorFactory.LoopGeneratorImpl;
 import org.failearly.dataz.template.InvariantViolationException;
-import org.failearly.dataz.template.generator.support.test.GeneratorTestBase;
-import org.failearly.common.test.ExceptionVerifier;
+import org.failearly.dataz.template.generator.support.test.LimitedGeneratorTestBase;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.is;
@@ -34,7 +34,7 @@ import static org.junit.Assert.assertThat;
  * LoopGeneratorTest contains tests for {@link LoopGenerator}.
  */
 @Subject({LoopGenerator.class, LoopGeneratorFactory.class, LoopGeneratorImpl.class})
-public class LoopGeneratorTest extends GeneratorTestBase<Integer, LoopGenerator, LoopGeneratorFactory, LoopGeneratorImpl> {
+public class LoopGeneratorTest extends LimitedGeneratorTestBase<Integer, LoopGenerator, LoopGeneratorFactory, LoopGeneratorImpl> {
 
     private static final int FOUR_TIMES_LOOP=0;
     private static final int ONE_TIME_LOOP=1;
