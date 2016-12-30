@@ -32,6 +32,9 @@ import java.lang.annotation.Annotation;
 public abstract class EncoderTestBase<T, R, TOA extends Annotation, TOF extends EncoderFactoryBase, TO extends Encoder<T, R>>
     extends TemplateObjectTestBase<TOA, TOF, TO> {
 
+    protected EncoderTestBase() {
+    }
+
     protected EncoderTestBase(
             Class<TOA> templateObjectAnnotationClass,
             Class<TOF> templateObjectFactoryClass,

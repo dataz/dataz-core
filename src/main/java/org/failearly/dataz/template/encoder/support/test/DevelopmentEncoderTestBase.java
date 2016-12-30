@@ -21,7 +21,9 @@ package org.failearly.dataz.template.encoder.support.test;
 
 import org.failearly.dataz.template.encoder.Encoder;
 import org.failearly.dataz.template.encoder.support.EncoderFactoryBase;
+import org.failearly.dataz.internal.template.support.test.message.encoder.DevelopmentEncoderErrorMessages;
 import org.failearly.dataz.template.support.test.DevelopmentTemplateObjectTestBase;
+import org.failearly.dataz.internal.template.support.test.message.basic.TemplateObjectErrorMessages;
 
 import java.lang.annotation.Annotation;
 
@@ -32,6 +34,8 @@ import java.lang.annotation.Annotation;
 public abstract class DevelopmentEncoderTestBase<T, R, TOA extends Annotation, TOF extends EncoderFactoryBase, TO extends Encoder<T, R>>
     extends DevelopmentTemplateObjectTestBase<TOA, TOF, TO> {
 
+    private static final TemplateObjectErrorMessages messageFactory=new DevelopmentEncoderErrorMessages();
+
     protected DevelopmentEncoderTestBase() {
     }
 
@@ -41,5 +45,11 @@ public abstract class DevelopmentEncoderTestBase<T, R, TOA extends Annotation, T
             Class<TO> templateObjectClass, Class<?> testFixtureClass
     ) {
         super(templateObjectAnnotationClass, templateObjectFactoryClass, templateObjectClass, testFixtureClass);
+    }
+
+
+    @Override
+    protected TemplateObjectErrorMessages getTemplateObjectErrorMessages() {
+        return messageFactory;
     }
 }

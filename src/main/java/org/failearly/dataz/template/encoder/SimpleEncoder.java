@@ -27,7 +27,7 @@ import org.failearly.dataz.template.TemplateObjectFactory;
 import java.lang.annotation.*;
 
 /**
- * SimpleEncoder is a Template Object Annotation and is responsible for ... .
+ * SimpleEncoder encodes a string into the by {@link SimpleEncoder.Type} provided types.
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
@@ -37,19 +37,27 @@ import java.lang.annotation.*;
 @Tests("SimpleEncoderTest")
 public @interface SimpleEncoder {
     /**
-     * @return The name of the template object. Could be used in Velocity templates by {@code $<name>}.
+     * Every template object needs a name.
+     * <br><br>
+     * The template object will be accessible by name within your templates. Could be used within (Velocity)
+     * templates by {@code $<name>} or {@code ${<name>}}.
+     * <br><br>
+     * IMPORTANT: The name must be unique (within the template).
+     *
+     * @return The name of the template object.
      */
     String name();
 
     /**
-     * Each template object could be assigned to one or more Datasets.
+     * Assign the template object to datasets.
+     * <br><br>
+     * The template object could be used by more then one template. If you assign it to one (or more) dataset(s),
+     * only the templates of the assigned datasets could access this template object.
+     * <br><br>
+     * If you <b>do not</b> assign any dataset (by using the default), this template object is accessible by
+     * all datasets within scope.
      *
-     * There are following options:
-     *
-     * + No assignment (empty or default datasets): Assign it to all DataSets in scope.
-     * + A set of datasets: Assign it to the given DataSets in scope.
-     *
-     * @return The associated or all DataSets.
+     * @return The associated datasets.
      *
      * @see org.failearly.dataz.DataSet#name()
      * @see org.failearly.dataz.DataSetup#name()
@@ -59,6 +67,8 @@ public @interface SimpleEncoder {
 
     /**
      * @return The scope of the template object (either {@link Scope#LOCAL} or {@link Scope#GLOBAL}.
+     *
+     * @see Scope
      */
     Scope scope() default Scope.DEFAULT;
 

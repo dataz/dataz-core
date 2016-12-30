@@ -21,8 +21,9 @@ package org.failearly.dataz.template.support.test;
 
 import org.failearly.dataz.template.TemplateObject;
 import org.failearly.dataz.template.TemplateObjectFactory;
-import org.failearly.dataz.template.support.test.message.DevelopmentTemplateObjectMessageFactory;
-import org.failearly.dataz.template.support.test.message.TemplateObjectMessageFactory;
+import org.failearly.dataz.internal.template.support.test.message.basic.DevelopmentTemplateObjectErrorMessages;
+import org.failearly.dataz.internal.template.support.test.message.basic.TemplateObjectErrorMessages;
+import org.failearly.dataz.template.generator.support.test.DevelopmentLimitedGeneratorTestBase;
 
 import java.lang.annotation.Annotation;
 
@@ -30,26 +31,26 @@ import java.lang.annotation.Annotation;
  * TemplateObjectTestBase is is a test support class for creating {@link TemplateObject} annotations and the
  * factory class {@link TemplateObjectFactory}. This class contains tests which must be true for all template object
  * annotations, the associated {@link TemplateObject} implementation and {@link TemplateObjectFactory}. Use this class
- * when you start developing a new template object (annotation). After you have developed your annotation, replace
+ * when you createTransactionContext developing a new template object (annotation). After you have developed your annotation, replace
  * this base class with {@link TemplateObjectTestBase}.
  *
  * @param <TOA>   the template object annotation
  * @param <TOF> the template object factory
  *
  * @see TemplateObjectTestBase
- * @see org.failearly.dataz.template.generator.support.test.DevelopmentGeneratorTestBase
+ * @see DevelopmentLimitedGeneratorTestBase
  */
 @SuppressWarnings("unused")
 public abstract class DevelopmentTemplateObjectTestBase<TOA extends Annotation, TOF extends TemplateObjectFactory, TO extends TemplateObject>
     extends TemplateObjectTestBase<TOA, TOF, TO> {
 
-    private static final TemplateObjectMessageFactory messageFactory=new DevelopmentTemplateObjectMessageFactory();
+    private static final TemplateObjectErrorMessages messageFactory=new DevelopmentTemplateObjectErrorMessages();
 
     /**
      * JUST for the first step.
      */
     protected DevelopmentTemplateObjectTestBase() {
-        super(null, null, null, null);
+        super();
     }
 
     protected DevelopmentTemplateObjectTestBase(
@@ -62,7 +63,7 @@ public abstract class DevelopmentTemplateObjectTestBase<TOA extends Annotation, 
     }
 
     @Override
-    protected TemplateObjectMessageFactory getTemplateObjectMessageFactory() {
+    protected TemplateObjectErrorMessages getTemplateObjectErrorMessages() {
         return messageFactory;
     }
 }

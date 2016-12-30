@@ -1,0 +1,216 @@
+Missing first argument 'templateObjectAnnotationClass' (TOA) in constructor of ${tc}.
+
+Reasons: You haven't yet defined the Template Object Annotation (TOA)
+    and/or forgot to assign it to ${stbc}.
+
+
+I) Overview: How to create a (custom) template object respective a generator
+
+    If you need more informations about the abbrevations and classes, scroll to the end of the error message:
+    "IV) Terms, Description and more".
+
+
+    1. Create your TOA: ${TOA}.
+
+    2. Create your TOF: ${TOF}.
+
+    3. Create your TO: ${TO}.
+
+    4. Create a Test Fixture Class: ${tf}.
+
+    5. Switch base class for your test class ${tc}: ${ntbc}.
+
+    6. Create your own tests and develop your ${TOA} and ${TO}.
+
+
+II) Proposal for fixing errors:
+
+    The easiest way  or at least a good starting point is to follow the proposed steps and copy the code between
+        $snippetBegin
+            // any code
+        $snippetEnd.
+
+
+III) The Steps:
+
+Step 1) Create the Template Object Annotation (TOA).
+
+Your Template Object Annotation (proposed name is ${TOA}):
+
+$snippetBegin
+    import org.failearly.dataz.template.Scope;
+    import org.failearly.dataz.template.generator.Limit;
+
+    import java.lang.annotation.*;
+
+	/**
+	 * ${TOA} is a Generator Annotation.
+	 *
+	 * TODO: What is the responsibility of ${TOA}?
+	 */
+	@Target({ElementType.METHOD, ElementType.TYPE})
+	@Retention(RetentionPolicy.RUNTIME)
+	@Documented
+	@Repeatable(${TOA}.List.class)
+    @org.failearly.common.annotations.Tests("${tc}")
+	// TODO @${TOFD}(${TOF}.class)
+	public @interface ${TOA} {
+		/**
+		 * Every template object needs a name.
+		 * <br><br>
+		 * The template object will be accessible by name within your templates. Could be used within (Velocity)
+		 * templates by {@code $<name>} or {@code ${<name>}}.
+		 * <br><br>
+		 * IMPORTANT: The name must be unique (within the template).
+		 *
+		 * @return The name of the template object.
+		 */
+		String name();
+
+        /**
+         * Assign the template object to datasets.
+         * <br><br>
+         * The template object could be used by more then one template. If you assign it to one (or more) dataset(s),
+         * only the templates of the assigned datasets could access this template object.
+         * <br><br>
+         * If you <b>do not</b> assign any dataset (by using the default), this template object is accessible by
+         * all datasets within scope.
+         *
+         * @return The associated datasets.
+         *
+         * @see org.failearly.dataz.DataSet#name()
+         * @see org.failearly.dataz.DataSetup#name()
+         * @see org.failearly.dataz.DataCleanup#name()
+         */
+        String[] datasets() default {};
+
+		/**
+		 * @return The scope of the template object (either {@link Scope#LOCAL} or {@link Scope#GLOBAL}.
+		 *
+		 * @see Scope
+		 */
+		Scope scope() default Scope.DEFAULT;
+
+
+        /**
+         * The generator type: LIMITED or UNLIMITED.
+         *
+         * @return Limit type.
+         *
+         * @see Limit#LIMITED
+         * @see Limit#UNLIMITED
+         */
+        Limit limit() default Limit.LIMITED;
+
+
+
+		// TODO: What are the ${TOA} specific attributes?
+
+
+		/**
+		 * Used by @Repeatable.
+		 */
+		@Target({ElementType.METHOD, ElementType.TYPE})
+		@Retention(RetentionPolicy.RUNTIME)
+		@Documented
+		@interface List {
+			${TOA}[] value();
+		}
+	}
+$snippetEnd
+
+
+Step 2) Create the constructor for ${tc} and assign the TOA (${TOA}).
+
+Replace entire test class ${tc} or just copy the constructor:
+
+$snippetBegin
+    import ${subject};
+    import ${tbc.name};
+
+	@Subject({${TOA}.class})
+	public class ${tc}
+			extends ${stbc}/* TODO: generics */ {
+		public ${tc}() {
+			super(
+				${TOA}.class, // TOA
+				null, // TOF
+				null, // TO
+				null  // Test Fixture
+			);
+		}
+	}
+$snippetEnd
+
+
+Step 3) Compile and rerun ${tc}. You will get a new error message with the next steps.
+
+
+
+
+IV) Terms, Description and more
+
+A) Glossary
+
+Template Object Annotation (TOA):
+    The Template Object Annotation is the annotation representation of the Template Object (TO). For each
+    annotated test class/method (the application of the TOA) the Template Object Factory (TOF) creates
+    an instance of Template Object (TO).
+
+
+Template Object (TO):
+     The Template Object is the object which will be created by the Template Object Factory (TOF) using the TOA. The
+     TO could be used within the template by the name() defined in TOA. The TO provides the functionality which could
+     be used within templates. The TO will be only "visible" within your templates.
+
+     The TOA somehow is the *public interface for the TO* and assigning it to a test class/method will create exactly one
+     TO.
+
+
+Template Object Factory (TOF):
+    The Template Object Factory is the abstract factory which creates TO from TOA. There is only one TOF per
+    TOA using Template Object Factory Definition (TOFD). The TOF creates for each TOA instance a TO.
+
+
+Template Object Factory Definition (TOFD):
+    The Template Object Factory Definition assigns the TOF to the TOA. No need for implementation, it's just
+    a meta annotation which should be applied to each TOA. If you forget doing this, the TOA will not regonized
+    by the DataZ framework. (see @TemplateObjectFactory.Definition)
+
+
+Test Fixture:
+    The purpose of Test Fixture or Test Fixture Class to have a class object or method objects which could be annotated
+    with TOA (${TOA}). The Test Fixture is just there, it won't be executed or instanciated.
+
+
+B) The Class Diagram
+
+    -----      associated to        -----       creates       ----
+   | TOA | (n) --------------> (1) | TOF | (1) --------> (n) | TO |
+    -----           |               -----                     ----
+                    |
+                    |
+                  ------
+                 | TOFD |
+                  ------
+
+C) Template Object Types
+
+Generator:
+    Used for generation of test data.
+
+Encoder:
+    Used for encoding of data. Examples: encrypting, hashing.
+
+TemplateObject:
+    Any other Template Object like @Constant or @Adhoc.
+
+
+D) Proposed or Typical Names
+
+    TOA: ${TOA}
+    TOF: ${TOF}
+    TO:  ${fullTO}
+    Test Fixture: ${tc}.${tf}
+
+======== end of description =========

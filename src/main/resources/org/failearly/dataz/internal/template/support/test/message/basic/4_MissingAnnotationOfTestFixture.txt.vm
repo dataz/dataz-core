@@ -1,0 +1,28 @@
+Missing at least one TOA (${TOA}) at your Test Fixture class (${tf}).
+
+Reasons: You haven't yet annotated your Test Fixture class.
+
+
+Step 1) Annotate ${tf} with your TOA (${TOA}).
+
+The Template Object's name 'DTON' is used by some of template(..) methods:
+   - ${tbc}.template(String template)
+   - template(String template, int loopCounter)
+
+You can use your own name, if necessary, but it's recommended to use this one. In case
+you use a different name, use the appropriate template(..) methods.
+
+$snippetBegin
+	@${TOA}(name=DTON /* TODO: Add more attributes */)
+	private static class ${tf} {
+
+	    @${TOA}(name=DTON /* TODO: Add more attributes */)
+	    void namedTest() {}
+	}
+$snippetEnd
+
+
+Step 2) Compile and rerun ${tc}.
+
+
+======== end of description =========

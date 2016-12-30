@@ -20,7 +20,7 @@
 /**
  * Test support classes for creating generators.
  * <br><br>
- * Use {@link org.failearly.dataz.template.generator.support.test.DevelopmentGeneratorTestBase} in the first step and
+ * Use {@link org.failearly.dataz.template.generator.support.test.DevelopmentLimitedGeneratorTestBase} in the first step and
  * after finishing the development replace it with {@link org.failearly.dataz.template.generator.support.test.GeneratorTestBase}.
  */
 package org.failearly.dataz.template.generator.support.test;

@@ -25,8 +25,8 @@ import org.apache.velocity.context.Context;
 import org.failearly.common.message.Message;
 import org.failearly.dataz.template.TemplateObject;
 import org.failearly.dataz.template.TemplateObjectFactory;
-import org.failearly.dataz.template.support.test.message.DefaultTemplateObjectMessageFactory;
-import org.failearly.dataz.template.support.test.message.TemplateObjectMessageFactory;
+import org.failearly.dataz.internal.template.support.test.message.basic.NoDevelopmentTemplateObjectErrorMessages;
+import org.failearly.dataz.internal.template.support.test.message.basic.TemplateObjectErrorMessages;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -42,7 +42,7 @@ import static org.junit.Assert.fail;
  * TemplateObjectTestBase is is a test support class for creating {@link TemplateObject} annotations and the
  * factory class {@link TemplateObjectFactory}.
  * <br><br>
- * Remark: If you start developing use {@link DevelopmentTemplateObjectTestBase} instead of this base class.
+ * Remark: If you createTransactionContext developing use {@link DevelopmentTemplateObjectTestBase} instead of this base class.
  *
  * @param <TOA> the template object annotation
  * @param <TOF> the template object factory
@@ -51,7 +51,7 @@ import static org.junit.Assert.fail;
 @SuppressWarnings({"unused", "WeakerAccess"})
 public abstract class TemplateObjectTestBase<TOA extends Annotation, TOF extends TemplateObjectFactory, TO extends TemplateObject> {
     /**
-     * The default template object name (TO). Will be used
+     * The default template object name (TO).
      *
      * @see #template(String)
      */
@@ -67,11 +67,11 @@ public abstract class TemplateObjectTestBase<TOA extends Annotation, TOF extends
     protected static final String SIMPLE_TEMPLATE = PLACE_HOLDER_TON;
 
 
-    private static final int FIRST_ANNOTATION = 0;
+    protected static final int FIRST_ANNOTATION = 0;
     private static final String INNER_TEMPLATE = "%inner-template%";
     private static final String TEMPLATE_LOOP = "#foreach($i in [1 .. %loop-counter%])" + INNER_TEMPLATE + "#end";
 
-    private static final TemplateObjectMessageFactory messageFactory = new DefaultTemplateObjectMessageFactory();
+    private static final TemplateObjectErrorMessages messageFactory = new NoDevelopmentTemplateObjectErrorMessages();
 
     private final Class<TOA> templateObjectAnnotationClass;
     private final Class<TOF> templateObjectFactoryClass;
@@ -116,26 +116,26 @@ public abstract class TemplateObjectTestBase<TOA extends Annotation, TOF extends
     }
 
     private void assertTemplateObjectAnnotationClass(Class<TOA> templateObjectAnnotationClass) {
-        assertNotNull(templateObjectAnnotationClass, getTemplateObjectMessageFactory().missingTemplateObjectAnnotation(mb ->
+        assertNotNull(templateObjectAnnotationClass, getTemplateObjectErrorMessages().missingTemplateObjectAnnotation(mb ->
                 mb.withTestClass(this)
         ));
     }
 
     private void assertTemplateObjectFactoryClass(Class<TOF> templateObjectFactoryClass) {
-        assertNotNull(templateObjectFactoryClass, getTemplateObjectMessageFactory().missingTemplateObjectFactory(mb ->
+        assertNotNull(templateObjectFactoryClass, getTemplateObjectErrorMessages().missingTemplateObjectFactory(mb ->
                 mb.withTestClass(this)
                         .withTemplateObjectAnnotationClass(this.templateObjectAnnotationClass)));
     }
 
     private void assertTemplateObjectClass(Class<TO> templateObjectClass) {
-        assertNotNull(templateObjectClass, getTemplateObjectMessageFactory().missingTemplateObject(mb ->
+        assertNotNull(templateObjectClass, getTemplateObjectErrorMessages().missingTemplateObject(mb ->
                 mb.withTestClass(this)
                         .withTemplateObjectAnnotationClass(this.templateObjectAnnotationClass)
                         .withTemplateObjectFactoryClass(this.templateObjectFactoryClass)));
     }
 
     private void assertTestFixtureClass(Class<?> testFixtureClass) {
-        assertNotNull(testFixtureClass, getTemplateObjectMessageFactory().missingTestFixture(mb ->
+        assertNotNull(testFixtureClass, getTemplateObjectErrorMessages().missingTestFixture(mb ->
                 mb.withTestClass(this)
                         .withTemplateObjectAnnotationClass(this.templateObjectAnnotationClass)
                         .withTemplateObjectFactoryClass(this.templateObjectFactoryClass)
@@ -144,14 +144,14 @@ public abstract class TemplateObjectTestBase<TOA extends Annotation, TOF extends
     }
 
     @Test
-    public final void initial_steps_done() throws Exception {
+    public final void what_are_the_basic_steps_to_create_a_template_object() throws Exception {
         assertAtLeastOneAnnotation();
         assertInitialStepsDone();
     }
 
     private void assertInitialStepsDone() {
         if (isDevelopment()) {
-            fail(getTemplateObjectMessageFactory().initialStepsDone(mb ->
+            fail(getTemplateObjectErrorMessages().initialStepsDone(mb ->
                     mb.withTestClass(this)
                             .withTemplateObjectAnnotationClass(this.templateObjectAnnotationClass)
                             .withTemplateObjectFactoryClass(this.templateObjectFactoryClass)
@@ -166,7 +166,7 @@ public abstract class TemplateObjectTestBase<TOA extends Annotation, TOF extends
     }
 
     private void assertAtLeastOneAnnotation() {
-        assertCondition(hasAtLeastOneAnnotation(), getTemplateObjectMessageFactory().missingAnnotationOfTestFixture(mb ->
+        assertCondition(hasAtLeastOneAnnotation(), getTemplateObjectErrorMessages().missingAnnotationOfTestFixture(mb ->
                 mb.withTestClass(this)
                         .withTemplateObjectAnnotationClass(this.templateObjectAnnotationClass)
                         .withTemplateObjectFactoryClass(this.templateObjectFactoryClass)
@@ -408,7 +408,10 @@ public abstract class TemplateObjectTestBase<TOA extends Annotation, TOF extends
         return annotationHelper.getAnnotationFromMethod(methodName, index);
     }
 
-    protected TemplateObjectMessageFactory getTemplateObjectMessageFactory() {
+    /**
+     * @return the template object error messages.
+     */
+    protected TemplateObjectErrorMessages getTemplateObjectErrorMessages() {
         return messageFactory;
     }
 }

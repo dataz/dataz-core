@@ -105,6 +105,4 @@ public final class SimpleEncoderFactory extends EncoderFactoryBase<SimpleEncoder
             return this.encoder.encode(value);
         }
     }
-
-
 }

@@ -1,0 +1,84 @@
+Missing second argument 'templateObjectFactoryClass' (TOF) in constructor of ${tc}.
+
+Reasons: You haven't yet defined the Template Object Factory (TOF)
+    and/or forgot to assign it to ${stbc}.
+
+
+The Template Object Factory (TOF) is responsible for creating a TemplateObject from your TOA (@${TOA}). In case
+of an Encoder the TOF should extend EncoderFactoryBase.
+
+
+Step 1) Create the TOF. The proposed name is ${TOF}.
+
+$snippetBegin
+	/**
+	 * ${TOF} creates a {@link Encoder} from {@link ${TOA}}.
+	 */
+	@Tests("${tc}")
+	public class ${TOF} extends EncoderFactoryBase<${TOA}> {
+		public ${TOF}() {
+			super(${TOA}.class);
+		}
+
+		@Override
+		protected Encoder doCreate(${TOA} annotation) {
+			return null;
+		}
+
+		@Override
+		protected String doResolveName(${TOA} annotation) {
+			return annotation.name();
+		}
+
+		@Override
+		protected String[] doResolveDataSetNames(${TOA} annotation) {
+			return annotation.datasets();
+		}
+
+		@Override
+		protected Scope doResolveScope(${TOA} annotation) {
+			return annotation.scope();
+		}
+	}
+$snippetEnd
+
+
+Step 2) Assign ${TOF} to your Template Object Annotation (@${TOA}).
+
+	a) Open your annotation (@${TOA}).
+	b) Remove the comment on the line with @${TOFD}(...).
+
+$snippetBegin
+    // Other annotations ommitted for brevity
+	@${TOFD}(${TOF}.class)
+	public @interface ${TOA} {
+	    $ommitted
+	}
+$snippetEnd
+
+
+Step 3) Update your test class (${tc})).
+
+Replace ${tc} with this code snippet.
+
+$snippetBegin
+    @Subject({${TOA}.class, ${TOF}.class})
+	public class ${tc}
+			extends ${stbc}/* TODO: generics */ {
+		public ${tc}() {
+			super(
+				${TOA}.class, // TOA
+				${TOF}.class, // TOF
+				null, // TO
+				null  // Test Fixture
+			);
+		}
+	}
+$snippetEnd
+
+
+
+Step 4) Compile and rerun ${tc}. You will get a new error message with the next steps.
+
+
+======== end of description =========

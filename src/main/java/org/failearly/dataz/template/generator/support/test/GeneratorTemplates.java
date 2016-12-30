@@ -21,7 +21,7 @@ package org.failearly.dataz.template.generator.support.test;
 
 /**
  * GeneratorTemplates contains string (velocity) templates shared by
- * {@link GeneratorTestBase} and {@link DevelopmentGeneratorTestBase}.
+ * {@link GeneratorTestBase} and {@link DevelopmentLimitedGeneratorTestBase}.
  */
 interface GeneratorTemplates {
     String TEMPLATE_EXTERNAL_ITERATOR=//
