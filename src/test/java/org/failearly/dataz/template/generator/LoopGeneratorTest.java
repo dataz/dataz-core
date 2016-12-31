@@ -93,7 +93,7 @@ public class LoopGeneratorTest extends LimitedGeneratorTestBase<Integer, LoopGen
                 .expect(
                     "Invariant of LoopGenerator has been violated: size >= 1!" +
                     "\nCurrent annotation is " +
-                    "'@org.failearly.dataz.template.generator.LoopGenerator(datasets=[], scope=DEFAULT, name=TO, size=0)'"
+                    "'@org.failearly.dataz.template.generator.LoopGenerator(scope=DEFAULT, datasets=[], name=TO, size=0)'"
                 )
                 .verify();
     }

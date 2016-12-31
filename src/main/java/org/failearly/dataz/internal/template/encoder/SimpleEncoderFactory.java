@@ -22,13 +22,12 @@ package org.failearly.dataz.internal.template.encoder;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Hex;
 import org.failearly.dataz.template.Scope;
+import org.failearly.dataz.template.TemplateObjectAnnotationContext;
 import org.failearly.dataz.template.encoder.Encoder;
 import org.failearly.dataz.template.encoder.SimpleEncoder;
 import org.failearly.dataz.template.encoder.support.EncoderBase;
 import org.failearly.dataz.template.encoder.support.EncoderFactoryBase;
 import org.failearly.dataz.template.encoder.support.StringEncoderBase;
-
-import java.lang.reflect.AnnotatedElement;
 
 import static org.failearly.dataz.template.encoder.support.Encoders.*;
 
@@ -41,8 +40,8 @@ public final class SimpleEncoderFactory extends EncoderFactoryBase<SimpleEncoder
     }
 
     @Override
-    protected Encoder doCreate(AnnotatedElement annotatedElement, SimpleEncoder annotation) {
-        return new SimpleEncoderImpl(annotation);
+    protected Encoder doCreate(TemplateObjectAnnotationContext context, SimpleEncoder annotation) {
+        return new SimpleEncoderImpl(context, annotation);
     }
 
     @Override
@@ -64,8 +63,8 @@ public final class SimpleEncoderFactory extends EncoderFactoryBase<SimpleEncoder
 
         private final Encoder encoder;
 
-        private SimpleEncoderImpl(SimpleEncoder annotation) {
-            super(annotation);
+        private SimpleEncoderImpl(TemplateObjectAnnotationContext context, SimpleEncoder annotation) {
+            super(context, annotation);
             encoder=createEncoder(annotation);
         }
 

@@ -20,7 +20,6 @@
 package org.failearly.dataz.template;
 
 import java.lang.annotation.*;
-import java.lang.reflect.AnnotatedElement;
 import java.util.Set;
 
 /**
@@ -78,12 +77,13 @@ public interface TemplateObjectFactory {
     /**
      * Create an instance of the template object using the annotation.
      *
-     * @param annotatedElement the annotated element (method, class, ...)
+     *
+     * @param context          the template object annotation's context
      * @param annotation       the annotation instance.
      *
      * @return a new instance of template object.
      */
-    TemplateObject create(AnnotatedElement annotatedElement, Annotation annotation);
+    TemplateObject create(TemplateObjectAnnotationContext context, Annotation annotation);
 
     /**
      * Resolves the name of the template object annotation.

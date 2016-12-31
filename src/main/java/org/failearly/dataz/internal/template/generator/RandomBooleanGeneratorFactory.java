@@ -19,6 +19,7 @@
 
 package org.failearly.dataz.internal.template.generator;
 
+import org.failearly.dataz.template.TemplateObjectAnnotationContext;
 import org.failearly.dataz.template.generator.Limit;
 import org.failearly.dataz.template.generator.support.UnlimitedGeneratorBase;
 import org.failearly.dataz.template.generator.support.GeneratorFactoryBase;
@@ -26,7 +27,6 @@ import org.failearly.dataz.template.generator.RandomBooleanGenerator;
 import org.failearly.dataz.template.Scope;
 import org.failearly.dataz.template.TemplateObject;
 
-import java.lang.reflect.AnnotatedElement;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Random;
@@ -41,13 +41,13 @@ public final class RandomBooleanGeneratorFactory extends GeneratorFactoryBase<Bo
     }
 
     @Override
-    protected TemplateObject doCreate(AnnotatedElement annotatedElement, RandomBooleanGenerator annotation) {
-        return doCreateGenerator(annotatedElement, annotation, Limit.UNLIMITED);
+    protected TemplateObject doCreate(TemplateObjectAnnotationContext context, RandomBooleanGenerator annotation) {
+        return doCreateGenerator(context, annotation, Limit.UNLIMITED);
     }
 
     @Override
-    protected UnlimitedGeneratorBase<Boolean> doCreateUnlimitedGenerator(AnnotatedElement annotatedElement, RandomBooleanGenerator generatorAnnotation, Integer limitValue) {
-        return new RandomBooleanGeneratorImpl(generatorAnnotation);
+    protected UnlimitedGeneratorBase<Boolean> doCreateUnlimitedGenerator(TemplateObjectAnnotationContext context, RandomBooleanGenerator generatorAnnotation, Integer limitValue) {
+        return new RandomBooleanGeneratorImpl(context, generatorAnnotation);
     }
 
     @Override
@@ -75,8 +75,8 @@ public final class RandomBooleanGeneratorFactory extends GeneratorFactoryBase<Bo
         private Set<Integer> trueIntValues;
         private Random random;
 
-        private RandomBooleanGeneratorImpl(RandomBooleanGenerator generatorAnnotation) {
-            super(generatorAnnotation);
+        private RandomBooleanGeneratorImpl(TemplateObjectAnnotationContext context, RandomBooleanGenerator generatorAnnotation) {
+            super(context, generatorAnnotation);
 
             this.percentAsIntValue = toPercentValue(generatorAnnotation.percent());
             this.seed = generatorAnnotation.seed();

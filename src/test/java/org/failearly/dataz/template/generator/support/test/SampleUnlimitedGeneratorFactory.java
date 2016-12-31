@@ -21,10 +21,10 @@ package org.failearly.dataz.template.generator.support.test;
 import org.failearly.common.annotations.Tests;
 import org.failearly.dataz.template.Scope;
 import org.failearly.dataz.template.TemplateObject;
+import org.failearly.dataz.template.TemplateObjectAnnotationContext;
 import org.failearly.dataz.template.generator.support.GeneratorFactoryBase;
 import org.failearly.dataz.template.generator.support.UnlimitedGeneratorBase;
 
-import java.lang.reflect.AnnotatedElement;
 import java.util.Collections;
 import java.util.Iterator;
 
@@ -53,20 +53,20 @@ public class SampleUnlimitedGeneratorFactory extends GeneratorFactoryBase<Intege
     }
 
     @Override
-    protected TemplateObject doCreate(AnnotatedElement annotatedElement, SampleUnlimitedGenerator annotation) {
-        return doCreateGenerator(annotatedElement, annotation, annotation.limit());
+    protected TemplateObject doCreate(TemplateObjectAnnotationContext context, SampleUnlimitedGenerator annotation) {
+        return doCreateGenerator(context, annotation, annotation.limit());
     }
 
     @Override
-    protected UnlimitedGeneratorBase<Integer> doCreateUnlimitedGenerator(AnnotatedElement annotatedElement, SampleUnlimitedGenerator annotation, Integer limitValue) {
-        return new SampleUnlimitedGeneratorImpl(annotation);
+    protected UnlimitedGeneratorBase<Integer> doCreateUnlimitedGenerator(TemplateObjectAnnotationContext context, SampleUnlimitedGenerator annotation, Integer limitValue) {
+        return new SampleUnlimitedGeneratorImpl(context, annotation);
     }
 
     // Must be public for Velocity!
     @Tests("SampleUnlimitedGeneratorTest")
     public static class SampleUnlimitedGeneratorImpl extends UnlimitedGeneratorBase<Integer> {
-        SampleUnlimitedGeneratorImpl(SampleUnlimitedGenerator annotation) {
-            super(annotation);
+        SampleUnlimitedGeneratorImpl(TemplateObjectAnnotationContext context, SampleUnlimitedGenerator annotation) {
+            super(context, annotation);
             // TODO: For each (not standard) annotation element there should be an appropriate field assignment.
         }
 

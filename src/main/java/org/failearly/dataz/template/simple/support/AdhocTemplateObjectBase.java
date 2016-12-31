@@ -21,6 +21,7 @@ package org.failearly.dataz.template.simple.support;
 
 import org.failearly.common.proputils.PropertiesAccessor;
 import org.failearly.dataz.common.PropertyUtility;
+import org.failearly.dataz.template.TemplateObjectAnnotationContext;
 import org.failearly.dataz.template.TemplateObjectBase;
 import org.failearly.dataz.template.simple.Adhoc;
 
@@ -35,8 +36,8 @@ public abstract class AdhocTemplateObjectBase extends TemplateObjectBase impleme
 
     protected AdhocTemplateObjectBase() {}
 
-    protected AdhocTemplateObjectBase(Adhoc annotation) {
-        super(annotation);
+    protected AdhocTemplateObjectBase(TemplateObjectAnnotationContext context, Adhoc annotation) {
+        super(context, annotation);
         this.arguments = Arrays.asList(annotation.args());
         this.propertiesAccessor = PropertyUtility.toPropertyAccessor(annotation.properties());
     }

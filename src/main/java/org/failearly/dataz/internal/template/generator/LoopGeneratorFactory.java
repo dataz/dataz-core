@@ -19,6 +19,7 @@
 
 package org.failearly.dataz.internal.template.generator;
 
+import org.failearly.dataz.template.TemplateObjectAnnotationContext;
 import org.failearly.dataz.template.generator.Limit;
 import org.failearly.dataz.template.generator.LoopGenerator;
 import org.failearly.dataz.template.generator.support.GeneratorFactoryBase;
@@ -26,8 +27,6 @@ import org.failearly.dataz.template.generator.support.IntegerRangeGenerator;
 import org.failearly.dataz.template.generator.support.LimitedGeneratorBase;
 import org.failearly.dataz.template.Scope;
 import org.failearly.dataz.template.TemplateObject;
-
-import java.lang.reflect.AnnotatedElement;
 
 /**
  * LoopGeneratorFactory is responsible for creating instances of {@link org.failearly.dataz.template.generator.LoopGenerator}.
@@ -53,19 +52,19 @@ public final class LoopGeneratorFactory extends GeneratorFactoryBase<Integer, Lo
     }
 
     @Override
-    protected TemplateObject doCreate(AnnotatedElement annotatedElement, LoopGenerator annotation) {
-        return doCreateGenerator(annotatedElement, annotation, Limit.LIMITED);
+    protected TemplateObject doCreate(TemplateObjectAnnotationContext context, LoopGenerator annotation) {
+        return doCreateGenerator(context, annotation, Limit.LIMITED);
     }
 
     @Override
-    protected LimitedGeneratorBase<Integer> doCreateLimitedGenerator(AnnotatedElement annotatedElement, LoopGenerator generatorAnnotation, Integer limitValue) {
-        return new LoopGeneratorImpl(generatorAnnotation);
+    protected LimitedGeneratorBase<Integer> doCreateLimitedGenerator(TemplateObjectAnnotationContext context, LoopGenerator generatorAnnotation, Integer limitValue) {
+        return new LoopGeneratorImpl(context, generatorAnnotation);
     }
 
     @SuppressWarnings("WeakerAccess")
     public static class LoopGeneratorImpl extends IntegerRangeGenerator {
-        LoopGeneratorImpl(LoopGenerator loopGenerator) {
-            super(loopGenerator, 1, loopGenerator.size(), 1);
+        LoopGeneratorImpl(TemplateObjectAnnotationContext context, LoopGenerator loopGenerator) {
+            super(context, loopGenerator, 1, loopGenerator.size(), 1);
         }
 
         @Override

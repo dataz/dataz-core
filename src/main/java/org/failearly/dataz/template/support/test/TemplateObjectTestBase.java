@@ -23,16 +23,17 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.context.Context;
 import org.failearly.common.message.Message;
-import org.failearly.dataz.template.TemplateObject;
-import org.failearly.dataz.template.TemplateObjectFactory;
 import org.failearly.dataz.internal.template.support.test.message.basic.NoDevelopmentTemplateObjectErrorMessages;
 import org.failearly.dataz.internal.template.support.test.message.basic.TemplateObjectErrorMessages;
+import org.failearly.dataz.template.TemplateObject;
+import org.failearly.dataz.template.TemplateObjectFactory;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.StringWriter;
 import java.lang.annotation.Annotation;
 
+import static org.failearly.dataz.template.TemplateObjectAnnotationContext.createAnnotationContext;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -382,7 +383,7 @@ public abstract class TemplateObjectTestBase<TOA extends Annotation, TOF extends
         } catch (Exception e) {
             throw new IllegalArgumentException("Could not create an instance of " + templateObjectFactoryClass.getName(), e);
         }
-        return templateObjectFactory.create(this.testFixtureClass, annotation);
+        return templateObjectFactory.create(createAnnotationContext(this.testFixtureClass), annotation);
     }
 
     private <XTO extends TemplateObject> XTO toTemplateObject(TemplateObject templateObject, Class<XTO> targetClass) {

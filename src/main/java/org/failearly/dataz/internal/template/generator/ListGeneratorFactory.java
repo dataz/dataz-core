@@ -19,13 +19,13 @@
 
 package org.failearly.dataz.internal.template.generator;
 
+import org.failearly.dataz.template.TemplateObjectAnnotationContext;
 import org.failearly.dataz.template.generator.support.LimitedGeneratorBase;
 import org.failearly.dataz.template.generator.ListGenerator;
 import org.failearly.dataz.template.generator.support.GeneratorFactoryBase;
 import org.failearly.dataz.template.Scope;
 import org.failearly.dataz.template.TemplateObject;
 
-import java.lang.reflect.AnnotatedElement;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -40,13 +40,13 @@ public final class ListGeneratorFactory extends GeneratorFactoryBase<String,List
     }
 
     @Override
-    protected TemplateObject doCreate(AnnotatedElement annotatedElement, ListGenerator annotation) {
-        return doCreateGenerator(annotatedElement, annotation, annotation.limit(), annotation.values().length);
+    protected TemplateObject doCreate(TemplateObjectAnnotationContext context, ListGenerator annotation) {
+        return doCreateGenerator(context, annotation, annotation.limit(), annotation.values().length);
     }
 
     @Override
-    protected ListGeneratorImpl doCreateLimitedGenerator(AnnotatedElement annotatedElement, ListGenerator generatorAnnotation, Integer limitValue) {
-        return new ListGeneratorImpl(generatorAnnotation);
+    protected ListGeneratorImpl doCreateLimitedGenerator(TemplateObjectAnnotationContext context, ListGenerator generatorAnnotation, Integer limitValue) {
+        return new ListGeneratorImpl(context, generatorAnnotation);
     }
 
     @Override
@@ -67,8 +67,8 @@ public final class ListGeneratorFactory extends GeneratorFactoryBase<String,List
     public static class ListGeneratorImpl extends LimitedGeneratorBase<String> {
         private final List<String> values;
 
-        private ListGeneratorImpl(ListGenerator annotation) {
-            super(annotation);
+        private ListGeneratorImpl(TemplateObjectAnnotationContext context, ListGenerator annotation) {
+            super(context, annotation);
             this.values = Arrays.asList(annotation.values());
         }
 

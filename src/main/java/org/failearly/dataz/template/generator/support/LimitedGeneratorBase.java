@@ -20,6 +20,7 @@
 package org.failearly.dataz.template.generator.support;
 
 import org.failearly.dataz.template.TemplateObject;
+import org.failearly.dataz.template.TemplateObjectAnnotationContext;
 
 import java.lang.annotation.Annotation;
 
@@ -32,8 +33,8 @@ public abstract class LimitedGeneratorBase<T> extends GeneratorBase<T> implement
         super(other);
     }
 
-    protected LimitedGeneratorBase(Annotation annotation) {
-        super(annotation);
+    protected LimitedGeneratorBase(TemplateObjectAnnotationContext context, Annotation annotation) {
+        super(context, annotation);
     }
 
     @Override

@@ -24,6 +24,7 @@ import org.failearly.dataz.common.Property;
 import org.failearly.dataz.internal.template.simple.AdhocFactory;
 import org.failearly.dataz.template.Scope;
 import org.failearly.dataz.template.TemplateObject;
+import org.failearly.dataz.template.TemplateObjectAnnotationContext;
 import org.failearly.dataz.template.TemplateObjectFactory;
 
 import java.lang.annotation.*;
@@ -115,10 +116,12 @@ public @interface Adhoc {
 
         /**
          * The factory method for creating a {@link TemplateObject} from the {@link Adhoc} annotation.
+         *
+         * @param context
          * @param annotation the Adhoc annotation
          * @return the actually template object
          */
-        AdhocTemplateObject create(Adhoc annotation);
+        AdhocTemplateObject create(TemplateObjectAnnotationContext context, Adhoc annotation);
 
         @SuppressWarnings("unused")
         void ___extend_AdhocTemplateObjectBase__instead_of_implementing_AdhocTemplateObject();

@@ -19,12 +19,7 @@
 
 package org.failearly.dataz.test;
 
-import org.failearly.dataz.template.Scope;
-import org.failearly.dataz.template.TemplateObject;
-import org.failearly.dataz.template.TemplateObjectBase;
-import org.failearly.dataz.template.TemplateObjectFactoryBase;
-
-import java.lang.reflect.AnnotatedElement;
+import org.failearly.dataz.template.*;
 
 /**
  * TemplateObjectAnnotationFactory is the factory for making from the annotation {@link SimpleTemplateObject} a
@@ -36,8 +31,8 @@ public final class SimpleTemplateObjectFactory extends TemplateObjectFactoryBase
     }
 
     @Override
-    protected TemplateObject doCreate(AnnotatedElement annotatedElement, SimpleTemplateObject annotation) {
-        return new SimpleTemplateObjectImpl(annotation);
+    protected TemplateObject doCreate(TemplateObjectAnnotationContext context, SimpleTemplateObject annotation) {
+        return new SimpleTemplateObjectImpl(context, annotation);
     }
 
     @Override
@@ -59,8 +54,8 @@ public final class SimpleTemplateObjectFactory extends TemplateObjectFactoryBase
 
         private final String description;
 
-        private SimpleTemplateObjectImpl(SimpleTemplateObject annotation) {
-            super(annotation);
+        private SimpleTemplateObjectImpl(TemplateObjectAnnotationContext context, SimpleTemplateObject annotation) {
+            super(context, annotation);
             this.description = annotation.description();
         }
 

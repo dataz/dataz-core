@@ -23,7 +23,6 @@ import org.failearly.dataz.resource.DataResource;
 import org.failearly.dataz.template.engine.TemplateEngine;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.AnnotatedElement;
 import java.util.Set;
 
 /**
@@ -46,18 +45,20 @@ public interface TemplateObject {
     Annotation getAnnotation();
 
     /**
-     * The element the actually annotation has been applied to.
+     * The Template Object's annotation context hold the object where the actually annotation has been assigned to.
      *
      * Some template objects need access to the element has been applied to. For example to load resources.
-     * @return the annotated element.
+     *
+     * @return the context object.
      */
-    AnnotatedElement getAnnotatedElement();
+    TemplateObjectAnnotationContext getContext();
 
     /**
      * The name will be used within a (Velocity) template as {@code $name} or {@code ${name}}.
      * So be carefully with the name.
-     * <br><br>
-     * Caution: Not every name will be usable by a template engine.
+     *
+     *
+     * *Caution*: Not every name will be usable by a template engine.
      *          (Visit http://velocity.apache.org/engine/devel/user-guide.html)
      *
      * @return  the name of the template object.

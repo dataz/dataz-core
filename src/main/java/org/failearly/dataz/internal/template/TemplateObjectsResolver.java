@@ -23,15 +23,15 @@ import org.failearly.common.annotation.traverser.MetaAnnotationTraverser;
 import org.failearly.common.annotation.traverser.TraverseDepth;
 import org.failearly.common.classutils.ObjectCreator;
 import org.failearly.dataz.config.DataSetProperties;
+import org.failearly.dataz.template.TemplateObjectAnnotationContext;
 import org.failearly.dataz.template.TemplateObjectFactory;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 import java.util.LinkedList;
 
 import static org.failearly.common.annotation.traverser.AnnotationTraverserBuilder.metaAnnotationTraverser;
-import static org.failearly.common.annotation.utils.AnnotationUtils.getMetaAnnotation;
+import static org.failearly.dataz.template.TemplateObjectAnnotationContext.createAnnotationContext;
 
 /**
  * TemplateObjectsResolver is responsible for resolving and creating {@link TemplateObjects} from TOAs.
@@ -77,11 +77,11 @@ public final class TemplateObjectsResolver {
         return templateObjects;
     }
 
-    private void doResolveTemplateObjectCreatorsFromClass(Class<?> clazz, final TemplateObjects templateObjects) {
-        toaTraverser.traverse(clazz, new MetaAnnotationHandlerBase<TemplateObjectFactory.Definition>() {
+    private void doResolveTemplateObjectCreatorsFromClass(Class<?> startingClass, final TemplateObjects templateObjects) {
+        toaTraverser.traverse(startingClass, new MetaAnnotationHandlerBase<TemplateObjectFactory.Definition>() {
             @Override
-            public void handleAnnotation(Annotation annotation) {
-                templateObjects.add(createTemplateObjectCreator(annotation, clazz));
+            public void handleMetaClassAnnotation(final Class<?> clazz, Annotation annotation, TemplateObjectFactory.Definition metaAnnotation) {
+                templateObjects.add(createTemplateObjectCreator(annotation, createAnnotationContext(clazz), metaAnnotation));
             }
         });
     }
@@ -94,15 +94,20 @@ public final class TemplateObjectsResolver {
      */
     public TemplateObjects resolveFromMethod(Method method) {
         final TemplateObjectsImpl templateObjects = createTemplateObjects();
-        doResolveTemplateObjectCreatorsFromMethod(method, templateObjects, method);
+        doResolveTemplateObjectCreatorsFromMethod(method, templateObjects);
         return templateObjects;
     }
 
-    private void doResolveTemplateObjectCreatorsFromMethod(Method clazz, final TemplateObjects templateObjects, AnnotatedElement annotatedElement) {
-        toaTraverser.traverse(clazz, new MetaAnnotationHandlerBase<TemplateObjectFactory.Definition>() {
+    private void doResolveTemplateObjectCreatorsFromMethod(Method method, final TemplateObjects templateObjects) {
+        toaTraverser.traverse(method, new MetaAnnotationHandlerBase<TemplateObjectFactory.Definition>() {
             @Override
-            public void handleAnnotation(Annotation annotation) {
-                templateObjects.add(createTemplateObjectCreator(annotation, annotatedElement));
+            public void handleMetaClassAnnotation(Class<?> clazz, Annotation annotation, TemplateObjectFactory.Definition metaAnnotation) {
+                templateObjects.add(createTemplateObjectCreator(annotation, createAnnotationContext(clazz), metaAnnotation));
+            }
+
+            @Override
+            public void handleMetaMethodAnnotation(Method method, Annotation annotation, TemplateObjectFactory.Definition metaAnnotation) {
+                templateObjects.add(createTemplateObjectCreator(annotation, createAnnotationContext(method), metaAnnotation));
             }
         });
     }
@@ -112,20 +117,16 @@ public final class TemplateObjectsResolver {
         return new TemplateObjectsImpl(new LinkedList<>(), templateObjectDuplicateStrategy, templateObjectDuplicateStrategy);
     }
 
-    private static TemplateObjectCreator createTemplateObjectCreator(Annotation annotation, AnnotatedElement annotatedElement) {
+    private static TemplateObjectCreator createTemplateObjectCreator(Annotation annotation, TemplateObjectAnnotationContext templateObjectAnnotationContext, TemplateObjectFactory.Definition definition) {
         return new TemplateObjectCreator(
-            createTemplateObjectFactory(getMetaAnnotation(TemplateObjectFactory.Definition.class, annotation)),
+            createTemplateObjectFactory(definition),
             annotation,
-            annotatedElement
+            templateObjectAnnotationContext
         );
     }
 
     private static TemplateObjectFactory createTemplateObjectFactory(TemplateObjectFactory.Definition definition) {
-        return ObjectCreator.createInstance(resolveTemplateFactoryClass(definition));
-    }
-
-    private static Class<? extends TemplateObjectFactory> resolveTemplateFactoryClass(TemplateObjectFactory.Definition definition) {
-        return definition.value();
+        return ObjectCreator.createInstance(definition.value());
     }
 
 }

@@ -41,6 +41,7 @@ import static org.junit.Assert.assertThat;
 public final class TemplateObjectCreatorTest {
 
     private static final TemplateObjectFactory TEMPLATE_OBJECT_FACTORY = new SimpleTemplateObjectFactory();
+    private static final TemplateObjectAnnotationContext TEMPLATE_OBJECT_ANNOTATION_CONTEXT = TemplateObjectAnnotationContext.createAnnotationContext(AnyClass.class);
 
     private static final int TOA_WITH_DEFAULT_SETTINGS = 0;
     private static final int TOA_WITH_NON_DEFAULT_SETTINGS = 1;
@@ -58,13 +59,14 @@ public final class TemplateObjectCreatorTest {
         return new HashSet<>(Arrays.asList(expected));
     }
 
+
     @Test
     public void which_TOA_values_are_available_on_the_TemplateObjectCreator() throws Exception {
         // arrange / given
         final Annotation toa = getAnnotation(TOA_WITH_NON_DEFAULT_SETTINGS);
 
         // act / when
-        final TemplateObjectCreator creator = new TemplateObjectCreator(TEMPLATE_OBJECT_FACTORY, toa, AnyClass.class);
+        final TemplateObjectCreator creator = new TemplateObjectCreator(TEMPLATE_OBJECT_FACTORY, toa, TEMPLATE_OBJECT_ANNOTATION_CONTEXT);
 
         // assert / then
         assertThat("TOA?", creator.getAnnotation(), is(toa));
@@ -78,17 +80,17 @@ public final class TemplateObjectCreatorTest {
         final Annotation toa = getAnnotation(TOA_WITH_NON_DEFAULT_SETTINGS);
 
         // act / when
-        final TemplateObjectCreator creator = new TemplateObjectCreator(TEMPLATE_OBJECT_FACTORY, toa, AnyClass.class);
+        final TemplateObjectCreator creator = new TemplateObjectCreator(TEMPLATE_OBJECT_FACTORY, toa, TEMPLATE_OBJECT_ANNOTATION_CONTEXT);
         final TemplateObject templateObject = creator.createTemplateObjectInstance();
 
         // assert / then
         assertThat(templateObject.getClass().getName(), is("org.failearly.dataz.test.SimpleTemplateObjectFactory$SimpleTemplateObjectImpl"));
-        assertThat(templateObject.getAnnotatedElement(), is(AnyClass.class));
+        assertThat(templateObject.getContext().getAnnotatedOrDeclaringClass(), is(AnyClass.class));
     }
 
     private static TemplateObject createTemplateObjectFromCreator(int annotationNumber) {
         final Annotation toa = getAnnotation(annotationNumber);
-        final TemplateObjectCreator creator = new TemplateObjectCreator(TEMPLATE_OBJECT_FACTORY, toa, AnyClass.class);
+        final TemplateObjectCreator creator = new TemplateObjectCreator(TEMPLATE_OBJECT_FACTORY, toa, TEMPLATE_OBJECT_ANNOTATION_CONTEXT);
 
         return creator.createTemplateObjectInstance();
     }
@@ -124,7 +126,7 @@ public final class TemplateObjectCreatorTest {
         final Annotation toa = getAnnotation(TOA_WITH_NONE_UNIQUE_DATASETS);
 
         // act / when
-        final TemplateObjectCreator creator = new TemplateObjectCreator(TEMPLATE_OBJECT_FACTORY, toa, AnyClass.class);
+        final TemplateObjectCreator creator = new TemplateObjectCreator(TEMPLATE_OBJECT_FACTORY, toa, TEMPLATE_OBJECT_ANNOTATION_CONTEXT);
         final TemplateObject templateObject = creator.createTemplateObjectInstance();
 
         // assert / then

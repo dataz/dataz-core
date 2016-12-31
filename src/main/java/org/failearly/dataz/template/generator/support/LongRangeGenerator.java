@@ -20,6 +20,7 @@
 package org.failearly.dataz.template.generator.support;
 
 import org.failearly.dataz.exception.DataSetException;
+import org.failearly.dataz.template.TemplateObjectAnnotationContext;
 
 import java.lang.annotation.Annotation;
 
@@ -28,8 +29,8 @@ import java.lang.annotation.Annotation;
  */
 public abstract class LongRangeGenerator extends RangeGeneratorBase<Long> {
 
-    protected LongRangeGenerator(Annotation annotation, long from, long to, long step) {
-        super(annotation, from, to, step);
+    protected LongRangeGenerator(TemplateObjectAnnotationContext context,  Annotation annotation, long from, long to, long step) {
+        super(context, annotation, from, to, step);
     }
 
     @Override

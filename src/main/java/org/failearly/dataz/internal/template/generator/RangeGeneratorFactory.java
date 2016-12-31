@@ -21,12 +21,11 @@ package org.failearly.dataz.internal.template.generator;
 
 import org.failearly.dataz.template.Scope;
 import org.failearly.dataz.template.TemplateObject;
+import org.failearly.dataz.template.TemplateObjectAnnotationContext;
 import org.failearly.dataz.template.generator.RangeGenerator;
 import org.failearly.dataz.template.generator.support.GeneratorFactoryBase;
 import org.failearly.dataz.template.generator.support.IntegerRangeGenerator;
 import org.failearly.dataz.template.generator.support.RangeGeneratorBase;
-
-import java.lang.reflect.AnnotatedElement;
 
 /**
  * RangeGeneratorFactory is responsible for creating instances of implementation for {@link org.failearly.dataz.template.generator.RangeGenerator}.
@@ -37,13 +36,13 @@ public final class RangeGeneratorFactory extends GeneratorFactoryBase<Integer, R
     }
 
     @Override
-    protected TemplateObject doCreate(AnnotatedElement annotatedElement, RangeGenerator annotation) {
-        return doCreateGenerator(annotatedElement, annotation, annotation.limit());
+    protected TemplateObject doCreate(TemplateObjectAnnotationContext context, RangeGenerator annotation) {
+        return doCreateGenerator(context, annotation, annotation.limit());
     }
 
     @Override
-    protected RangeGeneratorBase<Integer> doCreateLimitedGenerator(AnnotatedElement annotatedElement, RangeGenerator generatorAnnotation, Integer limitValue) {
-        return new RangeGeneratorImpl(generatorAnnotation);
+    protected RangeGeneratorBase<Integer> doCreateLimitedGenerator(TemplateObjectAnnotationContext context, RangeGenerator generatorAnnotation, Integer limitValue) {
+        return new RangeGeneratorImpl(context, generatorAnnotation);
     }
 
     @Override
@@ -62,11 +61,12 @@ public final class RangeGeneratorFactory extends GeneratorFactoryBase<Integer, R
     }
 
     public static class RangeGeneratorImpl extends IntegerRangeGenerator {
-        private RangeGeneratorImpl(RangeGenerator rangeGenerator) {
-            super(rangeGenerator,
-                    rangeGenerator.from(),
-                    rangeGenerator.to(),
-                    rangeGenerator.step()
+        private RangeGeneratorImpl(TemplateObjectAnnotationContext context, RangeGenerator rangeGenerator) {
+            super(context,
+                rangeGenerator,
+                rangeGenerator.from(),
+                rangeGenerator.to(),
+                rangeGenerator.step()
             );
         }
     }

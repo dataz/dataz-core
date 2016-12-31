@@ -20,13 +20,13 @@
 package org.failearly.dataz.internal.template.generator;
 
 import org.failearly.dataz.exception.DataSetException;
+import org.failearly.dataz.template.TemplateObjectAnnotationContext;
 import org.failearly.dataz.template.generator.RandomRangeGenerator;
 import org.failearly.dataz.template.generator.support.GeneratorFactoryBase;
 import org.failearly.dataz.template.generator.support.UnlimitedGeneratorBase;
 import org.failearly.dataz.template.Scope;
 import org.failearly.dataz.template.TemplateObject;
 
-import java.lang.reflect.AnnotatedElement;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -40,12 +40,12 @@ public final class RandomRangeGeneratorFactory extends GeneratorFactoryBase<Inte
     }
 
     @Override
-    protected TemplateObject doCreate(AnnotatedElement annotatedElement, RandomRangeGenerator annotation) {
+    protected TemplateObject doCreate(TemplateObjectAnnotationContext context, RandomRangeGenerator annotation) {
         if (annotation.unique()) {
-            return doCreateUniqueGenerator(annotatedElement, annotation, calculateUniqueLimitValue(annotation));
+            return doCreateUniqueGenerator(context, annotation, calculateUniqueLimitValue(annotation));
         }
 
-        return doCreateGenerator(annotatedElement, annotation, annotation.limit(), calculateLimitValue(annotation));
+        return doCreateGenerator(context, annotation, annotation.limit(), calculateLimitValue(annotation));
     }
 
     private static int calculateUniqueLimitValue(RandomRangeGenerator generatorAnnotation) {
@@ -71,8 +71,8 @@ public final class RandomRangeGeneratorFactory extends GeneratorFactoryBase<Inte
     }
 
     @Override
-    protected UnlimitedGeneratorBase<Integer> doCreateUnlimitedGenerator(AnnotatedElement annotatedElement, RandomRangeGenerator generatorAnnotation, Integer limitValue) {
-        return new RandomRangeGeneratorImpl(generatorAnnotation);
+    protected UnlimitedGeneratorBase<Integer> doCreateUnlimitedGenerator(TemplateObjectAnnotationContext context, RandomRangeGenerator generatorAnnotation, Integer limitValue) {
+        return new RandomRangeGeneratorImpl(context, generatorAnnotation);
     }
 
     @Override
@@ -99,8 +99,8 @@ public final class RandomRangeGeneratorFactory extends GeneratorFactoryBase<Inte
         private final int bound;
 
 
-        private RandomRangeGeneratorImpl(RandomRangeGenerator annotation) {
-            super(annotation);
+        private RandomRangeGeneratorImpl(TemplateObjectAnnotationContext context, RandomRangeGenerator annotation) {
+            super(context, annotation);
 
             this.start = annotation.start();
             this.end = annotation.end();

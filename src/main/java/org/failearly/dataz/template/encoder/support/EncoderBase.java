@@ -19,6 +19,7 @@
 
 package org.failearly.dataz.template.encoder.support;
 
+import org.failearly.dataz.template.TemplateObjectAnnotationContext;
 import org.failearly.dataz.template.TemplateObjectBase;
 import org.failearly.dataz.template.encoder.Encoder;
 
@@ -32,8 +33,8 @@ public abstract class EncoderBase<T, R> extends TemplateObjectBase implements En
     protected EncoderBase() {
     }
 
-    protected EncoderBase(Annotation annotation) {
-        super(annotation);
+    protected EncoderBase(TemplateObjectAnnotationContext context, Annotation annotation) {
+        super(context, annotation);
     }
 
     @Override

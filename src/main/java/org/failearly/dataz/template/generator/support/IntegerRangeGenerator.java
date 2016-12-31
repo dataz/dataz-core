@@ -20,6 +20,7 @@
 package org.failearly.dataz.template.generator.support;
 
 import org.failearly.dataz.exception.DataSetException;
+import org.failearly.dataz.template.TemplateObjectAnnotationContext;
 
 import java.lang.annotation.Annotation;
 
@@ -27,8 +28,8 @@ import java.lang.annotation.Annotation;
  * IntegerRangeGenerator is the base class for Integer based range generators.
  */
 public abstract class IntegerRangeGenerator extends RangeGeneratorBase<Integer> {
-    protected IntegerRangeGenerator(Annotation annotation, int from, int to, int step) {
-        super(annotation, from, to, step);
+    protected IntegerRangeGenerator(TemplateObjectAnnotationContext context, Annotation annotation, int from, int to, int step) {
+        super(context, annotation, from, to, step);
     }
 
     @Override

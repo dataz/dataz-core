@@ -21,11 +21,10 @@ package org.failearly.dataz.template.encoder.support.test;
 
 import org.failearly.common.annotations.Tests;
 import org.failearly.dataz.template.Scope;
+import org.failearly.dataz.template.TemplateObjectAnnotationContext;
 import org.failearly.dataz.template.encoder.Encoder;
 import org.failearly.dataz.template.encoder.support.EncoderBase;
 import org.failearly.dataz.template.encoder.support.EncoderFactoryBase;
-
-import java.lang.reflect.AnnotatedElement;
 
 /**
  * SampleEncoderFactory creates a {@link Encoder} from {@link SampleEncoder}.
@@ -37,8 +36,8 @@ public class SampleEncoderFactory extends EncoderFactoryBase<SampleEncoder> {
     }
 
     @Override
-    protected Encoder doCreate(AnnotatedElement annotatedElement, SampleEncoder annotation) {
-        return new SampleEncoderImpl(annotation);
+    protected Encoder doCreate(TemplateObjectAnnotationContext context, SampleEncoder annotation) {
+        return new SampleEncoderImpl(context, annotation);
     }
 
     @Override
@@ -59,8 +58,8 @@ public class SampleEncoderFactory extends EncoderFactoryBase<SampleEncoder> {
     // Must be public for Velocity!
     @Tests("SampleEncoderTest")
     public static class SampleEncoderImpl extends EncoderBase<Object /* TODO: replace */, Object /* replace */ > {
-        SampleEncoderImpl(SampleEncoder annotation) {
-            super(annotation);
+        SampleEncoderImpl(TemplateObjectAnnotationContext context, SampleEncoder annotation) {
+            super(context, annotation);
             // TODO: For each (not standard) annotation element there should be an appropriate field assignment.
         }
 

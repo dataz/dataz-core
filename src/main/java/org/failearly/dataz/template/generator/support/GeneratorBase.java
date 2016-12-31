@@ -22,6 +22,7 @@ package org.failearly.dataz.template.generator.support;
 
 import org.failearly.dataz.exception.DataSetException;
 import org.failearly.dataz.template.TemplateObject;
+import org.failearly.dataz.template.TemplateObjectAnnotationContext;
 import org.failearly.dataz.template.TemplateObjectBase;
 import org.failearly.dataz.template.generator.Generator;
 
@@ -42,8 +43,8 @@ public abstract class GeneratorBase<T> extends TemplateObjectBase implements Gen
         super(other);
     }
 
-    GeneratorBase(Annotation annotation) {
-        super(annotation);
+    GeneratorBase(TemplateObjectAnnotationContext context, Annotation annotation) {
+        super(context, annotation);
     }
 
     /**

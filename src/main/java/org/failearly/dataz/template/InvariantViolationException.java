@@ -34,10 +34,10 @@ public class InvariantViolationException extends DataSetException {
      * @param invariant the description of the invariant
      */
     public InvariantViolationException(Annotation annotation, String invariant) {
-        super(createMesage(annotation, invariant));
+        super(createMessage(annotation, invariant));
     }
 
-    protected static String createMesage(Annotation annotation, String invariant) {
+    protected static String createMessage(Annotation annotation, String invariant) {
         return "Invariant of " + annotationName(annotation) + " has been violated: " + invariant
                 + "!\nCurrent annotation is '" + annotation + "'";
     }

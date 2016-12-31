@@ -20,12 +20,7 @@
 package org.failearly.dataz.template.support.test;
 
 import org.failearly.common.annotations.Tests;
-import org.failearly.dataz.template.Scope;
-import org.failearly.dataz.template.TemplateObject;
-import org.failearly.dataz.template.TemplateObjectBase;
-import org.failearly.dataz.template.TemplateObjectFactoryBase;
-
-import java.lang.reflect.AnnotatedElement;
+import org.failearly.dataz.template.*;
 
 /**
  * SampleFactory creates a {@link TemplateObject} from {@link Sample}.
@@ -37,8 +32,8 @@ public class SampleFactory extends TemplateObjectFactoryBase<Sample> {
     }
 
     @Override
-    protected TemplateObject doCreate(AnnotatedElement annotatedElement, Sample annotation) {
-        return new SampleImpl(annotation);
+    protected TemplateObject doCreate(TemplateObjectAnnotationContext context, Sample annotation) {
+        return new SampleImpl(context, annotation);
     }
 
     @Override
@@ -59,8 +54,8 @@ public class SampleFactory extends TemplateObjectFactoryBase<Sample> {
     // Must be public for Velocity!
     @Tests("SampleTest")
     public static class SampleImpl extends TemplateObjectBase {
-        SampleImpl(Sample annotation) {
-            super(annotation);
+        SampleImpl(TemplateObjectAnnotationContext context, Sample annotation) {
+            super(context, annotation);
             // TODO: For each (not standard) annotation element there should be an appropriate field assignment.
         }
 

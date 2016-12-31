@@ -20,6 +20,7 @@
 package org.failearly.dataz.template.generator.support;
 
 import org.failearly.dataz.template.TemplateObject;
+import org.failearly.dataz.template.TemplateObjectAnnotationContext;
 import org.failearly.dataz.template.simple.Constant;
 
 import java.util.Arrays;
@@ -35,7 +36,7 @@ public final class TemplateObjectMock {
     public static TemplateObject createTemplateObjectMock(Class<?> annotationHolderClass) {
         final Constant annotation = annotationHolderClass.getAnnotation(Constant.class);
         TemplateObject templateObjectMock = mock(TemplateObject.class);
-        when(templateObjectMock.getAnnotatedElement()).thenReturn(annotationHolderClass);
+        when(templateObjectMock.getContext()).thenReturn(TemplateObjectAnnotationContext.createAnnotationContext(annotationHolderClass));
         when(templateObjectMock.getAnnotation()).thenReturn(annotation);
         when(templateObjectMock.datasets()).thenReturn(toSet(annotation.datasets()));
         when(templateObjectMock.name()).thenReturn(annotation.name());

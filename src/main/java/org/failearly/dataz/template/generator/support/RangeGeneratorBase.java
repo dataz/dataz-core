@@ -19,6 +19,8 @@
 
 package org.failearly.dataz.template.generator.support;
 
+import org.failearly.dataz.template.TemplateObjectAnnotationContext;
+
 import java.lang.annotation.Annotation;
 import java.util.Iterator;
 
@@ -31,8 +33,8 @@ public abstract class RangeGeneratorBase<T extends Number> extends LimitedGenera
     protected final T to;
     protected final T step;
 
-    protected RangeGeneratorBase(Annotation annotation, T from, T to, T step) {
-        super(annotation);
+    protected RangeGeneratorBase(TemplateObjectAnnotationContext context, Annotation annotation, T from, T to, T step) {
+        super(context, annotation);
 
         this.from=from;
         this.to=to;

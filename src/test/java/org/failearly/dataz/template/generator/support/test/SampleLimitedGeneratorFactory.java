@@ -9,11 +9,11 @@ package org.failearly.dataz.template.generator.support.test;
 import org.failearly.common.annotations.Tests;
 import org.failearly.dataz.template.Scope;
 import org.failearly.dataz.template.TemplateObject;
+import org.failearly.dataz.template.TemplateObjectAnnotationContext;
 import org.failearly.dataz.template.generator.Generator;
 import org.failearly.dataz.template.generator.support.GeneratorFactoryBase;
 import org.failearly.dataz.template.generator.support.LimitedGeneratorBase;
 
-import java.lang.reflect.AnnotatedElement;
 import java.util.Collections;
 import java.util.Iterator;
 
@@ -42,20 +42,20 @@ public class SampleLimitedGeneratorFactory extends GeneratorFactoryBase<Object,S
     }
 
     @Override
-    protected TemplateObject doCreate(AnnotatedElement annotatedElement, SampleLimitedGenerator annotation) {
-        return doCreateGenerator(annotatedElement, annotation, annotation.limit());
+    protected TemplateObject doCreate(TemplateObjectAnnotationContext context, SampleLimitedGenerator annotation) {
+        return doCreateGenerator(context, annotation, annotation.limit());
     }
 
     @Override
-    protected LimitedGeneratorBase<Object> doCreateLimitedGenerator(AnnotatedElement annotatedElement, final SampleLimitedGenerator annotation, final Integer limitValue) {
-        return new SampleLimitedGeneratorImpl(annotation);
+    protected LimitedGeneratorBase<Object> doCreateLimitedGenerator(TemplateObjectAnnotationContext context, final SampleLimitedGenerator annotation, final Integer limitValue) {
+        return new SampleLimitedGeneratorImpl(context, annotation);
     }
 
     // Must be public for Velocity!
     @Tests("SampleLimitedGeneratorTest")
     public static class SampleLimitedGeneratorImpl extends LimitedGeneratorBase<Object> {
-        SampleLimitedGeneratorImpl(SampleLimitedGenerator annotation) {
-            super(annotation);
+        SampleLimitedGeneratorImpl(TemplateObjectAnnotationContext context, SampleLimitedGenerator annotation) {
+            super(context, annotation);
             // TODO: For each (not standard) annotation element there should be an appropriate field assignment.
         }
 

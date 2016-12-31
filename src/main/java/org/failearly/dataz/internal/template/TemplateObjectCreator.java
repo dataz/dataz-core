@@ -22,10 +22,10 @@ package org.failearly.dataz.internal.template;
 
 import org.failearly.dataz.template.Scope;
 import org.failearly.dataz.template.TemplateObject;
+import org.failearly.dataz.template.TemplateObjectAnnotationContext;
 import org.failearly.dataz.template.TemplateObjectFactory;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.AnnotatedElement;
 import java.util.Objects;
 import java.util.Set;
 
@@ -36,17 +36,13 @@ import java.util.Set;
 final class TemplateObjectCreator {
     protected final TemplateObjectFactory factory;
 
-    private final AnnotatedElement annotatedElement;
+    private final TemplateObjectAnnotationContext context;
     private final Annotation annotation;
 
-    TemplateObjectCreator(TemplateObjectFactory factory, Annotation annotation, AnnotatedElement annotatedElement) {
+    TemplateObjectCreator(TemplateObjectFactory factory, Annotation annotation, TemplateObjectAnnotationContext context) {
         this.annotation = annotation;
         this.factory = factory;
-        this.annotatedElement = annotatedElement;
-    }
-
-    AnnotatedElement getAnnotatedElement() {
-        return annotatedElement;
+        this.context = context;
     }
 
     Annotation getAnnotation() {
@@ -60,7 +56,7 @@ final class TemplateObjectCreator {
     }
 
     TemplateObject createTemplateObjectInstance() {
-        return factory.create(annotatedElement, getAnnotation());
+        return factory.create(context, getAnnotation());
     }
 
     boolean hasScope(Scope scope) {
