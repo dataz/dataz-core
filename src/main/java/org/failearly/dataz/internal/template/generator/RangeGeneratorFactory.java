@@ -26,6 +26,8 @@ import org.failearly.dataz.template.generator.support.GeneratorFactoryBase;
 import org.failearly.dataz.template.generator.support.IntegerRangeGenerator;
 import org.failearly.dataz.template.generator.support.RangeGeneratorBase;
 
+import java.lang.reflect.AnnotatedElement;
+
 /**
  * RangeGeneratorFactory is responsible for creating instances of implementation for {@link org.failearly.dataz.template.generator.RangeGenerator}.
  */
@@ -35,12 +37,12 @@ public final class RangeGeneratorFactory extends GeneratorFactoryBase<Integer, R
     }
 
     @Override
-    protected TemplateObject doCreate(RangeGenerator annotation) {
-        return doCreateGenerator(annotation, annotation.limit());
+    protected TemplateObject doCreate(AnnotatedElement annotatedElement, RangeGenerator annotation) {
+        return doCreateGenerator(annotatedElement, annotation, annotation.limit());
     }
 
     @Override
-    protected RangeGeneratorBase<Integer> doCreateLimitedGenerator(RangeGenerator generatorAnnotation, Integer limitValue) {
+    protected RangeGeneratorBase<Integer> doCreateLimitedGenerator(AnnotatedElement annotatedElement, RangeGenerator generatorAnnotation, Integer limitValue) {
         return new RangeGeneratorImpl(generatorAnnotation);
     }
 

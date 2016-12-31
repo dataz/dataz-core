@@ -24,6 +24,7 @@ import org.failearly.dataz.template.TemplateObject;
 import org.failearly.dataz.template.generator.support.GeneratorFactoryBase;
 import org.failearly.dataz.template.generator.support.UnlimitedGeneratorBase;
 
+import java.lang.reflect.AnnotatedElement;
 import java.util.Collections;
 import java.util.Iterator;
 
@@ -52,12 +53,12 @@ public class SampleUnlimitedGeneratorFactory extends GeneratorFactoryBase<Intege
     }
 
     @Override
-    protected TemplateObject doCreate(SampleUnlimitedGenerator annotation) {
-        return doCreateGenerator(annotation, annotation.limit());
+    protected TemplateObject doCreate(AnnotatedElement annotatedElement, SampleUnlimitedGenerator annotation) {
+        return doCreateGenerator(annotatedElement, annotation, annotation.limit());
     }
 
     @Override
-    protected UnlimitedGeneratorBase<Integer> doCreateUnlimitedGenerator(SampleUnlimitedGenerator annotation, Integer limitValue) {
+    protected UnlimitedGeneratorBase<Integer> doCreateUnlimitedGenerator(AnnotatedElement annotatedElement, SampleUnlimitedGenerator annotation, Integer limitValue) {
         return new SampleUnlimitedGeneratorImpl(annotation);
     }
 

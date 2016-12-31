@@ -20,19 +20,21 @@
 package org.failearly.dataz.template.generator.support;
 
 import org.apache.commons.lang.mutable.MutableInt;
+import org.failearly.common.test.ExceptionVerifier;
 import org.failearly.dataz.internal.template.generator.decorator.GeneratorDecorators;
 import org.failearly.dataz.template.Scope;
+import org.failearly.dataz.template.TemplateObject;
 import org.failearly.dataz.template.generator.Generator;
-import org.failearly.common.test.ExceptionVerifier;
+import org.failearly.dataz.template.simple.Constant;
 import org.junit.Test;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Consumer;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.oneOf;
 import static org.junit.Assert.assertThat;
 
 public class LimitedGeneratorDecoratorTest {
@@ -111,10 +113,17 @@ public class LimitedGeneratorDecoratorTest {
         assertThat("#iterations?", count.intValue(), is(LIMIT));
     }
 
+
+    private static TemplateObject templateObjectMock = TemplateObjectMock.createTemplateObjectMock(AnnotationHolder.class);
+
+    @Constant(name="NAME",value = "value", scope = Scope.DEFAULT, datasets = "DATASET")
+    private static class AnnotationHolder {}
+
     private static class UnlimitedGenerator extends UnlimitedGeneratorBase<String> {
 
+
         UnlimitedGenerator() {
-            super(Collections.singleton("DATASET"), "NAME", Scope.DEFAULT);
+            super(templateObjectMock);
         }
 
         @Override

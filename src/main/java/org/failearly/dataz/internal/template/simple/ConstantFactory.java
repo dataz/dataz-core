@@ -26,6 +26,8 @@ import org.failearly.dataz.template.TemplateObjectBase;
 import org.failearly.dataz.template.TemplateObjectFactoryBase;
 import org.failearly.dataz.template.simple.Constant;
 
+import java.lang.reflect.AnnotatedElement;
+
 /**
  * ConstantGeneratorFactory is responsible for creating of implementation instances for {@link Constant}.
  */
@@ -37,7 +39,7 @@ public final class ConstantFactory extends TemplateObjectFactoryBase<Constant> {
     }
 
     @Override
-    protected TemplateObject doCreate(Constant annotation) {
+    protected TemplateObject doCreate(AnnotatedElement annotatedElement, Constant annotation) {
         return new ConstantImpl(annotation);
     }
 

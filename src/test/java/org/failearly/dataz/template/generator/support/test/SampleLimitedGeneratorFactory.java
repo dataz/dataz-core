@@ -13,6 +13,7 @@ import org.failearly.dataz.template.generator.Generator;
 import org.failearly.dataz.template.generator.support.GeneratorFactoryBase;
 import org.failearly.dataz.template.generator.support.LimitedGeneratorBase;
 
+import java.lang.reflect.AnnotatedElement;
 import java.util.Collections;
 import java.util.Iterator;
 
@@ -41,12 +42,12 @@ public class SampleLimitedGeneratorFactory extends GeneratorFactoryBase<Object,S
     }
 
     @Override
-    protected TemplateObject doCreate(SampleLimitedGenerator annotation) {
-        return doCreateGenerator(annotation, annotation.limit());
+    protected TemplateObject doCreate(AnnotatedElement annotatedElement, SampleLimitedGenerator annotation) {
+        return doCreateGenerator(annotatedElement, annotation, annotation.limit());
     }
 
     @Override
-    protected LimitedGeneratorBase<Object> doCreateLimitedGenerator(final SampleLimitedGenerator annotation, final Integer limitValue) {
+    protected LimitedGeneratorBase<Object> doCreateLimitedGenerator(AnnotatedElement annotatedElement, final SampleLimitedGenerator annotation, final Integer limitValue) {
         return new SampleLimitedGeneratorImpl(annotation);
     }
 

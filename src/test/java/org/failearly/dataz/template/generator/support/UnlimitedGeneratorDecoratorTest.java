@@ -19,10 +19,12 @@
 
 package org.failearly.dataz.template.generator.support;
 
+import org.failearly.common.test.ExceptionVerifier;
 import org.failearly.dataz.internal.template.generator.decorator.GeneratorDecorators;
 import org.failearly.dataz.template.Scope;
+import org.failearly.dataz.template.TemplateObject;
 import org.failearly.dataz.template.generator.Generator;
-import org.failearly.common.test.ExceptionVerifier;
+import org.failearly.dataz.template.simple.Constant;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
@@ -30,7 +32,8 @@ import org.mockito.Mockito;
 
 import java.util.*;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 @FixMethodOrder(MethodSorters.JVM)
@@ -129,10 +132,15 @@ public class UnlimitedGeneratorDecoratorTest {
         assertThat(values, contains("A","A"));
     }
 
+    private static TemplateObject templateObjectMock = TemplateObjectMock.createTemplateObjectMock(AnnotationHolder.class);
+
+    @Constant(name="NAME",value = "value", scope = Scope.DEFAULT, datasets = "DATASET")
+    private static class AnnotationHolder {}
+
     private static class LimitedGenerator extends LimitedGeneratorBase<String> {
 
         LimitedGenerator() {
-            super(Collections.singleton("DATASET"), "NAME", Scope.DEFAULT);
+            super(templateObjectMock);
         }
 
         @Override

@@ -24,6 +24,8 @@ import org.failearly.dataz.template.TemplateObject;
 import org.failearly.dataz.template.TemplateObjectBase;
 import org.failearly.dataz.template.TemplateObjectFactoryBase;
 
+import java.lang.reflect.AnnotatedElement;
+
 /**
  * TemplateObjectAnnotationFactory is the factory for making from the annotation {@link SimpleTemplateObject} a
  * {@link SimpleTemplateObjectImpl} object.
@@ -34,7 +36,7 @@ public final class SimpleTemplateObjectFactory extends TemplateObjectFactoryBase
     }
 
     @Override
-    protected TemplateObject doCreate(SimpleTemplateObject annotation) {
+    protected TemplateObject doCreate(AnnotatedElement annotatedElement, SimpleTemplateObject annotation) {
         return new SimpleTemplateObjectImpl(annotation);
     }
 

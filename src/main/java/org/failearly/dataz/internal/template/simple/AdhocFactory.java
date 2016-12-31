@@ -25,6 +25,8 @@ import org.failearly.dataz.template.TemplateObjectFactoryBase;
 import org.failearly.dataz.template.simple.Adhoc;
 import org.failearly.common.classutils.ObjectCreator;
 
+import java.lang.reflect.AnnotatedElement;
+
 /**
  * AdhocFactory creates {@link org.failearly.dataz.template.simple.Adhoc.AdhocTemplateObject} from {@link Adhoc} template object annotation.
  */
@@ -34,7 +36,7 @@ public final class AdhocFactory extends TemplateObjectFactoryBase<Adhoc> {
     }
 
     @Override
-    protected TemplateObject doCreate(Adhoc annotation) {
+    protected TemplateObject doCreate(AnnotatedElement annotatedElement, Adhoc annotation) {
         final Adhoc.AdhocTemplateObject templateObjectPrototype = ObjectCreator.createInstance(annotation.value());
         return templateObjectPrototype.create(annotation);
     }

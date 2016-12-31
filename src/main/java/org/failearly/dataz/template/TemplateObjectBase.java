@@ -24,7 +24,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
-import java.util.*;
+import java.lang.reflect.AnnotatedElement;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 import static org.failearly.common.annotation.utils.AnnotationUtils.resolveValueOfAnnotationAttribute;
 
@@ -33,9 +37,13 @@ import static org.failearly.common.annotation.utils.AnnotationUtils.resolveValue
  */
 public abstract class TemplateObjectBase implements TemplateObject {
 
-    protected static final Annotation NO_ANNOTATION=null;
     protected final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
+    private static final Annotation NO_ANNOTATION=null;
+    private static final String[] NO_DATSETS = {};
+    private static final String NO_NAME = "<no name>";
+
+    private final AnnotatedElement annotatedElement;
     private final Annotation annotation;
     private final Set<String> datasets;
     private final String name;
@@ -45,25 +53,27 @@ public abstract class TemplateObjectBase implements TemplateObject {
      * For prototype based implementations like {@link org.failearly.dataz.template.simple.Adhoc}.
      */
     protected TemplateObjectBase() {
-        this(Collections.emptySet(), "<no name>", Scope.DEFAULT);
+        this(null, NO_ANNOTATION, NO_NAME, NO_DATSETS, Scope.DEFAULT);
     }
 
-    protected TemplateObjectBase(final Set<String> datasets, String name, Scope scope) {
-        this.annotation = NO_ANNOTATION;
-        this.datasets = datasets;
-        this.name = name;
-        this.scope = scope;
+    protected TemplateObjectBase(TemplateObject other) {
+        this(other.getAnnotatedElement(), other.getAnnotation(), other.name(), toArray(other.datasets()), other.scope());
+    }
+
+    private static String[] toArray(Set<String> datasets) {
+        return datasets.toArray(new String[datasets.size()]);
     }
 
     protected TemplateObjectBase(Annotation annotation) {
-        this(annotation,
-                resolveValueOfAnnotationAttribute(annotation,"name",String.class),
-                resolveValueOfAnnotationAttribute(annotation,"datasets",String[].class),
-                resolveValueOfAnnotationAttribute(annotation,"scope",Scope.class)
-            );
+        this(null,
+            annotation,
+            resolveValueOfAnnotationAttribute(annotation,"name",String.class),
+            resolveValueOfAnnotationAttribute(annotation,"datasets",String[].class),
+            resolveValueOfAnnotationAttribute(annotation,"scope",Scope.class));
     }
 
-    private TemplateObjectBase(Annotation annotation, String name, String[] dataset, Scope scope) {
+    private TemplateObjectBase(AnnotatedElement annotatedElement, Annotation annotation, String name, String[] dataset, Scope scope) {
+        this.annotatedElement = annotatedElement;
         this.annotation = annotation;
         this.datasets = new HashSet<>(Arrays.asList(dataset));
         this.name = name;
@@ -75,6 +85,16 @@ public abstract class TemplateObjectBase implements TemplateObject {
         checkInvariant(datasets!=null, "datasets() must not be null");
         checkInvariant(scope != null, "scope() must not be null");
         doInit();
+    }
+
+    @Override
+    public Annotation getAnnotation() {
+        return annotation;
+    }
+
+    @Override
+    public final AnnotatedElement getAnnotatedElement() {
+        return annotatedElement;
     }
 
     protected void doInit() {

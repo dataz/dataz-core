@@ -64,7 +64,7 @@ public final class TemplateObjectCreatorTest {
         final Annotation toa = getAnnotation(TOA_WITH_NON_DEFAULT_SETTINGS);
 
         // act / when
-        final TemplateObjectCreator creator = new TemplateObjectCreator(TEMPLATE_OBJECT_FACTORY, toa);
+        final TemplateObjectCreator creator = new TemplateObjectCreator(TEMPLATE_OBJECT_FACTORY, toa, AnyClass.class);
 
         // assert / then
         assertThat("TOA?", creator.getAnnotation(), is(toa));
@@ -78,16 +78,17 @@ public final class TemplateObjectCreatorTest {
         final Annotation toa = getAnnotation(TOA_WITH_NON_DEFAULT_SETTINGS);
 
         // act / when
-        final TemplateObjectCreator creator = new TemplateObjectCreator(TEMPLATE_OBJECT_FACTORY, toa);
+        final TemplateObjectCreator creator = new TemplateObjectCreator(TEMPLATE_OBJECT_FACTORY, toa, AnyClass.class);
         final TemplateObject templateObject = creator.createTemplateObjectInstance();
 
         // assert / then
         assertThat(templateObject.getClass().getName(), is("org.failearly.dataz.test.SimpleTemplateObjectFactory$SimpleTemplateObjectImpl"));
+        assertThat(templateObject.getAnnotatedElement(), is(AnyClass.class));
     }
 
     private static TemplateObject createTemplateObjectFromCreator(int annotationNumber) {
         final Annotation toa = getAnnotation(annotationNumber);
-        final TemplateObjectCreator creator = new TemplateObjectCreator(TEMPLATE_OBJECT_FACTORY, toa);
+        final TemplateObjectCreator creator = new TemplateObjectCreator(TEMPLATE_OBJECT_FACTORY, toa, AnyClass.class);
 
         return creator.createTemplateObjectInstance();
     }
@@ -123,7 +124,7 @@ public final class TemplateObjectCreatorTest {
         final Annotation toa = getAnnotation(TOA_WITH_NONE_UNIQUE_DATASETS);
 
         // act / when
-        final TemplateObjectCreator creator = new TemplateObjectCreator(TEMPLATE_OBJECT_FACTORY, toa);
+        final TemplateObjectCreator creator = new TemplateObjectCreator(TEMPLATE_OBJECT_FACTORY, toa, AnyClass.class);
         final TemplateObject templateObject = creator.createTemplateObjectInstance();
 
         // assert / then

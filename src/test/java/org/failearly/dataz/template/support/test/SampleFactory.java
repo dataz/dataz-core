@@ -25,6 +25,8 @@ import org.failearly.dataz.template.TemplateObject;
 import org.failearly.dataz.template.TemplateObjectBase;
 import org.failearly.dataz.template.TemplateObjectFactoryBase;
 
+import java.lang.reflect.AnnotatedElement;
+
 /**
  * SampleFactory creates a {@link TemplateObject} from {@link Sample}.
  */
@@ -35,7 +37,7 @@ public class SampleFactory extends TemplateObjectFactoryBase<Sample> {
     }
 
     @Override
-    protected TemplateObject doCreate(Sample annotation) {
+    protected TemplateObject doCreate(AnnotatedElement annotatedElement, Sample annotation) {
         return new SampleImpl(annotation);
     }
 

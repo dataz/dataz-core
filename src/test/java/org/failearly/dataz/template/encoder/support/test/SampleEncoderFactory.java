@@ -25,6 +25,8 @@ import org.failearly.dataz.template.encoder.Encoder;
 import org.failearly.dataz.template.encoder.support.EncoderBase;
 import org.failearly.dataz.template.encoder.support.EncoderFactoryBase;
 
+import java.lang.reflect.AnnotatedElement;
+
 /**
  * SampleEncoderFactory creates a {@link Encoder} from {@link SampleEncoder}.
  */
@@ -35,7 +37,7 @@ public class SampleEncoderFactory extends EncoderFactoryBase<SampleEncoder> {
     }
 
     @Override
-    protected Encoder doCreate(SampleEncoder annotation) {
+    protected Encoder doCreate(AnnotatedElement annotatedElement, SampleEncoder annotation) {
         return new SampleEncoderImpl(annotation);
     }
 

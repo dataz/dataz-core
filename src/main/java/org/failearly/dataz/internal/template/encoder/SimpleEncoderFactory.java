@@ -28,6 +28,8 @@ import org.failearly.dataz.template.encoder.support.EncoderBase;
 import org.failearly.dataz.template.encoder.support.EncoderFactoryBase;
 import org.failearly.dataz.template.encoder.support.StringEncoderBase;
 
+import java.lang.reflect.AnnotatedElement;
+
 import static org.failearly.dataz.template.encoder.support.Encoders.*;
 
 /**
@@ -39,7 +41,7 @@ public final class SimpleEncoderFactory extends EncoderFactoryBase<SimpleEncoder
     }
 
     @Override
-    protected Encoder doCreate(SimpleEncoder annotation) {
+    protected Encoder doCreate(AnnotatedElement annotatedElement, SimpleEncoder annotation) {
         return new SimpleEncoderImpl(annotation);
     }
 

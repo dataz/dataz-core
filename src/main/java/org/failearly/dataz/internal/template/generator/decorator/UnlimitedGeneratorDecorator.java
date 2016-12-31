@@ -34,7 +34,7 @@ public final class UnlimitedGeneratorDecorator<T> extends UnlimitedGeneratorBase
     private final GeneratorBase<T> generator;
 
     UnlimitedGeneratorDecorator(GeneratorBase<T> generator) {
-        super(generator.datasets(), generator.name(), generator.scope());
+        super(generator);
         this.generator = generator;
     }
 

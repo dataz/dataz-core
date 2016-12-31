@@ -26,6 +26,7 @@ import org.failearly.dataz.template.generator.RandomBooleanGenerator;
 import org.failearly.dataz.template.Scope;
 import org.failearly.dataz.template.TemplateObject;
 
+import java.lang.reflect.AnnotatedElement;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Random;
@@ -40,12 +41,12 @@ public final class RandomBooleanGeneratorFactory extends GeneratorFactoryBase<Bo
     }
 
     @Override
-    protected TemplateObject doCreate(RandomBooleanGenerator annotation) {
-        return doCreateGenerator(annotation, Limit.UNLIMITED);
+    protected TemplateObject doCreate(AnnotatedElement annotatedElement, RandomBooleanGenerator annotation) {
+        return doCreateGenerator(annotatedElement, annotation, Limit.UNLIMITED);
     }
 
     @Override
-    protected UnlimitedGeneratorBase<Boolean> doCreateUnlimitedGenerator(RandomBooleanGenerator generatorAnnotation, Integer limitValue) {
+    protected UnlimitedGeneratorBase<Boolean> doCreateUnlimitedGenerator(AnnotatedElement annotatedElement, RandomBooleanGenerator generatorAnnotation, Integer limitValue) {
         return new RandomBooleanGeneratorImpl(generatorAnnotation);
     }
 

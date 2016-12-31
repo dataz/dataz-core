@@ -382,7 +382,7 @@ public abstract class TemplateObjectTestBase<TOA extends Annotation, TOF extends
         } catch (Exception e) {
             throw new IllegalArgumentException("Could not create an instance of " + templateObjectFactoryClass.getName(), e);
         }
-        return templateObjectFactory.create(annotation);
+        return templateObjectFactory.create(this.testFixtureClass, annotation);
     }
 
     private <XTO extends TemplateObject> XTO toTemplateObject(TemplateObject templateObject, Class<XTO> targetClass) {

@@ -19,20 +19,20 @@
 
 package org.failearly.dataz.template.generator.support;
 
+import org.failearly.dataz.template.TemplateObject;
 import org.failearly.dataz.template.generator.GeneratorConstants;
-import org.failearly.dataz.template.Scope;
 
 import java.lang.annotation.Annotation;
 import java.util.Iterator;
 import java.util.Random;
-import java.util.Set;
 
 /**
  * UnlimitedGeneratorBase - the base implementation for unlimited generators.
  */
 public abstract class UnlimitedGeneratorBase<T> extends GeneratorBase<T> implements UnlimitedGenerator<T> {
-    protected UnlimitedGeneratorBase(Set<String> dataset, String name, Scope scope) {
-        super(dataset, name, scope);
+
+    protected UnlimitedGeneratorBase(TemplateObject other) {
+        super(other);
     }
 
     protected UnlimitedGeneratorBase(Annotation annotation) {

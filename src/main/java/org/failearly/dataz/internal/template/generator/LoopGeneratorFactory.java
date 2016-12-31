@@ -27,6 +27,8 @@ import org.failearly.dataz.template.generator.support.LimitedGeneratorBase;
 import org.failearly.dataz.template.Scope;
 import org.failearly.dataz.template.TemplateObject;
 
+import java.lang.reflect.AnnotatedElement;
+
 /**
  * LoopGeneratorFactory is responsible for creating instances of {@link org.failearly.dataz.template.generator.LoopGenerator}.
  */
@@ -51,12 +53,12 @@ public final class LoopGeneratorFactory extends GeneratorFactoryBase<Integer, Lo
     }
 
     @Override
-    protected TemplateObject doCreate(LoopGenerator annotation) {
-        return doCreateGenerator(annotation, Limit.LIMITED);
+    protected TemplateObject doCreate(AnnotatedElement annotatedElement, LoopGenerator annotation) {
+        return doCreateGenerator(annotatedElement, annotation, Limit.LIMITED);
     }
 
     @Override
-    protected LimitedGeneratorBase<Integer> doCreateLimitedGenerator(LoopGenerator generatorAnnotation, Integer limitValue) {
+    protected LimitedGeneratorBase<Integer> doCreateLimitedGenerator(AnnotatedElement annotatedElement, LoopGenerator generatorAnnotation, Integer limitValue) {
         return new LoopGeneratorImpl(generatorAnnotation);
     }
 

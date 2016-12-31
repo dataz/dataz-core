@@ -34,8 +34,7 @@ public final class LimitedGeneratorDecorator<T> extends LimitedGeneratorBase<T> 
     private final int limit;
 
     LimitedGeneratorDecorator(UnlimitedGeneratorBase<T> generator, int limit) {
-        super(generator.datasets(), generator.name(), generator.scope());
-
+        super(generator);
         this.generator = generator;
         this.limit = limit;
     }

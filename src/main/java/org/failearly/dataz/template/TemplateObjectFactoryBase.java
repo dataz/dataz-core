@@ -20,6 +20,7 @@
 package org.failearly.dataz.template;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.AnnotatedElement;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;
@@ -29,7 +30,7 @@ import java.util.Set;
  * TemplateObjectFactoryBase is the base class for implementing {@link TemplateObjectFactory}. It also cast to the
  * actually expected annotation and provides type safe methods.
  *
- * @see #doCreate(Annotation)
+ * @see #doCreate(AnnotatedElement, Annotation)
  * @see #doResolveDataSetNames(Annotation)
  */
 public abstract class TemplateObjectFactoryBase<TOA extends Annotation> implements TemplateObjectFactory {
@@ -41,17 +42,22 @@ public abstract class TemplateObjectFactoryBase<TOA extends Annotation> implemen
     }
 
     @Override
-    public final TemplateObject create(Annotation annotation) {
+    public TemplateObject create(AnnotatedElement annotatedElement, Annotation annotation) {
         Objects.requireNonNull(annotation,"Missing annotation of type " + annotationClass.getName());
-        return doCreate(annotationClass.cast(annotation));
+        Objects.requireNonNull(annotatedElement,"Missing annotated element of type " + annotationClass.getName());
+        final TemplateObject templateObject = doCreate(annotatedElement, annotationClass.cast(annotation));
+        return templateObject;
     }
 
     /**
-     * Type safe alternative for {@link #create(Annotation)}.
+     * Type safe alternative for {@link TemplateObjectFactory#create(AnnotatedElement, Annotation)}.
+     *
+     * @param annotatedElement the annotated element (the class or method where the TOA has been applied)
      * @param annotation the annotation.
+     *
      * @return the created template object.
      */
-    protected abstract TemplateObject doCreate(TOA annotation);
+    protected abstract TemplateObject doCreate(AnnotatedElement annotatedElement, TOA annotation);
 
 
     @Override

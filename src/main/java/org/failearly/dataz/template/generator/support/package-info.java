@@ -37,8 +37,8 @@
  * <ul>
  *    <li>{@link org.failearly.dataz.template.generator.support.GeneratorFactoryBase}. You should extend your implementation from this base class.</li>
  *    <li>Typically you override either
- *    {@link org.failearly.dataz.template.generator.support.GeneratorFactoryBase#doCreateLimitedGenerator(java.lang.annotation.Annotation, Integer)} or
- *    {@link org.failearly.dataz.template.generator.support.GeneratorFactoryBase#doCreateLimitedGenerator(java.lang.annotation.Annotation, Integer)}.
+ *    {@link org.failearly.dataz.template.generator.support.GeneratorFactoryBase#doCreateLimitedGenerator(java.lang.reflect.AnnotatedElement, java.lang.annotation.Annotation, Integer)} or
+ *    {@link org.failearly.dataz.template.generator.support.GeneratorFactoryBase#doCreateLimitedGenerator(java.lang.reflect.AnnotatedElement, java.lang.annotation.Annotation, Integer)}.
  *    </li>
  *    <li>{@link org.failearly.dataz.template.generator.support.LimitedGeneratorBase}:
  *    You should extend from this class if the naturally usage is {@link org.failearly.dataz.template.generator.Limit#LIMITED}, or use</li>

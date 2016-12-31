@@ -21,13 +21,12 @@ package org.failearly.dataz.template.generator.support;
 
 
 import org.failearly.dataz.exception.DataSetException;
-import org.failearly.dataz.template.Scope;
+import org.failearly.dataz.template.TemplateObject;
 import org.failearly.dataz.template.TemplateObjectBase;
 import org.failearly.dataz.template.generator.Generator;
 
 import java.lang.annotation.Annotation;
 import java.util.Iterator;
-import java.util.Set;
 
 /**
  * GeneratorBase should be the base class for any {@link Generator} implementations. Please extend {@link
@@ -39,8 +38,8 @@ public abstract class GeneratorBase<T> extends TemplateObjectBase implements Gen
     private T lastValue;
 
 
-    GeneratorBase(Set<String> datasets, String name, Scope scope) {
-        super(datasets, name, scope);
+    protected GeneratorBase(TemplateObject other) {
+        super(other);
     }
 
     GeneratorBase(Annotation annotation) {

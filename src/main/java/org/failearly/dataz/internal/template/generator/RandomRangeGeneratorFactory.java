@@ -26,6 +26,7 @@ import org.failearly.dataz.template.generator.support.UnlimitedGeneratorBase;
 import org.failearly.dataz.template.Scope;
 import org.failearly.dataz.template.TemplateObject;
 
+import java.lang.reflect.AnnotatedElement;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -39,12 +40,12 @@ public final class RandomRangeGeneratorFactory extends GeneratorFactoryBase<Inte
     }
 
     @Override
-    protected TemplateObject doCreate(RandomRangeGenerator annotation) {
+    protected TemplateObject doCreate(AnnotatedElement annotatedElement, RandomRangeGenerator annotation) {
         if (annotation.unique()) {
-            return doCreateUniqueGenerator(annotation, calculateUniqueLimitValue(annotation));
+            return doCreateUniqueGenerator(annotatedElement, annotation, calculateUniqueLimitValue(annotation));
         }
 
-        return doCreateGenerator(annotation, annotation.limit(), calculateLimitValue(annotation));
+        return doCreateGenerator(annotatedElement, annotation, annotation.limit(), calculateLimitValue(annotation));
     }
 
     private static int calculateUniqueLimitValue(RandomRangeGenerator generatorAnnotation) {
@@ -70,7 +71,7 @@ public final class RandomRangeGeneratorFactory extends GeneratorFactoryBase<Inte
     }
 
     @Override
-    protected UnlimitedGeneratorBase<Integer> doCreateUnlimitedGenerator(RandomRangeGenerator generatorAnnotation, Integer limitValue) {
+    protected UnlimitedGeneratorBase<Integer> doCreateUnlimitedGenerator(AnnotatedElement annotatedElement, RandomRangeGenerator generatorAnnotation, Integer limitValue) {
         return new RandomRangeGeneratorImpl(generatorAnnotation);
     }
 

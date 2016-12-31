@@ -29,6 +29,7 @@ import org.failearly.dataz.template.generator.support.GeneratorFactoryBase;
 import org.failearly.dataz.template.generator.support.LimitedGeneratorBase;
 import org.failearly.dataz.template.generator.support.LongRangeGenerator;
 
+import java.lang.reflect.AnnotatedElement;
 import java.util.Iterator;
 
 /**
@@ -41,12 +42,12 @@ public final class DateGeneratorFactory extends GeneratorFactoryBase<DateTime,Da
 
 
     @Override
-    protected TemplateObject doCreate(DateGenerator annotation) {
-        return doCreateGenerator(annotation, annotation.limit());
+    protected TemplateObject doCreate(AnnotatedElement annotatedElement, DateGenerator annotation) {
+        return doCreateGenerator(annotatedElement, annotation, annotation.limit());
     }
 
     @Override
-    protected LimitedGeneratorBase<DateTime> doCreateLimitedGenerator(DateGenerator generatorAnnotation, Integer limitValue) {
+    protected LimitedGeneratorBase<DateTime> doCreateLimitedGenerator(AnnotatedElement annotatedElement, DateGenerator generatorAnnotation, Integer limitValue) {
         return new DateGeneratorImpl(generatorAnnotation);
     }
 

@@ -25,6 +25,7 @@ import org.failearly.dataz.template.generator.support.GeneratorFactoryBase;
 import org.failearly.dataz.template.Scope;
 import org.failearly.dataz.template.TemplateObject;
 
+import java.lang.reflect.AnnotatedElement;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -39,12 +40,12 @@ public final class ListGeneratorFactory extends GeneratorFactoryBase<String,List
     }
 
     @Override
-    protected TemplateObject doCreate(ListGenerator annotation) {
-        return doCreateGenerator(annotation, annotation.limit(), annotation.values().length);
+    protected TemplateObject doCreate(AnnotatedElement annotatedElement, ListGenerator annotation) {
+        return doCreateGenerator(annotatedElement, annotation, annotation.limit(), annotation.values().length);
     }
 
     @Override
-    protected ListGeneratorImpl doCreateLimitedGenerator(ListGenerator generatorAnnotation, Integer limitValue) {
+    protected ListGeneratorImpl doCreateLimitedGenerator(AnnotatedElement annotatedElement, ListGenerator generatorAnnotation, Integer limitValue) {
         return new ListGeneratorImpl(generatorAnnotation);
     }
 
