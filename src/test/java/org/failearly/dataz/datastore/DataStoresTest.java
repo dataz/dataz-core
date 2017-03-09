@@ -38,7 +38,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -210,7 +210,7 @@ public class DataStoresTest {
         // assert / then
         assertThat("Access to reserved datastores?",
                 immutableDataStores.getDataStore(AnyNamedDataStore.class).getNamedDataStore(),
-                is(AnyNamedDataStore.class)
+                equalTo(AnyNamedDataStore.class)
         );
     }
 

@@ -19,19 +19,26 @@
 
 package learning.velocity;
 
+import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 
+import static org.apache.velocity.runtime.RuntimeConstants.RESOURCE_LOADER;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -52,7 +59,11 @@ public class VelocityTest {
 
     @BeforeClass
     public static void engineInit() throws Exception {
-        engine.init();
+        Properties properties=new Properties();
+        properties.setProperty(RESOURCE_LOADER,"class");
+        properties.setProperty("class.resource.loader.class", LocalClasspathResourceLoader.class.getName());
+        engine.setApplicationAttribute("class", VelocityTest.class);
+        engine.init(properties);
     }
 
     @Before
@@ -136,6 +147,17 @@ public class VelocityTest {
         Mockito.verify(stringWriter, Mockito.times(0)).flush();
     }
 
+    @Test
+    public void useTemplate() throws Exception {
+        // arrange / given
+
+        // act / when
+        final Template template = engine.getTemplate("any-template.vm");
+
+        // assert / then
+        assertThat(template, is(notNullValue()));
+    }
+
     public static class AnyIterable implements Iterable<Integer> {
         private static final List<Integer> LIST = Arrays.asList(1, 2, 3, 4, 5);
 
@@ -145,6 +167,19 @@ public class VelocityTest {
         @Override
         public Iterator<Integer> iterator() {
             return LIST.iterator();
+        }
+    }
+
+    public static class LocalClasspathResourceLoader extends ClasspathResourceLoader {
+        @Override
+        public InputStream getResourceStream(String name) throws ResourceNotFoundException {
+            final Class<?> clazz= (Class<?>) super.rsvc.getApplicationAttribute("class");
+            final InputStream result =  clazz.getResourceAsStream(name);
+            if( result!=null ) {
+                return result;
+            }
+
+            return super.getResourceStream(name);
         }
     }
 }

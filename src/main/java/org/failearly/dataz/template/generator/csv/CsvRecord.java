@@ -1,7 +1,7 @@
 /*
  * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2016 'Marko Umek' (http://fail-early.com)
+ * Copyright (C) 2014-2017 'Marko Umek' (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,15 +16,29 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+package org.failearly.dataz.template.generator.csv;
 
+/**
+ * CsvRecord is responsible for ...
+ */
+public interface CsvRecord {
+    /**
+     * The record's number
+     * @return the record number.
+     */
+    long getRecordNumber();
 
-archivesBaseName='dataz-core'
+    /**
+     * Access Record's value by index.
+     * @param index column index
+     * @return the value
+     */
+    String getValue(int index);
 
-dependencies {
-	compile project(':dataz-common')
-    compile group: 'commons-codec', name: 'commons-codec', version: '1.10'
-    compile group: 'org.apache.commons', name : 'commons-csv', version: '1.4'
-    runtime group: 'org.apache.velocity', name : 'velocity', version: '1.7'
-
-	testCompile project(':dataz-common-test')
+    /**
+     * Access Record's column by name.
+     * @param columnName column name
+     * @return the value (as String)
+     */
+    String getValue(String columnName);
 }

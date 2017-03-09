@@ -42,9 +42,9 @@ import java.util.stream.Collectors;
 
 import static org.failearly.dataz.test.CoreTestUtils.inputStreamToString;
 import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.isNotNull;
 import static org.mockito.Mockito.*;
 
 /**
@@ -75,7 +75,7 @@ public class DataStoreBaseTest {
         final DataStore dataStore=createDataStore(AnyNamedDataStore.class);
 
         // assert / then
-        assertThat("Assigned NamedDataStore?", dataStore.getNamedDataStore(), is(AnyNamedDataStore.class));
+        assertThat("Assigned NamedDataStore?", dataStore.getNamedDataStore(), equalTo(AnyNamedDataStore.class));
         assertThat("Name?", dataStore.getName(), is("any"));
         assertThat("Id?", dataStore.getId(), is("AnyNamedDataStore[name=any]@TestDataStore"));
         assertThat("Property File?", dataStore.getConfigFile(), is("any-config.properties"));
@@ -115,7 +115,7 @@ public class DataStoreBaseTest {
         final PropertiesAccessor dataStoreProperties = dataStore.getProperties();
         assertThat("Properties set?", dataStoreProperties, not(EMPTY_PROPERTIES));
         verify(dataStore).doEstablishConnection(dataStoreProperties);
-        verify(dataStore, times(2)).doApplyResource(isNotNull(DataResource.class));
+        verify(dataStore, times(2)).doApplyResource(notNull());
     }
 
     @Test
@@ -325,6 +325,7 @@ public class DataStoreBaseTest {
 // ---------------------------------
 //  Test Fixtures (Named DataStore)
 // ---------------------------------
+    @SuppressWarnings("DefaultAnnotationParam")
     @AdhocDataStore(
             name="any",
             config = "any-config.properties",

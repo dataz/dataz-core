@@ -24,7 +24,6 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toMap;
@@ -35,7 +34,7 @@ import static java.util.stream.Collectors.toMap;
 @SuppressWarnings("unused")
 final class AnnotationHelper<T extends Annotation> {
     private final Class<T> annotationClass;
-    private T[] annotations;
+    private List<T> classAnnotations;
     private Map<String, List<T>> methodAnnotationMap;
     // private Map<String, Method> methods;
 
@@ -49,8 +48,8 @@ final class AnnotationHelper<T extends Annotation> {
     }
 
     AnnotationHelper<T> withFixtureClass(Class<?> aFixtureClass) {
-        this.annotations = aFixtureClass.getAnnotationsByType(annotationClass);
-        methodAnnotationMap = Stream.of(aFixtureClass.getDeclaredMethods()).collect(
+        this.classAnnotations = Arrays.asList(aFixtureClass.getAnnotationsByType(annotationClass));
+        this.methodAnnotationMap = Stream.of(aFixtureClass.getDeclaredMethods()).collect(
                 toMap(
                         Method::getName,
                         (Method method)->Arrays.asList(method.getAnnotationsByType(annotationClass))
@@ -59,19 +58,12 @@ final class AnnotationHelper<T extends Annotation> {
         return this;
     }
 
-    boolean hasAnnotations() {
-        return this.annotations.length > 0;
+    boolean hasAnyAnnotations() {
+        return ! ( this.classAnnotations.isEmpty() && this.methodAnnotationMap.isEmpty() );
     }
 
-    List<T> getAnnotations() {
-        return Arrays.asList(this.annotations);
-    }
-
-    T getAnnotation(int index) {
-        if( ! (index < annotations.length) ) {
-            throw new IllegalArgumentException("index >= " + annotations.length);
-        }
-        return annotations[index];
+    T getAnnotationFromClass(int index) {
+        return classAnnotations.get(index);
     }
 
     T getAnnotationFromMethod(String methodName, int index) {
@@ -84,38 +76,4 @@ final class AnnotationHelper<T extends Annotation> {
         }
         return ts.get(index);
     }
-
-    T getFirstAnnotationFromMethod(String methodName) {
-        return getAnnotationFromMethod(methodName, 0);
-    }
-
-    String resolveElementValue(int index, String element) {
-        return doResolveElementValue(getAnnotation(index), element);
-    }
-
-    private String doResolveElementValue(T annotation, String element) {
-        try {
-            return String.valueOf(annotationClass.getMethod(element).invoke(annotation));
-        } catch (Exception e) {
-            throw new RuntimeException("Unexpected exception while resolving element value", e);
-        }
-    }
-
-    public <R> R resolveElementValue(int index, String element, Class<R> valueClass) {
-        return doResolveElementValue(getAnnotation(index), element, valueClass);
-    }
-
-    private <R> R doResolveElementValue(T annotation, String element, Class<R> valueClass) {
-        try {
-            return valueClass.cast(annotationClass.getMethod(element).invoke(annotation));
-        } catch (Exception e) {
-            throw new RuntimeException("Unexpected exception while resolving element value", e);
-        }
-    }
-
-    public <R> List<R> resolveElementValues(String element, Class<R> valueClass) {
-        return Arrays.stream(this.annotations)
-                .map(annotation -> doResolveElementValue(annotation, element, valueClass)).collect(Collectors.toList());
-    }
-
 }

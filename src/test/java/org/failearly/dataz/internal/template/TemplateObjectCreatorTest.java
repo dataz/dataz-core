@@ -31,6 +31,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -85,7 +86,7 @@ public final class TemplateObjectCreatorTest {
 
         // assert / then
         assertThat(templateObject.getClass().getName(), is("org.failearly.dataz.test.SimpleTemplateObjectFactory$SimpleTemplateObjectImpl"));
-        assertThat(templateObject.getContext().getAnnotatedOrDeclaringClass(), is(AnyClass.class));
+        assertThat(templateObject.getContext().getAnnotatedOrDeclaringClass(), equalTo(AnyClass.class));
     }
 
     private static TemplateObject createTemplateObjectFromCreator(int annotationNumber) {

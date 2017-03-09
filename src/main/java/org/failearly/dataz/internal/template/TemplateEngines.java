@@ -20,7 +20,7 @@
 package org.failearly.dataz.internal.template;
 
 import org.failearly.dataz.config.DataSetProperties;
-import org.failearly.common.classutils.ObjectCreator;
+import org.failearly.common.classutils.ObjectCreatorUtil;
 import org.failearly.dataz.template.engine.TemplateEngine;
 import org.failearly.dataz.template.engine.TemplateEngineFactory;
 
@@ -43,6 +43,6 @@ public final class TemplateEngines {
 
     private static TemplateEngineFactory resolveTemplateEngineFactory() {
         final String factoryClass= DataSetProperties.getTemplateEngineFactoryClass();
-        return ObjectCreator.createInstance(TemplateEngineFactory.class, factoryClass);
+        return ObjectCreatorUtil.createInstance(TemplateEngineFactory.class, factoryClass);
     }
 }

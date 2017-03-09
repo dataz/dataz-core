@@ -21,7 +21,7 @@ package org.failearly.dataz.internal.template;
 import org.failearly.common.annotation.traverser.MetaAnnotationHandlerBase;
 import org.failearly.common.annotation.traverser.MetaAnnotationTraverser;
 import org.failearly.common.annotation.traverser.TraverseDepth;
-import org.failearly.common.classutils.ObjectCreator;
+import org.failearly.common.classutils.ObjectCreatorUtil;
 import org.failearly.dataz.config.DataSetProperties;
 import org.failearly.dataz.template.TemplateObjectAnnotationContext;
 import org.failearly.dataz.template.TemplateObjectFactory;
@@ -126,7 +126,7 @@ public final class TemplateObjectsResolver {
     }
 
     private static TemplateObjectFactory createTemplateObjectFactory(TemplateObjectFactory.Definition definition) {
-        return ObjectCreator.createInstance(definition.value());
+        return ObjectCreatorUtil.createInstance(definition.value());
     }
 
 }

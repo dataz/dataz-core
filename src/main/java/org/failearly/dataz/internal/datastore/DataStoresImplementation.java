@@ -22,7 +22,7 @@ import org.failearly.common.annotation.traverser.MetaAnnotationHandlerBase;
 import org.failearly.common.annotation.traverser.MetaAnnotationTraverser;
 import org.failearly.common.annotation.traverser.TraverseDepth;
 import org.failearly.common.annotation.traverser.TraverseStrategy;
-import org.failearly.common.classutils.ObjectCreator;
+import org.failearly.common.classutils.ObjectCreatorUtil;
 import org.failearly.dataz.NamedDataStore;
 import org.failearly.dataz.datastore.*;
 import org.failearly.dataz.internal.datastore.state.DataStoreState;
@@ -147,7 +147,7 @@ public final class DataStoresImplementation implements DataStores.Instance, Data
         @SuppressWarnings("unchecked")
         public void handleMetaAnnotation(Annotation annotation, DataStoreFactory.Definition dataStoreDefinition) {
             final Class<? extends DataStoreFactory> dataStoreFactoryClass = dataStoreDefinition.factory();
-            final DataStore dataStore = ObjectCreator.createInstance(dataStoreFactoryClass).createDataStore(this.namedDataStore, annotation, dataStoreDefinition);
+            final DataStore dataStore = ObjectCreatorUtil.createInstance(dataStoreFactoryClass).createDataStore(this.namedDataStore, annotation, dataStoreDefinition);
             collectedDataStores.add(dataStore);
         }
 

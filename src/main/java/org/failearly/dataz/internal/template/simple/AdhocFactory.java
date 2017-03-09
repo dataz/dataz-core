@@ -19,12 +19,12 @@
 
 package org.failearly.dataz.internal.template.simple;
 
+import org.failearly.common.classutils.ObjectCreatorUtil;
 import org.failearly.dataz.template.Scope;
 import org.failearly.dataz.template.TemplateObject;
 import org.failearly.dataz.template.TemplateObjectAnnotationContext;
 import org.failearly.dataz.template.TemplateObjectFactoryBase;
 import org.failearly.dataz.template.simple.Adhoc;
-import org.failearly.common.classutils.ObjectCreator;
 
 /**
  * AdhocFactory creates {@link org.failearly.dataz.template.simple.Adhoc.AdhocTemplateObject} from {@link Adhoc} template object annotation.
@@ -36,7 +36,7 @@ public final class AdhocFactory extends TemplateObjectFactoryBase<Adhoc> {
 
     @Override
     protected TemplateObject doCreate(TemplateObjectAnnotationContext context, Adhoc annotation) {
-        final Adhoc.AdhocTemplateObject templateObjectPrototype = ObjectCreator.createInstance(annotation.value());
+        final Adhoc.AdhocTemplateObject templateObjectPrototype = ObjectCreatorUtil.createInstance(annotation.value());
         return templateObjectPrototype.create(context, annotation);
     }
 

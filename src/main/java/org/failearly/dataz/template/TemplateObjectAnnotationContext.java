@@ -18,6 +18,7 @@
  */
 package org.failearly.dataz.template;
 
+import org.failearly.common.resource.ResourcePathUtils;
 import org.failearly.dataz.internal.util.IOUtils;
 
 import java.io.InputStream;
@@ -129,10 +130,6 @@ public abstract class TemplateObjectAnnotationContext {
                     );
     }
 
-    private ClassLoader getDeclaringClassLoader() {
-        return getAnnotatedOrDeclaringClass().getClassLoader();
-    }
-
     /**
      * Load a resource as {@link InputStream}.
      *
@@ -141,7 +138,9 @@ public abstract class TemplateObjectAnnotationContext {
      * @return the input stream or {@link Optional#empty()}
      */
     public final Optional<InputStream> loadResourceAsStream(String resource) {
-        return Optional.ofNullable(getDeclaringClassLoader().getResourceAsStream(resource)).map(IOUtils::autoClose);
+        final String fullQualifiedResourcePath = fullQualifiedResourcePath(resource);
+        return Optional.ofNullable(getAnnotatedOrDeclaringClass().getResourceAsStream(fullQualifiedResourcePath))
+            .map(IOUtils::autoClose);
     }
 
     /**
@@ -163,6 +162,11 @@ public abstract class TemplateObjectAnnotationContext {
      * @return the URL of the resource or {@link Optional#empty()}
      */
     public final Optional<URL> loadResourceAsUrl(String resource) {
-        return Optional.ofNullable(getDeclaringClassLoader().getResource(resource));
+        final String fullQualifiedResourcePath = fullQualifiedResourcePath(resource);
+        return Optional.ofNullable(getAnnotatedOrDeclaringClass().getResource(fullQualifiedResourcePath));
+    }
+
+    private String fullQualifiedResourcePath(String resource) {
+        return ResourcePathUtils.resourcePath(resource, getAnnotatedOrDeclaringClass());
     }
 }

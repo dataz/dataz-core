@@ -17,24 +17,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package org.failearly.dataz.internal.template.generator;
+package org.failearly.dataz.internal.template.generator.csv;
 
+import org.failearly.common.annotations.Tests;
 import org.failearly.dataz.template.Scope;
-import org.failearly.dataz.template.generator.CsvGenerator;
-import org.failearly.dataz.template.generator.Generator;
+import org.failearly.dataz.template.TemplateObject;
+import org.failearly.dataz.template.TemplateObjectAnnotationContext;
+import org.failearly.dataz.template.generator.csv.CsvGenerator;
+import org.failearly.dataz.template.generator.csv.CsvRecord;
 import org.failearly.dataz.template.generator.support.GeneratorFactoryBase;
+import org.failearly.dataz.template.generator.support.LimitedGeneratorBase;
 
 /**
- * CsvGeneratorFactory creates a {@link Generator} from {@link CsvGenerator} annotation.
+ * CsvGeneratorFactory creates a {@link CsvGeneratorImpl} from {@link CsvGenerator}.
  */
-public class CsvGeneratorFactory extends GeneratorFactoryBase</*TODO replace*/Object,CsvGenerator> {
+@Tests("CsvGeneratorTest")
+public class CsvGeneratorFactory extends GeneratorFactoryBase<CsvRecord, CsvGenerator> {
     public CsvGeneratorFactory() {
         super(CsvGenerator.class);
-    }
-
-    @Override
-    protected Generator doCreate(CsvGenerator annotation) {
-        return null;
     }
 
     @Override
@@ -50,5 +50,15 @@ public class CsvGeneratorFactory extends GeneratorFactoryBase</*TODO replace*/Ob
     @Override
     protected Scope doResolveScope(CsvGenerator annotation) {
         return annotation.scope();
+    }
+
+    @Override
+    protected TemplateObject doCreate(TemplateObjectAnnotationContext context, CsvGenerator annotation) {
+        return doCreateGenerator(context, annotation, annotation.limit());
+    }
+
+    @Override
+    protected LimitedGeneratorBase<CsvRecord> doCreateLimitedGenerator(TemplateObjectAnnotationContext context, final CsvGenerator annotation, final Integer limitValue) {
+        return new CsvGeneratorImpl(context, annotation);
     }
 }

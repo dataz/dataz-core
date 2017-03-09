@@ -19,10 +19,10 @@
 
 package org.failearly.dataz.internal.resource.resolver;
 
+import org.failearly.common.classutils.ObjectCreatorUtil;
 import org.failearly.dataz.internal.template.TemplateObjects;
 import org.failearly.dataz.resource.DataResource;
 import org.failearly.dataz.resource.DataResourcesFactory;
-import org.failearly.common.classutils.ObjectCreator;
 
 import java.util.List;
 
@@ -44,6 +44,6 @@ public final class DataSetupResourceAnnotationHandler extends DataResourceAnnota
 
     @Override
     protected DataResourcesFactory createDataResourceFactory(SetupDefinition metaAnnotation) {
-        return ObjectCreator.createInstance(metaAnnotation.value());
+        return ObjectCreatorUtil.createInstance(metaAnnotation.value());
     }
 }

@@ -1,7 +1,7 @@
 /*
  * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2016 'Marko Umek' (http://fail-early.com)
+ * Copyright (C) 2014-2017 'Marko Umek' (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,15 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+package org.failearly.dataz.internal.template.generator.csv;
 
+import org.apache.commons.csv.CSVFormat;
+import org.failearly.dataz.template.generator.csv.CustomCsvFormat;
 
-archivesBaseName='dataz-core'
-
-dependencies {
-	compile project(':dataz-common')
-    compile group: 'commons-codec', name: 'commons-codec', version: '1.10'
-    compile group: 'org.apache.commons', name : 'commons-csv', version: '1.4'
-    runtime group: 'org.apache.velocity', name : 'velocity', version: '1.7'
-
-	testCompile project(':dataz-common-test')
+/**
+ * NoCustomCsvFormat is responsible for ...
+ */
+public final class NoCustomCsvFormat extends CustomCsvFormat {
+    @Override
+    protected CSVFormat create() {
+        return null;
+    }
 }

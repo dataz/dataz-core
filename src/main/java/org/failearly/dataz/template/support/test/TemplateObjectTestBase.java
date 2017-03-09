@@ -392,7 +392,7 @@ public abstract class TemplateObjectTestBase<TOA extends Annotation, TOF extends
     }
 
     final boolean hasAtLeastOneAnnotation() {
-        return annotationHelper.hasAnnotations();
+        return annotationHelper.hasAnyAnnotations();
     }
 
     /**
@@ -402,7 +402,7 @@ public abstract class TemplateObjectTestBase<TOA extends Annotation, TOF extends
      * @return the nth TOA
      */
     protected final TOA resolveTestFixtureAnnotation(int nth) {
-        return annotationHelper.getAnnotation(nth);
+        return annotationHelper.getAnnotationFromClass(nth);
     }
 
     protected final TOA resolveTestFixtureAnnotation(String methodName, int index) {

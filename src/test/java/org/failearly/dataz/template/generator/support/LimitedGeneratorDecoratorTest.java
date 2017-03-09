@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.oneOf;
+import static org.hamcrest.Matchers.isOneOf;
 import static org.junit.Assert.assertThat;
 
 public class LimitedGeneratorDecoratorTest {
@@ -59,7 +59,7 @@ public class LimitedGeneratorDecoratorTest {
     @Test
     public void assume_unlimited_generator__could_not_be_exhausted() throws Exception {
         for (int i = 0; i < 10*ANY_CONSTANT_ARRAY.length; i++) {
-            assertThat(unlimitedGenerator.next(), is(oneOf(ANY_CONSTANT_ARRAY)));
+            assertThat(unlimitedGenerator.next(), is(isOneOf(ANY_CONSTANT_ARRAY)));
         }
     }
 
