@@ -10,7 +10,6 @@ import org.failearly.common.annotations.Tests;
 import org.failearly.dataz.template.Scope;
 import org.failearly.dataz.template.TemplateObject;
 import org.failearly.dataz.template.TemplateObjectAnnotationContext;
-import org.failearly.dataz.template.generator.Generator;
 import org.failearly.dataz.template.generator.support.GeneratorFactoryBase;
 import org.failearly.dataz.template.generator.support.LimitedGeneratorBase;
 
@@ -18,10 +17,10 @@ import java.util.Collections;
 import java.util.Iterator;
 
 /**
- * SampleLimitedGeneratorFactory creates a {@link Generator} from {@link SampleLimitedGenerator}.
+ * SampleLimitedGeneratorFactory creates a {@link SampleLimitedGeneratorImpl} from {@link SampleLimitedGenerator}.
  */
 @Tests("SampleLimitedGeneratorTest")
-public class SampleLimitedGeneratorFactory extends GeneratorFactoryBase<Object,SampleLimitedGenerator> {
+public class SampleLimitedGeneratorFactory extends GeneratorFactoryBase<String,SampleLimitedGenerator> {
     public SampleLimitedGeneratorFactory() {
         super(SampleLimitedGenerator.class);
     }
@@ -42,26 +41,24 @@ public class SampleLimitedGeneratorFactory extends GeneratorFactoryBase<Object,S
     }
 
     @Override
-    protected TemplateObject doCreate(TemplateObjectAnnotationContext context, SampleLimitedGenerator annotation) {
-        return doCreateGenerator(context, annotation, annotation.limit());
+    protected TemplateObject doCreate(SampleLimitedGenerator annotation, TemplateObjectAnnotationContext context) {
+        return doCreateGenerator(annotation, context, annotation.limit());
     }
 
     @Override
-    protected LimitedGeneratorBase<Object> doCreateLimitedGenerator(TemplateObjectAnnotationContext context, final SampleLimitedGenerator annotation, final Integer limitValue) {
-        return new SampleLimitedGeneratorImpl(context, annotation);
+    protected LimitedGeneratorBase<String> doCreateLimitedGenerator(final SampleLimitedGenerator annotation, TemplateObjectAnnotationContext context, final Integer limitValue) {
+        return new SampleLimitedGeneratorImpl(annotation, context);
     }
 
     // Must be public for Velocity!
     @Tests("SampleLimitedGeneratorTest")
-    public static class SampleLimitedGeneratorImpl extends LimitedGeneratorBase<Object> {
-        SampleLimitedGeneratorImpl(TemplateObjectAnnotationContext context, SampleLimitedGenerator annotation) {
-            super(context, annotation);
-            // TODO: For each (not standard) annotation element there should be an appropriate field assignment.
+    public static class SampleLimitedGeneratorImpl extends LimitedGeneratorBase<String> {
+        SampleLimitedGeneratorImpl(SampleLimitedGenerator annotation, TemplateObjectAnnotationContext context) {
+            super(annotation, context);
         }
 
         @Override
-        public Iterator<Object> createIterator() {
-            // TODO: Implement SampleLimitedGeneratorImpl#createIterator
+        public Iterator<String> createIterator() {
             return Collections.emptyIterator();
         }
     }

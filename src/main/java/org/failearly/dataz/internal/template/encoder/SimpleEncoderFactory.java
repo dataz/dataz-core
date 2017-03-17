@@ -40,7 +40,7 @@ public final class SimpleEncoderFactory extends EncoderFactoryBase<SimpleEncoder
     }
 
     @Override
-    protected Encoder doCreate(TemplateObjectAnnotationContext context, SimpleEncoder annotation) {
+    protected Encoder doCreate(SimpleEncoder annotation, TemplateObjectAnnotationContext context) {
         return new SimpleEncoderImpl(context, annotation);
     }
 
@@ -64,7 +64,7 @@ public final class SimpleEncoderFactory extends EncoderFactoryBase<SimpleEncoder
         private final Encoder encoder;
 
         private SimpleEncoderImpl(TemplateObjectAnnotationContext context, SimpleEncoder annotation) {
-            super(context, annotation);
+            super(annotation, context);
             encoder=createEncoder(annotation);
         }
 

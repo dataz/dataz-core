@@ -1,7 +1,7 @@
 /*
  * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2016 'Marko Umek' (http://fail-early.com)
+ * Copyright (C) 2014-2017 'Marko Umek' (http://fail-early.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,13 +23,15 @@ import org.failearly.common.message.ClasspathMessageTemplate;
 import org.failearly.common.message.TemplateParameters;
 import org.failearly.dataz.internal.template.support.test.message.basic.AbstractTemplateObjectMessage;
 
+import static org.failearly.dataz.internal.template.support.test.message.basic.AbstractTemplateObjectMessage.*;
+
 /**
  * MissingTemplateObjectAnnotation is responsible for ...
  */
-@ClasspathMessageTemplate("1_MissingEncoderFactory.txt.vm")
-@TemplateParameters({AbstractTemplateObjectMessage.ARG_TEMPLATE_OBJECT_ANNOTATION})
-final class MissingEncoderFactory extends AbstractTemplateObjectMessage<MissingEncoderFactory> {
-    MissingEncoderFactory() {
-        super(MissingEncoderFactory.class);
+@ClasspathMessageTemplate("N_InitialStepsDone.txt.vm")
+@TemplateParameters({ARG_TEMPLATE_OBJECT_ANNOTATION, ARG_TEMPLATE_OBJECT_FACTORY, ARG_TEST_FIXTURE, ARG_TEMPLATE_OBJECT})
+final class InitialStepsDone extends AbstractTemplateObjectMessage<InitialStepsDone> {
+    InitialStepsDone() {
+        super(InitialStepsDone.class);
     }
 }

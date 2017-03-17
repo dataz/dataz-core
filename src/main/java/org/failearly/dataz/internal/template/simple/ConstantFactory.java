@@ -34,8 +34,8 @@ public final class ConstantFactory extends TemplateObjectFactoryBase<Constant> {
     }
 
     @Override
-    protected TemplateObject doCreate(TemplateObjectAnnotationContext context, Constant annotation) {
-        return new ConstantImpl(context, annotation);
+    protected TemplateObject doCreate(Constant annotation, TemplateObjectAnnotationContext context) {
+        return new ConstantImpl(annotation, context);
     }
 
     @Override
@@ -59,8 +59,8 @@ public final class ConstantFactory extends TemplateObjectFactoryBase<Constant> {
     public static class ConstantImpl extends TemplateObjectBase {
         private final String value;
 
-        ConstantImpl(TemplateObjectAnnotationContext context, Constant annotation) {
-            super(context, annotation);
+        ConstantImpl(Constant annotation, TemplateObjectAnnotationContext context) {
+            super(annotation, context);
             this.value = annotation.value();
         }
 

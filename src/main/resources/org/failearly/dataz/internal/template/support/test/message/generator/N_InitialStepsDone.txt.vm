@@ -83,6 +83,11 @@ $snippetBegin
 $snippetEnd
 
 
+Step 3) Replace placeholder class 'ReplaceMe' with something more appropriate.
+
+During the initial setup, for Generator template objects a class 'ReplaceMe' has been used.
+This class must/should be replaced, now or later ;-).
+
 You are finished with initial setup.
 
 Last Step) Extend your TOA (@${TOA}) and your TO ${fullTO} and write appropriate tests.

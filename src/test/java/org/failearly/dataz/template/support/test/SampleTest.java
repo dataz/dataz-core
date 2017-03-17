@@ -22,8 +22,8 @@ package org.failearly.dataz.template.support.test;
 import org.failearly.common.test.annotations.Subject;
 import org.junit.Test;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 
@@ -45,22 +45,20 @@ public class SampleTest
     @Test
     public void how_to_create_a_template_object_from_annotation_on_class_object() {
         // act / when
-        final SampleFactory.SampleImpl templateObject=createTemplateObjectFromAnnotation(FIRST_ANNOTATION);
+        final SampleFactory.SampleImpl templateObject = createTemplateObjectFromAnnotation(FIRST_ANNOTATION);
 
         // assert / then
-        // TODO: Better assertion, then not null check.
         assertThat(templateObject, is(notNullValue()));
     }
 
     @Test
     public void how_to_create_a_template_object_from_annotation_on_method_object() {
         // act / when
-         final SampleFactory.SampleImpl templateObject=createTemplateObjectFromAnnotation("namedTest");
+        final SampleFactory.SampleImpl templateObject=createTemplateObjectFromAnnotation("namedTest");
         // or
         // final SampleFactory.SampleImpl templateObject=createTemplateObjectFromAnnotation("namedTest", FIRST_ANNOTATION);
 
         // assert / then
-        // TODO: Better assertion, then not null check.
         assertThat(templateObject, is(notNullValue()));
     }
 
@@ -73,7 +71,6 @@ public class SampleTest
         );
 
         // assert / then
-        // TODO: Better assertion, then not empty check.
         assertThat(generated, is("sample value #1"));
     }
 
@@ -81,7 +78,8 @@ public class SampleTest
     @Sample(name=DTON, sample = "sample value #1")
     private static class TestFixture {
 
-        @Sample(name=DTON /* TODO: Add more attributes */)
-        void namedTest() {}
+        @Sample(name = DTON /* TODO: Add more attributes */)
+        void namedTest() {
+        }
     }
 }

@@ -29,6 +29,9 @@ import java.lang.annotation.*;
  *
  * TODO: What is the responsibility of SampleEncoder?
  */
+/**
+ * SampleEncoder is a Template Object Annotation.
+ */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
@@ -85,3 +88,5 @@ public @interface SampleEncoder {
         SampleEncoder[] value();
     }
 }
+
+

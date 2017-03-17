@@ -36,11 +36,6 @@ public class SampleEncoderFactory extends EncoderFactoryBase<SampleEncoder> {
     }
 
     @Override
-    protected Encoder doCreate(TemplateObjectAnnotationContext context, SampleEncoder annotation) {
-        return new SampleEncoderImpl(context, annotation);
-    }
-
-    @Override
     protected String doResolveName(SampleEncoder annotation) {
         return annotation.name();
     }
@@ -55,18 +50,24 @@ public class SampleEncoderFactory extends EncoderFactoryBase<SampleEncoder> {
         return annotation.scope();
     }
 
+    @Override
+    protected Encoder doCreate(SampleEncoder annotation, TemplateObjectAnnotationContext context) {
+        return new SampleEncoderImpl(annotation, context);
+    }
+
     // Must be public for Velocity!
     @Tests("SampleEncoderTest")
-    public static class SampleEncoderImpl extends EncoderBase<Object /* TODO: replace */, Object /* replace */ > {
-        SampleEncoderImpl(TemplateObjectAnnotationContext context, SampleEncoder annotation) {
-            super(context, annotation);
+    public static class SampleEncoderImpl extends EncoderBase<String, byte[]> {
+        SampleEncoderImpl(SampleEncoder annotation, TemplateObjectAnnotationContext context) {
+            super(annotation, context);
             // TODO: For each (not standard) annotation element there should be an appropriate field assignment.
         }
 
+
         @Override
-        public Object encode(Object value) throws Exception {
-            // TODO: Implement encode() accordingly
-            return value;
+        public byte[] encode(final String value) throws Exception {
+            return value.getBytes();
+
         }
     }
 }

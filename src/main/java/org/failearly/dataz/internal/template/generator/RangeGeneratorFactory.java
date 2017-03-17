@@ -36,13 +36,13 @@ public final class RangeGeneratorFactory extends GeneratorFactoryBase<Integer, R
     }
 
     @Override
-    protected TemplateObject doCreate(TemplateObjectAnnotationContext context, RangeGenerator annotation) {
-        return doCreateGenerator(context, annotation, annotation.limit());
+    protected TemplateObject doCreate(RangeGenerator annotation, TemplateObjectAnnotationContext context) {
+        return doCreateGenerator(annotation, context, annotation.limit());
     }
 
     @Override
-    protected RangeGeneratorBase<Integer> doCreateLimitedGenerator(TemplateObjectAnnotationContext context, RangeGenerator generatorAnnotation, Integer limitValue) {
-        return new RangeGeneratorImpl(context, generatorAnnotation);
+    protected RangeGeneratorBase<Integer> doCreateLimitedGenerator(RangeGenerator generatorAnnotation, TemplateObjectAnnotationContext context, Integer limitValue) {
+        return new RangeGeneratorImpl(generatorAnnotation, context);
     }
 
     @Override
@@ -61,9 +61,8 @@ public final class RangeGeneratorFactory extends GeneratorFactoryBase<Integer, R
     }
 
     public static class RangeGeneratorImpl extends IntegerRangeGenerator {
-        private RangeGeneratorImpl(TemplateObjectAnnotationContext context, RangeGenerator rangeGenerator) {
-            super(context,
-                rangeGenerator,
+        private RangeGeneratorImpl(RangeGenerator rangeGenerator, TemplateObjectAnnotationContext context) {
+            super(rangeGenerator, context,
                 rangeGenerator.from(),
                 rangeGenerator.to(),
                 rangeGenerator.step()

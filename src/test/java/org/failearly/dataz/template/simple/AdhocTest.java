@@ -86,13 +86,13 @@ public class AdhocTest extends TemplateObjectTestBase<Adhoc, AdhocFactory, Adhoc
         public CustomAdhocImplementation() {
         }
 
-        private CustomAdhocImplementation(TemplateObjectAnnotationContext context, Adhoc annotation) {
-            super(context, annotation);
+        private CustomAdhocImplementation(Adhoc annotation, TemplateObjectAnnotationContext context) {
+            super(annotation, context);
         }
 
         @Override
-        public Adhoc.AdhocTemplateObject create(TemplateObjectAnnotationContext context, Adhoc annotation) {
-            return new CustomAdhocImplementation(context, annotation);
+        public Adhoc.AdhocTemplateObject create(Adhoc annotation, TemplateObjectAnnotationContext context) {
+            return new CustomAdhocImplementation(annotation, context);
         }
     }
 }

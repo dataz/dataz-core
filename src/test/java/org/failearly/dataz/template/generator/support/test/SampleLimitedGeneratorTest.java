@@ -25,13 +25,9 @@ import org.junit.Test;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
 
-
-/**
- * Tests for TOA {@link SampleLimitedGenerator}, {@link SampleLimitedGeneratorFactory} and {@link SampleLimitedGeneratorFactory.SampleLimitedGeneratorImpl}.
- */
 @Subject({SampleLimitedGenerator.class, SampleLimitedGeneratorFactory.class, SampleLimitedGeneratorFactory.SampleLimitedGeneratorImpl.class})
 public class SampleLimitedGeneratorTest
-    extends LimitedGeneratorTestBase<Object, SampleLimitedGenerator, SampleLimitedGeneratorFactory, SampleLimitedGeneratorFactory.SampleLimitedGeneratorImpl> {
+    extends LimitedGeneratorTestBase<String, SampleLimitedGenerator, SampleLimitedGeneratorFactory, SampleLimitedGeneratorFactory.SampleLimitedGeneratorImpl> {
     public SampleLimitedGeneratorTest() {
         super(
             SampleLimitedGenerator.class, // TOA
@@ -44,18 +40,17 @@ public class SampleLimitedGeneratorTest
     @Test
     public void how_to_create_a_template_object_from_annotation_on_class_object() {
         // act / when
-        final SampleLimitedGeneratorFactory.SampleLimitedGeneratorImpl templateObject=createTemplateObjectFromAnnotation(FIRST_ANNOTATION);
+        final SampleLimitedGeneratorFactory.SampleLimitedGeneratorImpl templateObject = createTemplateObjectFromAnnotation(FIRST_ANNOTATION);
 
         // assert / then
         // TODO: Better assertion, then not null check.
         assertThat(templateObject, is(notNullValue()));
     }
 
-
     @Test
     public void how_to_create_a_template_object_from_annotation_on_method_object() {
         // act / when
-        final SampleLimitedGeneratorFactory.SampleLimitedGeneratorImpl templateObject=createTemplateObjectFromAnnotation("namedTest");
+        final SampleLimitedGeneratorFactory.SampleLimitedGeneratorImpl templateObject = createTemplateObjectFromAnnotation("namedTest");
         // or
         // final SampleLimitedGeneratorFactory.SampleLimitedGeneratorImpl templateObject=createTemplateObjectFromAnnotation("namedTest", FIRST_ANNOTATION);
 
@@ -77,13 +72,15 @@ public class SampleLimitedGeneratorTest
         assertThat(generated, is(not("")));
     }
 
-
-    @SampleLimitedGenerator(name=DTON /* TODO: Add more attributes */)
+    @SampleLimitedGenerator(name = DTON /* TODO: Add more attributes */)
     private static class TestFixture {
 
-        @SampleLimitedGenerator(name=DTON /* TODO: Add more attributes */)
-        void namedTest() {}
+        @SampleLimitedGenerator(name = DTON /* TODO: Add more attributes */)
+        void namedTest() {
+        }
     }
+
 }
+
 
 

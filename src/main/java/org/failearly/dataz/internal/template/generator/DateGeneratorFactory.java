@@ -42,13 +42,13 @@ public final class DateGeneratorFactory extends GeneratorFactoryBase<DateTime, D
 
 
     @Override
-    protected TemplateObject doCreate(TemplateObjectAnnotationContext context, DateGenerator annotation) {
-        return doCreateGenerator(context, annotation, annotation.limit());
+    protected TemplateObject doCreate(DateGenerator annotation, TemplateObjectAnnotationContext context) {
+        return doCreateGenerator(annotation, context, annotation.limit());
     }
 
     @Override
-    protected LimitedGeneratorBase<DateTime> doCreateLimitedGenerator(TemplateObjectAnnotationContext context, DateGenerator generatorAnnotation, Integer limitValue) {
-        return new DateGeneratorImpl(context, generatorAnnotation);
+    protected LimitedGeneratorBase<DateTime> doCreateLimitedGenerator(DateGenerator generatorAnnotation, TemplateObjectAnnotationContext context, Integer limitValue) {
+        return new DateGeneratorImpl(generatorAnnotation, context);
     }
 
     @Override
@@ -71,8 +71,8 @@ public final class DateGeneratorFactory extends GeneratorFactoryBase<DateTime, D
         private final MillisecondsGenerator millisecondsGenerator;
         private final DateEncoder encoder;
 
-        private DateGeneratorImpl(TemplateObjectAnnotationContext context, DateGenerator annotation) {
-            super(context, annotation);
+        private DateGeneratorImpl(DateGenerator annotation, TemplateObjectAnnotationContext context) {
+            super(annotation, context);
             this.encoder = createDateEncoder(annotation);
             this.millisecondsGenerator = createMillisecondsGenerator(context, annotation);
         }
@@ -87,7 +87,7 @@ public final class DateGeneratorFactory extends GeneratorFactoryBase<DateTime, D
 
         private MillisecondsGenerator createMillisecondsGenerator(TemplateObjectAnnotationContext context, DateGenerator annotation) {
             final DateDecoder decoder = new DateDecoder(annotation.format());
-            return new MillisecondsGenerator(context, annotation, decoder);
+            return new MillisecondsGenerator(annotation, context, decoder);
         }
 
         @Override
@@ -109,8 +109,8 @@ public final class DateGeneratorFactory extends GeneratorFactoryBase<DateTime, D
     }
 
     private static class MillisecondsGenerator extends LongRangeGenerator {
-        private MillisecondsGenerator(TemplateObjectAnnotationContext context, DateGenerator annotation, DateDecoder decoder) {
-            super(context, annotation,
+        private MillisecondsGenerator(DateGenerator annotation, TemplateObjectAnnotationContext context, DateDecoder decoder) {
+            super(annotation, context,
                 start(decoder, annotation),
                 end(decoder, annotation),
                 step(annotation)

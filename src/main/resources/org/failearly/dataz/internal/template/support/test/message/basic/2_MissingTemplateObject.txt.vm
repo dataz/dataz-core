@@ -23,19 +23,15 @@ So copy this snippets to your TOF (${TOF}):
 
 $snippetBegin
 		@Override
-		protected TemplateObject doCreate(${TOA} annotation) {
-			return new ${TO}(annotation);
+		protected TemplateObject doCreate(${TOA} annotation, TemplateObjectAnnotationContext context) {
+			return new ${TO}(annotation, context);
 		}
-$snippetEnd
 
-        $ommitted
-
-$snippetBegin
         // Must be public for Velocity!
         @Tests("${tc}")
         public static class ${TO} extends TemplateObjectBase {
-            ${TO}(${TOA} annotation) {
-                super(annotation);
+            ${TO}(${TOA} annotation, TemplateObjectAnnotationContext context) {
+                super(annotation, context);
                 // TODO: For each (not standard) annotation element there should be an appropriate field assignment.
             }
 

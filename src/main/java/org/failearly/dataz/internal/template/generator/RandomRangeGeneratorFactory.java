@@ -40,12 +40,12 @@ public final class RandomRangeGeneratorFactory extends GeneratorFactoryBase<Inte
     }
 
     @Override
-    protected TemplateObject doCreate(TemplateObjectAnnotationContext context, RandomRangeGenerator annotation) {
+    protected TemplateObject doCreate(RandomRangeGenerator annotation, TemplateObjectAnnotationContext context) {
         if (annotation.unique()) {
-            return doCreateUniqueGenerator(context, annotation, calculateUniqueLimitValue(annotation));
+            return doCreateUniqueGenerator(annotation, context, calculateUniqueLimitValue(annotation));
         }
 
-        return doCreateGenerator(context, annotation, annotation.limit(), calculateLimitValue(annotation));
+        return doCreateGenerator(annotation, context, annotation.limit(), calculateLimitValue(annotation));
     }
 
     private static int calculateUniqueLimitValue(RandomRangeGenerator generatorAnnotation) {
@@ -71,8 +71,8 @@ public final class RandomRangeGeneratorFactory extends GeneratorFactoryBase<Inte
     }
 
     @Override
-    protected UnlimitedGeneratorBase<Integer> doCreateUnlimitedGenerator(TemplateObjectAnnotationContext context, RandomRangeGenerator generatorAnnotation, Integer limitValue) {
-        return new RandomRangeGeneratorImpl(context, generatorAnnotation);
+    protected UnlimitedGeneratorBase<Integer> doCreateUnlimitedGenerator(RandomRangeGenerator generatorAnnotation, TemplateObjectAnnotationContext context, Integer limitValue) {
+        return new RandomRangeGeneratorImpl(generatorAnnotation, context);
     }
 
     @Override
@@ -99,8 +99,8 @@ public final class RandomRangeGeneratorFactory extends GeneratorFactoryBase<Inte
         private final int bound;
 
 
-        private RandomRangeGeneratorImpl(TemplateObjectAnnotationContext context, RandomRangeGenerator annotation) {
-            super(context, annotation);
+        private RandomRangeGeneratorImpl(RandomRangeGenerator annotation, TemplateObjectAnnotationContext context) {
+            super(annotation, context);
 
             this.start = annotation.start();
             this.end = annotation.end();

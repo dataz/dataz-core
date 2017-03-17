@@ -29,12 +29,21 @@ import java.lang.annotation.Annotation;
  */
 public abstract class LimitedGeneratorBase<T> extends GeneratorBase<T> implements LimitedGenerator<T> {
 
+    /**
+     * Decorate the other template object (here a generator)
+     * @param other the template object to be decorated
+     */
     protected LimitedGeneratorBase(TemplateObject other) {
         super(other);
     }
 
-    protected LimitedGeneratorBase(TemplateObjectAnnotationContext context, Annotation annotation) {
-        super(context, annotation);
+    /**
+     * The standard constructor.
+     * @param annotation your annotation
+     * @param context the context object
+     */
+    protected LimitedGeneratorBase(Annotation annotation, TemplateObjectAnnotationContext context) {
+        super(annotation, context);
     }
 
     @Override

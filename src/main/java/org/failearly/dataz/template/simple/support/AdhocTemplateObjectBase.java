@@ -36,8 +36,8 @@ public abstract class AdhocTemplateObjectBase extends TemplateObjectBase impleme
 
     protected AdhocTemplateObjectBase() {}
 
-    protected AdhocTemplateObjectBase(TemplateObjectAnnotationContext context, Adhoc annotation) {
-        super(context, annotation);
+    protected AdhocTemplateObjectBase(Adhoc annotation, TemplateObjectAnnotationContext context) {
+        super(annotation, context);
         this.arguments = Arrays.asList(annotation.args());
         this.propertiesAccessor = PropertyUtility.toPropertyAccessor(annotation.properties());
     }

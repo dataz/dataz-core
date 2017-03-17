@@ -31,7 +31,7 @@ import static org.junit.Assert.assertThat;
  */
 @Subject({SampleEncoder.class, SampleEncoderFactory.class, SampleEncoderFactory.SampleEncoderImpl.class})
 public class SampleEncoderTest
-    extends EncoderTestBase<Object /* TODO: replace */, Object, SampleEncoder, SampleEncoderFactory, SampleEncoderFactory.SampleEncoderImpl> {
+    extends EncoderTestBase<String, byte[], SampleEncoder, SampleEncoderFactory, SampleEncoderFactory.SampleEncoderImpl> {
     public SampleEncoderTest() {
         super(
             SampleEncoder.class, // TOA
@@ -54,7 +54,7 @@ public class SampleEncoderTest
     @Test
     public void how_to_create_a_template_object_from_annotation_on_method_object() {
         // act / when
-        final SampleEncoderFactory.SampleEncoderImpl templateObject=createTemplateObjectFromAnnotation("namedTest");
+        final SampleEncoderFactory.SampleEncoderImpl templateObject = createTemplateObjectFromAnnotation("namedTest");
         // or
         // final SampleEncoderFactory.SampleEncoderImpl templateObject=createTemplateObjectFromAnnotation("namedTest", FIRST_ANNOTATION);
 
@@ -77,10 +77,6 @@ public class SampleEncoderTest
     }
 
 
-    /**
-     * The purpose is to hold your SampleEncoder annotations.
-     */
-    @SuppressWarnings("unused")
     @SampleEncoder(name = DTON /* TODO: Add more attributes */)
     private static class TestFixture {
 

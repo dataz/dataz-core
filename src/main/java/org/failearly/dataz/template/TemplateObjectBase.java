@@ -56,6 +56,10 @@ public abstract class TemplateObjectBase implements TemplateObject {
         this(NO_TEMPLATE_OBJECT_ANNOTATION_CONTEXT, NO_ANNOTATION, NO_NAME, NO_DATSETS, Scope.DEFAULT);
     }
 
+    /**
+     * Constructor for decorating other template object.
+     * @param other the template object to be decorated.
+     */
     protected TemplateObjectBase(TemplateObject other) {
         this(other.getContext(), other.getAnnotation(), other.name(), toArray(other.datasets()), other.scope());
     }
@@ -65,12 +69,17 @@ public abstract class TemplateObjectBase implements TemplateObject {
     }
 
 
-    protected TemplateObjectBase(TemplateObjectAnnotationContext context, Annotation annotation) {
+    /**
+     * The standard constructor.
+     * @param annotation your annotation
+     * @param context the context object
+     */
+    protected TemplateObjectBase(Annotation annotation, TemplateObjectAnnotationContext context) {
         this(context,
             annotation,
-            resolveValueOfAnnotationAttribute(annotation,"name",String.class),
-            resolveValueOfAnnotationAttribute(annotation,"datasets",String[].class),
-            resolveValueOfAnnotationAttribute(annotation,"scope",Scope.class));
+            resolveValueOfAnnotationAttribute(annotation,"name", String.class),
+            resolveValueOfAnnotationAttribute(annotation,"datasets", String[].class),
+            resolveValueOfAnnotationAttribute(annotation,"scope", Scope.class));
     }
 
     private TemplateObjectBase(TemplateObjectAnnotationContext templateObjectAnnotationContext, Annotation annotation, String name, String[] dataset, Scope scope) {

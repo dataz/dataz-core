@@ -42,4 +42,10 @@ public final class DevelopmentEncoderErrorMessages extends TemplateObjectErrorMe
     public Message missingTestFixture(TemplateObjectMessage.Initializer initializer) {
         return new MissingTestFixture().buildLazyMessage(initializer);
     }
+
+    @Override
+    public Message initialStepsDone(TemplateObjectMessage.Initializer initializer) {
+        return new InitialStepsDone().buildLazyMessage(initializer);
+    }
+
 }

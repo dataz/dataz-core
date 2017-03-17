@@ -33,8 +33,8 @@ public abstract class RangeGeneratorBase<T extends Number> extends LimitedGenera
     protected final T to;
     protected final T step;
 
-    protected RangeGeneratorBase(TemplateObjectAnnotationContext context, Annotation annotation, T from, T to, T step) {
-        super(context, annotation);
+    protected RangeGeneratorBase(Annotation annotation, TemplateObjectAnnotationContext context, T from, T to, T step) {
+        super(annotation, context);
 
         this.from=from;
         this.to=to;

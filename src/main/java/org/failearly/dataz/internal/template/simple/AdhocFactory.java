@@ -35,9 +35,9 @@ public final class AdhocFactory extends TemplateObjectFactoryBase<Adhoc> {
     }
 
     @Override
-    protected TemplateObject doCreate(TemplateObjectAnnotationContext context, Adhoc annotation) {
+    protected TemplateObject doCreate(Adhoc annotation, TemplateObjectAnnotationContext context) {
         final Adhoc.AdhocTemplateObject templateObjectPrototype = ObjectCreatorUtil.createInstance(annotation.value());
-        return templateObjectPrototype.create(context, annotation);
+        return templateObjectPrototype.create(annotation, context);
     }
 
     @Override

@@ -43,8 +43,8 @@ $snippetBegin
 		}
 
 		@Override
-		protected TemplateObject doCreate(${TOA} annotation) {
-			return doCreateGenerator(annotation, annotation.limit());
+		protected TemplateObject doCreate(${TOA} annotation, TemplateObjectAnnotationContext context) {
+			return doCreateGenerator(annotation, context, annotation.limit());
 		}
 	}
 $snippetEnd

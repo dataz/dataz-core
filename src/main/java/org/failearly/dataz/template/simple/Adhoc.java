@@ -117,11 +117,11 @@ public @interface Adhoc {
         /**
          * The factory method for creating a {@link TemplateObject} from the {@link Adhoc} annotation.
          *
-         * @param context
          * @param annotation the Adhoc annotation
+         * @param context
          * @return the actually template object
          */
-        AdhocTemplateObject create(TemplateObjectAnnotationContext context, Adhoc annotation);
+        AdhocTemplateObject create(Adhoc annotation, TemplateObjectAnnotationContext context);
 
         @SuppressWarnings("unused")
         void ___extend_AdhocTemplateObjectBase__instead_of_implementing_AdhocTemplateObject();

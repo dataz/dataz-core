@@ -33,8 +33,13 @@ public abstract class EncoderBase<T, R> extends TemplateObjectBase implements En
     protected EncoderBase() {
     }
 
-    protected EncoderBase(TemplateObjectAnnotationContext context, Annotation annotation) {
-        super(context, annotation);
+    /**
+     * The standard constructor.
+     * @param annotation your annotation
+     * @param context the context object
+     */
+    protected EncoderBase(Annotation annotation, TemplateObjectAnnotationContext context) {
+        super(annotation, context);
     }
 
     @Override

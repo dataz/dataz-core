@@ -13,9 +13,9 @@ import org.failearly.dataz.template.generator.Limit;
 import java.lang.annotation.*;
 
 /**
- * SampleLimitedGenerator is a Sample Generator Annotation.
+ * SampleLimitedGenerator is a Generator Annotation.
  *
- * No responsibility at all.
+ * TODO: What is the responsibility of SampleLimitedGenerator?
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
@@ -62,12 +62,15 @@ public @interface SampleLimitedGenerator {
 
 
     /**
+     * The generator type: LIMITED or UNLIMITED.
+     *
      * @return Limit type.
      *
-     * @see org.failearly.dataz.template.generator.Limit#LIMITED
-     * @see org.failearly.dataz.template.generator.Limit#UNLIMITED
+     * @see Limit#LIMITED
+     * @see Limit#UNLIMITED
      */
     Limit limit() default Limit.LIMITED;
+
 
 
     // TODO: What are the SampleLimitedGenerator specific attributes?

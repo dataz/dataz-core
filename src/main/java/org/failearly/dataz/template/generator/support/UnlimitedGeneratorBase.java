@@ -32,12 +32,21 @@ import java.util.Random;
  */
 public abstract class UnlimitedGeneratorBase<T> extends GeneratorBase<T> implements UnlimitedGenerator<T> {
 
+    /**
+     * Decorate the other template object (here a generator)
+     * @param other the template object to be decorated
+     */
     protected UnlimitedGeneratorBase(TemplateObject other) {
         super(other);
     }
 
-    protected UnlimitedGeneratorBase(TemplateObjectAnnotationContext context, Annotation annotation) {
-        super(context, annotation);
+    /**
+     * The standard constructor.
+     * @param annotation your annotation
+     * @param context the context object
+     */
+    protected UnlimitedGeneratorBase(Annotation annotation, TemplateObjectAnnotationContext context) {
+        super(annotation, context);
     }
 
     /**

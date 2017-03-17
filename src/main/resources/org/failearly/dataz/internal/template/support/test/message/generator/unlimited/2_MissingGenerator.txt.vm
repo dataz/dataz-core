@@ -26,15 +26,15 @@ So copy this snippets to your TOF (${TOF}):
 
 $snippetBegin
 		@Override
-		protected UnlimitedGeneratorBase<ReplaceMe> doCreateUnlimitedGenerator(SampleUnlimitedGenerator annotation, Integer limitValue) {
-			return new ${TO}(annotation);
+		protected UnlimitedGeneratorBase<ReplaceMe> doCreateUnlimitedGenerator(SampleUnlimitedGenerator annotation, TemplateObjectAnnotationContext context, Integer limitValue) {
+			return new ${TO}(annotation, context);
 		}
 
         // Must be public for Velocity!
         @Tests("${tc}")
         public static class ${TO} extends UnlimitedGeneratorBase<ReplaceMe> {
-            ${TO}(${TOA} annotation) {
-                super(annotation);
+            ${TO}(${TOA} annotation, TemplateObjectAnnotationContext context) {
+                super(annotation, context);
                 // TODO: For each (not standard) annotation element there should be an appropriate field assignment.
             }
 

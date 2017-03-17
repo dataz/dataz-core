@@ -21,11 +21,6 @@ $snippetBegin
 		}
 
 		@Override
-		protected Encoder doCreate(${TOA} annotation) {
-			return null;
-		}
-
-		@Override
 		protected String doResolveName(${TOA} annotation) {
 			return annotation.name();
 		}
@@ -38,6 +33,11 @@ $snippetBegin
 		@Override
 		protected Scope doResolveScope(${TOA} annotation) {
 			return annotation.scope();
+		}
+
+		@Override
+		protected Encoder doCreate(${TOA} annotation, TemplateObjectAnnotationContext context) {
+			return null;
 		}
 	}
 $snippetEnd

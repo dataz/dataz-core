@@ -40,13 +40,13 @@ public final class ListGeneratorFactory extends GeneratorFactoryBase<String,List
     }
 
     @Override
-    protected TemplateObject doCreate(TemplateObjectAnnotationContext context, ListGenerator annotation) {
-        return doCreateGenerator(context, annotation, annotation.limit(), annotation.values().length);
+    protected TemplateObject doCreate(ListGenerator annotation, TemplateObjectAnnotationContext context) {
+        return doCreateGenerator(annotation, context, annotation.limit(), annotation.values().length);
     }
 
     @Override
-    protected ListGeneratorImpl doCreateLimitedGenerator(TemplateObjectAnnotationContext context, ListGenerator generatorAnnotation, Integer limitValue) {
-        return new ListGeneratorImpl(context, generatorAnnotation);
+    protected ListGeneratorImpl doCreateLimitedGenerator(ListGenerator generatorAnnotation, TemplateObjectAnnotationContext context, Integer limitValue) {
+        return new ListGeneratorImpl(generatorAnnotation, context);
     }
 
     @Override
@@ -67,8 +67,8 @@ public final class ListGeneratorFactory extends GeneratorFactoryBase<String,List
     public static class ListGeneratorImpl extends LimitedGeneratorBase<String> {
         private final List<String> values;
 
-        private ListGeneratorImpl(TemplateObjectAnnotationContext context, ListGenerator annotation) {
-            super(context, annotation);
+        private ListGeneratorImpl(ListGenerator annotation, TemplateObjectAnnotationContext context) {
+            super(annotation, context);
             this.values = Arrays.asList(annotation.values());
         }
 

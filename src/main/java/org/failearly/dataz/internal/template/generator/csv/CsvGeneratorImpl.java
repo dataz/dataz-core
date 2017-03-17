@@ -43,8 +43,8 @@ public class CsvGeneratorImpl extends LimitedGeneratorBase<CsvRecord> {
     
     private List<CsvRecord> records;
 
-    CsvGeneratorImpl(TemplateObjectAnnotationContext context, CsvGenerator annotation) {
-        super(context, annotation);
+    CsvGeneratorImpl(CsvGenerator annotation, TemplateObjectAnnotationContext context) {
+        super(annotation, context);
     }
 
     @Override

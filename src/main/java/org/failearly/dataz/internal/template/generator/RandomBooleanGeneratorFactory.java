@@ -41,13 +41,13 @@ public final class RandomBooleanGeneratorFactory extends GeneratorFactoryBase<Bo
     }
 
     @Override
-    protected TemplateObject doCreate(TemplateObjectAnnotationContext context, RandomBooleanGenerator annotation) {
-        return doCreateGenerator(context, annotation, Limit.UNLIMITED);
+    protected TemplateObject doCreate(RandomBooleanGenerator annotation, TemplateObjectAnnotationContext context) {
+        return doCreateGenerator(annotation, context, Limit.UNLIMITED);
     }
 
     @Override
-    protected UnlimitedGeneratorBase<Boolean> doCreateUnlimitedGenerator(TemplateObjectAnnotationContext context, RandomBooleanGenerator generatorAnnotation, Integer limitValue) {
-        return new RandomBooleanGeneratorImpl(context, generatorAnnotation);
+    protected UnlimitedGeneratorBase<Boolean> doCreateUnlimitedGenerator(RandomBooleanGenerator generatorAnnotation, TemplateObjectAnnotationContext context, Integer limitValue) {
+        return new RandomBooleanGeneratorImpl(generatorAnnotation, context);
     }
 
     @Override
@@ -75,8 +75,8 @@ public final class RandomBooleanGeneratorFactory extends GeneratorFactoryBase<Bo
         private Set<Integer> trueIntValues;
         private Random random;
 
-        private RandomBooleanGeneratorImpl(TemplateObjectAnnotationContext context, RandomBooleanGenerator generatorAnnotation) {
-            super(context, generatorAnnotation);
+        private RandomBooleanGeneratorImpl(RandomBooleanGenerator generatorAnnotation, TemplateObjectAnnotationContext context) {
+            super(generatorAnnotation, context);
 
             this.percentAsIntValue = toPercentValue(generatorAnnotation.percent());
             this.seed = generatorAnnotation.seed();

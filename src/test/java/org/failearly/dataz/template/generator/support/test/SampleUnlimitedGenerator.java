@@ -19,7 +19,6 @@
 package org.failearly.dataz.template.generator.support.test;
 
 import org.failearly.dataz.template.Scope;
-import org.failearly.dataz.template.TemplateObjectFactory;
 import org.failearly.dataz.template.generator.Limit;
 
 import java.lang.annotation.*;
@@ -34,7 +33,7 @@ import java.lang.annotation.*;
 @Documented
 @Repeatable(SampleUnlimitedGenerator.List.class)
 @org.failearly.common.annotations.Tests("SampleUnlimitedGeneratorTest")
-@TemplateObjectFactory.Definition(SampleUnlimitedGeneratorFactory.class)
+// TODO @TemplateObjectFactory.Definition(SampleUnlimitedGeneratorFactory.class)
 public @interface SampleUnlimitedGenerator {
     /**
      * Every template object needs a name.
@@ -74,6 +73,8 @@ public @interface SampleUnlimitedGenerator {
 
 
     /**
+     * The generator type: LIMITED or UNLIMITED.
+     *
      * @return Limit type.
      *
      * @see Limit#LIMITED

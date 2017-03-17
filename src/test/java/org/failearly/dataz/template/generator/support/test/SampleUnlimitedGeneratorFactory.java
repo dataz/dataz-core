@@ -24,6 +24,7 @@ import org.failearly.dataz.template.TemplateObject;
 import org.failearly.dataz.template.TemplateObjectAnnotationContext;
 import org.failearly.dataz.template.generator.support.GeneratorFactoryBase;
 import org.failearly.dataz.template.generator.support.UnlimitedGeneratorBase;
+import org.failearly.dataz.template.support.test.ReplaceMe;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -32,7 +33,7 @@ import java.util.Iterator;
  * SampleUnlimitedGeneratorFactory creates a {@link SampleUnlimitedGeneratorImpl} from {@link SampleUnlimitedGenerator}.
  */
 @Tests("SampleUnlimitedGeneratorTest")
-public class SampleUnlimitedGeneratorFactory extends GeneratorFactoryBase<Integer,SampleUnlimitedGenerator> {
+public class SampleUnlimitedGeneratorFactory extends GeneratorFactoryBase<ReplaceMe,SampleUnlimitedGenerator> {
     public SampleUnlimitedGeneratorFactory() {
         super(SampleUnlimitedGenerator.class);
     }
@@ -53,27 +54,28 @@ public class SampleUnlimitedGeneratorFactory extends GeneratorFactoryBase<Intege
     }
 
     @Override
-    protected TemplateObject doCreate(TemplateObjectAnnotationContext context, SampleUnlimitedGenerator annotation) {
-        return doCreateGenerator(context, annotation, annotation.limit());
+    protected TemplateObject doCreate(SampleUnlimitedGenerator annotation, TemplateObjectAnnotationContext context) {
+        return doCreateGenerator(annotation, context, annotation.limit());
     }
 
     @Override
-    protected UnlimitedGeneratorBase<Integer> doCreateUnlimitedGenerator(TemplateObjectAnnotationContext context, SampleUnlimitedGenerator annotation, Integer limitValue) {
-        return new SampleUnlimitedGeneratorImpl(context, annotation);
+    protected UnlimitedGeneratorBase<ReplaceMe> doCreateUnlimitedGenerator(SampleUnlimitedGenerator annotation, TemplateObjectAnnotationContext context, Integer limitValue) {
+        return new SampleUnlimitedGeneratorImpl(annotation, context);
     }
 
     // Must be public for Velocity!
     @Tests("SampleUnlimitedGeneratorTest")
-    public static class SampleUnlimitedGeneratorImpl extends UnlimitedGeneratorBase<Integer> {
-        SampleUnlimitedGeneratorImpl(TemplateObjectAnnotationContext context, SampleUnlimitedGenerator annotation) {
-            super(context, annotation);
+    public static class SampleUnlimitedGeneratorImpl extends UnlimitedGeneratorBase<ReplaceMe> {
+        SampleUnlimitedGeneratorImpl(SampleUnlimitedGenerator annotation, TemplateObjectAnnotationContext context) {
+            super(annotation, context);
             // TODO: For each (not standard) annotation element there should be an appropriate field assignment.
         }
 
         @Override
-        public Iterator<Integer> createIterator() {
+        public Iterator<ReplaceMe> createIterator() {
             // TODO: Implement SampleUnlimitedGeneratorImpl#createIterator
             return Collections.emptyIterator();
         }
     }
 }
+

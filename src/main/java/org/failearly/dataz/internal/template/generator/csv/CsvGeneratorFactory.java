@@ -53,12 +53,12 @@ public class CsvGeneratorFactory extends GeneratorFactoryBase<CsvRecord, CsvGene
     }
 
     @Override
-    protected TemplateObject doCreate(TemplateObjectAnnotationContext context, CsvGenerator annotation) {
-        return doCreateGenerator(context, annotation, annotation.limit());
+    protected TemplateObject doCreate(CsvGenerator annotation, TemplateObjectAnnotationContext context) {
+        return doCreateGenerator(annotation, context, annotation.limit());
     }
 
     @Override
-    protected LimitedGeneratorBase<CsvRecord> doCreateLimitedGenerator(TemplateObjectAnnotationContext context, final CsvGenerator annotation, final Integer limitValue) {
-        return new CsvGeneratorImpl(context, annotation);
+    protected LimitedGeneratorBase<CsvRecord> doCreateLimitedGenerator(final CsvGenerator annotation, TemplateObjectAnnotationContext context, final Integer limitValue) {
+        return new CsvGeneratorImpl(annotation, context);
     }
 }

@@ -29,7 +29,7 @@ import java.util.Set;
  * TemplateObjectFactoryBase is the base class for implementing {@link TemplateObjectFactory}. It also cast to the
  * actually expected annotation and provides type safe methods.
  *
- * @see #doCreate(TemplateObjectAnnotationContext, Annotation)
+ * @see #doCreate(Annotation, TemplateObjectAnnotationContext)
  * @see #doResolveDataSetNames(Annotation)
  */
 public abstract class TemplateObjectFactoryBase<TOA extends Annotation> implements TemplateObjectFactory {
@@ -44,19 +44,19 @@ public abstract class TemplateObjectFactoryBase<TOA extends Annotation> implemen
     public TemplateObject create(TemplateObjectAnnotationContext context, Annotation annotation) {
         Objects.requireNonNull(annotation,"Missing annotation of type " + annotationClass.getName());
         Objects.requireNonNull(context,"Missing context of type " + annotationClass.getName());
-        final TemplateObject templateObject = doCreate(context, annotationClass.cast(annotation));
+        final TemplateObject templateObject = doCreate(annotationClass.cast(annotation), context);
         return templateObject;
     }
 
     /**
      * Type safe alternative for {@link TemplateObjectFactory#create(TemplateObjectAnnotationContext, Annotation)}.
      *
-     * @param context  the template object annotation's context
      * @param annotation the annotation.
      *
+     * @param context  the template object annotation's context
      * @return the created template object.
      */
-    protected abstract TemplateObject doCreate(TemplateObjectAnnotationContext context, TOA annotation);
+    protected abstract TemplateObject doCreate(TOA annotation, TemplateObjectAnnotationContext context);
 
 
     @Override

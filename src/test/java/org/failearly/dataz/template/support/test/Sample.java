@@ -19,6 +19,7 @@
 
 package org.failearly.dataz.template.support.test;
 
+import org.failearly.common.annotations.Tests;
 import org.failearly.dataz.template.Scope;
 import org.failearly.dataz.template.TemplateObjectFactory;
 
@@ -33,9 +34,10 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Repeatable(Sample.List.class)
-@org.failearly.common.annotations.Tests("SampleTest")
+@Tests("SampleTest")
 @TemplateObjectFactory.Definition(SampleFactory.class)
 public @interface Sample {
+
     /**
      * Every template object needs a name.
      * <br><br>
@@ -71,7 +73,6 @@ public @interface Sample {
      * @see Scope
      */
     Scope scope() default Scope.DEFAULT;
-
 
     // TODO: What are the Sample specific attributes?
     String sample() default "missing sample value";

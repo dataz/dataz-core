@@ -39,12 +39,21 @@ public abstract class GeneratorBase<T> extends TemplateObjectBase implements Gen
     private T lastValue;
 
 
+    /**
+     * Decorate the other template object (here a generator)
+     * @param other the template object to be decorated
+     */
     protected GeneratorBase(TemplateObject other) {
         super(other);
     }
 
-    GeneratorBase(TemplateObjectAnnotationContext context, Annotation annotation) {
-        super(context, annotation);
+    /**
+     * The standard constructor.
+     * @param annotation your annotation
+     * @param context the context object
+     */
+    GeneratorBase(Annotation annotation, TemplateObjectAnnotationContext context) {
+        super(annotation, context);
     }
 
     /**

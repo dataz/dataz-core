@@ -31,8 +31,8 @@ public final class SimpleTemplateObjectFactory extends TemplateObjectFactoryBase
     }
 
     @Override
-    protected TemplateObject doCreate(TemplateObjectAnnotationContext context, SimpleTemplateObject annotation) {
-        return new SimpleTemplateObjectImpl(context, annotation);
+    protected TemplateObject doCreate(SimpleTemplateObject annotation, TemplateObjectAnnotationContext context) {
+        return new SimpleTemplateObjectImpl(annotation, context);
     }
 
     @Override
@@ -54,8 +54,8 @@ public final class SimpleTemplateObjectFactory extends TemplateObjectFactoryBase
 
         private final String description;
 
-        private SimpleTemplateObjectImpl(TemplateObjectAnnotationContext context, SimpleTemplateObject annotation) {
-            super(context, annotation);
+        private SimpleTemplateObjectImpl(SimpleTemplateObject annotation, TemplateObjectAnnotationContext context) {
+            super(annotation, context);
             this.description = annotation.description();
         }
 

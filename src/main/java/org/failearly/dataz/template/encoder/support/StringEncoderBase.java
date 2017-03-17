@@ -30,7 +30,12 @@ public abstract class StringEncoderBase extends EncoderBase<String, String> {
     protected StringEncoderBase() {
     }
 
-    protected StringEncoderBase(TemplateObjectAnnotationContext context, Annotation annotation) {
-        super(context, annotation);
+    /**
+     * The standard constructor.
+     * @param annotation your annotation
+     * @param context the context object
+     */
+    protected StringEncoderBase(Annotation annotation, TemplateObjectAnnotationContext context) {
+        super(annotation, context);
     }
 }

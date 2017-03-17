@@ -29,8 +29,8 @@ import java.lang.annotation.Annotation;
  */
 public abstract class LongRangeGenerator extends RangeGeneratorBase<Long> {
 
-    protected LongRangeGenerator(TemplateObjectAnnotationContext context,  Annotation annotation, long from, long to, long step) {
-        super(context, annotation, from, to, step);
+    protected LongRangeGenerator(Annotation annotation, TemplateObjectAnnotationContext context, long from, long to, long step) {
+        super(annotation, context, from, to, step);
     }
 
     @Override

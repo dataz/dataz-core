@@ -52,19 +52,19 @@ public final class LoopGeneratorFactory extends GeneratorFactoryBase<Integer, Lo
     }
 
     @Override
-    protected TemplateObject doCreate(TemplateObjectAnnotationContext context, LoopGenerator annotation) {
-        return doCreateGenerator(context, annotation, Limit.LIMITED);
+    protected TemplateObject doCreate(LoopGenerator annotation, TemplateObjectAnnotationContext context) {
+        return doCreateGenerator(annotation, context, Limit.LIMITED);
     }
 
     @Override
-    protected LimitedGeneratorBase<Integer> doCreateLimitedGenerator(TemplateObjectAnnotationContext context, LoopGenerator generatorAnnotation, Integer limitValue) {
-        return new LoopGeneratorImpl(context, generatorAnnotation);
+    protected LimitedGeneratorBase<Integer> doCreateLimitedGenerator(LoopGenerator generatorAnnotation, TemplateObjectAnnotationContext context, Integer limitValue) {
+        return new LoopGeneratorImpl(generatorAnnotation, context);
     }
 
     @SuppressWarnings("WeakerAccess")
     public static class LoopGeneratorImpl extends IntegerRangeGenerator {
-        LoopGeneratorImpl(TemplateObjectAnnotationContext context, LoopGenerator loopGenerator) {
-            super(context, loopGenerator, 1, loopGenerator.size(), 1);
+        LoopGeneratorImpl(LoopGenerator loopGenerator, TemplateObjectAnnotationContext context) {
+            super(loopGenerator, context, 1, loopGenerator.size(), 1);
         }
 
         @Override
