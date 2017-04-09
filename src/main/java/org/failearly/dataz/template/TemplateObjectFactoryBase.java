@@ -20,7 +20,7 @@ import java.util.Set;
 
 /**
  * TemplateObjectFactoryBase is the base class for implementing {@link TemplateObjectFactory}. It also cast to the
- * actually expected annotation and provides type safe methods.
+ * actually expected impl and provides type safe methods.
  *
  * @see #doCreate(Annotation, TemplateObjectAnnotationContext)
  * @see #doResolveDataSetNames(Annotation)
@@ -29,13 +29,13 @@ public abstract class TemplateObjectFactoryBase<TOA extends Annotation> implemen
     private final Class<TOA> annotationClass;
 
     protected TemplateObjectFactoryBase(Class<TOA> annotationClass) {
-        Objects.requireNonNull(annotationClass,"Missing annotation class.");
+        Objects.requireNonNull(annotationClass,"Missing impl class.");
         this.annotationClass = annotationClass;
     }
 
     @Override
     public TemplateObject create(TemplateObjectAnnotationContext context, Annotation annotation) {
-        Objects.requireNonNull(annotation,"Missing annotation of type " + annotationClass.getName());
+        Objects.requireNonNull(annotation,"Missing impl of type " + annotationClass.getName());
         Objects.requireNonNull(context,"Missing context of type " + annotationClass.getName());
         final TemplateObject templateObject = doCreate(annotationClass.cast(annotation), context);
         return templateObject;
@@ -44,9 +44,9 @@ public abstract class TemplateObjectFactoryBase<TOA extends Annotation> implemen
     /**
      * Type safe alternative for {@link TemplateObjectFactory#create(TemplateObjectAnnotationContext, Annotation)}.
      *
-     * @param annotation the annotation.
+     * @param annotation the impl.
      *
-     * @param context  the template object annotation's context
+     * @param context  the template object impl's context
      * @return the created template object.
      */
     protected abstract TemplateObject doCreate(TOA annotation, TemplateObjectAnnotationContext context);
@@ -63,7 +63,7 @@ public abstract class TemplateObjectFactoryBase<TOA extends Annotation> implemen
 
     /**
      * Type safe alternative for {@link #resolveDataSetNames(Annotation)}.
-     * @param annotation the annotation.
+     * @param annotation the impl.
      * @return the data set name.
      */
     protected abstract String[] doResolveDataSetNames(TOA annotation);
@@ -82,7 +82,7 @@ public abstract class TemplateObjectFactoryBase<TOA extends Annotation> implemen
 
     /**
      * Type safe alternative for {@link #resolveName(Annotation)}.
-     * @param annotation the annotation.
+     * @param annotation the impl.
      * @return the name.
      */
     protected abstract String doResolveName(TOA annotation);
@@ -90,7 +90,7 @@ public abstract class TemplateObjectFactoryBase<TOA extends Annotation> implemen
 
     /**
      * Type safe alternative for {@link #resolveScope(Annotation)}.
-     * @param annotation the annotation.
+     * @param annotation the impl.
      * @return the scope.
      */
     protected abstract Scope doResolveScope(TOA annotation);

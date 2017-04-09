@@ -18,7 +18,7 @@ import org.failearly.dataz.template.TemplateObjectFactory;
 import java.lang.annotation.*;
 
 /**
- * SimpleTemplateObject is a template object annotation as replacement for real ones, which has only the minimal set of annotation's attributes.
+ * SimpleTemplateObject is a template object impl as replacement for real ones, which has only the minimal set of impl's attributes.
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)

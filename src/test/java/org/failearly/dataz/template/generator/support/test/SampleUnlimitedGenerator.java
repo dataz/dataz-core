@@ -11,6 +11,7 @@
  */
 package org.failearly.dataz.template.generator.support.test;
 
+import org.failearly.dataz.common.Tests;
 import org.failearly.dataz.template.Scope;
 import org.failearly.dataz.template.generator.Limit;
 
@@ -25,7 +26,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Repeatable(SampleUnlimitedGenerator.List.class)
-@org.failearly.common.annotations.Tests("SampleUnlimitedGeneratorTest")
+@Tests("SampleUnlimitedGeneratorTest")
 // TODO @TemplateObjectFactory.Definition(SampleUnlimitedGeneratorFactory.class)
 public @interface SampleUnlimitedGenerator {
     /**

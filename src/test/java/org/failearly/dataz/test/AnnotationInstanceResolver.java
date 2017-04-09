@@ -12,7 +12,7 @@
 
 package org.failearly.dataz.test;
 
-import org.failearly.common.builder.BuilderBase;
+import org.failearly.dataz.internal.common.builder.BuilderBase;
 
 import java.lang.annotation.Annotation;
 
@@ -57,7 +57,7 @@ public final class AnnotationInstanceResolver<T extends Annotation> extends Buil
         }
 
         if (annotation == null) {
-            throw new RuntimeException("Can't find annotation of " + annotationClass);
+            throw new RuntimeException("Can't find impl of " + annotationClass);
         }
 
         return annotation;

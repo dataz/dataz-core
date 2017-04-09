@@ -11,9 +11,9 @@
  */
 package org.failearly.dataz.internal.model;
 
-import org.failearly.common.annotation.traverser.MetaAnnotationTraverser;
-import org.failearly.common.annotation.traverser.TraverseDepth;
-import org.failearly.common.annotation.traverser.TraverseStrategy;
+import org.failearly.dataz.internal.common.annotation.traverser.MetaAnnotationTraverser;
+import org.failearly.dataz.internal.common.annotation.traverser.TraverseDepth;
+import org.failearly.dataz.internal.common.annotation.traverser.TraverseStrategy;
 import org.failearly.dataz.NoDataSet;
 import org.failearly.dataz.resource.DataResourcesFactory;
 
@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import static org.failearly.common.annotation.traverser.AnnotationTraverserBuilder.metaAnnotationTraverser;
+import static org.failearly.dataz.internal.common.annotation.traverser.AnnotationTraverserBuilder.metaAnnotationTraverser;
 
 /**
  * TestClassBase is the base implementation for any {@link TestClass}.

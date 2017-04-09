@@ -13,7 +13,7 @@
 package org.failearly.dataz.internal.template;
 
 import org.failearly.dataz.config.DataSetProperties;
-import org.failearly.common.classutils.ObjectCreatorUtil;
+import org.failearly.dataz.internal.common.classutils.ObjectCreatorUtil;
 import org.failearly.dataz.template.engine.TemplateEngine;
 import org.failearly.dataz.template.engine.TemplateEngineFactory;
 

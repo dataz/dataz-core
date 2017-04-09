@@ -12,9 +12,9 @@
 
 package org.failearly.dataz.internal.template.support.test.message.generator;
 
-import org.failearly.common.message.ClasspathMessageTemplate;
-import org.failearly.common.message.Message;
-import org.failearly.common.message.TemplateParameters;
+import org.failearly.dataz.internal.common.message.ClasspathMessageTemplate;
+import org.failearly.dataz.internal.common.message.Message;
+import org.failearly.dataz.internal.common.message.TemplateParameters;
 import org.failearly.dataz.internal.template.support.test.message.basic.AbstractTemplateObjectMessage;
 import org.failearly.dataz.internal.template.support.test.message.basic.TemplateObjectMessage;
 

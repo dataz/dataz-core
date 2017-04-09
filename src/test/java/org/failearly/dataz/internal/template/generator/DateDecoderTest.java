@@ -12,7 +12,7 @@
 
 package org.failearly.dataz.internal.template.generator;
 
-import org.failearly.common.test.ExceptionVerifier;
+import org.failearly.dataz.internal.common.test.ExceptionVerifier;
 import org.junit.Test;
 
 import java.util.Date;

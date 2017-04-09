@@ -22,7 +22,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import static org.failearly.common.annotation.utils.AnnotationUtils.resolveValueOfAnnotationAttribute;
+import static org.failearly.dataz.internal.common.annotation.utils.AnnotationUtils.resolveValueOfAnnotationAttribute;
 
 /**
  * TemplateObjectBase should be the base class for {@link TemplateObjectBase} implementations.
@@ -64,7 +64,7 @@ public abstract class TemplateObjectBase implements TemplateObject {
 
     /**
      * The standard constructor.
-     * @param annotation your annotation
+     * @param annotation your impl
      * @param context the context object
      */
     protected TemplateObjectBase(Annotation annotation, TemplateObjectAnnotationContext context) {

@@ -17,7 +17,7 @@ import java.util.Set;
 
 /**
  * TemplateObjectFactory creates from a Template Object Annotation a {@link TemplateObject}. The class object of any implementation must be assigned
- * to the associated annotation by using the meta annotation {@link Definition#value()}.
+ * to the associated impl by using the meta impl {@link Definition#value()}.
  * <br><br>
  * Remark: Please extend  {@link TemplateObjectFactoryBase} instead of implementing this interface!!
  * <br><br>
@@ -44,20 +44,20 @@ import java.util.Set;
  *           }
  *
  *          {@literal @}Override
- *           protected TemplateObject doCreate(MyTemplateObjectAnnotation annotation) {
- *              // Creates <i>MyTemplateObject</i> from the template object annotation!!!
- *              return new MyTemplateObject(annotation);
+ *           protected TemplateObject doCreate(MyTemplateObjectAnnotation impl) {
+ *              // Creates <i>MyTemplateObject</i> from the template object impl!!!
+ *              return new MyTemplateObject(impl);
  *           }
  *
  *          {@literal @}Override
- *           protected String doResolveDataSetNames(MyTemplateObjectAnnotation annotation) {
- *              return annotation.dataz();
+ *           protected String doResolveDataSetNames(MyTemplateObjectAnnotation impl) {
+ *              return impl.dataz();
  *           }
  *
  *          // The implementation of {@link TemplateObject}!!!
  *          public final class MyTemplateObject extends TemplateObjectBase {
- *              public MyTemplateObject(MyTemplateObjectAnnotation annotation) {
- *                  super(annotation, annotation.dataz(), annotation.name() );
+ *              public MyTemplateObject(MyTemplateObjectAnnotation impl) {
+ *                  super(impl, impl.dataz(), impl.name() );
  *              }
  *          }
  *      }
@@ -68,38 +68,38 @@ import java.util.Set;
  */
 public interface TemplateObjectFactory {
     /**
-     * Create an instance of the template object using the annotation.
+     * Create an instance of the template object using the impl.
      *
      *
-     * @param context          the template object annotation's context
-     * @param annotation       the annotation instance.
+     * @param context          the template object impl's context
+     * @param annotation       the impl instance.
      *
      * @return a new instance of template object.
      */
     TemplateObject create(TemplateObjectAnnotationContext context, Annotation annotation);
 
     /**
-     * Resolves the name of the template object annotation.
+     * Resolves the name of the template object impl.
      *
-     * @param annotation the annotation
+     * @param annotation the impl
      *
-     * @return the name of the template object annotation.
+     * @return the name of the template object impl.
      */
     String resolveName(Annotation annotation);
 
     /**
-     * Resolves the associated datasets of the template object annotation.
+     * Resolves the associated datasets of the template object impl.
      *
-     * @param annotation the annotation
+     * @param annotation the impl
      *
-     * @return the data set name of the template object annotation.
+     * @return the data set name of the template object impl.
      */
     Set<String> resolveDataSetNames(Annotation annotation);
 
     /**
-     * Resolves the scope from the template object annotation.
+     * Resolves the scope from the template object impl.
      *
-     * @param annotation the annotation
+     * @param annotation the impl
      *
      * @return the {@link Scope} of the template object.
      */
@@ -110,7 +110,7 @@ public interface TemplateObjectFactory {
 
 
     /**
-     * Definition is a meta annotation used for {@link TemplateObject} annotations (TOA).
+     * Definition is a meta impl used for {@link TemplateObject} annotations (TOA).
      * <br><br>
      * Example:<br><br>
      * <pre>
@@ -147,7 +147,7 @@ public interface TemplateObjectFactory {
         /**
          * The responsible generator factory class.
          *
-         * @return a {@link TemplateObjectFactory} class which is associated to the template object annotation.
+         * @return a {@link TemplateObjectFactory} class which is associated to the template object impl.
          */
         Class<? extends TemplateObjectFactory> value();
     }

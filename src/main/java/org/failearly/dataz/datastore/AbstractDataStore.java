@@ -12,7 +12,7 @@
 
 package org.failearly.dataz.datastore;
 
-import org.failearly.common.proputils.PropertiesAccessor;
+import org.failearly.dataz.internal.common.proputils.PropertiesAccessor;
 import org.failearly.dataz.NamedDataStore;
 import org.failearly.dataz.resource.DataResource;
 import org.slf4j.Logger;

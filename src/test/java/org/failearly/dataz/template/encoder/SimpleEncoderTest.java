@@ -12,7 +12,7 @@
 
 package org.failearly.dataz.template.encoder;
 
-import org.failearly.common.test.annotations.Subject;
+import org.failearly.dataz.internal.common.test.annotations.Subject;
 import org.failearly.dataz.internal.template.encoder.SimpleEncoderFactory;
 import org.failearly.dataz.internal.template.encoder.SimpleEncoderFactory.SimpleEncoderImpl;
 import org.failearly.dataz.template.encoder.support.test.EncoderTestBase;

@@ -29,11 +29,11 @@ import static org.failearly.dataz.config.Constants.DATAZ_DEFAULT_DATASTORE_FACTO
 public interface DataStoreFactory<T extends Annotation> {
 
     /**
-     * Create an instance of {@link org.failearly.dataz.datastore.DataStore} based on a data store annotation.
+     * Create an instance of {@link org.failearly.dataz.datastore.DataStore} based on a data store impl.
      *
-     * @param namedDataStore the class object an DataStore annotation is applied on.
-     * @param dataStoreAnnotation a data store annotation which represents a single {@link DataStore} instance.
-     * @param dataStoreDefinition the datastore definition annotation.
+     * @param namedDataStore the class object an DataStore impl is applied on.
+     * @param dataStoreAnnotation a data store impl which represents a single {@link DataStore} instance.
+     * @param dataStoreDefinition the datastore definition impl.
      * @return a new data store instance.
      *
      * @see Definition
@@ -43,10 +43,10 @@ public interface DataStoreFactory<T extends Annotation> {
     }
 
     /**
-     * Create an instance of {@link org.failearly.dataz.datastore.DataStore} based on a data store annotation.
+     * Create an instance of {@link org.failearly.dataz.datastore.DataStore} based on a data store impl.
      *
-     * @param namedDataStore the class object an DataStore annotation is applied on.
-     * @param dataStoreAnnotation a data store annotation which represents a single {@link DataStore} instance.
+     * @param namedDataStore the class object an DataStore impl is applied on.
+     * @param dataStoreAnnotation a data store impl which represents a single {@link DataStore} instance.
      * @return a new data store instance.
      *
      * @see Definition
@@ -56,9 +56,9 @@ public interface DataStoreFactory<T extends Annotation> {
     }
 
     /**
-     * Definition is the meta annotation marking an annotation as DataStore annotation and providing a {@link DataStoreFactory}.
+     * Definition is the meta impl marking an impl as DataStore impl and providing a {@link DataStoreFactory}.
      * <br><br>
-     * Any annotation using this annotation ...
+     * Any impl using this impl ...
      * <ul>
      *      <li>must have an id element returning a String: {@code String name()}.</li>
      *      <li>should have a configuration part: {@code String config()}.</li>
@@ -83,7 +83,7 @@ public interface DataStoreFactory<T extends Annotation> {
      *    public {@literal @}interface MyDataStore {
      *        // omitted for brevity
      *
-     *        // Java8 stores repeating {@literal @MyDataStore} in the associated container annotation.
+     *        // Java8 stores repeating {@literal @MyDataStore} in the associated container impl.
      *        {@literal @interface} MyDataStores {
      *             MyDataStore[] value();
      *        }
@@ -148,11 +148,11 @@ public interface DataStoreFactory<T extends Annotation> {
         String factoryMethod() default DATAZ_DEFAULT_DATASTORE_FACTORY_METHOD;
 
         /**
-         * The datastore annotation which uses this meta annotation. You must provide your DataStore annotation,
+         * The datastore impl which uses this meta impl. You must provide your DataStore impl,
          * if you use {@link ReflectionDataStoreFactory} for {@link #factory()}.
          * <br><br>
          * Used by {@link ReflectionDataStoreFactory}.
-         * @return the target datastore annotation.
+         * @return the target datastore impl.
          */
         Class<? extends Annotation> dataStoreAnnotation() default NoDataStoreAnnotation.class;
     }

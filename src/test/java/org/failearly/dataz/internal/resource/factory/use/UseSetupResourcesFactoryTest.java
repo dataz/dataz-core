@@ -12,7 +12,7 @@
 
 package org.failearly.dataz.internal.resource.factory.use;
 
-import org.failearly.common.test.annotations.Subject;
+import org.failearly.dataz.internal.common.test.annotations.Subject;
 import org.failearly.dataz.DataSet;
 import org.failearly.dataz.NamedDataStore;
 import org.failearly.dataz.Use;
@@ -28,7 +28,7 @@ import org.junit.Test;
 import java.util.List;
 
 /**
- * UseSetupResourcesFactoryTest contains tests for {@link UseSetupResourcesFactory} and it's associated annotation {@link Use}.
+ * UseSetupResourcesFactoryTest contains tests for {@link UseSetupResourcesFactory} and it's associated impl {@link Use}.
  */
 @SuppressWarnings("unchecked")
 @Subject({Use.class, UseSetupResourcesFactory.class})

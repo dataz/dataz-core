@@ -13,7 +13,7 @@
 package org.failearly.dataz.template.generator.support;
 
 import org.apache.velocity.exception.VelocityException;
-import org.failearly.common.test.ExceptionVerifier;
+import org.failearly.dataz.internal.common.test.ExceptionVerifier;
 import org.failearly.dataz.internal.template.generator.ListGeneratorFactory;
 import org.failearly.dataz.internal.template.generator.ListGeneratorFactory.ListGeneratorImpl;
 import org.failearly.dataz.internal.template.generator.decorator.UnlimitedGeneratorDecorator;

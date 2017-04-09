@@ -13,7 +13,7 @@
 /**
  * Support classes for creating {@link org.failearly.dataz.template.generator.Generator} annotations.
  * <br><br>
- * Any generator annotation must define following attributes:<br>
+ * Any generator impl must define following attributes:<br>
  * <ul>
  *    <li>{@code name()}: The name of the generator. Use this to reserve the generator within your template.</li>
  *    <li>{@code dataz()}: A generator must be associated to a specific {@link org.failearly.dataz.DataSet#name()}.</li>
@@ -22,7 +22,7 @@
  * <br><br>
  * Steps to create your own Generator:
  * <ol>
- *    <li>Creating a generator annotation. (For example: Take a look at {@link org.failearly.dataz.template.generator.ListGenerator}.)</li>
+ *    <li>Creating a generator impl. (For example: Take a look at {@link org.failearly.dataz.template.generator.ListGenerator}.)</li>
  *    <li>Override {@link org.failearly.dataz.template.generator.support.GeneratorFactoryBase}.</li>
  *    <li>And last but not at least a {@link org.failearly.dataz.template.generator.support.GeneratorBase} implementation.</li>
  * </ol>

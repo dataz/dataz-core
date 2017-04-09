@@ -25,7 +25,7 @@ public abstract class StringEncoderBase extends EncoderBase<String, String> {
 
     /**
      * The standard constructor.
-     * @param annotation your annotation
+     * @param annotation your impl
      * @param context the context object
      */
     protected StringEncoderBase(Annotation annotation, TemplateObjectAnnotationContext context) {

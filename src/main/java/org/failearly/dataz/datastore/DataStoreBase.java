@@ -13,13 +13,13 @@
 package org.failearly.dataz.datastore;
 
 import org.apache.commons.lang.StringUtils;
-import org.failearly.common.annotation.traverser.TraverseDepth;
-import org.failearly.common.message.InlineMessageTemplate;
-import org.failearly.common.message.Message;
-import org.failearly.common.message.MessageBuilderBase;
-import org.failearly.common.message.TemplateParameters;
-import org.failearly.common.proputils.ExtendedProperties;
-import org.failearly.common.proputils.PropertiesAccessor;
+import org.failearly.dataz.internal.common.annotation.traverser.TraverseDepth;
+import org.failearly.dataz.internal.common.message.InlineMessageTemplate;
+import org.failearly.dataz.internal.common.message.Message;
+import org.failearly.dataz.internal.common.message.MessageBuilderBase;
+import org.failearly.dataz.internal.common.message.TemplateParameters;
+import org.failearly.dataz.internal.common.proputils.ExtendedProperties;
+import org.failearly.dataz.internal.common.proputils.PropertiesAccessor;
 import org.failearly.dataz.NamedDataStore;
 import org.failearly.dataz.common.Property;
 import org.failearly.dataz.common.PropertyUtility;
@@ -40,7 +40,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
-import static org.failearly.common.annotation.utils.AnnotationUtils.resolveValueOfAnnotationAttribute;
+import static org.failearly.dataz.internal.common.annotation.utils.AnnotationUtils.resolveValueOfAnnotationAttribute;
 
 
 /**

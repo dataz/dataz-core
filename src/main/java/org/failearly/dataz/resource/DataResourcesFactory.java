@@ -32,30 +32,30 @@ import java.util.List;
  */
 public interface DataResourcesFactory {
     /**
-     * Create {@link DataResource}s from the annotation and the templateObjectCreators.
+     * Create {@link DataResource}s from the impl and the templateObjectCreators.
      *
      * @param annotatedClass    the annotated element (in this case the test class). Used for default resource name (if no resource has been set).
-     * @param annotation        the actually annotation
+     * @param annotation        the actually impl
      * @param templateObjects the template objects
      * @return the resources
      */
     List<DataResource> createDataResources(Class<?> annotatedClass, Annotation annotation, TemplateObjects templateObjects);
 
     /**
-     * Create {@link DataResource}s from the annotation and the templateObjectCreators.
+     * Create {@link DataResource}s from the impl and the templateObjectCreators.
      *
      * @param annotatedMethod   the annotated element (in this case the test method). Used for default resource name (if no resource has been set).
-     * @param annotation        the actually annotation
+     * @param annotation        the actually impl
      * @param templateObjects the template objects
      * @return the resources
      */
     List<DataResource> createDataResources(Method annotatedMethod, Annotation annotation, TemplateObjects templateObjects);
 
     /**
-     * SetupDefinition is a (set up) meta annotation used for creating DataResource objects, by associating a
-     * {@link DataResourcesFactory} to any DataSet annotation.
+     * SetupDefinition is a (set up) meta impl used for creating DataResource objects, by associating a
+     * {@link DataResourcesFactory} to any DataSet impl.
      *
-     * @see org.failearly.common.annotation.traverser.AnnotationTraverserBuilder#metaAnnotationTraverser(Class)
+     * @see org.failearly.dataz.internal.common.annotation.traverser.AnnotationTraverserBuilder#metaAnnotationTraverser(Class)
      */
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.ANNOTATION_TYPE)
@@ -68,10 +68,10 @@ public interface DataResourcesFactory {
     }
 
     /**
-     * SetupDefinition is a (clean up) meta annotation used for creating DataResource objects, by associating a
-     * {@link DataResourcesFactory} to any DataSet annotation.
+     * SetupDefinition is a (clean up) meta impl used for creating DataResource objects, by associating a
+     * {@link DataResourcesFactory} to any DataSet impl.
      *
-     * @see org.failearly.common.annotation.traverser.AnnotationTraverserBuilder#metaAnnotationTraverser(Class)
+     * @see org.failearly.dataz.internal.common.annotation.traverser.AnnotationTraverserBuilder#metaAnnotationTraverser(Class)
      */
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.ANNOTATION_TYPE)
@@ -84,7 +84,7 @@ public interface DataResourcesFactory {
     }
 
     /**
-     * DataSetMarker is a marker (meta) annotation, for simplifying the check for relevant test methods.
+     * DataSetMarker is a marker (meta) impl, for simplifying the check for relevant test methods.
      *
      * @see org.failearly.dataz.internal.model.TestClassBase
      * @see AtomicTest

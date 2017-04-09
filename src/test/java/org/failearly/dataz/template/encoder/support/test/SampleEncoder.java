@@ -12,6 +12,7 @@
 
 package org.failearly.dataz.template.encoder.support.test;
 
+import org.failearly.dataz.common.Tests;
 import org.failearly.dataz.template.Scope;
 import org.failearly.dataz.template.TemplateObjectFactory;
 
@@ -29,7 +30,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Repeatable(SampleEncoder.List.class)
-@org.failearly.common.annotations.Tests("SampleEncoderTest")
+@Tests("SampleEncoderTest")
 @TemplateObjectFactory.Definition(SampleEncoderFactory.class)
 public @interface SampleEncoder {
     /**

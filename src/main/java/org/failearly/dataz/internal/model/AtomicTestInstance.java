@@ -12,10 +12,10 @@
 
 package org.failearly.dataz.internal.model;
 
-import org.failearly.common.annotation.traverser.AnnotationTraverser;
-import org.failearly.common.annotation.traverser.AnnotationTraverserBuilder;
-import org.failearly.common.annotation.traverser.TraverseDepth;
-import org.failearly.common.annotation.traverser.TraverseStrategy;
+import org.failearly.dataz.internal.common.annotation.traverser.AnnotationTraverser;
+import org.failearly.dataz.internal.common.annotation.traverser.AnnotationTraverserBuilder;
+import org.failearly.dataz.internal.common.annotation.traverser.TraverseDepth;
+import org.failearly.dataz.internal.common.annotation.traverser.TraverseStrategy;
 import org.failearly.dataz.NamedDataStore;
 import org.failearly.dataz.SuppressCleanup;
 import org.failearly.dataz.datastore.DataStore;

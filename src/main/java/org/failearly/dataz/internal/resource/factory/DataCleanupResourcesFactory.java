@@ -22,7 +22,7 @@ import org.failearly.dataz.resource.GenericDataResourcesFactory;
 import java.util.List;
 
 /**
- * DataCleanupResourcesFactory creates {@link DataResource}s from a {@link DataCleanup} annotation.
+ * DataCleanupResourcesFactory creates {@link DataResource}s from a {@link DataCleanup} impl.
  */
 public final class DataCleanupResourcesFactory extends GenericDataResourcesFactory<DataCleanup> {
     public DataCleanupResourcesFactory() {

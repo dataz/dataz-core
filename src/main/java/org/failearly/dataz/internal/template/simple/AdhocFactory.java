@@ -12,7 +12,7 @@
 
 package org.failearly.dataz.internal.template.simple;
 
-import org.failearly.common.classutils.ObjectCreatorUtil;
+import org.failearly.dataz.internal.common.classutils.ObjectCreatorUtil;
 import org.failearly.dataz.template.Scope;
 import org.failearly.dataz.template.TemplateObject;
 import org.failearly.dataz.template.TemplateObjectAnnotationContext;
@@ -20,7 +20,7 @@ import org.failearly.dataz.template.TemplateObjectFactoryBase;
 import org.failearly.dataz.template.simple.Adhoc;
 
 /**
- * AdhocFactory creates {@link org.failearly.dataz.template.simple.Adhoc.AdhocTemplateObject} from {@link Adhoc} template object annotation.
+ * AdhocFactory creates {@link org.failearly.dataz.template.simple.Adhoc.AdhocTemplateObject} from {@link Adhoc} template object impl.
  */
 public final class AdhocFactory extends TemplateObjectFactoryBase<Adhoc> {
     public AdhocFactory() {

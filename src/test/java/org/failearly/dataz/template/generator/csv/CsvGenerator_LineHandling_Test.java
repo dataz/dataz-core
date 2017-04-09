@@ -12,8 +12,8 @@
 
 package org.failearly.dataz.template.generator.csv;
 
-import org.failearly.common.annotations.utils.OptBoolean;
-import org.failearly.common.annotations.utils.OptCharacter;
+import org.failearly.dataz.common.OptBoolean;
+import org.failearly.dataz.common.OptCharacter;
 import org.junit.Test;
 
 

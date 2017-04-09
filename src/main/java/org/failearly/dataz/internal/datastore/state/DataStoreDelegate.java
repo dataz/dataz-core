@@ -11,7 +11,7 @@
  */
 package org.failearly.dataz.internal.datastore.state;
 
-import org.failearly.common.proputils.PropertiesAccessor;
+import org.failearly.dataz.internal.common.proputils.PropertiesAccessor;
 import org.failearly.dataz.datastore.DataStore;
 import org.failearly.dataz.datastore.DataStoreException;
 import org.failearly.dataz.NamedDataStore;

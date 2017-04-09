@@ -12,7 +12,7 @@
 
 package org.failearly.dataz.template.generator.csv;
 
-import org.failearly.common.annotations.utils.OptEnum;
+import org.failearly.dataz.common.OptEnum;
 import org.junit.Test;
 
 

@@ -25,7 +25,7 @@ import java.lang.annotation.*;
 
 /**
  * AdhocDataStore could be used for fast and easy without the need to define a specific
- * DataStore annotation. The only thing you have to provide is a implementation of {@link DataStore} and a static factory
+ * DataStore impl. The only thing you have to provide is a implementation of {@link DataStore} and a static factory
  * method (see {@link #factoryName()}).
  * Example:<br><br>
  * <pre>
@@ -35,12 +35,12 @@ import java.lang.annotation.*;
  *
  *    class MyDataStore extends {@link DataStoreBase} {
  *        // the default {@link #factoryName()}
- *        static DataStore createDataStore({@code Class<? extends NamedDataStore>} namedDataStore, AdhocDataStore annotation) {
- *              return new MyDataStore(namedDataStore, annotation);
+ *        static DataStore createDataStore({@code Class<? extends NamedDataStore>} namedDataStore, AdhocDataStore impl) {
+ *              return new MyDataStore(namedDataStore, impl);
  *        }
  *        // custom {@link #factoryName()}
- *        static DataStore createMyDataStore({@code Class<? extends NamedDataStore>} namedDataStore, AdhocDataStore annotation) {
- *              return new MyDataStore(namedDataStore, annotation);
+ *        static DataStore createMyDataStore({@code Class<? extends NamedDataStore>} namedDataStore, AdhocDataStore impl) {
+ *              return new MyDataStore(namedDataStore, impl);
  *        }
  *
  *        // .... rest ommitted for brevity
@@ -65,7 +65,7 @@ import java.lang.annotation.*;
 @DataStoreFactory.Definition(factory = AdhocDataStoreFactory.class)
 public @interface AdhocDataStore {
     /**
-     * If your tests uses multiple datastores per {@link NamedDataStore}, you must identify each data store annotation.
+     * If your tests uses multiple datastores per {@link NamedDataStore}, you must identify each data store impl.
      * <br><br>
      * Remark: {@link DataStore#getId()} uses usually {@link #name()},
      * the {@link NamedDataStore} and the actually {@link DataStore} implementation (see {@link #implementation()}.

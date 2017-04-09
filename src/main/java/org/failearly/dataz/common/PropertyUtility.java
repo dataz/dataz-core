@@ -12,7 +12,7 @@
 
 package org.failearly.dataz.common;
 
-import org.failearly.common.proputils.PropertiesAccessor;
+import org.failearly.dataz.internal.common.proputils.PropertiesAccessor;
 
 import java.util.*;
 

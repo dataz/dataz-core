@@ -12,7 +12,7 @@
 
 package org.failearly.dataz.template.encoder.support.test;
 
-import org.failearly.common.test.annotations.Subject;
+import org.failearly.dataz.internal.common.test.annotations.Subject;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.*;

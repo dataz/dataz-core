@@ -12,7 +12,7 @@
 
 package org.failearly.dataz.resource;
 
-import org.failearly.common.test.annotations.Subject;
+import org.failearly.dataz.internal.common.test.annotations.Subject;
 import org.failearly.dataz.NamedDataStore;
 import org.failearly.dataz.config.Constants;
 import org.failearly.dataz.config.DataSetProperties;
@@ -24,7 +24,7 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static org.failearly.common.test.ExceptionVerifier.on;
+import static org.failearly.dataz.internal.common.test.ExceptionVerifier.on;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;

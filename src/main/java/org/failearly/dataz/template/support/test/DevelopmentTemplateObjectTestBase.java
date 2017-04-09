@@ -24,10 +24,10 @@ import java.lang.annotation.Annotation;
  * TemplateObjectTestBase is is a test support class for creating {@link TemplateObject} annotations and the
  * factory class {@link TemplateObjectFactory}. This class contains tests which must be true for all template object
  * annotations, the associated {@link TemplateObject} implementation and {@link TemplateObjectFactory}. Use this class
- * when you createTransactionContext developing a new template object (annotation). After you have developed your annotation, replace
+ * when you createTransactionContext developing a new template object (impl). After you have developed your impl, replace
  * this base class with {@link TemplateObjectTestBase}.
  *
- * @param <TOA>   the template object annotation
+ * @param <TOA>   the template object impl
  * @param <TOF> the template object factory
  *
  * @see TemplateObjectTestBase

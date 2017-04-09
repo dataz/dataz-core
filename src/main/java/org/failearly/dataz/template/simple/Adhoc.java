@@ -12,7 +12,7 @@
 
 package org.failearly.dataz.template.simple;
 
-import org.failearly.common.annotations.Tests;
+import org.failearly.dataz.common.Tests;
 import org.failearly.dataz.common.Property;
 import org.failearly.dataz.internal.template.simple.AdhocFactory;
 import org.failearly.dataz.template.Scope;
@@ -108,9 +108,9 @@ public @interface Adhoc {
     interface AdhocTemplateObject extends TemplateObject {
 
         /**
-         * The factory method for creating a {@link TemplateObject} from the {@link Adhoc} annotation.
+         * The factory method for creating a {@link TemplateObject} from the {@link Adhoc} impl.
          *
-         * @param annotation the Adhoc annotation
+         * @param annotation the Adhoc impl
          * @param context
          * @return the actually template object
          */

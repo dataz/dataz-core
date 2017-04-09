@@ -13,9 +13,9 @@
 package org.failearly.dataz.config;
 
 import org.apache.commons.lang.StringUtils;
-import org.failearly.common.annotation.traverser.TraverseDepth;
-import org.failearly.common.classutils.ClassLoader;
-import org.failearly.common.proputils.ExtendedProperties;
+import org.failearly.dataz.internal.common.annotation.traverser.TraverseDepth;
+import org.failearly.dataz.internal.common.classutils.ClassLoader;
+import org.failearly.dataz.internal.common.proputils.ExtendedProperties;
 import org.failearly.dataz.NamedDataStore;
 import org.failearly.dataz.internal.template.TemplateObjectDuplicateStrategy;
 import org.slf4j.Logger;
@@ -132,7 +132,7 @@ public final class DataSetProperties implements Constants {
     }
 
     /**
-     * @return the template object (annotation) traverse depth.
+     * @return the template object (impl) traverse depth.
      *
      * @see TraverseDepth
      */

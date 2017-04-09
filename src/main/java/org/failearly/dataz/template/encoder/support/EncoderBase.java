@@ -28,7 +28,7 @@ public abstract class EncoderBase<T, R> extends TemplateObjectBase implements En
 
     /**
      * The standard constructor.
-     * @param annotation your annotation
+     * @param annotation your impl
      * @param context the context object
      */
     protected EncoderBase(Annotation annotation, TemplateObjectAnnotationContext context) {

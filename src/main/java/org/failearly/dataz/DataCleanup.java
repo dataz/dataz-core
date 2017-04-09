@@ -22,7 +22,7 @@ import org.failearly.dataz.template.TemplateObject;
 import java.lang.annotation.*;
 
 /**
- * DataCleanup defines data resource(s) (only) for setup. This annotation is applicable to test classes and methods.
+ * DataCleanup defines data resource(s) (only) for setup. This impl is applicable to test classes and methods.
  * <br><br>
  * Usage example:<br><br>
  * <pre>

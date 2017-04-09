@@ -12,7 +12,7 @@
 
 package org.failearly.dataz.template.simple.support;
 
-import org.failearly.common.proputils.PropertiesAccessor;
+import org.failearly.dataz.internal.common.proputils.PropertiesAccessor;
 import org.failearly.dataz.common.PropertyUtility;
 import org.failearly.dataz.template.TemplateObjectAnnotationContext;
 import org.failearly.dataz.template.TemplateObjectBase;

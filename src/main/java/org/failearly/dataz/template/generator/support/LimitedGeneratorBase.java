@@ -32,7 +32,7 @@ public abstract class LimitedGeneratorBase<T> extends GeneratorBase<T> implement
 
     /**
      * The standard constructor.
-     * @param annotation your annotation
+     * @param annotation your impl
      * @param context the context object
      */
     protected LimitedGeneratorBase(Annotation annotation, TemplateObjectAnnotationContext context) {

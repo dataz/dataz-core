@@ -12,7 +12,7 @@
 
 package org.failearly.dataz.internal.template.support.test.message.generator.limited;
 
-import org.failearly.common.message.Message;
+import org.failearly.dataz.internal.common.message.Message;
 import org.failearly.dataz.internal.template.support.test.message.basic.TemplateObjectMessage;
 import org.failearly.dataz.internal.template.support.test.message.generator.DevelopmentGeneratorErrorMessages;
 

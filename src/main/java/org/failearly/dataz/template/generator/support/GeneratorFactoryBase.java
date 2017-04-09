@@ -39,12 +39,12 @@ public abstract class GeneratorFactoryBase<T, A extends Annotation> extends Temp
      * Either {@link #doCreateLimitedGenerator(Annotation, TemplateObjectAnnotationContext, Integer)} or
      * {@link #doCreateUnlimitedGenerator(Annotation, TemplateObjectAnnotationContext, Integer)} must be overridden.
      * <p>
-     * A good indicator which one to override is the default value for {@code Limit limit()} in the generator annotation.
+     * A good indicator which one to override is the default value for {@code Limit limit()} in the generator impl.
      *
      *
-     * @param generatorAnnotation the generator annotation
-     * @param context             the context of template object annotation
-     * @param limit               the limit type of the annotation.
+     * @param generatorAnnotation the generator impl
+     * @param context             the context of template object impl
+     * @param limit               the limit type of the impl.
      * @param limitValue          the limit value used in case of an UNLIMITED generator which could be make to a LIMITED one.
      * @return the created (limited or unlimited) generator.
      */
@@ -66,12 +66,12 @@ public abstract class GeneratorFactoryBase<T, A extends Annotation> extends Temp
      * Either {@link #doCreateLimitedGenerator(Annotation, TemplateObjectAnnotationContext, Integer)} or
      * {@link #doCreateUnlimitedGenerator(Annotation, TemplateObjectAnnotationContext, Integer)} must be overridden.
      * <p>
-     * A good indicator which one to override is the default value for {@code limit()} in the generator annotation.
+     * A good indicator which one to override is the default value for {@code limit()} in the generator impl.
      *
      *
-     * @param generatorAnnotation the generator annotation
-     * @param context             the context of template object annotation
-     * @param limit               the limit type of the annotation.
+     * @param generatorAnnotation the generator impl
+     * @param context             the context of template object impl
+     * @param limit               the limit type of the impl.
      * @return the created (limited or unlimited) generator.
      */
     protected final TemplateObject doCreateGenerator(A generatorAnnotation, TemplateObjectAnnotationContext context, Limit limit) {
@@ -84,11 +84,11 @@ public abstract class GeneratorFactoryBase<T, A extends Annotation> extends Temp
      * Either {@link #doCreateLimitedGenerator(Annotation, TemplateObjectAnnotationContext, Integer)} or
      * {@link #doCreateUnlimitedGenerator(Annotation, TemplateObjectAnnotationContext, Integer)} must be overridden.
      * <p>
-     * A good indicator which one to override is the default value for {@code limit()} in the generator annotation.
+     * A good indicator which one to override is the default value for {@code limit()} in the generator impl.
      *
      *
-     * @param generatorAnnotation the generator annotation
-     * @param context             the context of template object annotation
+     * @param generatorAnnotation the generator impl
+     * @param context             the context of template object impl
      * @param limitValue          the limit value used in case of an UNLIMITED generator which could be make to a LIMITED one.
      * @return the created (limited or unlimited) generator.
      */
@@ -105,8 +105,8 @@ public abstract class GeneratorFactoryBase<T, A extends Annotation> extends Temp
     /**
      * Create a limited generator. Override if the naturally implementation is {@link Limit#LIMITED}.
      *
-     * @param generatorAnnotation the generator annotation.
-     * @param context             the context of template object annotation
+     * @param generatorAnnotation the generator impl.
+     * @param context             the context of template object impl
      * @param limitValue          limit value will be used by
      *                            {@link GeneratorDecorators#makeLimited(UnlimitedGeneratorBase, int)}
      *                            in {@link #doCreateUnlimitedGenerator(Annotation, TemplateObjectAnnotationContext, Integer)}
@@ -121,8 +121,8 @@ public abstract class GeneratorFactoryBase<T, A extends Annotation> extends Temp
      * Create an unlimited generator. Override if the naturally implementation is {@link Limit#UNLIMITED}.
      *
      *
-     * @param generatorAnnotation the generator annotation.
-     * @param context             the context of template object annotation
+     * @param generatorAnnotation the generator impl.
+     * @param context             the context of template object impl
      * @param limitValue          used by {@link #doCreateLimitedGenerator(Annotation, TemplateObjectAnnotationContext, Integer)}.
      * @return an decorated unlimited generator of the limited generator.
      * @see GeneratorDecorators#makeUnlimited(GeneratorBase)

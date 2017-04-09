@@ -11,7 +11,7 @@
  */
 package org.failearly.dataz.template.generator.csv;
 
-import org.failearly.common.test.annotations.Subject;
+import org.failearly.dataz.internal.common.test.annotations.Subject;
 import org.failearly.dataz.internal.template.generator.csv.CsvGeneratorFactory;
 import org.failearly.dataz.internal.template.generator.csv.CsvGeneratorImpl;
 import org.failearly.dataz.template.generator.support.test.LimitedGeneratorTestBase;

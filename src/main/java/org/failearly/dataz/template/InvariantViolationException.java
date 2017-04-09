@@ -23,7 +23,7 @@ public class InvariantViolationException extends DataSetException {
     /**
      * Constructor.
      *
-     * @param annotation the annotation
+     * @param annotation the impl
      * @param invariant the description of the invariant
      */
     public InvariantViolationException(Annotation annotation, String invariant) {
@@ -32,12 +32,12 @@ public class InvariantViolationException extends DataSetException {
 
     protected static String createMessage(Annotation annotation, String invariant) {
         return "Invariant of " + annotationName(annotation) + " has been violated: " + invariant
-                + "!\nCurrent annotation is '" + annotation + "'";
+                + "!\nCurrent impl is '" + annotation + "'";
     }
 
     protected static String annotationName(Annotation annotation) {
         if( annotation==null ) {
-            return "<Unknown annotation>";
+            return "<Unknown impl>";
         }
         return annotation.annotationType().getSimpleName();
     }

@@ -26,7 +26,7 @@ import org.failearly.dataz.template.generator.support.LongRangeGenerator;
 import java.util.Iterator;
 
 /**
- * DateGeneratorFactory creates a {@link Generator} from {@link DateGenerator} annotation.
+ * DateGeneratorFactory creates a {@link Generator} from {@link DateGenerator} impl.
  */
 public final class DateGeneratorFactory extends GeneratorFactoryBase<DateTime, DateGenerator> {
     public DateGeneratorFactory() {

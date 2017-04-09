@@ -12,7 +12,7 @@
 
 package org.failearly.dataz.internal.util;
 
-import org.failearly.common.message.Message;
+import org.failearly.dataz.internal.common.message.Message;
 import org.failearly.dataz.exception.DataSetException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

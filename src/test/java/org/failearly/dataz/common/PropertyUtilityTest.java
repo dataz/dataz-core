@@ -12,9 +12,9 @@
 
 package org.failearly.dataz.common;
 
-import org.failearly.common.proputils.PropertiesAccessor;
-import org.failearly.common.test.ExceptionVerifier;
-import org.failearly.common.test.annotations.Subject;
+import org.failearly.dataz.internal.common.proputils.PropertiesAccessor;
+import org.failearly.dataz.internal.common.test.ExceptionVerifier;
+import org.failearly.dataz.internal.common.test.annotations.Subject;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 

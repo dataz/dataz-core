@@ -12,13 +12,13 @@
 
 package org.failearly.dataz.datastore;
 
-import org.failearly.common.proputils.PropertiesAccessor;
+import org.failearly.dataz.internal.common.proputils.PropertiesAccessor;
 import org.failearly.dataz.NamedDataStore;
 import org.failearly.dataz.resource.DataResource;
 
 /**
  * {@code DataStore} is the representation for any Database driver. For any {@link NamedDataStore} and applied datastore
- * annotation there will be an instance of {@code DataStore}.
+ * impl there will be an instance of {@code DataStore}.
  */
 public interface DataStore {
     /**
@@ -28,7 +28,7 @@ public interface DataStore {
     Class<? extends NamedDataStore> getNamedDataStore();
 
     /**
-     * @return the name of the data store (annotation).
+     * @return the name of the data store (impl).
      */
     String getName();
 
@@ -52,7 +52,7 @@ public interface DataStore {
     /**
      * Return the loaded properties. The properties will be resolved as first step during initialization.
      *
-     * @return the loaded properties from config file and/or properties annotation.
+     * @return the loaded properties from config file and/or properties impl.
      *
      * @see #getConfigFile()
      * @see org.failearly.dataz.common.Property

@@ -23,7 +23,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * GenericResourcesFactory provides a generic/default implementation. Only some methods which base on the concrete knowledge of the annotation.
+ * GenericResourcesFactory provides a generic/default implementation. Only some methods which base on the concrete knowledge of the impl.
  *
  * @see #createDataResourceFromAnnotation(Annotation, Class, String, TemplateObjects)
  * @see #getResourceNamesFromAnnotation(Annotation)
@@ -140,9 +140,9 @@ public abstract class GenericDataResourcesFactory<T extends Annotation> extends 
 
 
     /**
-     * Get the resource name(s) from annotation.
+     * Get the resource name(s) from impl.
      *
-     * @param annotation the datasets annotation
+     * @param annotation the datasets impl
      *
      * @return all configured resource names.
      */
@@ -152,7 +152,7 @@ public abstract class GenericDataResourcesFactory<T extends Annotation> extends 
     /**
      * Create a {@link DataResource} List from Annotation and test class. Typical this method uses {@link DataResourceBuilder}.
      *
-     * @param annotation      the annotation
+     * @param annotation      the impl
      * @param clazz           the test class
      * @param resourceName    the resource name
      * @param templateObjects the generators

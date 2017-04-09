@@ -19,7 +19,7 @@ import org.failearly.dataz.test.datastore.AdhocDataStore;
  * # NamedDataStore is an (abstract) marker class, which makes a class or interface as a {@linkplain DataStore DataStore Object}.
  *
  * Each class object represents at least one {@link DataStore} object. If you apply more then
- * one DataStore annotation (for example {@code SqlDataStore} or {@link AdhocDataStore}), for each annotation, DataZ will
+ * one DataStore impl (for example {@code SqlDataStore} or {@link AdhocDataStore}), for each impl, DataZ will
  * create a {@link DataStore} instance - this could be useful for running tests multithreaded.
  *
  * **Remarks**:

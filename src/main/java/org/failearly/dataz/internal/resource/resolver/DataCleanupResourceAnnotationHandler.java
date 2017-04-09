@@ -12,7 +12,7 @@
 
 package org.failearly.dataz.internal.resource.resolver;
 
-import org.failearly.common.classutils.ObjectCreatorUtil;
+import org.failearly.dataz.internal.common.classutils.ObjectCreatorUtil;
 import org.failearly.dataz.internal.template.TemplateObjects;
 import org.failearly.dataz.resource.DataResource;
 import org.failearly.dataz.resource.DataResourcesFactory;
@@ -20,7 +20,7 @@ import org.failearly.dataz.resource.DataResourcesFactory;
 import java.util.List;
 
 /**
- * DataSetupResourceAnnotationHandler creates an DataResourceFactory from meta annotation
+ * DataSetupResourceAnnotationHandler creates an DataResourceFactory from meta impl
  * {@link DataResourcesFactory.CleanupDefinition}.
  */
 public final class DataCleanupResourceAnnotationHandler extends DataResourceAnnotationHandlerBase<DataResourcesFactory.CleanupDefinition> {

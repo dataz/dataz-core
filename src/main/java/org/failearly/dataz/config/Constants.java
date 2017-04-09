@@ -12,7 +12,7 @@
 
 package org.failearly.dataz.config;
 
-import org.failearly.common.annotation.traverser.TraverseDepth;
+import org.failearly.dataz.internal.common.annotation.traverser.TraverseDepth;
 import org.failearly.dataz.DataCleanup;
 import org.failearly.dataz.DataSet;
 import org.failearly.dataz.DataSetup;

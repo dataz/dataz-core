@@ -23,7 +23,7 @@ import org.failearly.dataz.template.TemplateObject;
 import java.lang.annotation.*;
 
 /**
- * DataSet defines the data resource for setup and (optional) cleanup. This annotation is applicable to test classes and methods.
+ * DataSet defines the data resource for setup and (optional) cleanup. This impl is applicable to test classes and methods.
  * <br><br>
  * Usage example:<br><br>
  * <pre>

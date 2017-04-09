@@ -35,7 +35,7 @@ public abstract class UnlimitedGeneratorBase<T> extends GeneratorBase<T> impleme
 
     /**
      * The standard constructor.
-     * @param annotation your annotation
+     * @param annotation your impl
      * @param context the context object
      */
     protected UnlimitedGeneratorBase(Annotation annotation, TemplateObjectAnnotationContext context) {

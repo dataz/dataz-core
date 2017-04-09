@@ -12,7 +12,7 @@
 
 package org.failearly.dataz.internal.resource;
 
-import org.failearly.common.test.ExceptionVerifier;
+import org.failearly.dataz.internal.common.test.ExceptionVerifier;
 import org.failearly.dataz.DataSet;
 import org.failearly.dataz.NamedDataStore;
 import org.failearly.dataz.config.Constants;

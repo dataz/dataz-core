@@ -12,10 +12,10 @@
 package org.failearly.dataz.internal.template.generator.csv;
 
 import org.apache.commons.csv.CSVFormat;
-import org.failearly.common.annotations.utils.OptBoolean;
-import org.failearly.common.annotations.utils.OptCharacter;
-import org.failearly.common.annotations.utils.OptEnum;
-import org.failearly.common.annotations.utils.OptString;
+import org.failearly.dataz.common.OptBoolean;
+import org.failearly.dataz.common.OptCharacter;
+import org.failearly.dataz.common.OptEnum;
+import org.failearly.dataz.common.OptString;
 import org.failearly.dataz.template.generator.csv.CsvProperties;
 import org.failearly.dataz.template.generator.csv.CustomCsvFormat;
 

@@ -18,9 +18,9 @@
  * <ul>
  *    <li>The implementation of {@link org.failearly.dataz.template.TemplateObject},</li>
  *    <li>The factory implementation of {@link org.failearly.dataz.template.TemplateObjectFactory} and </li>
- *    <li>the <i>template object annotation</i>. The template object annotation is the public interface of a template object.
- *          This annotation must use {@link org.failearly.dataz.template.TemplateObjectFactory.Definition#value()} for
- *          assigning the factory to the template object annotation.</li>
+ *    <li>the <i>template object impl</i>. The template object impl is the public interface of a template object.
+ *          This impl must use {@link org.failearly.dataz.template.TemplateObjectFactory.Definition#value()} for
+ *          assigning the factory to the template object impl.</li>
  * </ul>
  *
  * @see org.failearly.dataz.template.TemplateObject

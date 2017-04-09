@@ -12,9 +12,9 @@
 
 package org.failearly.dataz.datastore;
 
-import org.failearly.common.proputils.PropertiesAccessor;
-import org.failearly.common.test.ExceptionVerifier;
-import org.failearly.common.test.annotations.Subject;
+import org.failearly.dataz.internal.common.proputils.PropertiesAccessor;
+import org.failearly.dataz.internal.common.test.ExceptionVerifier;
+import org.failearly.dataz.internal.common.test.annotations.Subject;
 import org.failearly.dataz.DataCleanup;
 import org.failearly.dataz.DataSet;
 import org.failearly.dataz.DataSetup;
@@ -91,8 +91,8 @@ public class DataStoreBaseTest {
         // assert / then
         final PropertiesAccessor properties = dataStore.getProperties();
         assertThat("File properties read?", properties.getStringValue("prop.from.file"), is("this-is-a-property-from-any-config.properties"));
-        assertThat("Annotation properties read?", properties.getStringValue("annotation.prop"), is("annotation-property-value"));
-        assertThat("Use of annotation property?", properties.getStringValue("use.annotation.property"), is("Use of annotation-property-value"));
+        assertThat("Annotation properties read?", properties.getStringValue("annotation.prop"), is("impl-property-value"));
+        assertThat("Use of impl property?", properties.getStringValue("use.annotation.property"), is("Use of impl-property-value"));
 
     }
 
@@ -322,7 +322,7 @@ public class DataStoreBaseTest {
     @AdhocDataStore(
             name="any",
             config = "any-config.properties",
-            properties = {@Property(k = "annotation.prop", v = "annotation-property-value")}
+            properties = {@Property(k = "annotation.prop", v = "impl-property-value")}
     )
     @DataSet(name = "1st", datastores = MustBeIgnored.class, setup = "any-existing-resource.setup", cleanup = "any-existing-resource.cleanup")
     @DataSet(name = "2nd", datastores = {/*no assigned datastore*/}, setup = "any-existing-resource.setup.vm", cleanup = "any-existing-resource.cleanup.vm")

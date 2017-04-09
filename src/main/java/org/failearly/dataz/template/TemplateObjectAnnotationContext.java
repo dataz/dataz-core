@@ -11,7 +11,7 @@
  */
 package org.failearly.dataz.template;
 
-import org.failearly.common.resource.ResourcePathUtils;
+import org.failearly.dataz.internal.common.resource.ResourcePathUtils;
 import org.failearly.dataz.internal.util.IOUtils;
 
 import java.io.InputStream;
@@ -39,7 +39,7 @@ public abstract class TemplateObjectAnnotationContext {
      *
      * @param annotatedMethod using a method object
      *
-     * @return new annotation context.
+     * @return new impl context.
      */
     public static TemplateObjectAnnotationContext createAnnotationContext(final Method annotatedMethod) {
         return new TemplateObjectAnnotationContext() {
@@ -55,7 +55,7 @@ public abstract class TemplateObjectAnnotationContext {
      *
      * @param annotatedClazz using a class object
      *
-     * @return new annotation context.
+     * @return new impl context.
      */
     public static TemplateObjectAnnotationContext createAnnotationContext(final Class<?> annotatedClazz) {
         return new TemplateObjectAnnotationContext() {
@@ -71,7 +71,7 @@ public abstract class TemplateObjectAnnotationContext {
      *
      * @param annotatedElement using a annotated element
      *
-     * @return new annotation context.
+     * @return new impl context.
      */
     public static TemplateObjectAnnotationContext createByAnnotatedElement(final AnnotatedElement annotatedElement) {
         if( annotatedElement instanceof Class<?>)

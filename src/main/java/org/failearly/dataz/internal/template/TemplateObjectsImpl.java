@@ -95,7 +95,7 @@ final class TemplateObjectsImpl implements TemplateObjects {
             final String templateObjectName = templateObject.name();
 
             if (checkForDuplicates.add(templateObjectName)) {
-                LOGGER.debug("Use template object '{}' (annotation={})", templateObjectName, templateObjectCreator.getAnnotation());
+                LOGGER.debug("Use template object '{}' (impl={})", templateObjectName, templateObjectCreator.getAnnotation());
                 templateObjectList.add(templateObject);
             } else {
                 duplicateHandler.handleDuplicate(templateObject);

@@ -15,7 +15,7 @@ package org.failearly.dataz.template.support.test;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.context.Context;
-import org.failearly.common.message.Message;
+import org.failearly.dataz.internal.common.message.Message;
 import org.failearly.dataz.internal.template.support.test.message.basic.NoDevelopmentTemplateObjectErrorMessages;
 import org.failearly.dataz.internal.template.support.test.message.basic.TemplateObjectErrorMessages;
 import org.failearly.dataz.template.TemplateObject;
@@ -38,7 +38,7 @@ import static org.junit.Assert.fail;
  * <br><br>
  * Remark: If you createTransactionContext developing use {@link DevelopmentTemplateObjectTestBase} instead of this base class.
  *
- * @param <TOA> the template object annotation
+ * @param <TOA> the template object impl
  * @param <TOF> the template object factory
  * @see DevelopmentTemplateObjectTestBase
  */
@@ -49,7 +49,7 @@ public abstract class TemplateObjectTestBase<TOA extends Annotation, TOF extends
      *
      * @see #template(String)
      */
-    protected static final String DTON = "TO";
+    public static final String DTON = "TO";
 
     /**
      * The placeholder for Template Object Name (TON). WIll be replaces by {@link #template(String, String)}
@@ -261,14 +261,14 @@ public abstract class TemplateObjectTestBase<TOA extends Annotation, TOF extends
      * @param templateObjectClass the target TO class.
      * @param <XTO> eXpected {@link TemplateObject} class
      *
-     * @return first {@link TemplateObject} created from first annotation on your Test Fixture class.
+     * @return first {@link TemplateObject} created from first impl on your Test Fixture class.
      */
     protected final <XTO extends TemplateObject> XTO createTemplateObjectFromAnnotation(Class<XTO> templateObjectClass) {
         return createTemplateObjectFromAnnotation(FIRST_ANNOTATION, templateObjectClass);
     }
 
     /**
-     * Create a {@link TemplateObject} from {@code annotationNumber} annotation of {@code testFixtureClass}, but the
+     * Create a {@link TemplateObject} from {@code annotationNumber} impl of {@code testFixtureClass}, but the
      * target TemplateObject class is different. This could happen if the actually TO has been decorated by other
      * classes - i.e. {@link org.failearly.dataz.internal.template.generator.decorator.GeneratorDecorators}.
      *
@@ -284,7 +284,7 @@ public abstract class TemplateObjectTestBase<TOA extends Annotation, TOF extends
     }
 
     /**
-     * Create a {@link TemplateObject} from {@code nthAnnotation} annotation of the named method of your
+     * Create a {@link TemplateObject} from {@code nthAnnotation} impl of the named method of your
      * {@code testFixtureClass}.
      *
      * @param methodName          the method name of your {@code testFixtureClass}.
@@ -315,7 +315,7 @@ public abstract class TemplateObjectTestBase<TOA extends Annotation, TOF extends
     /**
      * Convenient method for {@code createTemplateObjectFromAnnotationIndex(0)}.
      *
-     * @return first {@link TemplateObject} created from first annotation on your Test Fixture class.
+     * @return first {@link TemplateObject} created from first impl on your Test Fixture class.
      */
     protected final TO createTemplateObjectFromAnnotation() {
         return createTemplateObjectFromAnnotation(FIRST_ANNOTATION);
@@ -323,7 +323,7 @@ public abstract class TemplateObjectTestBase<TOA extends Annotation, TOF extends
 
 
     /**
-     * Create a {@link TemplateObject} from {@code annotationNumber} annotation of {@code testFixtureClass}.
+     * Create a {@link TemplateObject} from {@code annotationNumber} impl of {@code testFixtureClass}.
      *
      * @param annotationNumber the number (or index) of the TOA on your {@code testFixtureClass}.
      * @return the template object
@@ -344,7 +344,7 @@ public abstract class TemplateObjectTestBase<TOA extends Annotation, TOF extends
     }
 
     /**
-     * Create a {@link TemplateObject} from {@code nthAnnotation} annotation of the named method of your
+     * Create a {@link TemplateObject} from {@code nthAnnotation} impl of the named method of your
      * {@code testFixtureClass}.
      *
      * @param methodName    the method name of your {@code testFixtureClass}.
@@ -391,7 +391,7 @@ public abstract class TemplateObjectTestBase<TOA extends Annotation, TOF extends
     /**
      * Resolves the {@code nth} TOA from your TestFixture class.
      *
-     * @param nth the nth TOA annotation (starting from 0).
+     * @param nth the nth TOA impl (starting from 0).
      * @return the nth TOA
      */
     protected final TOA resolveTestFixtureAnnotation(int nth) {

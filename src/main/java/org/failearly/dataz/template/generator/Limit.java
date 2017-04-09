@@ -14,7 +14,7 @@ package org.failearly.dataz.template.generator;
 
 
 /**
- * Limit Type for generator annotation {@code Limit limit()}.
+ * Limit Type for generator impl {@code Limit limit()}.
  */
 public enum Limit {
     /**

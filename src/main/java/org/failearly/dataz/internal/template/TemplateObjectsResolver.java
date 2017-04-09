@@ -11,10 +11,10 @@
  */
 package org.failearly.dataz.internal.template;
 
-import org.failearly.common.annotation.traverser.MetaAnnotationHandlerBase;
-import org.failearly.common.annotation.traverser.MetaAnnotationTraverser;
-import org.failearly.common.annotation.traverser.TraverseDepth;
-import org.failearly.common.classutils.ObjectCreatorUtil;
+import org.failearly.dataz.internal.common.annotation.traverser.MetaAnnotationHandlerBase;
+import org.failearly.dataz.internal.common.annotation.traverser.MetaAnnotationTraverser;
+import org.failearly.dataz.internal.common.annotation.traverser.TraverseDepth;
+import org.failearly.dataz.internal.common.classutils.ObjectCreatorUtil;
 import org.failearly.dataz.config.DataSetProperties;
 import org.failearly.dataz.template.TemplateObjectAnnotationContext;
 import org.failearly.dataz.template.TemplateObjectFactory;
@@ -23,7 +23,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.LinkedList;
 
-import static org.failearly.common.annotation.traverser.AnnotationTraverserBuilder.metaAnnotationTraverser;
+import static org.failearly.dataz.internal.common.annotation.traverser.AnnotationTraverserBuilder.metaAnnotationTraverser;
 import static org.failearly.dataz.template.TemplateObjectAnnotationContext.createAnnotationContext;
 
 /**

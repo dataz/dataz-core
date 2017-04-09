@@ -12,7 +12,7 @@
 
 package org.failearly.dataz.internal.resource.factory;
 
-import org.failearly.common.test.utils.ReflectionUtils;
+import org.failearly.dataz.internal.common.test.utils.ReflectionUtils;
 import org.failearly.dataz.NamedDataStore;
 import org.failearly.dataz.config.Constants;
 import org.failearly.dataz.config.DataSetProperties;

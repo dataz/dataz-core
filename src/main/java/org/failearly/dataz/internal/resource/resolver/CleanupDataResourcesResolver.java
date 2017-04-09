@@ -11,9 +11,9 @@
  */
 package org.failearly.dataz.internal.resource.resolver;
 
-import org.failearly.common.annotation.traverser.MetaAnnotationTraverser;
-import org.failearly.common.annotation.traverser.TraverseDepth;
-import org.failearly.common.annotation.traverser.TraverseStrategy;
+import org.failearly.dataz.internal.common.annotation.traverser.MetaAnnotationTraverser;
+import org.failearly.dataz.internal.common.annotation.traverser.TraverseDepth;
+import org.failearly.dataz.internal.common.annotation.traverser.TraverseStrategy;
 import org.failearly.dataz.internal.template.TemplateObjects;
 import org.failearly.dataz.resource.DataResource;
 
@@ -22,7 +22,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import static org.failearly.common.annotation.traverser.AnnotationTraverserBuilder.metaAnnotationTraverser;
+import static org.failearly.dataz.internal.common.annotation.traverser.AnnotationTraverserBuilder.metaAnnotationTraverser;
 import static org.failearly.dataz.resource.DataResourcesFactory.CleanupDefinition;
 
 /**

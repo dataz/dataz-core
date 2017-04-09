@@ -11,7 +11,7 @@
  */
 package org.failearly.dataz.template.generator.support.test;
 
-import org.failearly.common.annotations.Tests;
+import org.failearly.dataz.common.Tests;
 import org.failearly.dataz.template.Scope;
 import org.failearly.dataz.template.TemplateObject;
 import org.failearly.dataz.template.TemplateObjectAnnotationContext;
@@ -61,7 +61,7 @@ public class SampleUnlimitedGeneratorFactory extends GeneratorFactoryBase<Replac
     public static class SampleUnlimitedGeneratorImpl extends UnlimitedGeneratorBase<ReplaceMe> {
         SampleUnlimitedGeneratorImpl(SampleUnlimitedGenerator annotation, TemplateObjectAnnotationContext context) {
             super(annotation, context);
-            // TODO: For each (not standard) annotation element there should be an appropriate field assignment.
+            // TODO: For each (not standard) impl element there should be an appropriate field assignment.
         }
 
         @Override

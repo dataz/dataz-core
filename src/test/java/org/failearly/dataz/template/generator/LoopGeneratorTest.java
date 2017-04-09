@@ -12,8 +12,8 @@
 
 package org.failearly.dataz.template.generator;
 
-import org.failearly.common.test.ExceptionVerifier;
-import org.failearly.common.test.annotations.Subject;
+import org.failearly.dataz.internal.common.test.ExceptionVerifier;
+import org.failearly.dataz.internal.common.test.annotations.Subject;
 import org.failearly.dataz.internal.template.generator.LoopGeneratorFactory;
 import org.failearly.dataz.internal.template.generator.LoopGeneratorFactory.LoopGeneratorImpl;
 import org.failearly.dataz.template.InvariantViolationException;
@@ -87,7 +87,7 @@ public class LoopGeneratorTest extends LimitedGeneratorTestBase<Integer, LoopGen
             .expect(
                 startsWith(
                     "Invariant of LoopGenerator has been violated: size >= 1!" +
-                        "\nCurrent annotation is '@org.failearly.dataz.template.generator.LoopGenerator"
+                        "\nCurrent impl is '@org.failearly.dataz.template.generator.LoopGenerator"
                 )
             )
             .verify();

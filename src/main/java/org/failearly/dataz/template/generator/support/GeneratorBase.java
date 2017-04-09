@@ -42,7 +42,7 @@ public abstract class GeneratorBase<T> extends TemplateObjectBase implements Gen
 
     /**
      * The standard constructor.
-     * @param annotation your annotation
+     * @param annotation your impl
      * @param context the context object
      */
     GeneratorBase(Annotation annotation, TemplateObjectAnnotationContext context) {

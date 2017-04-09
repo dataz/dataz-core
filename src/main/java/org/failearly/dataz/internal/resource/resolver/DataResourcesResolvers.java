@@ -11,7 +11,7 @@
  */
 package org.failearly.dataz.internal.resource.resolver;
 
-import org.failearly.common.annotation.traverser.TraverseDepth;
+import org.failearly.dataz.internal.common.annotation.traverser.TraverseDepth;
 import org.failearly.dataz.DataSet;
 import org.failearly.dataz.resource.DataResource;
 

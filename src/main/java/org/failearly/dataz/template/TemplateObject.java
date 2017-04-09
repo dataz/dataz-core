@@ -32,13 +32,13 @@ import java.util.Set;
  */
 public interface TemplateObject {
     /**
-     * The annotation object, the template object has been created from.
-     * @return the annotation.
+     * The impl object, the template object has been created from.
+     * @return the impl.
      */
     Annotation getAnnotation();
 
     /**
-     * The Template Object's annotation context hold the object where the actually annotation has been assigned to.
+     * The Template Object's impl context hold the object where the actually impl has been assigned to.
      *
      * Some template objects need access to the element has been applied to. For example to load resources.
      *

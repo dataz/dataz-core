@@ -12,7 +12,7 @@
 
 package org.failearly.dataz.internal.template.support.test.message.generator;
 
-import org.failearly.common.message.ClasspathMessageTemplate;
+import org.failearly.dataz.internal.common.message.ClasspathMessageTemplate;
 
 /**
  * MissingTemplateObjectAnnotation is responsible for ...

@@ -12,7 +12,7 @@
 
 package org.failearly.dataz.internal.template.simple;
 
-import org.failearly.common.annotations.Tests;
+import org.failearly.dataz.common.Tests;
 import org.failearly.dataz.template.*;
 import org.failearly.dataz.template.simple.Constant;
 

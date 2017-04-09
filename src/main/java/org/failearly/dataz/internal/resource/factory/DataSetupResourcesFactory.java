@@ -12,7 +12,7 @@
 
 package org.failearly.dataz.internal.resource.factory;
 
-import org.failearly.common.annotations.Tests;
+import org.failearly.dataz.common.Tests;
 import org.failearly.dataz.DataSetup;
 import org.failearly.dataz.internal.resource.ResourceType;
 import org.failearly.dataz.internal.template.TemplateObjects;
@@ -23,7 +23,7 @@ import org.failearly.dataz.resource.GenericDataResourcesFactory;
 import java.util.List;
 
 /**
- * DataSetupResourcesFactory creates {@link DataResource}s from a {@link DataSetup} annotation.
+ * DataSetupResourcesFactory creates {@link DataResource}s from a {@link DataSetup} impl.
  *
  * @see DataSetup
  * @see SetupDefinition

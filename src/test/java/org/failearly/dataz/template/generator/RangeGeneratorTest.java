@@ -12,8 +12,8 @@
 
 package org.failearly.dataz.template.generator;
 
-import org.failearly.common.test.ExceptionVerifier;
-import org.failearly.common.test.annotations.Subject;
+import org.failearly.dataz.internal.common.test.ExceptionVerifier;
+import org.failearly.dataz.internal.common.test.annotations.Subject;
 import org.failearly.dataz.internal.template.generator.RangeGeneratorFactory;
 import org.failearly.dataz.internal.template.generator.RangeGeneratorFactory.RangeGeneratorImpl;
 import org.failearly.dataz.template.InvariantViolationException;
@@ -100,7 +100,7 @@ public class RangeGeneratorTest extends LimitedGeneratorTestBase<Integer, RangeG
                 .expect(InvariantViolationException.class)
                 .expect(
                         "Invariant of RangeGenerator has been violated: from <= to!" +
-                                "\nCurrent annotation is '" + resolveTestFixtureAnnotation(INVALID_FROM_TO) + "'"
+                                "\nCurrent impl is '" + resolveTestFixtureAnnotation(INVALID_FROM_TO) + "'"
                 )
                 .verify();
     }
@@ -111,7 +111,7 @@ public class RangeGeneratorTest extends LimitedGeneratorTestBase<Integer, RangeG
         ExceptionVerifier.on(() -> super.createTemplateObjectFromAnnotation(INVALID_STEP))
                 .expect(InvariantViolationException.class)
                 .expect("Invariant of RangeGenerator has been violated: step > 0!" +
-                        "\nCurrent annotation is '" + resolveTestFixtureAnnotation(INVALID_STEP) + "'")
+                        "\nCurrent impl is '" + resolveTestFixtureAnnotation(INVALID_STEP) + "'")
                 .verify();
     }
 

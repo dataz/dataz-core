@@ -12,7 +12,7 @@
 
 package org.failearly.dataz.template.generator;
 
-import org.failearly.common.test.ExceptionVerifier;
+import org.failearly.dataz.internal.common.test.ExceptionVerifier;
 import org.failearly.dataz.internal.template.generator.RandomRangeGeneratorFactory;
 import org.failearly.dataz.internal.template.generator.RandomRangeGeneratorFactory.RandomRangeGeneratorImpl;
 import org.failearly.dataz.internal.template.generator.decorator.LimitedGeneratorDecorator;
@@ -157,13 +157,13 @@ public class RandomRangeGeneratorTest extends UnlimitedGeneratorTestBase<Integer
         ExceptionVerifier.on(() -> super.createTemplateObjectFromAnnotation(INVALID_START_EQ_END))
                 .expect(InvariantViolationException.class)
                 .expect("Invariant of RandomRangeGenerator has been violated: start < end!" +
-                        "\nCurrent annotation is '" + resolveTestFixtureAnnotation(INVALID_START_EQ_END) + "'" )
+                        "\nCurrent impl is '" + resolveTestFixtureAnnotation(INVALID_START_EQ_END) + "'" )
                 .verify();
 
         ExceptionVerifier.on(() -> super.createTemplateObjectFromAnnotation(INVALID_START_GT_END))
                 .expect(InvariantViolationException.class)
                 .expect("Invariant of RandomRangeGenerator has been violated: start < end!" +
-                        "\nCurrent annotation is '" + resolveTestFixtureAnnotation(INVALID_START_GT_END)+ "'" )
+                        "\nCurrent impl is '" + resolveTestFixtureAnnotation(INVALID_START_GT_END)+ "'" )
                 .verify();
     }
 

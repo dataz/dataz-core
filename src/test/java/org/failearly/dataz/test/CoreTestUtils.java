@@ -12,7 +12,7 @@
 
 package org.failearly.dataz.test;
 
-import org.failearly.common.test.utils.ReflectionUtils;
+import org.failearly.dataz.internal.common.test.utils.ReflectionUtils;
 import org.failearly.dataz.internal.template.TemplateObjects;
 import org.failearly.dataz.internal.template.TemplateObjectsResolver;
 

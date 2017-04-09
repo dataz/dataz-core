@@ -18,7 +18,7 @@ import java.lang.annotation.Annotation;
 
 /**
  * ReflectionDataStoreFactory creates a {@link DataStore} by using the {@link Definition}
- * annotation elements:<br><br>
+ * impl elements:<br><br>
  * <ul>
  *    <li>{@link Definition#dataStore()}</li>
  *    <li>{@link Definition#factoryMethod()}</li>

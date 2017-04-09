@@ -12,7 +12,7 @@
 
 package org.failearly.dataz.template.generator.support;
 
-import org.failearly.common.test.ExceptionVerifier;
+import org.failearly.dataz.internal.common.test.ExceptionVerifier;
 import org.failearly.dataz.internal.template.generator.decorator.GeneratorDecorators;
 import org.failearly.dataz.template.Scope;
 import org.failearly.dataz.template.TemplateObject;

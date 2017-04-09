@@ -14,15 +14,15 @@ package org.failearly.dataz.test;
 import org.failearly.dataz.NamedDataStore;
 import org.failearly.dataz.config.Constants;
 import org.failearly.dataz.config.DataSetProperties;
-import org.failearly.common.builder.BuilderBase;
+import org.failearly.dataz.internal.common.builder.BuilderBase;
 import org.failearly.dataz.resource.DataResource;
 import org.hamcrest.Matcher;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.failearly.common.resource.ResourcePathUtils.defaultClassResource;
-import static org.failearly.common.resource.ResourcePathUtils.resourcePath;
+import static org.failearly.dataz.internal.common.resource.ResourcePathUtils.defaultClassResource;
+import static org.failearly.dataz.internal.common.resource.ResourcePathUtils.resourcePath;
 import static org.hamcrest.Matchers.*;
 
 /**

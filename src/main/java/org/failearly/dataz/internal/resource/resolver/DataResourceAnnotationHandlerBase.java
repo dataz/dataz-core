@@ -12,7 +12,7 @@
 
 package org.failearly.dataz.internal.resource.resolver;
 
-import org.failearly.common.annotation.traverser.MetaAnnotationHandlerBase;
+import org.failearly.dataz.internal.common.annotation.traverser.MetaAnnotationHandlerBase;
 import org.failearly.dataz.internal.template.TemplateObjects;
 import org.failearly.dataz.resource.DataResource;
 import org.failearly.dataz.resource.DataResourcesFactory;

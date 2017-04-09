@@ -28,7 +28,7 @@ import java.util.List;
 import static org.failearly.dataz.Use.ReusableDataSet;
 
 /**
- * UseCleanupResourcesFactoryTest contains tests for {@link UseCleanupResourcesFactory} and it's associated annotation {@link Use}.
+ * UseCleanupResourcesFactoryTest contains tests for {@link UseCleanupResourcesFactory} and it's associated impl {@link Use}.
  */
 public final class UseCleanupResourcesFactoryTest extends DataResourcesFactoryTestBase<Use, UseCleanupResourcesFactory> {
 

@@ -15,7 +15,7 @@ package org.failearly.dataz.test;
 import org.failearly.dataz.template.*;
 
 /**
- * TemplateObjectAnnotationFactory is the factory for making from the annotation {@link SimpleTemplateObject} a
+ * TemplateObjectAnnotationFactory is the factory for making from the impl {@link SimpleTemplateObject} a
  * {@link SimpleTemplateObjectImpl} object.
  */
 public final class SimpleTemplateObjectFactory extends TemplateObjectFactoryBase<SimpleTemplateObject> {

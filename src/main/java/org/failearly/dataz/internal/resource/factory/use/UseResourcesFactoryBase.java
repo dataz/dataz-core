@@ -12,7 +12,7 @@
 
 package org.failearly.dataz.internal.resource.factory.use;
 
-import org.failearly.common.annotation.traverser.*;
+import org.failearly.dataz.internal.common.annotation.traverser.*;
 import org.failearly.dataz.DataSet;
 import org.failearly.dataz.NamedDataStore;
 import org.failearly.dataz.Use;

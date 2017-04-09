@@ -17,7 +17,7 @@ import org.failearly.dataz.config.DataSetProperties;
 import org.failearly.dataz.internal.resource.DataResourceFactory;
 import org.failearly.dataz.internal.resource.ResourceType;
 import org.failearly.dataz.internal.template.TemplateObjects;
-import org.failearly.common.builder.BuilderBase;
+import org.failearly.dataz.internal.common.builder.BuilderBase;
 
 import java.util.Arrays;
 import java.util.Collections;

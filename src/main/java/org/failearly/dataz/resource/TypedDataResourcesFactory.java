@@ -40,10 +40,10 @@ public abstract class TypedDataResourcesFactory<T extends Annotation> implements
     }
 
     /**
-     * Do create {@link DataResource}s from test class and annotation.
+     * Do create {@link DataResource}s from test class and impl.
      *
      * @param clazz         the test class
-     * @param annotation        the annotation
+     * @param annotation        the impl
      * @param templateObjects   all template objects.
      * @return a list with all DataResource
      */
@@ -52,10 +52,10 @@ public abstract class TypedDataResourcesFactory<T extends Annotation> implements
     }
 
     /**
-     * Do create {@link DataResource}s from test method and annotation.
+     * Do create {@link DataResource}s from test method and impl.
      *
      * @param method        the test method
-     * @param annotation        the annotation
+     * @param annotation        the impl
      * @param templateObjects   all template objects.
      * @return a list with all DataResource
      */
@@ -64,9 +64,9 @@ public abstract class TypedDataResourcesFactory<T extends Annotation> implements
     }
 
     /**
-     * Do create {@link DataResource}s from annotation.
+     * Do create {@link DataResource}s from impl.
      *
-     * @param annotation        the annotation
+     * @param annotation        the impl
      * @param templateObjects   all template objects.
      * @return a list with all DataResource
      */

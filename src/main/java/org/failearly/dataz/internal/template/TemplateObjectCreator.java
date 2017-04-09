@@ -23,7 +23,7 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * TemplateObjectCreator is helper class which holds a specific annotation and creates the actually {@link TemplateObject} from the annotation using
+ * TemplateObjectCreator is helper class which holds a specific impl and creates the actually {@link TemplateObject} from the impl using
  * the associated {@link TemplateObjectFactory}.
  */
 final class TemplateObjectCreator {

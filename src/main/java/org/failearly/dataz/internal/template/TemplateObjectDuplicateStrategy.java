@@ -12,7 +12,7 @@
 
 package org.failearly.dataz.internal.template;
 
-import org.failearly.common.annotation.traverser.TraverseStrategy;
+import org.failearly.dataz.internal.common.annotation.traverser.TraverseStrategy;
 import org.failearly.dataz.template.TemplateObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

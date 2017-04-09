@@ -12,7 +12,7 @@
 
 package org.failearly.dataz.internal.template.generator.csv;
 
-import org.failearly.common.annotations.Tests;
+import org.failearly.dataz.common.Tests;
 import org.failearly.dataz.template.Scope;
 import org.failearly.dataz.template.TemplateObject;
 import org.failearly.dataz.template.TemplateObjectAnnotationContext;

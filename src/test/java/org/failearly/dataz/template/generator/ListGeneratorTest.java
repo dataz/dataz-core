@@ -12,8 +12,8 @@
 
 package org.failearly.dataz.template.generator;
 
-import org.failearly.common.test.ExceptionVerifier;
-import org.failearly.common.test.annotations.Subject;
+import org.failearly.dataz.internal.common.test.ExceptionVerifier;
+import org.failearly.dataz.internal.common.test.annotations.Subject;
 import org.failearly.dataz.internal.template.generator.ListGeneratorFactory;
 import org.failearly.dataz.internal.template.generator.ListGeneratorFactory.ListGeneratorImpl;
 import org.failearly.dataz.template.generator.support.InternalIteratorExhaustedException;

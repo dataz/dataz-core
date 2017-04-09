@@ -11,11 +11,11 @@
  */
 package org.failearly.dataz.internal.datastore;
 
-import org.failearly.common.annotation.traverser.MetaAnnotationHandlerBase;
-import org.failearly.common.annotation.traverser.MetaAnnotationTraverser;
-import org.failearly.common.annotation.traverser.TraverseDepth;
-import org.failearly.common.annotation.traverser.TraverseStrategy;
-import org.failearly.common.classutils.ObjectCreatorUtil;
+import org.failearly.dataz.internal.common.annotation.traverser.MetaAnnotationHandlerBase;
+import org.failearly.dataz.internal.common.annotation.traverser.MetaAnnotationTraverser;
+import org.failearly.dataz.internal.common.annotation.traverser.TraverseDepth;
+import org.failearly.dataz.internal.common.annotation.traverser.TraverseStrategy;
+import org.failearly.dataz.internal.common.classutils.ObjectCreatorUtil;
 import org.failearly.dataz.NamedDataStore;
 import org.failearly.dataz.datastore.*;
 import org.failearly.dataz.internal.datastore.state.DataStoreState;
@@ -31,7 +31,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
-import static org.failearly.common.annotation.traverser.AnnotationTraverserBuilder.metaAnnotationTraverser;
+import static org.failearly.dataz.internal.common.annotation.traverser.AnnotationTraverserBuilder.metaAnnotationTraverser;
 
 /**
  * DataStoresImplementation contains the actually implementation of {@link DataStores}.
@@ -146,7 +146,7 @@ public final class DataStoresImplementation implements DataStores.Instance, Data
 
         List<DataStore> getDataStores() {
             if (collectedDataStores.isEmpty()) {
-                throw new DataStoreInitializationException("Missing a DataStore annotation on " + this.namedDataStore.getSimpleName() + "!");
+                throw new DataStoreInitializationException("Missing a DataStore impl on " + this.namedDataStore.getSimpleName() + "!");
             }
             return collectedDataStores;
         }

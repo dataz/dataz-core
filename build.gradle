@@ -14,10 +14,9 @@
 archivesBaseName='dataz-core'
 
 dependencies {
-	compile project(':dataz-common')
     compile group: 'commons-codec', name: 'commons-codec', version: '1.10'
     compile group: 'org.apache.commons', name : 'commons-csv', version: '1.4'
-    runtime group: 'org.apache.velocity', name : 'velocity', version: '1.7'
+    compile group: 'org.apache.velocity', name : 'velocity', version: '1.7'
 
 	testCompile project(':dataz-common-test')
 }
