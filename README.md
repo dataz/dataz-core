@@ -44,7 +44,9 @@ So _dataZ_ makes testing with _Datastores_ a pleasure (again?).
 Documentation
 =============
 
-TODO
+*Under construction*
+
+(*dataZ - Github Pages*)(https://dataz.github.io/)
 
 Build
 =====
