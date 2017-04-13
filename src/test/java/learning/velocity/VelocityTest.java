@@ -1,36 +1,37 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright 2014-2017 the original author or authors.
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * All rights reserved. This program and the accompanying materials are
+ * made available under the terms of the Eclipse Public License v1.0 which
+ * accompanies this distribution and is available at
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * http://www.eclipse.org/legal/epl-v10.html
  */
+
 package learning.velocity;
 
+import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 
+import static org.apache.velocity.runtime.RuntimeConstants.RESOURCE_LOADER;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -51,7 +52,11 @@ public class VelocityTest {
 
     @BeforeClass
     public static void engineInit() throws Exception {
-        engine.init();
+        Properties properties=new Properties();
+        properties.setProperty(RESOURCE_LOADER,"class");
+        properties.setProperty("class.resource.loader.class", LocalClasspathResourceLoader.class.getName());
+        engine.setApplicationAttribute("class", VelocityTest.class);
+        engine.init(properties);
     }
 
     @Before
@@ -124,15 +129,26 @@ public class VelocityTest {
     public void withGeneratorAsStaticValue() throws Exception {
         // arrange / given
         final StringWriter stringWriter= Mockito.spy(new StringWriter());
-        context.put("val", "RangeGenerator{dataset=DS1, name=RG1, start=1, end=5}");
+        context.put("val", "RangeGenerator{dataz=DS1, name=RG1, from=1, to=5}");
 
         // act / when
         engine.evaluate(context, stringWriter, "LOOP_TEMPLATE", VALUE_TEMPLATE);
 
         // assert / then
-        assertThat(stringWriter.toString(), is("\tHello\tRangeGenerator{dataset=DS1, name=RG1, start=1, end=5}\n"));
+        assertThat(stringWriter.toString(), is("\tHello\tRangeGenerator{dataz=DS1, name=RG1, from=1, to=5}\n"));
         Mockito.verify(stringWriter, Mockito.times(0)).close();
         Mockito.verify(stringWriter, Mockito.times(0)).flush();
+    }
+
+    @Test
+    public void useTemplate() throws Exception {
+        // arrange / given
+
+        // act / when
+        final Template template = engine.getTemplate("any-template.vm");
+
+        // assert / then
+        assertThat(template, is(notNullValue()));
     }
 
     public static class AnyIterable implements Iterable<Integer> {
@@ -144,6 +160,19 @@ public class VelocityTest {
         @Override
         public Iterator<Integer> iterator() {
             return LIST.iterator();
+        }
+    }
+
+    public static class LocalClasspathResourceLoader extends ClasspathResourceLoader {
+        @Override
+        public InputStream getResourceStream(String name) throws ResourceNotFoundException {
+            final Class<?> clazz= (Class<?>) super.rsvc.getApplicationAttribute("class");
+            final InputStream result =  clazz.getResourceAsStream(name);
+            if( result!=null ) {
+                return result;
+            }
+
+            return super.getResourceStream(name);
         }
     }
 }

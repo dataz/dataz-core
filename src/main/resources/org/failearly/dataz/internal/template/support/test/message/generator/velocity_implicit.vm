@@ -1,0 +1,17 @@
+#* @implicitly included *#
+#* @vtlvariable name="TOA" type="java.lang.String" *#
+#* @vtlvariable name="TOF" type="java.lang.String" *#
+#* @vtlvariable name="TOFD" type="java.lang.String" *#
+#* @vtlvariable name="TO"  type="java.lang.String" *#
+#* @vtlvariable name="fullTO"  type="java.lang.String" *#
+#* @vtlvariable name="tc"  type="java.lang.String" *#
+#* @vtlvariable name="tf"  type="java.lang.String" *#
+#* @vtlvariable name="tbc"  type="java.lang.Class" *#
+#* @vtlvariable name="stbc"  type="java.lang.String" *#
+#* @vtlvariable name="dltbc"  type="java.lang.String" *#
+#* @vtlvariable name="dutbc"  type="java.lang.String" *#
+#* @vtlvariable name="ntbc"  type="java.lang.String" *#
+#* @vtlvariable name="snippetBegin"  type="java.lang.String" *#
+#* @vtlvariable name="snippetEnd"  type="java.lang.String" *#
+#* @vtlvariable name="ommitted"  type="java.lang.String" *#
+#* @vtlvariable name="ommitted2"  type="java.lang.String" *#

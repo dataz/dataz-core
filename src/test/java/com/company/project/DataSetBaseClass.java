@@ -1,31 +1,24 @@
 /*
- * dataSet - Test Support For Datastores.
+ * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright 2014-2017 the original author or authors.
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * All rights reserved. This program and the accompanying materials are
+ * made available under the terms of the Eclipse Public License v1.0 which
+ * accompanies this distribution and is available at
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 
 package com.company.project;
 
-import org.failearly.dataset.DataSet;
+import org.failearly.dataz.DataSet;
 import org.junit.Test;
 
 /**
 * DataSetBaseClass is responsible for ...
 */
-@DataSet(name = "DataSetBaseClass", setup = "DataSetBaseClass.dataset")
+@DataSet(name = "DataSetBaseClass", setup = "DataSetBaseClass.setup")
 public abstract class DataSetBaseClass {
     @Test
     @DataSet(name="anyTest")

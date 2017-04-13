@@ -1,0 +1,7 @@
+##* @vtlvariable name="to" type="org.failearly.dataz.test.SimpleTemplateObjectFactory.SimpleTemplateObjectImpl" *#
+##* @vtlvariable name="global" type="org.failearly.dataz.test.SimpleTemplateObjectFactory.SimpleTemplateObjectImpl" *#
+##* @vtlvariable name="to-be-ignored" type="org.failearly.dataz.test.SimpleTemplateObjectFactory.SimpleTemplateObjectImpl" *#
+## Just a simple template using TemplateObjectAnnotation. ##
+$to.description
+$global.description
+$to-be-ignored.description

@@ -1,0 +1,71 @@
+Missing third argument 'templateObjectClass' (TO) in constructor of ${tc}.
+
+Reasons: You haven't yet created a Template Object (TO) and/or didn't assign it to ${stbc}.
+
+
+The Template Object (TO) is the actually implementation for the ${TOA}.
+
+
+Step 1) Create the TO class
+
+and your TOF (${TOF}) should create an instance of TO (${TO}) for every TOA (@${TOA}).
+
+The proposed name for your test fixture is '${TO}' and I recommended to create the TO as inner class of ${TOF}.
+But you could name and place it wherever you like.
+
+So copy this snippets to your TOF (${TOF}):
+
+	/**
+	 * ${TOF} creates a {@link ${TO}} from {@link ${TOA}}.
+	 */
+    @Tests("${tc}")
+	public class ${TOF} extends EncoderFactoryBase<${TOA}> {
+	    $ommitted
+
+$snippetBegin
+		@Override
+		protected Encoder doCreate(${TOA} annotation, TemplateObjectAnnotationContext context) {
+			return new ${TO}(annotation, context);
+		}
+
+        // Must be public for Velocity!
+        @Tests("${tc}")
+        public static class ${TO} extends EncoderBase<ReplaceMe, ReplaceMe> {
+            ${TO}(${TOA} annotation, TemplateObjectAnnotationContext context) {
+                super(annotation, context);
+                // TODO: For each (not standard) annotation element there should be an appropriate field assignment.
+            }
+
+            @Override
+            public ReplaceMe encode(ReplaceMe value) throws Exception {
+                // TODO: Implement encode() accordingly
+                return value;
+            }
+        }
+$snippetEnd
+	}
+
+Step 2) Add your TO to your ${tc} and set the generics part of ${tc}.
+
+Use this snippet.
+
+$snippetBegin
+    @Subject({${TOA}.class, ${TOF}.class, ${fullTO}.class})
+	public class ${tc}
+			extends ${stbc}<ReplaceMe, ReplaceMe, ${TOA}, ${TOF}, ${fullTO}> {
+		public ${tc}() {
+			super(
+				${TOA}.class, // TOA
+				${TOF}.class, // TOF
+				${fullTO}.class,  // TO
+				null          // Test Fixture
+			);
+		}
+	}
+$snippetEnd
+
+
+Step 3) Compile and rerun ${tc}. You will get a new error message with the next steps.
+
+
+======== end of description =========

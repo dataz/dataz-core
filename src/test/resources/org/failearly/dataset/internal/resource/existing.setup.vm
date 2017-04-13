@@ -1,5 +1,0 @@
-Hello to 'existing.setup.vm'
-## Velocity comment
-#foreach( $v in $const )
-Hello '$v'
-#end

@@ -1,24 +1,22 @@
 /*
- * dataSet - Test Support For Data Stores.
+ * dataZ - Test Support For Data Stores.
  *
- * Copyright (C) 2014-2014 Marko Umek (http://fail-early.com/contact)
+ * Copyright 2014-2017 the original author or authors.
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * All rights reserved. This program and the accompanying materials are
+ * made available under the terms of the Eclipse Public License v1.0 which
+ * accompanies this distribution and is available at
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * http://www.eclipse.org/legal/epl-v10.html
  */
-archivesBaseName='dataset-core'
+
+
+archivesBaseName='dataz-core'
 
 dependencies {
-    compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.0'
+    compile group: 'commons-codec', name: 'commons-codec', version: '1.10'
+    compile group: 'org.apache.commons', name : 'commons-csv', version: '1.4'
     compile group: 'org.apache.velocity', name : 'velocity', version: '1.7'
+
+	testCompile project(':dataz-common-test')
 }

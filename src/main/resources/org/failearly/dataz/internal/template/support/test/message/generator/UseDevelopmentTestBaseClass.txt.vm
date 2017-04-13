@@ -1,0 +1,34 @@
+Please use the development Test Base Class (${dltbc} or ${dutbc}).
+
+This message occures, if your test class ${tc} is not derived from the development version of ${stbc} or
+at least one of the constructor's arguments has not been set.
+
+
+
+Step 1) Switch the test base class ${stbc} to the development version.
+
+The Development version will guide you through the initial steps for creating your TOA (${TOA}).
+
+a) Choose the limited version, if the natural implementation is more a limited generator.
+
+$snippetBegin
+    import ${tbc.package.name}.${dltbc};
+
+	public class ${tc} extends ${dltbc} {
+	}
+$snippetEnd
+
+b) otherwise the unlimited base class (${dutbc}).
+
+$snippetBegin
+    import ${tbc.package.name}.${dutbc};
+
+	public class ${tc} extends ${dutbc} {
+	}
+$snippetEnd
+
+
+Step 2) Compile and rerun ${tc}.
+
+
+======== end of description =========
