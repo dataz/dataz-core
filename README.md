@@ -46,7 +46,7 @@ Documentation
 
 *Under construction*
 
-(*dataZ - Github Pages*)(https://dataz.github.io/)
+**[dataZ - Github Pages](https://dataz.github.io/)**
 
 Build
 =====
