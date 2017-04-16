@@ -26,12 +26,13 @@ import java.lang.reflect.Method;
 public abstract class ReflectionDataStoreFactoryBase<T extends Annotation> implements DataStoreFactory<T> {
     private static final Logger LOGGER = LoggerFactory.getLogger(ReflectionDataStoreFactory.class);
 
-    protected static DataStore createDataStoreByReflection(
-            Class<? extends DataStore> dataStoreClass,
-            String factoryName,
-            Class<? extends Annotation> dataStoreAnnotationClass,
-            Class<? extends NamedDataStore> namedDataStore,
-            Annotation dataStoreAnnotation) {
+    protected static DataStore createDataStoreByReflection( //
+            Class<? extends DataStore> dataStoreClass, //
+            String factoryName, //
+            Class<? extends Annotation> dataStoreAnnotationClass, //
+            Class<? extends NamedDataStore> namedDataStore, //
+            Annotation dataStoreAnnotation //
+    ) {
         try {
             final Method factoryMethod=dataStoreClass.getDeclaredMethod(factoryName, Class.class, dataStoreAnnotationClass);
             factoryMethod.setAccessible(true);

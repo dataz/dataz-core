@@ -17,10 +17,10 @@
  *     <dt>{@link org.failearly.dataz.DataSet}</dt>
  *     <dd>Mark classes and/or test method as DataSet based test. At least <em>one</em> {@literal @DataSet}
  *          must be assigned on your test class, any of super class of your test class or test method, otherwise
- *         {@link org.failearly.dataz.junit4.DataSetDriver} ignores the test.</dd>
+ *         {@code org.failearly.dataz.junit4.DataSetDriver} ignores the test.</dd>
  *    <dt>{@link org.failearly.dataz.NoDataSet}</dt>
  *    <dd>If you mark the entire test class with {@link org.failearly.dataz.DataSet}, you can
- *         force {@link org.failearly.dataz.junit4.DataSetDriver} to ignore the test method. The test will be executed, but
+ *         force {@code org.failearly.dataz.junit4.DataSetDriver} to ignore the test method. The test will be executed, but
  *         not as DataSet based test</dd>
  *    <dt>{@link org.failearly.dataz.SuppressCleanup}</dt>
  *    <dd>Usually cleanup resources will be applied after the test has been executed (either successful or failed).
@@ -37,7 +37,7 @@
  *
  *      // <b>Mandatory</b>! Otherwise {@literal @DataSet} has no effect.
  *      {@literal @}{@link org.junit.Rule}
- *      private final {@link org.junit.rules.TestRule} dataSetDriver = {@link org.failearly.dataz.junit4.DataSetDriver}.createDataSetDriver(this);
+ *      private final {@code org.junit.rules.TestRule} dataSetDriver = {@code org.failearly.dataz.junit4.DataSetDriver}.createDataSetDriver(this);
  *
  *      {@literal @Test}
  *      public void anyTest() {
@@ -74,13 +74,12 @@
  *    package com.company.project.module;
  *
  *    {@literal @}{@link org.failearly.dataz.DataSet}
- *    public class MyTest extends {@link org.failearly.dataz.junit4.AbstractDataSetTest} {
+ *    public class MyTest extends {@code org.failearly.dataz.junit4.AbstractDataSetTest} {
  *      // Some dataSet tests, like above.
  *      // Omitted for brevity ...
  *    }
  * </pre>
  *
- * @see org.failearly.dataz.junit4.DataSetDriver
  * @see org.failearly.dataz.DataSet
  * @see org.failearly.dataz.DataSetup
  * @see org.failearly.dataz.DataCleanup

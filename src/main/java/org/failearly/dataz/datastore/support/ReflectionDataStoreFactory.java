@@ -13,17 +13,14 @@ package org.failearly.dataz.datastore.support;
 
 import org.failearly.dataz.NamedDataStore;
 import org.failearly.dataz.datastore.DataStore;
+import org.failearly.dataz.datastore.DataStoreFactory;
 
 import java.lang.annotation.Annotation;
 
 /**
- * ReflectionDataStoreFactory creates a {@link DataStore} by using the {@link Definition}
- * impl elements:<br><br>
- * <ul>
- *    <li>{@link Definition#dataStore()}</li>
- *    <li>{@link Definition#factoryMethod()}</li>
- *    <li>{@link Definition#dataStoreAnnotation()}</li>
- * </ul>
+ * ReflectionDataStoreFactory creates a {@link DataStore} by using reflection.
+ *
+ * @see DataStoreFactory
  */
 public class ReflectionDataStoreFactory<T extends Annotation> extends ReflectionDataStoreFactoryBase<T> {
     @Override

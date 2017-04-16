@@ -25,7 +25,7 @@ import java.lang.annotation.*;
 
 /**
  * AdhocDataStore could be used for fast and easy without the need to define a specific
- * DataStore impl. The only thing you have to provide is a implementation of {@link DataStore} and a static factory
+ * DataStore annotation. The only thing you have to provide is a implementation of {@link DataStore} and a static factory
  * method (see {@link #factoryName()}).
  * Example:<br><br>
  * <pre>
@@ -35,12 +35,12 @@ import java.lang.annotation.*;
  *
  *    class MyDataStore extends {@link DataStoreBase} {
  *        // the default {@link #factoryName()}
- *        static DataStore createDataStore({@code Class<? extends NamedDataStore>} namedDataStore, AdhocDataStore impl) {
- *              return new MyDataStore(namedDataStore, impl);
+ *        static DataStore createDataStore({@code Class<? extends NamedDataStore>} namedDataStore, AdhocDataStore annotation) {
+ *              return new MyDataStore(namedDataStore, annotation);
  *        }
  *        // custom {@link #factoryName()}
- *        static DataStore createMyDataStore({@code Class<? extends NamedDataStore>} namedDataStore, AdhocDataStore impl) {
- *              return new MyDataStore(namedDataStore, impl);
+ *        static DataStore createMyDataStore({@code Class<? extends NamedDataStore>} namedDataStore, AdhocDataStore annotation) {
+ *              return new MyDataStore(namedDataStore, annotation);
  *        }
  *
  *        // .... rest ommitted for brevity
@@ -65,9 +65,9 @@ import java.lang.annotation.*;
 @DataStoreFactory.Definition(factory = AdhocDataStoreFactory.class)
 public @interface AdhocDataStore {
     /**
-     * If your tests uses multiple datastores per {@link NamedDataStore}, you must identify each data store impl.
+     * If your tests uses multiple datastores per {@link NamedDataStore}, you must identify each data store annotation.
      * <br><br>
-     * Remark: {@link DataStore#getId()} uses usually {@link #name()},
+     * Remark: {@link DataStore#getId()} uses {@code name()},
      * the {@link NamedDataStore} and the actually {@link DataStore} implementation (see {@link #implementation()}.
      *
      * @return the (unique) data store name.
@@ -80,7 +80,7 @@ public @interface AdhocDataStore {
      * The datastore configuration file will be used by the actually DataStore Implementation. So what's inside these configuration property file depends
      * on the DataStore type. If you use multiple DataStoreDefinitions each should have it's own configuration property file.
      * <br><br>
-     * The default value is "{@value Constants#DATAZ_NO_CONFIG_FILE}".
+     * The default value is "{@code <no-config-file>}".
      *
      * @return the datastore configuration file(name).
      */

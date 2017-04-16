@@ -12,13 +12,14 @@
 
 package org.failearly.dataz.config;
 
-import org.failearly.dataz.internal.common.annotation.traverser.TraverseDepth;
 import org.failearly.dataz.DataCleanup;
 import org.failearly.dataz.DataSet;
 import org.failearly.dataz.DataSetup;
 import org.failearly.dataz.NamedDataStore;
-import org.failearly.dataz.datastore.DataStoreFactory;
+import org.failearly.dataz.datastore.DataStoreFactory.Definition;
 import org.failearly.dataz.datastore.support.ReflectionDataStoreFactory;
+import org.failearly.dataz.internal.common.annotation.traverser.TraverseDepth;
+import org.failearly.dataz.internal.template.engine.velocity.VelocityTemplateEngineFactory;
 import org.failearly.dataz.template.TemplateObject;
 
 /**
@@ -136,7 +137,7 @@ public interface Constants {
 
     /**
      * The full qualified class name of the template engine factory.
-     * The default is {@link org.failearly.dataz.internal.template.engine.velocity.VelocityTemplateEngineFactory}.
+     * The default is {@link VelocityTemplateEngineFactory}.
      */
     String DATAZ_PROPERTY_TEMPLATE_ENGINE_FACTORY = "dataz.template.engine.factory";
 
@@ -195,10 +196,10 @@ public interface Constants {
 
     /**
      * The default name of factory method used in conjunction with {@link ReflectionDataStoreFactory}
-     * and {@link DataStoreFactory.Definition#factoryMethod()}.
+     * and {@link Definition#factoryMethod()}.
      *
      * @see ReflectionDataStoreFactory
-     * @see DataStoreFactory.Definition#factoryMethod()
+     * @see Definition#factoryMethod()
      */
     String DATAZ_DEFAULT_DATASTORE_FACTORY_METHOD="createDataStore";
 

@@ -198,7 +198,7 @@ public abstract class TemplateObjectTestBase<TOA extends Annotation, TOF extends
 
     /**
      * Creates a velocity template by replacing {@value #PLACE_HOLDER_TON} with {@code templateObjectName} and surrounds it with
-     * "{@value #TEMPLATE_LOOP}".
+     * "{@link #TEMPLATE_LOOP}".
      * Used by first parameter of {@link #generate(String, TemplateObject)}.
      *
      * @param template           a template with {@value #PLACE_HOLDER_TON} ({@value #PLACE_HOLDER_TON} will be replaced)
@@ -214,7 +214,7 @@ public abstract class TemplateObjectTestBase<TOA extends Annotation, TOF extends
 
     /**
      * Creates a velocity template by replacing {@value #PLACE_HOLDER_TON} with {@link #DTON} and surrounds it with
-     * "{@value #TEMPLATE_LOOP}".
+     * "{@link #TEMPLATE_LOOP}".
      * Used by first parameter of {@link #generate(String, TemplateObject)}.
      *
      * @param template    a template with {@value #PLACE_HOLDER_TON} ({@value #PLACE_HOLDER_TON} will be replaced)

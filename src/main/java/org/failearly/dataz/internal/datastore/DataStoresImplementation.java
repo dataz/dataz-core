@@ -146,7 +146,7 @@ public final class DataStoresImplementation implements DataStores.Instance, Data
 
         List<DataStore> getDataStores() {
             if (collectedDataStores.isEmpty()) {
-                throw new DataStoreInitializationException("Missing a DataStore impl on " + this.namedDataStore.getSimpleName() + "!");
+                throw new DataStoreInitializationException("Missing a DataStore annotation on " + this.namedDataStore.getSimpleName() + "!");
             }
             return collectedDataStores;
         }
