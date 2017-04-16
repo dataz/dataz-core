@@ -127,7 +127,7 @@ If you want to report any issue or feature request, please do it [here](https://
 How to contribute?
 ==================
 
-See [dataZ parent](https://github.com/dataz/dataz-install).
+See [dataZ parent](https://github.com/dataz/dataz-parent).
 
 Social
 ======
