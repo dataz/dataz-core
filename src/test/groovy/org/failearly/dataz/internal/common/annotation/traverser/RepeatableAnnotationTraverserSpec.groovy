@@ -21,7 +21,7 @@ import static AnnotationTraverserBuilder.annotationTraverser
 import static TraverseDepth.*
 import static TraverseStrategy.BOTTOM_UP
 import static TraverseStrategy.TOP_DOWN
-import static org.failearly.dataz.internal.common.test.utils.ReflectionUtils.resolveMethodFromClass
+import static org.failearly.dataz.common.test.utils.ReflectionUtils.resolveMethodFromClass
 
 
 /**

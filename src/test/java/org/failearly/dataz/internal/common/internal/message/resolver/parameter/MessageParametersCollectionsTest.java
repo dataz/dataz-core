@@ -15,7 +15,7 @@ package org.failearly.dataz.internal.common.internal.message.resolver.parameter;
 import org.failearly.dataz.internal.common.internal.message.MessageParameters;
 import org.failearly.dataz.internal.common.internal.message.MessageParametersTestBase;
 import org.failearly.dataz.internal.common.internal.message.definition.TemplateParametersDefinition;
-import org.failearly.dataz.internal.common.test.annotations.TestsFor;
+import org.failearly.dataz.common.test.annotations.TestsFor;
 
 import static org.failearly.dataz.internal.common.classutils.ObjectCreatorUtil.createInstanceByConstructor;
 

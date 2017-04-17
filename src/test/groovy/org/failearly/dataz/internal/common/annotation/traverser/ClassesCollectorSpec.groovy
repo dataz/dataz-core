@@ -21,7 +21,7 @@ import spock.lang.Unroll
 import static org.failearly.dataz.internal.common.annotation.traverser.TraverseDepth.*
 import static org.failearly.dataz.internal.common.annotation.traverser.TraverseStrategy.BOTTOM_UP
 import static org.failearly.dataz.internal.common.annotation.traverser.TraverseStrategy.TOP_DOWN
-import static org.failearly.dataz.internal.common.test.utils.ReflectionUtils.resolveMethodFromClass
+import static org.failearly.dataz.common.test.utils.ReflectionUtils.resolveMethodFromClass
 
 
 /**

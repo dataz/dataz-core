@@ -14,7 +14,7 @@ package org.failearly.dataz.internal.common.internal.message.definition;
 
 import org.failearly.dataz.internal.common.classutils.ObjectCreatorUtil;
 import org.failearly.dataz.internal.common.internal.message.MessageParametersTestBase;
-import org.failearly.dataz.internal.common.test.annotations.TestsFor;
+import org.failearly.dataz.common.test.annotations.TestsFor;
 
 /**
  * TemplateParametersDefinitionTest contains tests for TemplateParametersDefinition.

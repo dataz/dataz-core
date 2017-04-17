@@ -14,7 +14,7 @@ package org.failearly.dataz.template.encoder.support;
 
 import org.apache.commons.lang.StringUtils;
 import org.failearly.dataz.template.encoder.Encoder;
-import org.failearly.dataz.internal.common.test.ExceptionVerifier;
+import org.failearly.dataz.common.test.ExceptionVerifier;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.is;

@@ -10,10 +10,10 @@
  * http://www.eclipse.org/legal/epl-v10.html
  */
 
-package org.failearly.dataz.internal.common.test;
+package org.failearly.dataz.common.test;
 
 import org.failearly.dataz.internal.common.classutils.PrototypeCache;
-import org.failearly.dataz.internal.common.test.annotations.TestsFor;
+import org.failearly.dataz.common.test.annotations.TestsFor;
 import org.junit.Test;
 import org.mockito.Mockito;
 

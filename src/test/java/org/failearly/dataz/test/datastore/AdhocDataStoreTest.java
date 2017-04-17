@@ -11,7 +11,7 @@
  */
 package org.failearly.dataz.test.datastore;
 
-import org.failearly.dataz.internal.common.test.annotations.Subject;
+import org.failearly.dataz.common.test.annotations.Subject;
 import org.failearly.dataz.NamedDataStore;
 import org.failearly.dataz.datastore.DataStore;
 import org.failearly.dataz.datastore.DataStoreBase;

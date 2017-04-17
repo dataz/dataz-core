@@ -11,7 +11,7 @@ of an Generator the TOF should extend GeneratorFactoryBase.
 Step 1) Create the TOF. The proposed name is ${TOF}.
 
 $snippetBegin
-	import org.failearly.common.annotations.Tests;
+	import org.failearly.dataz.common.Tests;
 	import org.failearly.dataz.template.Scope;
 	import org.failearly.dataz.template.TemplateObject;
 	import org.failearly.dataz.template.generator.Generator;

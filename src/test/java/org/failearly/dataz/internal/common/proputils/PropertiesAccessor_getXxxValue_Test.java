@@ -12,7 +12,7 @@
 
 package org.failearly.dataz.internal.common.proputils;
 
-import org.failearly.dataz.internal.common.test.ExceptionVerifier;
+import org.failearly.dataz.common.test.ExceptionVerifier;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.is;

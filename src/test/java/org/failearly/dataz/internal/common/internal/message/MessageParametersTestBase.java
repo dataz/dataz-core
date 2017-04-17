@@ -12,7 +12,7 @@
 
 package org.failearly.dataz.internal.common.internal.message;
 
-import org.failearly.dataz.internal.common.test.annotations.TestsFor;
+import org.failearly.dataz.common.test.annotations.TestsFor;
 import org.junit.After;
 import org.junit.Test;
 import org.mockito.Mockito;

@@ -52,7 +52,7 @@ $snippetBegin
 	@Retention(RetentionPolicy.RUNTIME)
 	@Documented
 	@Repeatable(${TOA}.List.class)
-    @org.failearly.common.annotations.Tests("${tc}")
+    @org.failearly.dataz.common.Tests("${tc}")
 	// TODO @${TOFD}(${TOF}.class)
 	public @interface ${TOA} {
 		/**

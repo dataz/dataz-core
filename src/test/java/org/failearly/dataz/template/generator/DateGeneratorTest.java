@@ -12,7 +12,7 @@
 
 package org.failearly.dataz.template.generator;
 
-import org.failearly.dataz.internal.common.test.annotations.Subject;
+import org.failearly.dataz.common.test.annotations.Subject;
 import org.failearly.dataz.internal.template.generator.DateGeneratorFactory;
 import org.failearly.dataz.internal.template.generator.DateGeneratorFactory.DateGeneratorImpl;
 import org.failearly.dataz.template.generator.support.DateTime;

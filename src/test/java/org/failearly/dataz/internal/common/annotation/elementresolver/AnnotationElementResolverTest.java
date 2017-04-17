@@ -12,7 +12,7 @@
 
 package org.failearly.dataz.internal.common.annotation.elementresolver;
 
-import org.failearly.dataz.internal.common.test.annotations.Subject;
+import org.failearly.dataz.common.test.annotations.Subject;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
@@ -20,7 +20,7 @@ import java.lang.annotation.*;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
-import static org.failearly.dataz.internal.common.test.ExceptionVerifier.on;
+import static org.failearly.dataz.common.test.ExceptionVerifier.on;
 import static org.hamcrest.Matchers.arrayContaining;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;

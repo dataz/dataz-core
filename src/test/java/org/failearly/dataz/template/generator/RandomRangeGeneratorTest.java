@@ -12,7 +12,7 @@
 
 package org.failearly.dataz.template.generator;
 
-import org.failearly.dataz.internal.common.test.ExceptionVerifier;
+import org.failearly.dataz.common.test.ExceptionVerifier;
 import org.failearly.dataz.internal.template.generator.RandomRangeGeneratorFactory;
 import org.failearly.dataz.internal.template.generator.RandomRangeGeneratorFactory.RandomRangeGeneratorImpl;
 import org.failearly.dataz.internal.template.generator.decorator.LimitedGeneratorDecorator;

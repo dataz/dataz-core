@@ -16,7 +16,7 @@ import spock.lang.Subject
 import spock.lang.Unroll
 
 import static org.failearly.dataz.internal.common.annotation.traverser.TraverseDepth.DECLARED_CLASS
-import static org.failearly.dataz.internal.common.test.utils.ReflectionUtils.resolveMethodFromClass
+import static org.failearly.dataz.common.test.utils.ReflectionUtils.resolveMethodFromClass
 import static org.failearly.dataz.internal.template.TemplateObjectDuplicateStrategy.IGNORE
 import static org.failearly.dataz.internal.template.TemplateObjectDuplicateStrategy.STRICT
 

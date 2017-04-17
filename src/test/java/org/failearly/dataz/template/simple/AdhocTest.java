@@ -12,8 +12,8 @@
 
 package org.failearly.dataz.template.simple;
 
-import org.failearly.dataz.internal.common.test.ExceptionVerifier;
-import org.failearly.dataz.internal.common.test.annotations.Subject;
+import org.failearly.dataz.common.test.ExceptionVerifier;
+import org.failearly.dataz.common.test.annotations.Subject;
 import org.failearly.dataz.common.Property;
 import org.failearly.dataz.internal.template.simple.AdhocFactory;
 import org.failearly.dataz.template.TemplateObjectAnnotationContext;

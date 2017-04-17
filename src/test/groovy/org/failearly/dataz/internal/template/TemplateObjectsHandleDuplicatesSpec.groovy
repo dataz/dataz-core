@@ -15,7 +15,7 @@ import spock.lang.Subject
 import spock.lang.Unroll
 
 import static org.failearly.dataz.internal.common.annotation.traverser.TraverseDepth.CLASS_HIERARCHY
-import static org.failearly.dataz.internal.common.test.utils.ReflectionUtils.resolveMethodFromClass
+import static org.failearly.dataz.common.test.utils.ReflectionUtils.resolveMethodFromClass
 import static org.failearly.dataz.internal.template.TemplateObjectDuplicateStrategy.*
 /**
  * How does {@link TemplateObjects} handles duplicated {@link org.failearly.dataz.template.TemplateObject}.

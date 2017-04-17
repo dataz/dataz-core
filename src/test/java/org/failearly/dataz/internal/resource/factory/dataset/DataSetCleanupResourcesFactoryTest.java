@@ -12,7 +12,7 @@
 
 package org.failearly.dataz.internal.resource.factory.dataset;
 
-import org.failearly.dataz.internal.common.test.annotations.Subject;
+import org.failearly.dataz.common.test.annotations.Subject;
 import org.failearly.dataz.DataSet;
 import org.failearly.dataz.internal.resource.factory.DataResourcesFactoryTestBase;
 import org.failearly.dataz.resource.DataResource;

@@ -12,8 +12,8 @@
 
 package org.failearly.dataz.template.generator;
 
-import org.failearly.dataz.internal.common.test.ExceptionVerifier;
-import org.failearly.dataz.internal.common.test.annotations.Subject;
+import org.failearly.dataz.common.test.ExceptionVerifier;
+import org.failearly.dataz.common.test.annotations.Subject;
 import org.failearly.dataz.internal.template.generator.RangeGeneratorFactory;
 import org.failearly.dataz.internal.template.generator.RangeGeneratorFactory.RangeGeneratorImpl;
 import org.failearly.dataz.template.InvariantViolationException;

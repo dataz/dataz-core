@@ -12,7 +12,7 @@
 
 package org.failearly.dataz.internal.datastore;
 
-import org.failearly.dataz.internal.common.test.annotations.Subject;
+import org.failearly.dataz.common.test.annotations.Subject;
 import org.failearly.dataz.NamedDataStore;
 import org.failearly.dataz.datastore.AbstractDataStore;
 import org.failearly.dataz.datastore.DataStore;
@@ -25,7 +25,7 @@ import org.junit.Test;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static org.failearly.dataz.internal.common.test.threadsafety.ThreadSafetyVerifier.given;
+import static org.failearly.dataz.common.test.threadsafety.ThreadSafetyVerifier.given;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 

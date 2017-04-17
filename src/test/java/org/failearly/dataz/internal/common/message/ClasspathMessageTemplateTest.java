@@ -12,7 +12,7 @@
 
 package org.failearly.dataz.internal.common.message;
 
-import org.failearly.dataz.internal.common.test.annotations.TestsFor;
+import org.failearly.dataz.common.test.annotations.TestsFor;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

@@ -14,7 +14,10 @@ package org.failearly.dataz.internal.template.support.test.message.basic;
 
 import org.apache.commons.lang.StringUtils;
 import org.failearly.dataz.internal.common.internal.message.MessageArgumentsImpl;
-import org.failearly.dataz.internal.common.message.*;
+import org.failearly.dataz.internal.common.message.Message;
+import org.failearly.dataz.internal.common.message.MessageArguments;
+import org.failearly.dataz.internal.common.message.MessageBuilderBase;
+import org.failearly.dataz.internal.common.message.TemplateParameters;
 import org.failearly.dataz.template.TemplateObject;
 import org.failearly.dataz.template.TemplateObjectFactory;
 import org.failearly.dataz.template.support.test.TemplateObjectTestBase;
@@ -60,7 +63,7 @@ public abstract class AbstractTemplateObjectMessage<T extends AbstractTemplateOb
                 .addMandatoryArgument("ommitted", "// ... (ommitted for brevity)")
                 .addMandatoryArgument("ommitted2", "/* ommitted for brevity */")
                 .addMandatoryArgument(_ARG_TOFD, stripPackageName(TemplateObjectFactory.Definition.class))
-                .addOptionalArgument("subject", "org.failearly.dataz.internal.common.test.annotations.Subject")
+                .addOptionalArgument("subject", "org.failearly.dataz.common.test.annotations.Subject")
                 .addOptionalArgument(ARG_TEST_FIXTURE, "TestFixture");
 
         messageArguments.addDerivedArgument(
