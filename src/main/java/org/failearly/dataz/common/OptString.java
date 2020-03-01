@@ -30,6 +30,8 @@ public @interface OptString {
      * Use default (application value) or {@link #value()}.
      *
      * @see Use#applyAnnotationOn(OptString, Consumer)
+     *
+     * @return OptString.Use
      */
     Use use() default Use.DEFAULT;
 

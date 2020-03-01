@@ -31,6 +31,8 @@ public @interface OptEnum {
      * Use default (application value) or {@link #value()}.
      *
      * @see Use#applyAnnotationOn(OptEnum, Consumer)
+     *
+     * @return OptEnum.Use
      */
     Use use() default Use.DEFAULT;
 

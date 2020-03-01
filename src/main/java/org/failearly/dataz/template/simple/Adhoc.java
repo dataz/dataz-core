@@ -111,7 +111,7 @@ public @interface Adhoc {
          * The factory method for creating a {@link TemplateObject} from the {@link Adhoc} impl.
          *
          * @param annotation the Adhoc impl
-         * @param context
+         * @param context the template object context
          * @return the actually template object
          */
         AdhocTemplateObject create(Adhoc annotation, TemplateObjectAnnotationContext context);

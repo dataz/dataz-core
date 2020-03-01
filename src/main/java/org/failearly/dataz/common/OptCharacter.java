@@ -31,6 +31,8 @@ public @interface OptCharacter {
      * Use default (application value) or {@link #value()}.
      *
      * @see Use#applyAnnotationOn(OptCharacter, Consumer)
+     *
+     * @return OptCharacter.Use
      */
     Use use() default Use.DEFAULT;
 
