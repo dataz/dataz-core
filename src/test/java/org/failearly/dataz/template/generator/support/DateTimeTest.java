@@ -16,9 +16,9 @@ import org.failearly.dataz.internal.template.generator.DateEncoder;
 import org.failearly.dataz.template.generator.DateUnit;
 import org.junit.Test;
 
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.sameInstance;
+import java.util.TimeZone;
+
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -26,8 +26,9 @@ import static org.junit.Assert.assertThat;
  */
 public class DateTimeTest {
 
+    private static final TimeZone TIME_ZONE = TimeZone.getTimeZone("Europe/Paris");
     private static final long NINE_ELEVEN_IN_MILLI_SECONDS=1_000_190_790_000L;
-    private final DateTime dateTime=new DateTime(new DateEncoder("yyyy-MM-dd'T'HH:mm:ss"), NINE_ELEVEN_IN_MILLI_SECONDS);
+    private final DateTime dateTime=new DateTime(new DateEncoder("yyyy-MM-dd'T'HH:mm:ss", TIME_ZONE), NINE_ELEVEN_IN_MILLI_SECONDS);
 
     private void assertDateTime(DateTime newDateTime, String expectedDateTime, long expectedMilliSeconds) {
         assertThat(newDateTime, not(sameInstance(this.dateTime)));

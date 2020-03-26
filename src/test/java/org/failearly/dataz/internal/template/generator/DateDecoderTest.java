@@ -34,7 +34,7 @@ public class DateDecoderTest {
         final Date date = decoder.toDate("2016-01-12");
 
         // assert / then
-        assertThat(date.toString(), is("Tue Jan 12 00:00:00 CET 2016"));
+        assertThat(date.toString(), matchesPattern("Tue Jan 12 00:00:00 \\w+ 2016"));
     }
 
     @Test
@@ -46,7 +46,7 @@ public class DateDecoderTest {
         final Date date = decoder.toDate("2016-01-12 12:31");
 
         // assert / then
-        assertThat(date.toString(), is("Tue Jan 12 12:31:00 CET 2016"));
+        assertThat(date.toString(), matchesPattern("Tue Jan 12 12:31:00 \\w+ 2016"));
     }
 
     @Test
