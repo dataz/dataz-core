@@ -27,6 +27,7 @@ import java.io.StringWriter;
 import java.lang.annotation.Annotation;
 
 import static org.failearly.dataz.template.TemplateObjectAnnotationContext.createAnnotationContext;
+
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -138,7 +139,7 @@ public abstract class TemplateObjectTestBase<TOA extends Annotation, TOF extends
     }
 
     @Test
-    public final void what_are_the_basic_steps_to_create_a_template_object() throws Exception {
+    public final void what_are_the_basic_steps_to_create_a_template_object() {
         assertAtLeastOneAnnotation();
         assertInitialStepsDone();
     }
