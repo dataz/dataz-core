@@ -70,7 +70,7 @@ public abstract class MessageParametersTestBase<T extends MessageParameters> {
             messageParameters.messageArgumentsAreValid(createMessageArguments("a","b","x"), errorMessageCollector),
             is(true)
         );
-        Mockito.verifyZeroInteractions(errorMessageCollector);
+        Mockito.verifyNoInteractions(errorMessageCollector);
     }
 
     /**

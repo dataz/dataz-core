@@ -29,6 +29,8 @@ public @interface OptString {
     /**
      * Use default (application value) or {@link #value()}.
      *
+     * @return the DEFAULT or the actually consumer
+     *
      * @see Use#applyAnnotationOn(OptString, Consumer)
      */
     Use use() default Use.DEFAULT;
@@ -49,5 +51,4 @@ public @interface OptString {
             optString.use().apply(valueApplication, optString.value());
         }
     }
-
 }

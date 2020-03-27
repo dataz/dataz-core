@@ -56,7 +56,7 @@ public final class DataStores {
      */
     public interface Instance {
         /**
-         * Read only accessor to
+         * @return Read only DataStore accessor
          */
         ImmutableDataStores access();
 

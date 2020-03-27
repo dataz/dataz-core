@@ -12,25 +12,21 @@
 package org.failearly.dataz.template.support.test;
 
 /**
- * ReplaceMe is a placeholder class for Encoder and Generator.
+ * ReplaceMe is a placeholder class for Encoder and Generator development.
  *
  * REMARK: This class will never dropped - promised.
- *
- * @deprecated This class should never been used, only for a short period while using {@link org.failearly.dataz.template.encoder.support.test.DevelopmentEncoderTestBase}.
  *
  * @see org.failearly.dataz.template.encoder.support.test.DevelopmentEncoderTestBase
  * @see org.failearly.dataz.template.generator.support.test.DevelopmentLimitedGeneratorTestBase
  * @see org.failearly.dataz.template.generator.support.test.DevelopmentUnlimitedGeneratorTestBase
  */
-@Deprecated
 public final class ReplaceMe {
 
     private ReplaceMe() {
     }
 
-    @SuppressWarnings("deprecation")
-    @Deprecated
-    public static ReplaceMe doNotUseMe() {
+    @SuppressWarnings("unused")
+    public static ReplaceMe __doNotUseMe() {
         throw new UnsupportedOperationException("Please replace me ;-)");
     }
 }

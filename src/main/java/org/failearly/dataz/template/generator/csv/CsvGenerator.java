@@ -81,7 +81,7 @@ public @interface CsvGenerator {
 
 
     /**
-     * Path to the CSV file
+     * @return Path to the CSV file
      */
     String file() default "";
 

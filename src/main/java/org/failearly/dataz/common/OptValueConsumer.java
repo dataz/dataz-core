@@ -14,13 +14,14 @@ package org.failearly.dataz.common;
 import java.util.function.Consumer;
 
 /**
- * OptValueConsumer is responsible for ...
+ * OptValueConsumer is the base for the OptXxx enum types.
  */
 public interface OptValueConsumer<T> {
     /**
      * Apply value or not.
      *
      * @param valueConsumer Consumer of value.
+     * @param value the value to consume
      */
     default void apply(Consumer<T> valueConsumer, T value) {
         /* DO NOTHING */

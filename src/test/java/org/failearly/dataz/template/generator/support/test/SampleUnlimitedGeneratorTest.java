@@ -23,6 +23,7 @@ import static org.junit.Assert.assertThat;
  * Tests for TOA {@link SampleUnlimitedGenerator}, {@link SampleUnlimitedGeneratorFactory} and {@link SampleUnlimitedGeneratorFactory.SampleUnlimitedGeneratorImpl}.
  */
 @Subject({SampleUnlimitedGenerator.class, SampleUnlimitedGeneratorFactory.class, SampleUnlimitedGeneratorFactory.SampleUnlimitedGeneratorImpl.class})
+@SuppressWarnings("deprecation")
 public class SampleUnlimitedGeneratorTest
     extends UnlimitedGeneratorTestBase<ReplaceMe, SampleUnlimitedGenerator, SampleUnlimitedGeneratorFactory, SampleUnlimitedGeneratorFactory.SampleUnlimitedGeneratorImpl> {
     public SampleUnlimitedGeneratorTest() {
